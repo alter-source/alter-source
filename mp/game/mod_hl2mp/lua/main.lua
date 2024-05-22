@@ -1,9 +1,9 @@
 local gamemode = GAMEMODE
 
 if gamemode == "Sandbox" then
-    Msg("Hello Dad")
+    Say("Hello Dad")
 elseif gamemode == "Deathmatch" then
-    Msg("Hello Mom")
+    Say("Hello Mom")
 else
-    Msg("Hello World")
+    Say("Hello World")
 end

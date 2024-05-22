@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lua Script Interface Documentation</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+    h1 {
+        text-align: center;
+    }
+    h2 {
+        margin-top: 20px;
+    }
+    p {
+        margin-bottom: 10px;
+    }
+    code {
+        font-family: Consolas, monospace;
+        background-color: #f4f4f4;
+        padding: 2px 5px;
+        border-radius: 3px;
+    }
+</style>
+</head>
+<body>
+
+<h1>Lua Script Interface Documentation</h1>
+
+<h2>Reload Lua Scripts</h2>
+<p><code>reload_lua</code>: Command to reload Lua scripts.</p>
+
+<h2>Global Constants</h2>
+<ul>
+    <li><code>FOR_ALL_PLAYERS</code>: -1</li>
+    <li><code>INVALID_ENTITY</code>: -1</li>
+    <li><code>NULL</code>: 0</li>
+	<li><code>MAX_HEALTH</code>: 100</li>
+    <li><code>MAX_ARMOR</code>: 200</li>
+	<li><code>TEAM_ONE</code>: Combines</li>
+    <li><code>TEAM_TWO</code>: Rebels</li>
+</ul>
+
+<h2>Global Variables</h2>
+<ul>
+    <li><code>GAMEMODE</code>: Value of the "as_gamemode" cvar</li>
+    <li><code>TEAMPLAY</code>: Value of the "mp_teamplay" cvar</li>
+    <li><code>COOP</code>: Value of the "coop" cvar</li>
+    <li><code>WEAPON_MELEE_SLOT</code>: Melee weapon slot</li>
+    <li><code>WEAPON_SECONDARY_SLOT</code>: Secondary weapon slot</li>
+    <li><code>WEAPON_PRIMARY_SLOT</code>: Primary weapon slot</li>
+    <li><code>WEAPON_EXPLOSIVE_SLOT</code>: Explosive weapon slot</li>
+    <li><code>WEAPON_TOOL_SLOT</code>: Tool weapon slot</li>
+    <li><code>MAX_FOV</code>: Maximum field of view</li>
+    <li><code>MAX_PLAYERS</code>: Maximum number of players</li>
+    <li><code>TEAM_NONE</code>: Team none</li>
+    <li><code>TEAM_SPECTATOR</code>: Team spectator</li>
+    <li><code>TEAM_ANY</code>: Team any</li>
+    <li><code>TEAM_INVALID</code>: Team invalid</li>
+    <li><code>HUD_PRINTNOTIFY</code>: Print notify to HUD</li>
+    <li><code>HUD_PRINTCONSOLE</code>: Print to console</li>
+    <li><code>HUD_PRINTTALK</code>: Print talk to HUD</li>
+    <li><code>HUD_PRINTCENTER</code>: Print center to HUD</li>
+</ul>
+
+<h2>Lua Functions</h2>
+<ul>
+    <li><code>GetTime</code>: Get the current time</li>
+    <li><code>GetCVar</code>: Get the value of a ConVar</li>
+    <li><code>ExecuteConsoleCommand</code>: Execute a console command</li>
+    <li><code>Say</code>: Send a message to all players</li>
+</ul>
+
+<h2>Player Functions</h2>
+<ul>
+    <li><code>GetPlayerName</code>: Get the name of a player by index</li>
+    <li><code>GetPlayerHealth</code>: Get the health of a player by index</li>
+	<li><code>HandlePlayerInput</code>: Handle player input</li>
+	<li><code>GetPlayerName</code>: Get the name of a player by index</li>
+    <li><code>GetPlayerHealth</code>: Get the health of a player by index</li>
+    <li><code>GetPlayerPosition</code>: Get the position of a player by index</li>
+    <li><code>GetPlayerCount</code>: Get the number of players</li>
+    <li><code>GetPlayerTeam</code>: Get the team of a player by index</li>
+    <li><code>GetPlayerMaxSpeed</code>: Get the max speed of a player by index</li>
+    <li><code>GiveItem</code>: Give an item to a player</li>
+</ul>
+
+<h2>Entity Functions</h2>
+<ul>
+    <li><code>GetEntityPosition</code>: Get the position of an entity by index</li>
+    <li><code>SpawnEntity</code>: Spawn an entity</li>
+</ul>
+
+<h2>Server Functions</h2>
+<ul>
+    <li><code>ExecuteConsoleCommand</code>: Execute a console command on the server</li>
+	<li><code>SetCVar</code>: Set the value of a ConVar</li>
+	<li><code>Msg</code>: Print a message to console</li>
+    <li><code>ConMsg</code>: Print a message to console and log</li>
+</ul>
+
+</body>
+</html>

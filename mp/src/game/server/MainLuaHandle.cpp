@@ -3,9 +3,10 @@
 #include "filesystem.h"
 #include "convar.h"
 #include <stdio.h>
-#include "hl2_player.h"
-#include "hl2mp_gamerules.h"
 #include "tier0/memdbgon.h"
+
+#include "hl2_player.h"
+#include "hl2mp_player.h"
 
 void CC_ReloadLua(const CCommand& args) {
 	if (GetLuaHandle()) {
@@ -98,35 +99,13 @@ void MainLuaHandle::Shutdown() {
 	ConMsg("[LUA-INFO] Lua shutdown successfully.\n");
 }
 
-
 int luaMsg(lua_State *L) {
 	Msg("%s\n", lua_tostring(L, 1));
 	return 0;
 }
 
 int luaConMsg(lua_State *L) {
-	return luaMsg(L);
-}
-
-int luaClientPrintAll(lua_State *L) {
-	int n = lua_gettop(L);
-	switch (n) {
-	case 2:
-		UTIL_ClientPrintAll(lua_tointeger(L, 1), lua_tostring(L, 2));
-		break;
-	case 3:
-		UTIL_ClientPrintAll(lua_tointeger(L, 1), lua_tostring(L, 2), lua_tostring(L, 3));
-		break;
-	case 4:
-		UTIL_ClientPrintAll(lua_tointeger(L, 1), lua_tostring(L, 2), lua_tostring(L, 3), lua_tostring(L, 4));
-		break;
-	case 5:
-		UTIL_ClientPrintAll(lua_tointeger(L, 1), lua_tostring(L, 2), lua_tostring(L, 3), lua_tostring(L, 4), lua_tostring(L, 5));
-		break;
-	case 6:
-		UTIL_ClientPrintAll(lua_tointeger(L, 1), lua_tostring(L, 2), lua_tostring(L, 3), lua_tostring(L, 4), lua_tostring(L, 5), lua_tostring(L, 6));
-		break;
-	}
+	ConMsg("%s\n", lua_tostring(L, 1));
 	return 0;
 }
 
@@ -138,12 +117,7 @@ int luaGetTime(lua_State *L) {
 int luaGetCVar(lua_State *L) {
 	const char* cvarName = lua_tostring(L, 1);
 	ConVar* cvare = cvar->FindVar(cvarName);
-	if (cvar) {
-		lua_pushstring(L, cvare->GetString());
-	}
-	else {
-		lua_pushnil(L);
-	}
+	lua_pushstring(L, cvare ? cvare->GetString() : nullptr);
 	return 1;
 }
 
@@ -151,9 +125,8 @@ int luaSetCVar(lua_State *L) {
 	const char* cvarName = lua_tostring(L, 1);
 	const char* cvarValue = lua_tostring(L, 2);
 	ConVar* cvare = cvar->FindVar(cvarName);
-	if (cvar) {
+	if (cvare)
 		cvare->SetValue(cvarValue);
-	}
 	return 0;
 }
 
@@ -169,24 +142,14 @@ int luaExecuteConsoleCommand(lua_State *L) {
 int luaGetPlayerName(lua_State *L) {
 	int playerIndex = lua_tointeger(L, 1);
 	CBasePlayer *pPlayer = UTIL_PlayerByIndex(playerIndex);
-	if (pPlayer) {
-		lua_pushstring(L, pPlayer->GetPlayerName());
-	}
-	else {
-		lua_pushnil(L);
-	}
+	lua_pushstring(L, pPlayer ? pPlayer->GetPlayerName() : nullptr);
 	return 1;
 }
 
 int luaGetPlayerHealth(lua_State *L) {
 	int playerIndex = lua_tointeger(L, 1);
 	CBasePlayer *pPlayer = UTIL_PlayerByIndex(playerIndex);
-	if (pPlayer) {
-		lua_pushinteger(L, pPlayer->GetHealth());
-	}
-	else {
-		lua_pushnil(L);
-	}
+	lua_pushinteger(L, pPlayer ? pPlayer->GetHealth() : -1);
 	return 1;
 }
 
@@ -207,36 +170,13 @@ int luaGetPlayerPosition(lua_State *L) {
 	return 3;
 }
 
-int luaSpawnEntity(lua_State *L) {
-	const char *entityName = lua_tostring(L, 1);
-	Vector position;
-	position.x = lua_tonumber(L, 2);
-	position.y = lua_tonumber(L, 3);
-	position.z = lua_tonumber(L, 4);
-
-	CBaseEntity *pEntity = CreateEntityByName(entityName);
-	if (pEntity) {
-		pEntity->SetAbsOrigin(position);
-		DispatchSpawn(pEntity);
-		lua_pushboolean(L, true);
-	}
-	else {
-		lua_pushboolean(L, false);
-	}
-	return 1;
-}
-
 int luaHandlePlayerInput(lua_State *L) {
 	int playerIndex = lua_tointeger(L, 1);
 	const char *input = lua_tostring(L, 2);
-
 	CBasePlayer *pPlayer = UTIL_PlayerByIndex(playerIndex);
 	if (pPlayer && input) {
-		// Example of handling a jump input
-		if (strcmp(input, "jump") == 0) {
+		if (strcmp(input, "jump") == 0)
 			pPlayer->Jump();
-		}
-		// Add more input handling as needed
 		lua_pushboolean(L, true);
 	}
 	else {
@@ -244,20 +184,129 @@ int luaHandlePlayerInput(lua_State *L) {
 	}
 	return 1;
 }
+
+int luaSay(lua_State *L) {
+	int n = lua_gettop(L);
+	if (n < 1) {
+		luaL_error(L, "luaSay expects at least 1 argument");
+		return 0;
+	}
+	std::string message;
+	for (int i = 1; i <= n; ++i) {
+		message += lua_tostring(L, i);
+		if (i < n) message += " ";
+	}
+	UTIL_ClientPrintAll(HUD_PRINTTALK, message.c_str());
+	return 0;
+}
+
+int luaGetEntityPosition(lua_State *L) {
+	int entityIndex = lua_tointeger(L, 1);
+	CBaseEntity *pEntity = UTIL_EntityByIndex(entityIndex);
+	if (pEntity) {
+		Vector position = pEntity->GetAbsOrigin();
+		lua_pushnumber(L, position.x);
+		lua_pushnumber(L, position.y);
+		lua_pushnumber(L, position.z);
+	}
+	else {
+		lua_pushnil(L);
+		lua_pushnil(L);
+		lua_pushnil(L);
+	}
+	return 3;
+}
+
+
+int luaGetPlayerCount(lua_State *L) {
+	lua_pushinteger(L, gpGlobals->maxClients);
+	return 1;
+}
+
+int luaGetPlayerTeam(lua_State *L) {
+	int playerIndex = lua_tointeger(L, 1);
+	CBasePlayer *pPlayer = UTIL_PlayerByIndex(playerIndex);
+	lua_pushinteger(L, pPlayer ? pPlayer->GetTeamNumber() : -1);
+	return 1;
+}
+
+int luaGetPlayerMaxSpeed(lua_State *L) {
+	int playerIndex = lua_tointeger(L, 1);
+	CBasePlayer *pPlayer = UTIL_PlayerByIndex(playerIndex);
+	lua_pushinteger(L, pPlayer ? pPlayer->GetPlayerMaxSpeed() : -1);
+	return 1;
+}
+
+int luaGiveItem(lua_State *L) {
+	int playerIndex = lua_tointeger(L, 1);
+	const char *itemName = lua_tostring(L, 2);
+	CBasePlayer *pPlayer = UTIL_PlayerByIndex(playerIndex);
+	if (pPlayer && itemName) {
+		pPlayer->GiveNamedItem(itemName);
+	}
+	return 0;
+}
+
+int luaIsPlayerValid(lua_State *L) {
+	int playerIndex = lua_tointeger(L, 1);
+	lua_pushboolean(L, UTIL_PlayerByIndex(playerIndex) != NULL);
+	return 1;
+}
+
+int luaGetPlayerArmor(lua_State *L) {
+	int playerIndex = lua_tointeger(L, 1);
+	CBasePlayer *pPlayer = UTIL_PlayerByIndex(playerIndex);
+	lua_pushinteger(L, pPlayer ? pPlayer->ArmorValue() : -1);
+	return 1;
+}
+
+int luaIsPlayerAlive(lua_State *L) {
+	int playerIndex = lua_tointeger(L, 1);
+	CBasePlayer *pPlayer = UTIL_PlayerByIndex(playerIndex);
+	lua_pushboolean(L, pPlayer && pPlayer->IsAlive());
+	return 1;
+}
+
+int luaGetEntityClassname(lua_State *L) {
+	int entityIndex = lua_tointeger(L, 1);
+	CBaseEntity *pEntity = UTIL_EntityByIndex(entityIndex);
+	lua_pushstring(L, pEntity ? pEntity->GetClassname() : nullptr);
+	return 1;
+}
+
+int luaGetEntityModel(lua_State *L) {
+	int entityIndex = lua_tointeger(L, 1);
+	CBaseEntity *pEntity = UTIL_EntityByIndex(entityIndex);
+	lua_pushstring(L, pEntity ? pEntity->GetModelName() : nullptr);
+	return 1;
+}
+
 
 void MainLuaHandle::RegFunctions() {
 	REG_FUNCTION(Msg);
 	REG_FUNCTION(ConMsg);
-	REG_FUNCTION(ClientPrintAll);
 	REG_FUNCTION(GetTime);
 	REG_FUNCTION(GetCVar);
 	REG_FUNCTION(SetCVar);
 	REG_FUNCTION(ExecuteConsoleCommand);
+
 	REG_FUNCTION(GetPlayerName);
 	REG_FUNCTION(GetPlayerHealth);
 	REG_FUNCTION(GetPlayerPosition);
-	REG_FUNCTION(SpawnEntity);
 	REG_FUNCTION(HandlePlayerInput);
+	REG_FUNCTION(Say);
+
+	REG_FUNCTION(GetPlayerCount);
+	REG_FUNCTION(GetPlayerTeam);
+	REG_FUNCTION(GetPlayerMaxSpeed);
+	REG_FUNCTION(GiveItem);
+	REG_FUNCTION(IsPlayerValid);
+
+	REG_FUNCTION(GetPlayerArmor);
+	REG_FUNCTION(IsPlayerAlive);
+	REG_FUNCTION(GetEntityClassname);
+	REG_FUNCTION(GetEntityModel);
+
 }
 
 LuaHandle* g_LuaHandle = NULL;

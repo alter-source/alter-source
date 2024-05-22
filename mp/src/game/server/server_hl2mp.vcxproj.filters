@@ -43,6 +43,9 @@
     <Filter Include="Source Files\Lua">
       <UniqueIdentifier>{60eb6924-5df3-411a-92a4-cf1e71132641}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Lua\Handles">
+      <UniqueIdentifier>{b920bc4c-eb09-436c-8d49-8d348427ddc3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\..\lib\public\choreoobjects.lib">
@@ -1848,7 +1851,7 @@
       <Filter>Source Files\Lua</Filter>
     </ClInclude>
     <ClInclude Include="MainLuaHandle.h">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Lua\Handles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3583,14 +3586,12 @@
     <ClCompile Include="ge_luamanager.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
-    <ClCompile Include="MainLuaHandle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\shared\weapon_physgun.cpp">
       <Filter>Source Files\HL2MP\Weapons</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="MainLuaHandle.cpp">
+      <Filter>Source Files\Lua\Handles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\public\tier0\pointeroverride.asm">
