@@ -6,4 +6,5 @@ The reason that it's a Multiplayer mod instead of a Singleplayer one, is because
 So wake up, Mr Freeman, wake up and, smell the ashes.
 
 fixes:
-...
+- added give command autocomplete
+- changed default chat color to white
