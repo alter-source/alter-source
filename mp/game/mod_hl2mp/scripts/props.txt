@@ -948,10 +948,6 @@ SpawnMenu
 		{
 			"#"	"npc_create npc_zombie"
 		}
-		"Zombie Assassin"
-		{
-			"#"	"npc_create npc_zassassin"
-		}
 		"Fast Zombie"
 		{
 			"#"	"npc_create npc_fastzombie"
@@ -1053,16 +1049,19 @@ SpawnMenu
 			"#"	"give weapon_bugbait"
 		}
 	}
+	"Vehicles"
+	{
+		"Jeep"
+		{
+			"#"	"impulse 82"
+		}
+		"Airboat"
+		{
+			"#"	"impulse 83; ent_fire airboat enablegun 1"
+		}
+	}
 	"Other Stuff"
 	{
-		"Spawn Jeep"
-		{
-			"#"	"ch_createjeep"
-		}
-		"Spawn Airboat"
-		{
-			"#"	"ch_createairboat"
-		}
 		"Health Kit"
 		{
 			"#"	"ent_create item_healthkit"
@@ -1070,6 +1069,10 @@ SpawnMenu
 		"Suit Charger"
 		{
 			"#"	"ent_create item_suitcharger"
+		}
+		"Death!"
+		{
+			"#"	"impulse 69"
 		}
 	}
 	"Extras"

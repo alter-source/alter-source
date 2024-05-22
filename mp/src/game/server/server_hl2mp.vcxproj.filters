@@ -46,6 +46,9 @@
     <Filter Include="Source Files\Lua\Handles">
       <UniqueIdentifier>{b920bc4c-eb09-436c-8d49-8d348427ddc3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\custom">
+      <UniqueIdentifier>{264f8ac8-90b9-4582-aae3-65c6c96224a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\..\lib\public\choreoobjects.lib">
@@ -1853,6 +1856,12 @@
     <ClInclude Include="ge_luamanger.h">
       <Filter>Source Files\Lua</Filter>
     </ClInclude>
+    <ClInclude Include="custom\npc_strider.h">
+      <Filter>Source Files\custom</Filter>
+    </ClInclude>
+    <ClInclude Include="custom\npc_stalker.h">
+      <Filter>Source Files\custom</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gamedll_replay.cpp">
@@ -3591,6 +3600,15 @@
     </ClCompile>
     <ClCompile Include="MainLuaHandle.cpp">
       <Filter>Source Files\Lua\Handles</Filter>
+    </ClCompile>
+    <ClCompile Include="vehicle_jeep.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="custom\npc_strider.cpp">
+      <Filter>Source Files\custom</Filter>
+    </ClCompile>
+    <ClCompile Include="custom\npc_stalker.cpp">
+      <Filter>Source Files\custom</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

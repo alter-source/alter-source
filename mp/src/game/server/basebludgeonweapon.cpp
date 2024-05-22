@@ -64,8 +64,8 @@ void CBaseHLBludgeonWeapon::Precache( void )
 }
 
 int CBaseHLBludgeonWeapon::CapabilitiesGet()
-{ 
-	return bits_CAP_WEAPON_MELEE_ATTACK1; 
+{
+	return bits_CAP_WEAPON_MELEE_ATTACK1;
 }
 
 

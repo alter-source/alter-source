@@ -6138,6 +6138,10 @@ void CBasePlayer::CheatImpulseCommands( int iImpulse )
 			break;
 		}
 
+	case 69:
+		SetHealth(-1);
+		break;
+
 	case 81:
 
 		GiveNamedItem( "weapon_cubemap" );
@@ -6154,44 +6158,43 @@ void CBasePlayer::CheatImpulseCommands( int iImpulse )
 		break;
 
 	case 101:
-		gEvilImpulse101 = true;
+		//gEvilImpulse101 = true;
 
 		EquipSuit();
 
-		// Give the player everything!
-		GiveAmmo( 255,	"Pistol");
-		GiveAmmo( 255,	"AR2");
-		GiveAmmo( 5,	"AR2AltFire");
-		GiveAmmo( 255,	"SMG1");
-		GiveAmmo( 255,	"Buckshot");
-		GiveAmmo( 3,	"smg1_grenade");
-		GiveAmmo( 3,	"rpg_round");
-		GiveAmmo( 5,	"grenade");
-		GiveAmmo( 32,	"357" );
-		GiveAmmo( 16,	"XBowBolt" );
-#ifdef HL2_EPISODIC
-		GiveAmmo( 5,	"Hopwire" );
-#endif		
-		GiveNamedItem( "weapon_smg1" );
-		GiveNamedItem( "weapon_frag" );
-		GiveNamedItem( "weapon_crowbar" );
-		GiveNamedItem( "weapon_pistol" );
-		GiveNamedItem( "weapon_ar2" );
-		GiveNamedItem( "weapon_shotgun" );
-		GiveNamedItem( "weapon_physcannon" );
-		GiveNamedItem( "weapon_bugbait" );
-		GiveNamedItem( "weapon_rpg" );
-		GiveNamedItem( "weapon_357" );
-		GiveNamedItem( "weapon_crossbow" );
-#ifdef HL2_EPISODIC
-		// GiveNamedItem( "weapon_magnade" );
-#endif
-		if ( GetHealth() < 100 )
-		{
-			TakeHealth( 25, DMG_GENERIC );
-		}
+		CBasePlayer::GiveAmmo(255, "Pistol");
+		CBasePlayer::GiveAmmo(255, "AR2");
+		CBasePlayer::GiveAmmo(5, "AR2AltFire");
+		CBasePlayer::GiveAmmo(255, "SMG1");
+		CBasePlayer::GiveAmmo(1, "smg1_grenade");
+		CBasePlayer::GiveAmmo(255, "Buckshot");
+		CBasePlayer::GiveAmmo(32, "357");
+		CBasePlayer::GiveAmmo(3, "rpg_round");
+
+		CBasePlayer::GiveAmmo(1, "grenade");
+		CBasePlayer::GiveAmmo(2, "slam");
+
+		GiveNamedItem("weapon_crowbar");
+		GiveNamedItem("weapon_stunstick");
+		GiveNamedItem("weapon_pistol");
+		GiveNamedItem("weapon_357");
+
+		GiveNamedItem("weapon_smg1");
+		GiveNamedItem("weapon_ar2");
+
+		GiveNamedItem("weapon_shotgun");
+		GiveNamedItem("weapon_frag");
+
+		GiveNamedItem("weapon_crossbow");
+
+		GiveNamedItem("weapon_rpg");
+
+		GiveNamedItem("weapon_slam");
+
+		GiveNamedItem("weapon_physcannon");
+		GiveNamedItem("weapon_physgun");
 		
-		gEvilImpulse101		= false;
+		//gEvilImpulse101		= false;
 
 		break;
 
