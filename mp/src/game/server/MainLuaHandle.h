@@ -53,6 +53,7 @@ int luaGetPlayerArmor(lua_State *L);
 int luaIsPlayerAlive(lua_State *L);
 int luaGetEntityClassname(lua_State *L);
 int luaGetEntityModel(lua_State *L);
+int luaLoadFile(lua_State *L);
 
 LuaHandle* GetLuaHandle();
 

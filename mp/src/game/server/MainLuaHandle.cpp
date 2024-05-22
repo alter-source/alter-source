@@ -274,13 +274,52 @@ int luaGetEntityClassname(lua_State *L) {
 	return 1;
 }
 
-int luaGetEntityModel(lua_State *L) {
-	int entityIndex = lua_tointeger(L, 1);
-	CBaseEntity *pEntity = UTIL_EntityByIndex(entityIndex);
-	lua_pushstring(L, pEntity ? pEntity->GetModelName() : nullptr);
-	return 1;
+int luaLoadFile(lua_State *L) {
+	const char* customFile = lua_tostring(L, 1);
+
+	if (!customFile) {
+		Warning("[LUA-ERR] Invalid file path.\n");
+		return 0;
+	}
+
+	FileHandle_t f = filesystem->Open(customFile, "rb", "MOD");
+	if (!f) {
+		Warning("[LUA-ERR] Failed to open %s\n", customFile);
+		return 0;
+	}
+
+	int fileSize = filesystem->Size(f);
+	unsigned bufSize = ((IFileSystem *)filesystem)->GetOptimalReadSize(f, fileSize + 1);
+
+	char *buffer = (char*)((IFileSystem *)filesystem)->AllocOptimalReadBuffer(f, bufSize);
+	Assert(buffer);
+
+	((IFileSystem *)filesystem)->ReadEx(buffer, bufSize, fileSize, f);
+	buffer[fileSize] = '\0';
+	filesystem->Close(f);
+
+	int error = luaL_loadbuffer(L, buffer, fileSize, customFile);
+	if (error) {
+		Warning("[LUA-ERR] %s\n", lua_tostring(L, -1));
+		lua_pop(L, 1);
+		Warning("[LUA-ERR] One or more errors occurred while loading Lua script!\n");
+		((IFileSystem *)filesystem)->FreeOptimalReadBuffer(buffer);
+		return 0;
+	}
+	lua_pcall(L, 0, LUA_MULTRET, 0);
+
+	((IFileSystem *)filesystem)->FreeOptimalReadBuffer(buffer);
+	return 0;
 }
 
+int luaKillPlayer(lua_State *L) {
+	int playerIndex = lua_tointeger(L, 1);
+	CBasePlayer *pPlayer = UTIL_PlayerByIndex(playerIndex);
+	if (pPlayer) {
+		pPlayer->TakeDamage(CTakeDamageInfo(pPlayer, pPlayer, pPlayer->GetHealth() + pPlayer->ArmorValue(), DMG_GENERIC));
+	}
+	return 0;
+}
 
 void MainLuaHandle::RegFunctions() {
 	REG_FUNCTION(Msg);
@@ -305,8 +344,8 @@ void MainLuaHandle::RegFunctions() {
 	REG_FUNCTION(GetPlayerArmor);
 	REG_FUNCTION(IsPlayerAlive);
 	REG_FUNCTION(GetEntityClassname);
-	REG_FUNCTION(GetEntityModel);
-
+	REG_FUNCTION(LoadFile);
+	REG_FUNCTION(KillPlayer);
 }
 
 LuaHandle* g_LuaHandle = NULL;

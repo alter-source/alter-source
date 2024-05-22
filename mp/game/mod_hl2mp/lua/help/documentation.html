@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lua Script Interface Documentation</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/components/prism-lua.min.js"></script>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -30,7 +33,7 @@
 
 <h1>Lua Script Interface Documentation</h1>
 
-<h2>Reload Lua Scripts</h2>
+<h2>Concommands</h2>
 <p><code>reload_lua</code>: Command to reload Lua scripts.</p>
 
 <h2>Global Constants</h2>
@@ -38,11 +41,15 @@
     <li><code>FOR_ALL_PLAYERS</code>: -1</li>
     <li><code>INVALID_ENTITY</code>: -1</li>
     <li><code>NULL</code>: 0</li>
-	<li><code>MAX_HEALTH</code>: 100</li>
+    <li><code>MAX_HEALTH</code>: 100</li>
     <li><code>MAX_ARMOR</code>: 200</li>
-	<li><code>TEAM_ONE</code>: Combines</li>
+    <li><code>TEAM_ONE</code>: Combines</li>
     <li><code>TEAM_TWO</code>: Rebels</li>
 </ul>
+<pre><code class="language-lua">-- Example in Lua:
+Msg(FOR_ALL_PLAYERS) -- Output: -1
+Msg(TEAM_ONE) -- Output: Combines
+</code></pre>
 
 <h2>Global Variables</h2>
 <ul>
@@ -65,6 +72,10 @@
     <li><code>HUD_PRINTTALK</code>: Print talk to HUD</li>
     <li><code>HUD_PRINTCENTER</code>: Print center to HUD</li>
 </ul>
+<pre><code class="language-lua">-- Example in Lua:
+Msg(GAMEMODE) -- Output: "Sandbox"
+Msg(MAX_PLAYERS) -- Output: 32
+</code></pre>
 
 <h2>Lua Functions</h2>
 <ul>
@@ -73,34 +84,92 @@
     <li><code>ExecuteConsoleCommand</code>: Execute a console command</li>
     <li><code>Say</code>: Send a message to all players</li>
 </ul>
+<pre><code class="language-lua">-- Example in Lua:
+local currentTime = GetTime()
+Msg("Current server time: " .. currentTime)
+
+local coopMode = GetCVar("coop")
+Msg("Coop is " .. coopMode)
+
+ExecuteConsoleCommand("mp_restartgame 1")
+
+Say("Hello, players!")
+</code></pre>
 
 <h2>Player Functions</h2>
 <ul>
     <li><code>GetPlayerName</code>: Get the name of a player by index</li>
     <li><code>GetPlayerHealth</code>: Get the health of a player by index</li>
-	<li><code>HandlePlayerInput</code>: Handle player input</li>
-	<li><code>GetPlayerName</code>: Get the name of a player by index</li>
-    <li><code>GetPlayerHealth</code>: Get the health of a player by index</li>
+    <li><code>HandlePlayerInput</code>: Handle player input</li>
     <li><code>GetPlayerPosition</code>: Get the position of a player by index</li>
     <li><code>GetPlayerCount</code>: Get the number of players</li>
     <li><code>GetPlayerTeam</code>: Get the team of a player by index</li>
     <li><code>GetPlayerMaxSpeed</code>: Get the max speed of a player by index</li>
     <li><code>GiveItem</code>: Give an item to a player</li>
+	<li><code>KillPlayer</code>: Kills a player</li>
 </ul>
+<pre><code class="language-lua">-- Example in Lua:
+local playerName = GetPlayerName(1)
+Msg("Player 1's name is " .. playerName)
+
+local playerHealth = GetPlayerHealth(1)
+Msg("Player 1's health is " .. playerHealth)
+
+local success = HandlePlayerInput(1, "jump")
+Msg("Player 1 jumped: " .. tostring(success))
+
+local x, y, z = GetPlayerPosition(1)
+Msg("Player 1's position is (" .. x .. ", " .. y .. ", " .. z .. ")")
+
+local playerCount = GetPlayerCount()
+Msg("Number of players: " .. playerCount)
+
+local playerTeam = GetPlayerTeam(1)
+Msg("Player 1's team is " .. playerTeam)
+
+local playerMaxSpeed = GetPlayerMaxSpeed(1)
+Msg("Player 1's max speed is " .. playerMaxSpeed)
+
+GiveItem(1, "weapon_crowbar")
+Msg("Player 1 received a crowbar")
+
+KillPlayer(1)
+Msg("POW! You are dead! Not big surprise.")
+</code></pre>
 
 <h2>Entity Functions</h2>
 <ul>
     <li><code>GetEntityPosition</code>: Get the position of an entity by index</li>
     <li><code>SpawnEntity</code>: Spawn an entity</li>
 </ul>
+<pre><code class="language-lua">-- Example in Lua:
+local x, y, z = GetEntityPosition(1)
+Msg("Entity 1's position is (" .. x .. ", " .. y .. ", " .. z .. ")")
+
+-- Example to spawn an entity (assuming SpawnEntity function is implemented)
+SpawnEntity("npc_citizen", x, y, z)
+Msg("Spawned npc_citizen at (" .. x .. ", " .. y .. ", " .. z .. ")")
+</code></pre>
 
 <h2>Server Functions</h2>
 <ul>
     <li><code>ExecuteConsoleCommand</code>: Execute a console command on the server</li>
-	<li><code>SetCVar</code>: Set the value of a ConVar</li>
-	<li><code>Msg</code>: Print a message to console</li>
+    <li><code>SetCVar</code>: Set the value of a ConVar</li>
+    <li><code>Msg</code>: Print a message to console</li>
     <li><code>ConMsg</code>: Print a message to console and log</li>
+    <li><code>LoadFile</code>: Loads a Lua file.</li>
 </ul>
+<pre><code class="language-lua">-- Example in Lua:
+ExecuteConsoleCommand("sv_cheats 1")
+
+SetCVar("mp_friendlyfire", "1")
+
+Msg("This is a message to the console")
+
+ConMsg("This is a message to the console and log")
+
+LoadFile("lua/script.lua")
+</code></pre>
 
 </body>
 </html>

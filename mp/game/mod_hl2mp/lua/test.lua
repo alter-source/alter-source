@@ -1,0 +1,1 @@
+Say("Sentry goin' up! If you see this, the Lua scripting system is working perfectly!")
