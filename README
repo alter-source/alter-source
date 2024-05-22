@@ -12,3 +12,4 @@ changelog:
 - added object pickup ability
 - changed default weapon to crowbar instead of gravity gun
 - disabled hud_quickinfo
+- set all accelerate cvars to 9999999999999999

@@ -14,7 +14,7 @@
 #ifdef CLIENT_DLL
 	#include "c_hl2mp_player.h"
 #else
-
+	#include "MainLuaHandle.h"
 	#include "eventqueue.h"
 	#include "player.h"
 	#include "gamerules.h"
@@ -211,6 +211,8 @@ CHL2MPRules::CHL2MPRules()
 		m_bTeamPlayEnabled = teamplay.GetBool();
 	}
 
+	new MainLuaHandle();
+
 	m_flIntermissionEndTime = 0.0f;
 	m_flGameStartTime = 0;
 
@@ -238,8 +240,6 @@ const HL2MPViewVectors* CHL2MPRules::GetHL2MPViewVectors()const
 CHL2MPRules::~CHL2MPRules( void )
 {
 #ifndef CLIENT_DLL
-	// Note, don't delete each team since they are in the gEntList and will 
-	// automatically be deleted from there, instead.
 	g_Teams.Purge();
 #endif
 }
