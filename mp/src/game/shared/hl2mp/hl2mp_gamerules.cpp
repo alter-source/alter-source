@@ -195,7 +195,22 @@ CHL2MPRules::CHL2MPRules()
 		g_Teams.AddToTail( pTeam );
 	}
 
-	m_bTeamPlayEnabled = teamplay.GetBool();
+
+	ConVar *gamemodeVar = cvar->FindVar("as_gamemode");
+
+	if (!gamemodeVar) {
+		m_bTeamPlayEnabled = teamplay.GetBool();
+		return;
+	}
+
+	const char* gamemodeStr = gamemodeVar->GetString();
+	if (FStrEq(gamemodeStr, "TDM")) {
+		m_bTeamPlayEnabled = true;
+	}
+	else {
+		m_bTeamPlayEnabled = teamplay.GetBool();
+	}
+
 	m_flIntermissionEndTime = 0.0f;
 	m_flGameStartTime = 0;
 

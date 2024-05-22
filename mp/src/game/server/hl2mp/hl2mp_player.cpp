@@ -273,34 +273,26 @@ void CHL2MP_Player::GiveDefaultItems( void )
 {
 	cvar->FindVar("sv_cheats")->SetValue(1);
 
-	ConVar *gamemodeVar = cvar->FindVar("xs_gamemode");
-	if (gamemodeVar)
-	{
-		const char* gamemodeStr = gamemodeVar->GetString();
-		GameMode gamemode = GetGameMode(gamemodeStr);
+	const char* gamemodeStr = as_gamemode.GetString();
+	GameMode gamemode = GetGameMode(gamemodeStr);
 
-		switch (gamemode)
-		{
-		case SANDBOX:
-			GiveAllItems();
-			cvar->FindVar("sv_infinite_aux_power")->SetValue(1);
-			break;
-		case TDM:
-		case DEATHMATCH:
-			GiveDeathmatchItems();
-			cvar->FindVar("sv_infinite_aux_power")->SetValue(0);
-			break;
-		case CHAOTIC:
-			GiveChaoticItems();
-			cvar->FindVar("sv_infinite_aux_power")->SetValue(0);
-			break;
-		default:
-			break;
-		}
-	}
-	else
+	switch (gamemode)
 	{
+	case SANDBOX:
 		GiveAllItems();
+		cvar->FindVar("sv_infinite_aux_power")->SetValue(1);
+		break;
+	case TDM:
+	case DEATHMATCH:
+		GiveDeathmatchItems();
+		cvar->FindVar("sv_infinite_aux_power")->SetValue(0);
+		break;
+	case CHAOTIC:
+		GiveChaoticItems();
+		cvar->FindVar("sv_infinite_aux_power")->SetValue(0);
+		break;
+	default:
+		break;
 	}
 }
 
