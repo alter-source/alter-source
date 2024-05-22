@@ -331,7 +331,7 @@ IMotionEvent::simresult_e CGravControllerPoint::Simulate(IPhysicsMotionControlle
 #define CWeaponGravityGun C_WeaponGravityGun
 #endif
 
-class CWeaponGravityGun : public CBaseHLCombatWeapon
+class CWeaponGravityGun : public CBaseHLCombatWeapon // eggings
 {
 	DECLARE_DATADESC();
 
