@@ -5,6 +5,10 @@ It's main purpose is to make modding easier, reduce the spaghetti code and for g
 The reason that it's a Multiplayer mod instead of a Singleplayer one, is because that it's possible to add Gamemodes thingy.
 So wake up, Mr Freeman, wake up and, smell the ashes.
 
-fixes:
+changelog:
 - added give command autocomplete
 - changed default chat color to white
+- added gamemodes (sandbox, deathmatch, team deathmatch, chaotic, cooperative)
+- added object pickup ability
+- changed default weapon to crowbar instead of gravity gun
+- disabled hud_quickinfo

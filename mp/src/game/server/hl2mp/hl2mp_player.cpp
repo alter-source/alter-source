@@ -105,6 +105,7 @@ enum GameMode
 	TDM,
 	DEATHMATCH,
 	CHAOTIC,
+	COOPERATIVE,
 	UNKNOWN
 };
 
@@ -114,7 +115,8 @@ GameMode GetGameMode(const std::string& mode)
 		{ "Sandbox", SANDBOX },
 		{ "TDM", TDM },
 		{ "Deathmatch", DEATHMATCH },
-		{ "Chaotic", CHAOTIC }
+		{ "Chaotic", CHAOTIC },
+		{ "Cooperative", COOPERATIVE }
 	};
 
 	auto it = gameModeMap.find(mode);
@@ -222,7 +224,6 @@ void CHL2MP_Player::GiveAllItems( void )
 	GiveNamedItem( "weapon_slam" );
 
 	GiveNamedItem( "weapon_physcannon" );
-	
 }
 
 void CHL2MP_Player::GiveChaoticItems(void)
@@ -276,20 +277,23 @@ void CHL2MP_Player::GiveDefaultItems( void )
 	const char* gamemodeStr = as_gamemode.GetString();
 	GameMode gamemode = GetGameMode(gamemodeStr);
 
+	cvar->FindVar("sv_infinite_aux_power")->SetValue(gamemode == SANDBOX ? 1 : 0);
+	cvar->FindVar("coop")->SetValue(gamemode == COOPERATIVE ? 1 : 0);
+	cvar->FindVar("deathmatch")->SetValue((gamemode == TDM || gamemode == DEATHMATCH) ? 1 : 0);
+
 	switch (gamemode)
 	{
 	case SANDBOX:
 		GiveAllItems();
-		cvar->FindVar("sv_infinite_aux_power")->SetValue(1);
 		break;
 	case TDM:
 	case DEATHMATCH:
+	case COOPERATIVE:
 		GiveDeathmatchItems();
-		cvar->FindVar("sv_infinite_aux_power")->SetValue(0);
 		break;
 	case CHAOTIC:
 		GiveChaoticItems();
-		cvar->FindVar("sv_infinite_aux_power")->SetValue(0);
+		SetHealth(1);
 		break;
 	default:
 		break;
@@ -397,10 +401,32 @@ void CHL2MP_Player::Spawn(void)
 	m_bReady = false;
 }
 
-void CHL2MP_Player::PickupObject( CBaseEntity *pObject, bool bLimitMassAndSize )
+void CHL2MP_Player::PickupObject(CBaseEntity *pObject, bool bLimitMassAndSize)
 {
-	
+	// can't pick up what you're standing on
+	if (GetGroundEntity() == pObject)
+		return;
+
+	// store the reference to the currently active weapon
+	CBaseCombatWeapon *pActiveWeapon = GetActiveWeapon();
+
+	BaseClass::PickupObject(pObject, bLimitMassAndSize);
+
+	// Can't be picked up if NPCs are on me
+	if (pObject->HasNPCsOnIt())
+		return;
+
+	HideViewModels();
+	ClearActiveWeapon();
+
+	if (pActiveWeapon)
+	{
+		Weapon_Switch(pActiveWeapon);
+	}
+
+	PlayerPickupObject(this, pObject);
 }
+
 
 bool CHL2MP_Player::ValidatePlayerModel( const char *pModel )
 {

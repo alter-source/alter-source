@@ -322,10 +322,7 @@ bool CMultiplayRules::Init()
 }
 
 
-#ifdef CLIENT_DLL
-
-
-#else 
+#ifndef CLIENT_DLL
 
 	extern bool			g_fGameOver;
 
@@ -449,14 +446,16 @@ ConVarRef suitcharger( "sk_suitcharger" );
 	//=========================================================
 	bool CMultiplayRules::IsDeathmatch( void )
 	{
-		return true;
+		const char* gamemode = g_pCVar->FindVar("as_gamemode")->GetString();
+		return (strcmp(gamemode, "TDM") == 0 || strcmp(gamemode, "Deathmatch") == 0);
 	}
 
 	//=========================================================
 	//=========================================================
 	bool CMultiplayRules::IsCoOp( void )
 	{
-		return false;
+		const char* gamemode = g_pCVar->FindVar("as_gamemode")->GetString();
+		return (strcmp(gamemode, "Cooperative") == 0);
 	}
 
 	//=========================================================

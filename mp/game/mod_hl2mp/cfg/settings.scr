@@ -71,6 +71,7 @@ DESCRIPTION SERVER_OPTIONS
 			"Deathmatch" "Deathmatch"
 			"Team Deathmatch" "TDM"
 			"Chaotic" "Chaotic"
+			"Cooperative" "Cooperative"
 		}
 		{ "Sandbox" }
 	}
@@ -114,7 +115,7 @@ DESCRIPTION SERVER_OPTIONS
 	{
 		"#Valve_Flashlight"
 		{ BOOL }
-		{ "0" }
+		{ "1" }
 	}
 
 	"mp_forcerespawn"
