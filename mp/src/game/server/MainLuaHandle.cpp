@@ -166,6 +166,85 @@ int luaExecuteConsoleCommand(lua_State *L) {
 	return 0;
 }
 
+int luaGetPlayerName(lua_State *L) {
+	int playerIndex = lua_tointeger(L, 1);
+	CBasePlayer *pPlayer = UTIL_PlayerByIndex(playerIndex);
+	if (pPlayer) {
+		lua_pushstring(L, pPlayer->GetPlayerName());
+	}
+	else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+int luaGetPlayerHealth(lua_State *L) {
+	int playerIndex = lua_tointeger(L, 1);
+	CBasePlayer *pPlayer = UTIL_PlayerByIndex(playerIndex);
+	if (pPlayer) {
+		lua_pushinteger(L, pPlayer->GetHealth());
+	}
+	else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+int luaGetPlayerPosition(lua_State *L) {
+	int playerIndex = lua_tointeger(L, 1);
+	CBasePlayer *pPlayer = UTIL_PlayerByIndex(playerIndex);
+	if (pPlayer) {
+		Vector position = pPlayer->GetAbsOrigin();
+		lua_pushnumber(L, position.x);
+		lua_pushnumber(L, position.y);
+		lua_pushnumber(L, position.z);
+	}
+	else {
+		lua_pushnil(L);
+		lua_pushnil(L);
+		lua_pushnil(L);
+	}
+	return 3;
+}
+
+int luaSpawnEntity(lua_State *L) {
+	const char *entityName = lua_tostring(L, 1);
+	Vector position;
+	position.x = lua_tonumber(L, 2);
+	position.y = lua_tonumber(L, 3);
+	position.z = lua_tonumber(L, 4);
+
+	CBaseEntity *pEntity = CreateEntityByName(entityName);
+	if (pEntity) {
+		pEntity->SetAbsOrigin(position);
+		DispatchSpawn(pEntity);
+		lua_pushboolean(L, true);
+	}
+	else {
+		lua_pushboolean(L, false);
+	}
+	return 1;
+}
+
+int luaHandlePlayerInput(lua_State *L) {
+	int playerIndex = lua_tointeger(L, 1);
+	const char *input = lua_tostring(L, 2);
+
+	CBasePlayer *pPlayer = UTIL_PlayerByIndex(playerIndex);
+	if (pPlayer && input) {
+		// Example of handling a jump input
+		if (strcmp(input, "jump") == 0) {
+			pPlayer->Jump();
+		}
+		// Add more input handling as needed
+		lua_pushboolean(L, true);
+	}
+	else {
+		lua_pushboolean(L, false);
+	}
+	return 1;
+}
+
 void MainLuaHandle::RegFunctions() {
 	REG_FUNCTION(Msg);
 	REG_FUNCTION(ConMsg);
@@ -174,6 +253,11 @@ void MainLuaHandle::RegFunctions() {
 	REG_FUNCTION(GetCVar);
 	REG_FUNCTION(SetCVar);
 	REG_FUNCTION(ExecuteConsoleCommand);
+	REG_FUNCTION(GetPlayerName);
+	REG_FUNCTION(GetPlayerHealth);
+	REG_FUNCTION(GetPlayerPosition);
+	REG_FUNCTION(SpawnEntity);
+	REG_FUNCTION(HandlePlayerInput);
 }
 
 LuaHandle* g_LuaHandle = NULL;
