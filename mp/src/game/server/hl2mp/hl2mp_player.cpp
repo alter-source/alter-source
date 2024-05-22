@@ -26,6 +26,9 @@
 
 #include "ilagcompensationmanager.h"
 
+#include <unordered_map>
+#include <string>
+
 int g_iLastCitizenModel = 0;
 int g_iLastCombineModel = 0;
 
@@ -93,6 +96,34 @@ const char *g_ppszRandomCombineModels[] =
 #define TEAM_CHANGE_INTERVAL 5.0f
 
 #define HL2MPPLAYER_PHYSDAMAGE_SCALE 4.0f
+
+ConVar as_gamemode("as_gamemode", "Sandbox", FCVAR_NONE);
+
+enum GameMode
+{
+	SANDBOX,
+	TDM,
+	DEATHMATCH,
+	CHAOTIC,
+	UNKNOWN
+};
+
+GameMode GetGameMode(const std::string& mode)
+{
+	static const std::unordered_map<std::string, GameMode> gameModeMap = {
+		{ "Sandbox", SANDBOX },
+		{ "TDM", TDM },
+		{ "Deathmatch", DEATHMATCH },
+		{ "Chaotic", CHAOTIC }
+	};
+
+	auto it = gameModeMap.find(mode);
+	if (it != gameModeMap.end())
+	{
+		return it->second;
+	}
+	return UNKNOWN;
+}
 
 #pragma warning( disable : 4355 )
 
@@ -194,41 +225,82 @@ void CHL2MP_Player::GiveAllItems( void )
 	
 }
 
-void CHL2MP_Player::GiveDefaultItems( void )
+void CHL2MP_Player::GiveChaoticItems(void)
+{
+	GiveNamedItem("weapon_crowbar");
+	SetHealth(1);
+}
+
+void CHL2MP_Player::GiveDeathmatchItems(void)
 {
 	EquipSuit();
 
-	CBasePlayer::GiveAmmo( 255,	"Pistol");
-	CBasePlayer::GiveAmmo( 45,	"SMG1");
-	CBasePlayer::GiveAmmo( 1,	"grenade" );
-	CBasePlayer::GiveAmmo( 6,	"Buckshot");
-	CBasePlayer::GiveAmmo( 6,	"357" );
+	CBasePlayer::GiveAmmo(255, "Pistol");
+	CBasePlayer::GiveAmmo(45, "SMG1");
+	CBasePlayer::GiveAmmo(1, "grenade");
+	CBasePlayer::GiveAmmo(6, "Buckshot");
+	CBasePlayer::GiveAmmo(6, "357");
 
-	if ( GetPlayerModelType() == PLAYER_SOUNDS_METROPOLICE || GetPlayerModelType() == PLAYER_SOUNDS_COMBINESOLDIER )
+	if (GetPlayerModelType() == PLAYER_SOUNDS_METROPOLICE || GetPlayerModelType() == PLAYER_SOUNDS_COMBINESOLDIER)
 	{
-		GiveNamedItem( "weapon_stunstick" );
+		GiveNamedItem("weapon_stunstick");
 	}
-	else if ( GetPlayerModelType() == PLAYER_SOUNDS_CITIZEN )
+	else if (GetPlayerModelType() == PLAYER_SOUNDS_CITIZEN)
 	{
-		GiveNamedItem( "weapon_crowbar" );
+		GiveNamedItem("weapon_crowbar");
 	}
-	
-	GiveNamedItem( "weapon_pistol" );
-	GiveNamedItem( "weapon_smg1" );
-	GiveNamedItem( "weapon_frag" );
-	GiveNamedItem( "weapon_physcannon" );
 
-	const char *szDefaultWeaponName = engine->GetClientConVarValue( engine->IndexOfEdict( edict() ), "cl_defaultweapon" );
+	GiveNamedItem("weapon_pistol");
+	GiveNamedItem("weapon_smg1");
+	GiveNamedItem("weapon_frag");
+	GiveNamedItem("weapon_physcannon");
 
-	CBaseCombatWeapon *pDefaultWeapon = Weapon_OwnsThisType( szDefaultWeaponName );
+	const char *szDefaultWeaponName = engine->GetClientConVarValue(engine->IndexOfEdict(edict()), "cl_defaultweapon");
 
-	if ( pDefaultWeapon )
+	CBaseCombatWeapon *pDefaultWeapon = Weapon_OwnsThisType(szDefaultWeaponName);
+
+	if (pDefaultWeapon)
 	{
-		Weapon_Switch( pDefaultWeapon );
+		Weapon_Switch(pDefaultWeapon);
 	}
 	else
 	{
-		Weapon_Switch( Weapon_OwnsThisType( "weapon_physcannon" ) );
+		Weapon_Switch(Weapon_OwnsThisType("weapon_physcannon"));
+	}
+}
+
+void CHL2MP_Player::GiveDefaultItems( void )
+{
+	cvar->FindVar("sv_cheats")->SetValue(1);
+
+	ConVar *gamemodeVar = cvar->FindVar("xs_gamemode");
+	if (gamemodeVar)
+	{
+		const char* gamemodeStr = gamemodeVar->GetString();
+		GameMode gamemode = GetGameMode(gamemodeStr);
+
+		switch (gamemode)
+		{
+		case SANDBOX:
+			GiveAllItems();
+			cvar->FindVar("sv_infinite_aux_power")->SetValue(1);
+			break;
+		case TDM:
+		case DEATHMATCH:
+			GiveDeathmatchItems();
+			cvar->FindVar("sv_infinite_aux_power")->SetValue(0);
+			break;
+		case CHAOTIC:
+			GiveChaoticItems();
+			cvar->FindVar("sv_infinite_aux_power")->SetValue(0);
+			break;
+		default:
+			break;
+		}
+	}
+	else
+	{
+		GiveAllItems();
 	}
 }
 

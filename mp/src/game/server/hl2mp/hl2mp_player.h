@@ -88,8 +88,11 @@ public:
 
 	void CheatImpulseCommands( int iImpulse );
 	void CreateRagdollEntity( void );
+
 	void GiveAllItems( void );
 	void GiveDefaultItems( void );
+	void GiveDeathmatchItems(void);
+	void GiveChaoticItems(void);
 
 	void NoteWeaponFired( void );
 
