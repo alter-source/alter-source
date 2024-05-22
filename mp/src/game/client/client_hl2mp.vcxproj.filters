@@ -55,6 +55,9 @@
     <Filter Include="VPC Scripts">
       <UniqueIdentifier>{A40EE377-781A-C6B9-0C7C-B3BE118D248E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Custom VGUI%27s">
+      <UniqueIdentifier>{aa2ff908-1bf3-46fc-b96e-95f65a5e266c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\..\lib\public\bitmap.lib">
@@ -1943,6 +1946,12 @@
     <ClInclude Include="toolframework_client.h">
       <Filter>Tool Framework</Filter>
     </ClInclude>
+    <ClInclude Include="custom\spawnmenu.h">
+      <Filter>Source Files\Custom VGUI%27s</Filter>
+    </ClInclude>
+    <ClInclude Include="custom\vgui_imagebutton.h">
+      <Filter>Source Files\Custom VGUI%27s</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mp3player.cpp">
@@ -3507,6 +3516,12 @@
     </ClCompile>
     <ClCompile Include="..\shared\weapon_physgun.cpp">
       <Filter>Source Files\HL2MP\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="custom\spawnmenu.cpp">
+      <Filter>Source Files\Custom VGUI%27s</Filter>
+    </ClCompile>
+    <ClCompile Include="custom\vgui_imagebutton.cpp">
+      <Filter>Source Files\Custom VGUI%27s</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1847,11 +1847,11 @@
     <ClInclude Include="lua\lauxlib.h">
       <Filter>Source Files\Lua</Filter>
     </ClInclude>
-    <ClInclude Include="ge_luamanger.h">
-      <Filter>Source Files\Lua</Filter>
-    </ClInclude>
     <ClInclude Include="MainLuaHandle.h">
       <Filter>Source Files\Lua\Handles</Filter>
+    </ClInclude>
+    <ClInclude Include="ge_luamanger.h">
+      <Filter>Source Files\Lua</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
