@@ -79,5 +79,3 @@
   - Get the name of an entity.
 - `luaGetEntityModel(entityIndex)`
   - Get the model of an entity.
-- `luaGetEntityClassId(entityIndex)`
-  - Get the class ID of an entity.

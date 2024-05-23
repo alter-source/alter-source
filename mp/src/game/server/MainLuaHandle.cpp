@@ -272,7 +272,6 @@ LUA_FUNC(luaKillEntity, [](lua_State *L) { auto ent = UTIL_EntityByIndex(lua_toi
 LUA_FUNC(luaSetPlayerMaxSpeed, [](lua_State *L) { auto p = UTIL_PlayerByIndex(lua_tointeger(L, 1)); if (p) p->SetMaxSpeed(lua_tonumber(L, 2)); return 0; })
 LUA_FUNC(luaGetEntityName, [](lua_State *L) { auto ent = UTIL_EntityByIndex(lua_tointeger(L, 1)); lua_pushstring(L, ent ? ent->GetEntityName().ToCStr() : nullptr); return 1; })
 LUA_FUNC(luaGetEntityModel, [](lua_State *L) { auto ent = UTIL_EntityByIndex(lua_tointeger(L, 1)); lua_pushstring(L, ent ? ent->GetModelName().ToCStr() : nullptr); return 1; })
-LUA_FUNC(luaGetEntityClassId, [](lua_State *L) { auto ent = UTIL_EntityByIndex(lua_tointeger(L, 1)); lua_pushinteger(L, ent ? ent->Classify() : -1); return 1; })
 LUA_FUNC(luaGiveAmmo, [](lua_State *L) {
 	int playerIndex = lua_tointeger(L, 1);
 	const char* ammoType = lua_tostring(L, 2);
@@ -340,7 +339,6 @@ void MainLuaHandle::RegFunctions() {
 	REG_FUNCTION(SetEntityProperty);
 	REG_FUNCTION(IsPlayerNearEntity);
 	REG_FUNCTION(GetNewPlayer);
-	REG_FUNCTION(luaGetEntityClassId);
 	REG_FUNCTION(GiveAmmo);
 	REG_FUNCTION(SetPlayerHealth);
 	REG_FUNCTION(CreateCVar);
