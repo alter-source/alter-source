@@ -55,7 +55,10 @@
     <Filter Include="VPC Scripts">
       <UniqueIdentifier>{A40EE377-781A-C6B9-0C7C-B3BE118D248E}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Custom VGUI%27s">
+    <Filter Include="Source Files\Mount">
+      <UniqueIdentifier>{deac4fd6-da1a-4817-9f79-c7719144f32b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\vguis">
       <UniqueIdentifier>{aa2ff908-1bf3-46fc-b96e-95f65a5e266c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -1947,10 +1950,13 @@
       <Filter>Tool Framework</Filter>
     </ClInclude>
     <ClInclude Include="custom\spawnmenu.h">
-      <Filter>Source Files\Custom VGUI%27s</Filter>
+      <Filter>Source Files\vguis</Filter>
     </ClInclude>
     <ClInclude Include="custom\vgui_imagebutton.h">
-      <Filter>Source Files\Custom VGUI%27s</Filter>
+      <Filter>Source Files\vguis</Filter>
+    </ClInclude>
+    <ClInclude Include="gamemounts.h">
+      <Filter>Source Files\Mount</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3518,10 +3524,13 @@
       <Filter>Source Files\HL2MP\Weapons</Filter>
     </ClCompile>
     <ClCompile Include="custom\spawnmenu.cpp">
-      <Filter>Source Files\Custom VGUI%27s</Filter>
+      <Filter>Source Files\vguis</Filter>
     </ClCompile>
     <ClCompile Include="custom\vgui_imagebutton.cpp">
-      <Filter>Source Files\Custom VGUI%27s</Filter>
+      <Filter>Source Files\vguis</Filter>
+    </ClCompile>
+    <ClCompile Include="gamemounts.cpp">
+      <Filter>Source Files\Mount</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

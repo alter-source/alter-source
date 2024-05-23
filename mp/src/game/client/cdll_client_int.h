@@ -16,7 +16,6 @@
 #include "cdll_int.h"
 #include "eiface.h"
 
-
 class IVModelRender;
 class IVEngineClient;
 class IVModelRender;

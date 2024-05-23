@@ -5,6 +5,7 @@
 // $NoKeywords: $
 //===========================================================================//
 #include "cbase.h"
+#include "gamemounts.h"
 #include <crtmemdebug.h>
 #include "vgui_int.h"
 #include "clientmode.h"
@@ -862,7 +863,6 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 	InitCRTMemDebug();
 	MathLib_Init( 2.2f, 2.2f, 0.0f, 2.0f );
 
-
 #ifdef SIXENSE
 	g_pSixenseInput = new SixenseInput;
 #endif
@@ -1013,6 +1013,8 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 	IGameSystem::Add( ClientSoundscapeSystem() );
 	IGameSystem::Add( PerfVisualBenchmark() );
 	IGameSystem::Add( MumbleSystem() );
+
+	MountGamesFromConfig();
 	
 	#if defined( TF_CLIENT_DLL )
 	IGameSystem::Add( CustomTextureToolCacheGameSystem() );
