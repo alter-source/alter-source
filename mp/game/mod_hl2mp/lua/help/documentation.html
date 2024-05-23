@@ -1,175 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lua Script Interface Documentation</title>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/themes/prism-tomorrow.min.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/prism.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/components/prism-lua.min.js"></script>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
-    }
-    h1 {
-        text-align: center;
-    }
-    h2 {
-        margin-top: 20px;
-    }
-    p {
-        margin-bottom: 10px;
-    }
-    code {
-        font-family: Consolas, monospace;
-        background-color: #f4f4f4;
-        padding: 2px 5px;
-        border-radius: 3px;
-    }
-</style>
-</head>
-<body>
+  <head>
+    <meta charset="utf-8">
+    <title>Lua Interface Documentation</title>
+    <meta name="description" content="...">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .function {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 20px;
+        }
+        .function h2 {
+            margin-bottom: 5px;
+            color: #666;
+        }
+        .function p {
+            margin-bottom: 10px;
+        }
+    </style>
+  </head>
+  <body>
+	<main>
+		<h1>Lua Interface Documentation</h1>
+		<h2>Server Functions</h2>
+		<div class="function">
+			<h2>luaMsg(message)</h2>
+			<p>Prints a message to the game console.</p>
+			<p><strong>Parameters:</strong> <em>message</em> - The message to be printed.</p>
+		</div>
 
-<h1>Lua Script Interface Documentation</h1>
+		<div class="function">
+			<h2>luaConMsg(message)</h2>
+			<p>Prints a message to the console with timestamp.</p>
+			<p><strong>Parameters:</strong> <em>message</em> - The message to be printed.</p>
+		</div>
 
-<h2>Concommands</h2>
-<p><code>reload_lua</code>: Command to reload Lua scripts.</p>
+		<div class="function">
+			<h2>luaGetTime()</h2>
+			<p>Gets the current server time.</p>
+			<p><strong>Returns:</strong> The current server time.</p>
+		</div>
 
-<h2>Global Constants</h2>
-<ul>
-    <li><code>FOR_ALL_PLAYERS</code>: -1</li>
-    <li><code>INVALID_ENTITY</code>: -1</li>
-    <li><code>NULL</code>: 0</li>
-    <li><code>MAX_HEALTH</code>: 100</li>
-    <li><code>MAX_ARMOR</code>: 200</li>
-    <li><code>TEAM_ONE</code>: Combines</li>
-    <li><code>TEAM_TWO</code>: Rebels</li>
-</ul>
-<pre><code class="language-lua">-- Example in Lua:
-Msg(FOR_ALL_PLAYERS) -- Output: -1
-Msg(TEAM_ONE) -- Output: Combines
-</code></pre>
+		<div class="function">
+			<h2>luaGetCVar(cvarName)</h2>
+			<p>Gets the value of a console variable.</p>
+			<p><strong>Parameters:</strong> <em>cvarName</em> - The name of the console variable.</p>
+			<p><strong>Returns:</strong> The value of the specified console variable.</p>
+		</div>
 
-<h2>Global Variables</h2>
-<ul>
-    <li><code>GAMEMODE</code>: Value of the "as_gamemode" cvar</li>
-    <li><code>TEAMPLAY</code>: Value of the "mp_teamplay" cvar</li>
-    <li><code>COOP</code>: Value of the "coop" cvar</li>
-    <li><code>WEAPON_MELEE_SLOT</code>: Melee weapon slot</li>
-    <li><code>WEAPON_SECONDARY_SLOT</code>: Secondary weapon slot</li>
-    <li><code>WEAPON_PRIMARY_SLOT</code>: Primary weapon slot</li>
-    <li><code>WEAPON_EXPLOSIVE_SLOT</code>: Explosive weapon slot</li>
-    <li><code>WEAPON_TOOL_SLOT</code>: Tool weapon slot</li>
-    <li><code>MAX_FOV</code>: Maximum field of view</li>
-    <li><code>MAX_PLAYERS</code>: Maximum number of players</li>
-    <li><code>TEAM_NONE</code>: Team none</li>
-    <li><code>TEAM_SPECTATOR</code>: Team spectator</li>
-    <li><code>TEAM_ANY</code>: Team any</li>
-    <li><code>TEAM_INVALID</code>: Team invalid</li>
-    <li><code>HUD_PRINTNOTIFY</code>: Print notify to HUD</li>
-    <li><code>HUD_PRINTCONSOLE</code>: Print to console</li>
-    <li><code>HUD_PRINTTALK</code>: Print talk to HUD</li>
-    <li><code>HUD_PRINTCENTER</code>: Print center to HUD</li>
-</ul>
-<pre><code class="language-lua">-- Example in Lua:
-Msg(GAMEMODE) -- Output: "Sandbox"
-Msg(MAX_PLAYERS) -- Output: 32
-</code></pre>
+		<div class="function">
+			<h2>luaSetCVar(cvarName, value)</h2>
+			<p>Sets the value of a console variable.</p>
+			<p><strong>Parameters:</strong> <em>cvarName</em> - The name of the console variable.<br><em>value</em> - The value to set.</p>
+		</div>
 
-<h2>Lua Functions</h2>
-<ul>
-    <li><code>GetTime</code>: Get the current time</li>
-    <li><code>GetCVar</code>: Get the value of a ConVar</li>
-    <li><code>ExecuteConsoleCommand</code>: Execute a console command</li>
-    <li><code>Say</code>: Send a message to all players</li>
-</ul>
-<pre><code class="language-lua">-- Example in Lua:
-local currentTime = GetTime()
-Msg("Current server time: " .. currentTime)
+		<div class="function">
+			<h2>luaExecuteConsoleCommand(command)</h2>
+			<p>Executes a console command on the server.</p>
+			<p><strong>Parameters:</strong> <em>command</em> - The console command to execute.</p>
+		</div>
 
-local coopMode = GetCVar("coop")
-Msg("Coop is " .. coopMode)
+		<div class="function">
+			<h2>luaSay(message1, message2, ...)</h2>
+			<p>Sends a message to all players.</p>
+			<p><strong>Parameters:</strong> <em>message1, message2, ...</em> - Messages to be sent. Multiple messages can be provided.</p>
+		</div>
 
-ExecuteConsoleCommand("mp_restartgame 1")
+		<div class="function">
+			<h2>luaLoadFile(filePath)</h2>
+			<p>Loads and executes a Lua script file.</p>
+			<p><strong>Parameters:</strong> <em>filePath</em> - The path to the Lua script file.</p>
+		</div>
+		
+		<h2>Player Functions</h2>
+		
+		<div class="function">
+			<h2>luaGetPlayerName(playerIndex)</h2>
+			<p>Gets the name of the player with the specified index.</p>
+			<p><strong>Parameters:</strong> <em>playerIndex</em> - The index of the player.</p>
+			<p><strong>Returns:</strong> The name of the player.</p>
+		</div>
 
-Say("Hello, players!")
-</code></pre>
+		<div class="function">
+			<h2>luaGetPlayerHealth(playerIndex)</h2>
+			<p>Gets the health of the player with the specified index.</p>
+			<p><strong>Parameters:</strong> <em>playerIndex</em> - The index of the player.</p>
+			<p><strong>Returns:</strong> The health of the player.</p>
+		</div>
 
-<h2>Player Functions</h2>
-<ul>
-    <li><code>GetPlayerName</code>: Get the name of a player by index</li>
-    <li><code>GetPlayerHealth</code>: Get the health of a player by index</li>
-    <li><code>HandlePlayerInput</code>: Handle player input</li>
-    <li><code>GetPlayerPosition</code>: Get the position of a player by index</li>
-    <li><code>GetPlayerCount</code>: Get the number of players</li>
-    <li><code>GetPlayerTeam</code>: Get the team of a player by index</li>
-    <li><code>GetPlayerMaxSpeed</code>: Get the max speed of a player by index</li>
-    <li><code>GiveItem</code>: Give an item to a player</li>
-	<li><code>KillPlayer</code>: Kills a player</li>
-</ul>
-<pre><code class="language-lua">-- Example in Lua:
-local playerName = GetPlayerName(1)
-Msg("Player 1's name is " .. playerName)
+		<div class="function">
+			<h2>luaGetPlayerPosition(playerIndex)</h2>
+			<p>Gets the position of the player with the specified index.</p>
+			<p><strong>Parameters:</strong> <em>playerIndex</em> - The index of the player.</p>
+			<p><strong>Returns:</strong> Three values representing x, y, and z coordinates of the player's position.</p>
+		</div>
 
-local playerHealth = GetPlayerHealth(1)
-Msg("Player 1's health is " .. playerHealth)
+		<div class="function">
+			<h2>luaHandlePlayerInput(playerIndex, input)</h2>
+			<p>Handles player input, such as performing actions like jumping.</p>
+			<p><strong>Parameters:</strong> <em>playerIndex</em> - The index of the player.<br><em>input</em> - The input to handle (e.g., "jump").</p>
+			<p><strong>Returns:</strong> True if the player exists, false otherwise.</p>
+		</div>
+		
+		<div class="function">
+			<h2>luaGetPlayerCount()</h2>
+			<p>Gets the total number of players in the game.</p>
+			<p><strong>Returns:</strong> The total number of players.</p>
+		</div>
 
-local success = HandlePlayerInput(1, "jump")
-Msg("Player 1 jumped: " .. tostring(success))
+		<div class="function">
+			<h2>luaGetPlayerTeam(playerIndex)</h2>
+			<p>Gets the team number of the player with the specified index.</p>
+			<p><strong>Parameters:</strong> <em>playerIndex</em> - The index of the player.</p>
+			<p><strong>Returns:</strong> The team number of the player.</p>
+		</div>
 
-local x, y, z = GetPlayerPosition(1)
-Msg("Player 1's position is (" .. x .. ", " .. y .. ", " .. z .. ")")
+		<div class="function">
+			<h2>luaGetPlayerMaxSpeed(playerIndex)</h2>
+			<p>Gets the maximum speed of the player with the specified index.</p>
+			<p><strong>Parameters:</strong> <em>playerIndex</em> - The index of the player.</p>
+			<p><strong>Returns:</strong> The maximum speed of the player.</p>
+		</div>
 
-local playerCount = GetPlayerCount()
-Msg("Number of players: " .. playerCount)
+		<div class="function">
+			<h2>luaGiveItem(playerIndex, itemName)</h2>
+			<p>Gives an item to the player with the specified index.</p>
+			<p><strong>Parameters:</strong> <em>playerIndex</em> - The index of the player.<br><em>itemName</em> - The name of the item to give.</p>
+		</div>
 
-local playerTeam = GetPlayerTeam(1)
-Msg("Player 1's team is " .. playerTeam)
+		<div class="function">
+			<h2>luaIsPlayerValid(playerIndex)</h2>
+			<p>Checks if the player with the specified index is valid.</p>
+			<p><strong>Parameters:</strong> <em>playerIndex</em> - The index of the player.</p>
+			<p><strong>Returns:</strong> True if the player is valid, false otherwise.</p>
+		</div>
 
-local playerMaxSpeed = GetPlayerMaxSpeed(1)
-Msg("Player 1's max speed is " .. playerMaxSpeed)
+		<div class="function">
+			<h2>luaGetPlayerArmor(playerIndex)</h2>
+			<p>Gets the armor value of the player with the specified index.</p>
+			<p><strong>Parameters:</strong> <em>playerIndex</em> - The index of the player.</p>
+			<p><strong>Returns:</strong> The armor value of the player.</p>
+		</div>
 
-GiveItem(1, "weapon_crowbar")
-Msg("Player 1 received a crowbar")
+		<div class="function">
+			<h2>luaIsPlayerAlive(playerIndex)</h2>
+			<p>Checks if the player with the specified index is alive.</p>
+			<p><strong>Parameters:</strong> <em>playerIndex</em> - The index of the player.</p>
+			<p><strong>Returns:</strong> True if the player is alive, false otherwise.</p>
+		</div>
 
-KillPlayer(1)
-Msg("POW! You are dead! Not big surprise.")
-</code></pre>
+		<div class="function">
+			<h2>luaKillPlayer(playerIndex)</h2>
+			<p>Kills the player with the specified index.</p>
+			<p><strong>Parameters:</strong> <em>playerIndex</em> - The index of the player.</p>
+		</div>
 
-<h2>Entity Functions</h2>
-<ul>
-    <li><code>GetEntityPosition</code>: Get the position of an entity by index</li>
-    <li><code>SpawnEntity</code>: Spawn an entity</li>
-</ul>
-<pre><code class="language-lua">-- Example in Lua:
-local x, y, z = GetEntityPosition(1)
-Msg("Entity 1's position is (" .. x .. ", " .. y .. ", " .. z .. ")")
+		<div class="function">
+			<h2>luaSetPlayerArmor(playerIndex, armorValue)</h2>
+			<p>Sets the armor value of the player with the specified index.</p>
+			<p><strong>Parameters:</strong> <em>playerIndex</em> - The index of the player.<br><em>armorValue</em> - The armor value to set.</p>
+		</div>
+		
+		<h2>Entity Functions</h2>
+		
+		<div class="function">
+			<h2>luaGetEntityPosition(entityIndex)</h2>
+			<p>Gets the position of the entity with the specified index.</p>
+			<p><strong>Parameters:</strong> <em>entityIndex</em> - The index of the entity.</p>
+			<p><strong>Returns:</strong> Three values representing x, y, and z coordinates of the entity's position.</p>
+		</div>
 
--- Example to spawn an entity (assuming SpawnEntity function is implemented)
-SpawnEntity("npc_citizen", x, y, z)
-Msg("Spawned npc_citizen at (" .. x .. ", " .. y .. ", " .. z .. ")")
-</code></pre>
+		<div class="function">
+			<h2>luaGetEntityClassname(entityIndex)</h2>
+			<p>Gets the classname of the entity with the specified index.</p>
+			<p><strong>Parameters:</strong> <em>entityIndex</em> - The index of the entity.</p>
+			<p><strong>Returns:</strong> The classname of the entity.</p>
+		</div>
 
-<h2>Server Functions</h2>
-<ul>
-    <li><code>ExecuteConsoleCommand</code>: Execute a console command on the server</li>
-    <li><code>SetCVar</code>: Set the value of a ConVar</li>
-    <li><code>Msg</code>: Print a message to console</li>
-    <li><code>ConMsg</code>: Print a message to console and log</li>
-    <li><code>LoadFile</code>: Loads a Lua file.</li>
-</ul>
-<pre><code class="language-lua">-- Example in Lua:
-ExecuteConsoleCommand("sv_cheats 1")
+		<div class="function">
+			<h2>luaSpawnEntity(classname, x, y, z)</h2>
+			<p>Spawns an entity with the specified classname and position.</p>
+			<p><strong>Parameters:</strong> <em>classname</em> - The classname of the entity to spawn.<br><em>x, y, z</em> - The coordinates of the entity's position.</p>
+		</div>
 
-SetCVar("mp_friendlyfire", "1")
+		<div class="function">
+			<h2>luaTeleportPlayer(playerIndex, x, y, z)</h2>
+			<p>Teleports the player with the specified index to the given position.</p>
+			<p><strong>Parameters:</strong> <em>playerIndex</em> - The index of the player to teleport.<br><em>x, y, z</em> - The coordinates of the destination position.</p>
+		</div>
+		
+		<div class="function">
+			<h2>luaSetEntityProperty(entityIndex, property, value)</h2>
+			<p>Sets a property of the entity with the specified index.</p>
+			<p><strong>Parameters:</strong> <em>entityIndex</em> - The index of the entity.<br><em>property</em> - The property to set.<br><em>value</em> - The value to set the property to.</p>
+		</div>
 
-Msg("This is a message to the console")
+		<div class="function">
+			<h2>luaIsPlayerNearEntity(playerIndex, entityIndex, radius)</h2>
+			<p>Checks if the player with the specified index is near the entity with the specified index within the given radius.</p>
+			<p><strong>Parameters:</strong> <em>playerIndex</em> - The index of the player.<br><em>entityIndex</em> - The index of the entity.<br><em>radius</em> - The radius to check within.</p>
+			<p><strong>Returns:</strong> True if the player is near the entity, false otherwise.</p>
+		</div>
 
-ConMsg("This is a message to the console and log")
+		<div class="function">
+			<h2>luaGetEntityVelocity(entityIndex)</h2>
+			<p>Gets the velocity of the entity with the specified index.</p>
+			<p><strong>Parameters:</strong> <em>entityIndex</em> - The index of the entity.</p>
+			<p><strong>Returns:</strong> Three values representing the x, y, and z components of the entity's velocity.</p>
+		</div>
 
-LoadFile("lua/script.lua")
-</code></pre>
+		<div class="function">
+			<h2>luaKillEntity(entityIndex)</h2>
+			<p>Destroys the entity with the specified index.</p>
+			<p><strong>Parameters:</strong> <em>entityIndex</em> - The index of the entity to destroy.</p>
+		</div>
 
-</body>
+		<div class="function">
+			<h2>luaSetPlayerMaxSpeed(playerIndex, speed)</h2>
+			<p>Sets the maximum speed of the player with the specified index.</p>
+			<p><strong>Parameters:</strong> <em>playerIndex</em> - The index of the player.<br><em>speed</em> - The maximum speed to set.</p>
+		</div>
+
+		<div class="function">
+			<h2>luaGetEntityName(entityIndex)</h2>
+			<p>Gets the name of the entity with the specified index.</p>
+			<p><strong>Parameters:</strong> <em>entityIndex</em> - The index of the entity.</p>
+			<p><strong>Returns:</strong> The name of the entity.</p>
+		</div>
+
+		<div class="function">
+			<h2>luaGetEntityModel(entityIndex)</h2>
+			<p>Gets the model name of the entity with the specified index.</p>
+			<p><strong>Parameters:</strong> <em>entityIndex</em> - The index of the entity.</p>
+			<p><strong>Returns:</strong> The model name of the entity.</p>
+		</div>
+
+		<div class="function">
+			<h2>luaGetEntityClassId(entityIndex)</h2>
+			<p>Gets the class ID of the entity with the specified index.</p>
+			<p><strong>Parameters:</strong> <em>entityIndex</em> - The index of the entity.</p>
+			<p><strong>Returns:</strong> The class ID of the entity.</p>
+		</div>
+	</main>
+  </body>
 </html>

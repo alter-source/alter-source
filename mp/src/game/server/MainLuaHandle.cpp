@@ -9,8 +9,8 @@
 #include "hl2mp_player.h"
 
 void CC_ReloadLua(const CCommand& args) {
-	if (GetLuaHandle()) {
-		GetLuaHandle()->Init();
+	if (auto handle = GetLuaHandle()) {
+		handle->Init();
 	}
 	else {
 		ConMsg("Lua handle not available.\n");
@@ -19,12 +19,7 @@ void CC_ReloadLua(const CCommand& args) {
 static ConCommand reload_lua("reload_lua", CC_ReloadLua, "Reload Lua scripts.", FCVAR_NONE);
 
 void MainLuaHandle::Init() {
-	const char* luaFolder = "lua/";
-	const char* luaFile = "main.lua";
-	char fullPath[MAX_PATH];
-
-	Q_snprintf(fullPath, sizeof(fullPath), "%s%s", luaFolder, luaFile);
-
+	const char* fullPath = "lua/main.lua";
 	FileHandle_t f = filesystem->Open(fullPath, "rb", "MOD");
 	if (!f) {
 		Warning("[LUA-ERR] Failed to open %s\n", fullPath);
@@ -32,26 +27,21 @@ void MainLuaHandle::Init() {
 	}
 
 	int fileSize = filesystem->Size(f);
-	unsigned bufSize = ((IFileSystem *)filesystem)->GetOptimalReadSize(f, fileSize + 1);
-
-	char *buffer = (char*)((IFileSystem *)filesystem)->AllocOptimalReadBuffer(f, bufSize);
+	char *buffer = (char*)((IFileSystem *)filesystem)->AllocOptimalReadBuffer(f, fileSize + 1);
 	Assert(buffer);
 
-	((IFileSystem *)filesystem)->ReadEx(buffer, bufSize, fileSize, f);
+	((IFileSystem *)filesystem)->ReadEx(buffer, fileSize + 1, fileSize, f);
 	buffer[fileSize] = '\0';
 	filesystem->Close(f);
 
-	int error = luaL_loadbuffer(GetLua(), buffer, fileSize, fullPath);
-	if (error) {
+	if (luaL_loadbuffer(GetLua(), buffer, fileSize, fullPath)) {
 		Warning("[LUA-ERR] %s\n", lua_tostring(GetLua(), -1));
 		lua_pop(GetLua(), 1);
-		Warning("[LUA-ERR] One or more errors occurred while loading Lua script!\n");
 		((IFileSystem *)filesystem)->FreeOptimalReadBuffer(buffer);
 		return;
 	}
 	CallLUA(GetLua(), 0, LUA_MULTRET, 0, fullPath);
 	m_bLuaLoaded = true;
-
 	((IFileSystem *)filesystem)->FreeOptimalReadBuffer(buffer);
 }
 
@@ -93,233 +83,129 @@ void MainLuaHandle::Shutdown() {
 		Warning("[LUA-INFO] Lua not loaded, nothing to shutdown.\n");
 		return;
 	}
-
 	m_bLuaLoaded = false;
-
 	ConMsg("[LUA-INFO] Lua shutdown successfully.\n");
 }
 
-int luaMsg(lua_State *L) {
-	Msg("%s\n", lua_tostring(L, 1));
-	return 0;
-}
+#define LUA_FUNC(name, func) int name(lua_State *L) { return func(L); }
 
-int luaConMsg(lua_State *L) {
-	ConMsg("%s\n", lua_tostring(L, 1));
-	return 0;
-}
+#pragma warning(disable: 4238)
+#pragma warning(disable: 4800)
 
-int luaGetTime(lua_State *L) {
-	lua_pushnumber(L, gpGlobals->curtime);
-	return 1;
-}
+// server stuff
+LUA_FUNC(luaMsg, [](lua_State *L) { Msg("%s\n", lua_tostring(L, 1)); return 0; })
+LUA_FUNC(luaConMsg, [](lua_State *L) { ConMsg("%s\n", lua_tostring(L, 1)); return 0; })
+LUA_FUNC(luaGetTime, [](lua_State *L) { lua_pushnumber(L, gpGlobals->curtime); return 1; })
+LUA_FUNC(luaGetCVar, [](lua_State *L) { lua_pushstring(L, cvar->FindVar(lua_tostring(L, 1))->GetString()); return 1; })
+LUA_FUNC(luaSetCVar, [](lua_State *L) { cvar->FindVar(lua_tostring(L, 1))->SetValue(lua_tostring(L, 2)); return 0; })
+LUA_FUNC(luaExecuteConsoleCommand, [](lua_State *L) { engine->ServerCommand(lua_tostring(L, 1)); engine->ServerExecute(); return 0; })
+LUA_FUNC(luaSay, [](lua_State *L) { std::string msg; for (int i = 1, n = lua_gettop(L); i <= n; ++i) msg += lua_tostring(L, i) + std::string(i < n ? " " : ""); UTIL_ClientPrintAll(HUD_PRINTTALK, msg.c_str()); return 0; })
+LUA_FUNC(luaLoadFile, [](lua_State *L) { const char* path = lua_tostring(L, 1); if (!path) { Warning("[LUA-ERR] Invalid file path.\n"); return 0; } FileHandle_t f = filesystem->Open(path, "rb", "MOD"); if (!f) { Warning("[LUA-ERR] Failed to open %s\n", path); return 0; } int size = filesystem->Size(f); char* buffer = (char*)((IFileSystem*)filesystem)->AllocOptimalReadBuffer(f, size + 1); Assert(buffer); ((IFileSystem*)filesystem)->ReadEx(buffer, size + 1, size, f); buffer[size] = '\0'; filesystem->Close(f); if (luaL_loadbuffer(L, buffer, size, path)) { Warning("[LUA-ERR] %s\n", lua_tostring(L, -1)); lua_pop(L, 1); ((IFileSystem*)filesystem)->FreeOptimalReadBuffer(buffer); return 0; } lua_pcall(L, 0, LUA_MULTRET, 0); ((IFileSystem*)filesystem)->FreeOptimalReadBuffer(buffer); return 0; })
 
-int luaGetCVar(lua_State *L) {
-	const char* cvarName = lua_tostring(L, 1);
-	ConVar* cvare = cvar->FindVar(cvarName);
-	lua_pushstring(L, cvare ? cvare->GetString() : nullptr);
-	return 1;
-}
+// player stuff
+LUA_FUNC(luaGetPlayerName, [](lua_State *L) { auto p = UTIL_PlayerByIndex(lua_tointeger(L, 1)); lua_pushstring(L, p ? p->GetPlayerName() : nullptr); return 1; })
+LUA_FUNC(luaGetPlayerHealth, [](lua_State *L) { auto p = UTIL_PlayerByIndex(lua_tointeger(L, 1)); lua_pushinteger(L, p ? p->GetHealth() : -1); return 1; })
+LUA_FUNC(luaGetPlayerPosition, [](lua_State *L) { auto p = UTIL_PlayerByIndex(lua_tointeger(L, 1)); if (p) { auto pos = p->GetAbsOrigin(); lua_pushnumber(L, pos.x); lua_pushnumber(L, pos.y); lua_pushnumber(L, pos.z); } else { lua_pushnil(L); lua_pushnil(L); lua_pushnil(L); } return 3; })
+LUA_FUNC(luaHandlePlayerInput, [](lua_State *L) { auto p = UTIL_PlayerByIndex(lua_tointeger(L, 1)); if (p && strcmp(lua_tostring(L, 2), "jump") == 0) p->Jump(); lua_pushboolean(L, p != nullptr); return 1; })
+LUA_FUNC(luaGetPlayerCount, [](lua_State *L) { lua_pushinteger(L, gpGlobals->maxClients); return 1; })
+LUA_FUNC(luaGetPlayerTeam, [](lua_State *L) { auto p = UTIL_PlayerByIndex(lua_tointeger(L, 1)); lua_pushinteger(L, p ? p->GetTeamNumber() : -1); return 1; })
+LUA_FUNC(luaGetPlayerMaxSpeed, [](lua_State *L) { auto p = UTIL_PlayerByIndex(lua_tointeger(L, 1)); lua_pushinteger(L, p ? p->GetPlayerMaxSpeed() : -1); return 1; })
+LUA_FUNC(luaGiveItem, [](lua_State *L) { auto p = UTIL_PlayerByIndex(lua_tointeger(L, 1)); if (p) p->GiveNamedItem(lua_tostring(L, 2)); return 0; })
+LUA_FUNC(luaIsPlayerValid, [](lua_State *L) { lua_pushboolean(L, UTIL_PlayerByIndex(lua_tointeger(L, 1)) != nullptr); return 1; })
+LUA_FUNC(luaGetPlayerArmor, [](lua_State *L) { auto p = UTIL_PlayerByIndex(lua_tointeger(L, 1)); lua_pushinteger(L, p ? p->ArmorValue() : -1); return 1; })
+LUA_FUNC(luaIsPlayerAlive, [](lua_State *L) { auto p = UTIL_PlayerByIndex(lua_tointeger(L, 1)); lua_pushboolean(L, p && p->IsAlive()); return 1; })
+LUA_FUNC(luaKillPlayer, [](lua_State *L) { auto p = UTIL_PlayerByIndex(lua_tointeger(L, 1)); if (p) p->TakeDamage(CTakeDamageInfo(p, p, p->GetHealth() + p->ArmorValue(), DMG_GENERIC)); return 0; })
+LUA_FUNC(luaSetPlayerArmor, [](lua_State *L) { auto p = UTIL_PlayerByIndex(lua_tointeger(L, 1)); if (p) p->SetArmorValue(lua_tointeger(L, 2)); return 0; })
 
-int luaSetCVar(lua_State *L) {
-	const char* cvarName = lua_tostring(L, 1);
-	const char* cvarValue = lua_tostring(L, 2);
-	ConVar* cvare = cvar->FindVar(cvarName);
-	if (cvare)
-		cvare->SetValue(cvarValue);
-	return 0;
-}
-
-int luaExecuteConsoleCommand(lua_State *L) {
-	const char* command = lua_tostring(L, 1);
-	if (command) {
-		engine->ServerCommand(command);
-		engine->ServerExecute();
+// entity stuff
+LUA_FUNC(luaGetEntityPosition, [](lua_State *L) { auto p = UTIL_EntityByIndex(lua_tointeger(L, 1)); if (p) { auto pos = p->GetAbsOrigin(); lua_pushnumber(L, pos.x); lua_pushnumber(L, pos.y); lua_pushnumber(L, pos.z); } else { lua_pushnil(L); lua_pushnil(L); lua_pushnil(L); } return 3; })
+LUA_FUNC(luaGetEntityClassname, [](lua_State *L) { auto p = UTIL_EntityByIndex(lua_tointeger(L, 1)); lua_pushstring(L, p ? p->GetClassname() : nullptr); return 1; })
+LUA_FUNC(luaSpawnEntity, [](lua_State *L) { const char* classname = lua_tostring(L, 1);
+	float x = lua_tonumber(L, 2);
+	float y = lua_tonumber(L, 3);
+	float z = lua_tonumber(L, 4);
+	auto ent = (CBaseEntity*)CreateEntityByName(classname);
+	if (ent) {
+		ent->SetAbsOrigin(Vector(x, y, z));
+		DispatchSpawn(ent);
 	}
 	return 0;
-}
-
-int luaGetPlayerName(lua_State *L) {
-	int playerIndex = lua_tointeger(L, 1);
-	CBasePlayer *pPlayer = UTIL_PlayerByIndex(playerIndex);
-	lua_pushstring(L, pPlayer ? pPlayer->GetPlayerName() : nullptr);
-	return 1;
-}
-
-int luaGetPlayerHealth(lua_State *L) {
-	int playerIndex = lua_tointeger(L, 1);
-	CBasePlayer *pPlayer = UTIL_PlayerByIndex(playerIndex);
-	lua_pushinteger(L, pPlayer ? pPlayer->GetHealth() : -1);
-	return 1;
-}
-
-int luaGetPlayerPosition(lua_State *L) {
-	int playerIndex = lua_tointeger(L, 1);
-	CBasePlayer *pPlayer = UTIL_PlayerByIndex(playerIndex);
-	if (pPlayer) {
-		Vector position = pPlayer->GetAbsOrigin();
-		lua_pushnumber(L, position.x);
-		lua_pushnumber(L, position.y);
-		lua_pushnumber(L, position.z);
+})
+LUA_FUNC(luaTeleportPlayer, [](lua_State *L) { auto p = UTIL_PlayerByIndex(lua_tointeger(L, 1));
+	if (p) {
+		float x = lua_tonumber(L, 2);
+		float y = lua_tonumber(L, 3);
+		float z = lua_tonumber(L, 4);
+		p->Teleport(&Vector(x, y, z), nullptr, nullptr);
 	}
-	else {
-		lua_pushnil(L);
-		lua_pushnil(L);
-		lua_pushnil(L);
+	return 0;
+})
+LUA_FUNC(luaSetEntityProperty, [](lua_State *L) {
+	auto ent = UTIL_EntityByIndex(lua_tointeger(L, 1));
+	const char* prop = lua_tostring(L, 2);
+	if (ent && prop) {
+		if (strcmp(prop, "health") == 0) {
+			ent->SetHealth(lua_tointeger(L, 3));
+		}
+		else if (strcmp(prop, "position") == 0) {
+			float x = lua_tonumber(L, 3);
+			float y = lua_tonumber(L, 4);
+			float z = lua_tonumber(L, 5);
+			ent->SetAbsOrigin(Vector(x, y, z));
+		}
+		else if (strcmp(prop, "velocity") == 0) {
+			float vx = lua_tonumber(L, 3);
+			float vy = lua_tonumber(L, 4);
+			float vz = lua_tonumber(L, 5);
+			ent->SetAbsVelocity(Vector(vx, vy, vz));
+		}
+		else if (strcmp(prop, "name") == 0) {
+			ent->SetName(AllocPooledString(lua_tostring(L, 3)));
+		}
+		else if (strcmp(prop, "angles") == 0) {
+			float pitch = lua_tonumber(L, 3);
+			float yaw = lua_tonumber(L, 4);
+			float roll = lua_tonumber(L, 5);
+			QAngle angles(pitch, yaw, roll);
+			ent->SetAbsAngles(angles);
+		}
+		else if (strcmp(prop, "model") == 0) {
+			const char* modelName = lua_tostring(L, 3);
+			ent->SetModel(modelName);
+		}
+		else if (strcmp(prop, "solid") == 0) {
+			bool solid = lua_toboolean(L, 3);
+			ent->SetSolid(solid ? SOLID_VPHYSICS : SOLID_NONE);
+		}
+		else if (strcmp(prop, "color") == 0) {
+			int r = lua_tointeger(L, 3);
+			int b = lua_tointeger(L, 4);
+			int g = lua_tointeger(L, 5);
+			int a = lua_tointeger(L, 6);
+			ent->SetRenderColor(r, g, b, a);
+		}
 	}
-	return 3;
-}
-
-int luaHandlePlayerInput(lua_State *L) {
-	int playerIndex = lua_tointeger(L, 1);
-	const char *input = lua_tostring(L, 2);
-	CBasePlayer *pPlayer = UTIL_PlayerByIndex(playerIndex);
-	if (pPlayer && input) {
-		if (strcmp(input, "jump") == 0)
-			pPlayer->Jump();
-		lua_pushboolean(L, true);
+	return 0;
+})
+LUA_FUNC(luaIsPlayerNearEntity, [](lua_State *L) { auto player = UTIL_PlayerByIndex(lua_tointeger(L, 1));
+	auto ent = UTIL_EntityByIndex(lua_tointeger(L, 2));
+	float radius = lua_tonumber(L, 3);
+	if (player && ent) {
+		float distance = (player->GetAbsOrigin() - ent->GetAbsOrigin()).Length();
+		lua_pushboolean(L, distance <= radius);
 	}
 	else {
 		lua_pushboolean(L, false);
 	}
 	return 1;
-}
+})
 
-int luaSay(lua_State *L) {
-	int n = lua_gettop(L);
-	if (n < 1) {
-		luaL_error(L, "luaSay expects at least 1 argument");
-		return 0;
-	}
-	std::string message;
-	for (int i = 1; i <= n; ++i) {
-		message += lua_tostring(L, i);
-		if (i < n) message += " ";
-	}
-	UTIL_ClientPrintAll(HUD_PRINTTALK, message.c_str());
-	return 0;
-}
-
-int luaGetEntityPosition(lua_State *L) {
-	int entityIndex = lua_tointeger(L, 1);
-	CBaseEntity *pEntity = UTIL_EntityByIndex(entityIndex);
-	if (pEntity) {
-		Vector position = pEntity->GetAbsOrigin();
-		lua_pushnumber(L, position.x);
-		lua_pushnumber(L, position.y);
-		lua_pushnumber(L, position.z);
-	}
-	else {
-		lua_pushnil(L);
-		lua_pushnil(L);
-		lua_pushnil(L);
-	}
-	return 3;
-}
-
-
-int luaGetPlayerCount(lua_State *L) {
-	lua_pushinteger(L, gpGlobals->maxClients);
-	return 1;
-}
-
-int luaGetPlayerTeam(lua_State *L) {
-	int playerIndex = lua_tointeger(L, 1);
-	CBasePlayer *pPlayer = UTIL_PlayerByIndex(playerIndex);
-	lua_pushinteger(L, pPlayer ? pPlayer->GetTeamNumber() : -1);
-	return 1;
-}
-
-int luaGetPlayerMaxSpeed(lua_State *L) {
-	int playerIndex = lua_tointeger(L, 1);
-	CBasePlayer *pPlayer = UTIL_PlayerByIndex(playerIndex);
-	lua_pushinteger(L, pPlayer ? pPlayer->GetPlayerMaxSpeed() : -1);
-	return 1;
-}
-
-int luaGiveItem(lua_State *L) {
-	int playerIndex = lua_tointeger(L, 1);
-	const char *itemName = lua_tostring(L, 2);
-	CBasePlayer *pPlayer = UTIL_PlayerByIndex(playerIndex);
-	if (pPlayer && itemName) {
-		pPlayer->GiveNamedItem(itemName);
-	}
-	return 0;
-}
-
-int luaIsPlayerValid(lua_State *L) {
-	int playerIndex = lua_tointeger(L, 1);
-	lua_pushboolean(L, UTIL_PlayerByIndex(playerIndex) != NULL);
-	return 1;
-}
-
-int luaGetPlayerArmor(lua_State *L) {
-	int playerIndex = lua_tointeger(L, 1);
-	CBasePlayer *pPlayer = UTIL_PlayerByIndex(playerIndex);
-	lua_pushinteger(L, pPlayer ? pPlayer->ArmorValue() : -1);
-	return 1;
-}
-
-int luaIsPlayerAlive(lua_State *L) {
-	int playerIndex = lua_tointeger(L, 1);
-	CBasePlayer *pPlayer = UTIL_PlayerByIndex(playerIndex);
-	lua_pushboolean(L, pPlayer && pPlayer->IsAlive());
-	return 1;
-}
-
-int luaGetEntityClassname(lua_State *L) {
-	int entityIndex = lua_tointeger(L, 1);
-	CBaseEntity *pEntity = UTIL_EntityByIndex(entityIndex);
-	lua_pushstring(L, pEntity ? pEntity->GetClassname() : nullptr);
-	return 1;
-}
-
-int luaLoadFile(lua_State *L) {
-	const char* customFile = lua_tostring(L, 1);
-
-	if (!customFile) {
-		Warning("[LUA-ERR] Invalid file path.\n");
-		return 0;
-	}
-
-	FileHandle_t f = filesystem->Open(customFile, "rb", "MOD");
-	if (!f) {
-		Warning("[LUA-ERR] Failed to open %s\n", customFile);
-		return 0;
-	}
-
-	int fileSize = filesystem->Size(f);
-	unsigned bufSize = ((IFileSystem *)filesystem)->GetOptimalReadSize(f, fileSize + 1);
-
-	char *buffer = (char*)((IFileSystem *)filesystem)->AllocOptimalReadBuffer(f, bufSize);
-	Assert(buffer);
-
-	((IFileSystem *)filesystem)->ReadEx(buffer, bufSize, fileSize, f);
-	buffer[fileSize] = '\0';
-	filesystem->Close(f);
-
-	int error = luaL_loadbuffer(L, buffer, fileSize, customFile);
-	if (error) {
-		Warning("[LUA-ERR] %s\n", lua_tostring(L, -1));
-		lua_pop(L, 1);
-		Warning("[LUA-ERR] One or more errors occurred while loading Lua script!\n");
-		((IFileSystem *)filesystem)->FreeOptimalReadBuffer(buffer);
-		return 0;
-	}
-	lua_pcall(L, 0, LUA_MULTRET, 0);
-
-	((IFileSystem *)filesystem)->FreeOptimalReadBuffer(buffer);
-	return 0;
-}
-
-int luaKillPlayer(lua_State *L) {
-	int playerIndex = lua_tointeger(L, 1);
-	CBasePlayer *pPlayer = UTIL_PlayerByIndex(playerIndex);
-	if (pPlayer) {
-		pPlayer->TakeDamage(CTakeDamageInfo(pPlayer, pPlayer, pPlayer->GetHealth() + pPlayer->ArmorValue(), DMG_GENERIC));
-	}
-	return 0;
-}
+LUA_FUNC(luaGetEntityVelocity, [](lua_State *L) { auto ent = UTIL_EntityByIndex(lua_tointeger(L, 1)); if (ent) { const auto& velocity = ent->GetAbsVelocity(); lua_pushnumber(L, velocity.x); lua_pushnumber(L, velocity.y); lua_pushnumber(L, velocity.z); } else { lua_pushnil(L); lua_pushnil(L); lua_pushnil(L); } return 3; })
+LUA_FUNC(luaKillEntity, [](lua_State *L) { auto ent = UTIL_EntityByIndex(lua_tointeger(L, 1)); if (ent) UTIL_Remove(ent); return 0; })
+LUA_FUNC(luaSetPlayerMaxSpeed, [](lua_State *L) { auto p = UTIL_PlayerByIndex(lua_tointeger(L, 1)); if (p) p->SetMaxSpeed(lua_tonumber(L, 2)); return 0; })
+LUA_FUNC(luaGetEntityName, [](lua_State *L) { auto ent = UTIL_EntityByIndex(lua_tointeger(L, 1)); lua_pushstring(L, ent ? ent->GetEntityName().ToCStr() : nullptr); return 1; })
+LUA_FUNC(luaGetEntityModel, [](lua_State *L) { auto ent = UTIL_EntityByIndex(lua_tointeger(L, 1)); lua_pushstring(L, ent ? ent->GetModelName().ToCStr() : nullptr); return 1; })
+LUA_FUNC(luaGetEntityClassId, [](lua_State *L) { auto ent = UTIL_EntityByIndex(lua_tointeger(L, 1)); lua_pushinteger(L, ent ? ent->Classify() : -1); return 1; })
 
 void MainLuaHandle::RegFunctions() {
 	REG_FUNCTION(Msg);
@@ -328,24 +214,25 @@ void MainLuaHandle::RegFunctions() {
 	REG_FUNCTION(GetCVar);
 	REG_FUNCTION(SetCVar);
 	REG_FUNCTION(ExecuteConsoleCommand);
-
 	REG_FUNCTION(GetPlayerName);
 	REG_FUNCTION(GetPlayerHealth);
 	REG_FUNCTION(GetPlayerPosition);
 	REG_FUNCTION(HandlePlayerInput);
 	REG_FUNCTION(Say);
-
 	REG_FUNCTION(GetPlayerCount);
 	REG_FUNCTION(GetPlayerTeam);
 	REG_FUNCTION(GetPlayerMaxSpeed);
 	REG_FUNCTION(GiveItem);
 	REG_FUNCTION(IsPlayerValid);
-
 	REG_FUNCTION(GetPlayerArmor);
 	REG_FUNCTION(IsPlayerAlive);
 	REG_FUNCTION(GetEntityClassname);
 	REG_FUNCTION(LoadFile);
 	REG_FUNCTION(KillPlayer);
+	REG_FUNCTION(SpawnEntity);
+	REG_FUNCTION(TeleportPlayer);
+	REG_FUNCTION(SetEntityProperty);
+	REG_FUNCTION(IsPlayerNearEntity);
 }
 
 LuaHandle* g_LuaHandle = NULL;
