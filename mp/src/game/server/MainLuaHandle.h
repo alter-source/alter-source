@@ -29,6 +29,8 @@ private:
 	bool m_bLuaLoaded = false;
 };
 
+void LoadLua(const char* filePath);
+
 LuaHandle* GetLuaHandle();
 
 #endif // MAINLUAHANDLE_H

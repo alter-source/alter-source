@@ -1,8 +1,8 @@
 "GameInfo"
 {
-	game	"My First HL2MP Mod"
-	title	"HALF+LIFE'"
-	title2	"deathmatch mod"
+	game	"Alter Source"
+	title	"Alter"
+	title2	"Source"
 	type multiplayer_only
 	nomodels 0
 	nohimodel 1
@@ -12,7 +12,7 @@
 		"test_speakers"		1
 		"test_hardware"		1
 	}
-	supportsvr	1
+	supportsvr	0
 
 
 	FileSystem

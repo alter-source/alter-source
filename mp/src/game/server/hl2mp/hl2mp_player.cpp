@@ -20,6 +20,7 @@
 #include "grenade_satchel.h"
 #include "eventqueue.h"
 #include "gamestats.h"
+#include "MainLuaHandle.h"
 
 #include "engine/IEngineSound.h"
 #include "SoundEmitterSystem/isoundemittersystembase.h"
@@ -225,6 +226,9 @@ void CHL2MP_Player::GiveAllItems( void )
 
 	GiveNamedItem( "weapon_physcannon" );
 	GiveNamedItem("weapon_physgun");
+
+	GiveNamedItem("weapon_bugbait");
+
 }
 
 void CHL2MP_Player::GiveChaoticItems(void)
@@ -275,7 +279,10 @@ void CHL2MP_Player::GiveDefaultItems( void )
 {
 	cvar->FindVar("sv_cheats")->SetValue(1);
 
-	const char* gamemodeStr = as_gamemode.GetString();
+	// bookmark
+	LoadLua("lua/items.lua");
+
+	/*const char* gamemodeStr = as_gamemode.GetString();
 	GameMode gamemode = GetGameMode(gamemodeStr);
 
 	cvar->FindVar("sv_infinite_aux_power")->SetValue(gamemode == SANDBOX ? 1 : 0);
@@ -298,7 +305,7 @@ void CHL2MP_Player::GiveDefaultItems( void )
 		break;
 	default:
 		break;
-	}
+	}*/
 }
 
 void CHL2MP_Player::PickDefaultSpawnTeam( void )

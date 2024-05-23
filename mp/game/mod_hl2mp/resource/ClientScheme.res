@@ -63,13 +63,13 @@ Scheme
 		"Caution"			"255 48 0 255"
 
 		// Top-left corner of the "Half-Life 2" on the main screen
-		"Main.Title1.X"		"76"
+		"Main.Title1.X"		"76" // eggings
 		"Main.Title1.Y"		"184"
-		"Main.Title1.Color"	"255 255 255 255"
+		"Main.Title1.Color"	"3 190 252 255"
 		
 		// Top-left corner of the "DEATHMATCH" on the main screen
-		"Main.Title2.X"		"315"
-		"Main.Title2.Y"		"222"
+		"Main.Title2.X"		"170"
+		"Main.Title2.Y"		"184"
 		"Main.Title2.Color"	"255 255 255 180"
 
 		// Top-left corner of the menu on the main screen
@@ -757,7 +757,7 @@ Scheme
 		{
 			"1"
 			{
-				"name"  "HL2MP"
+				"name"  "Arial"
 				"tall"  "46"
 				"weight" "0"
 				"additive" "0"

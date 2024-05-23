@@ -45,6 +45,37 @@ void MainLuaHandle::Init() {
 	((IFileSystem *)filesystem)->FreeOptimalReadBuffer(buffer);
 }
 
+void LoadLua(const char* filePath) {
+	if (!filePath) {
+		Warning("[LUA-ERR] Invalid file path.\n");
+		return;
+	}
+
+	FileHandle_t f = filesystem->Open(filePath, "rb", "MOD");
+	if (!f) {
+		Warning("[LUA-ERR] Failed to open %s\n", filePath);
+		return;
+	}
+
+	int size = filesystem->Size(f);
+	char* buffer = (char*)((IFileSystem*)filesystem)->AllocOptimalReadBuffer(f, size + 1);
+	Assert(buffer);
+	((IFileSystem*)filesystem)->ReadEx(buffer, size + 1, size, f);
+	buffer[size] = '\0';
+	filesystem->Close(f);
+
+	if (luaL_loadbuffer(GetLuaHandle()->GetLua(), buffer, size, filePath)) {
+		Warning("[LUA-ERR] %s\n", lua_tostring(GetLuaHandle()->GetLua(), -1));
+		lua_pop(GetLuaHandle()->GetLua(), 1);
+		((IFileSystem*)filesystem)->FreeOptimalReadBuffer(buffer);
+		return;
+	}
+
+	lua_pcall(GetLuaHandle()->GetLua(), 0, LUA_MULTRET, 0);
+	((IFileSystem*)filesystem)->FreeOptimalReadBuffer(buffer);
+}
+
+
 void MainLuaHandle::RegGlobals() {
 	LG_DEFINE_INT("FOR_ALL_PLAYERS", -1);
 	LG_DEFINE_INT("INVALID_ENTITY", -1);
@@ -101,6 +132,42 @@ LUA_FUNC(luaSetCVar, [](lua_State *L) { cvar->FindVar(lua_tostring(L, 1))->SetVa
 LUA_FUNC(luaExecuteConsoleCommand, [](lua_State *L) { engine->ServerCommand(lua_tostring(L, 1)); engine->ServerExecute(); return 0; })
 LUA_FUNC(luaSay, [](lua_State *L) { std::string msg; for (int i = 1, n = lua_gettop(L); i <= n; ++i) msg += lua_tostring(L, i) + std::string(i < n ? " " : ""); UTIL_ClientPrintAll(HUD_PRINTTALK, msg.c_str()); return 0; })
 LUA_FUNC(luaLoadFile, [](lua_State *L) { const char* path = lua_tostring(L, 1); if (!path) { Warning("[LUA-ERR] Invalid file path.\n"); return 0; } FileHandle_t f = filesystem->Open(path, "rb", "MOD"); if (!f) { Warning("[LUA-ERR] Failed to open %s\n", path); return 0; } int size = filesystem->Size(f); char* buffer = (char*)((IFileSystem*)filesystem)->AllocOptimalReadBuffer(f, size + 1); Assert(buffer); ((IFileSystem*)filesystem)->ReadEx(buffer, size + 1, size, f); buffer[size] = '\0'; filesystem->Close(f); if (luaL_loadbuffer(L, buffer, size, path)) { Warning("[LUA-ERR] %s\n", lua_tostring(L, -1)); lua_pop(L, 1); ((IFileSystem*)filesystem)->FreeOptimalReadBuffer(buffer); return 0; } lua_pcall(L, 0, LUA_MULTRET, 0); ((IFileSystem*)filesystem)->FreeOptimalReadBuffer(buffer); return 0; })
+
+// mod stuff
+LUA_FUNC(luaCreateCVar, [](lua_State* L) {
+	const char* name = lua_tostring(L, 1);
+	const char* defaultValue = lua_tostring(L, 2);
+	ConVar cvar(name, defaultValue);
+	return 0;
+})
+LUA_FUNC(luaCreateConCommand, [](lua_State* L) {
+	const char* name = lua_tostring(L, 1);
+	const char* description = lua_tostring(L, 2);
+	FnCommandCallbackVoid_t callback = (FnCommandCallbackVoid_t)lua_touserdata(L, 3);
+	if (callback == nullptr) {
+		lua_pushstring(L, "Invalid function pointer provided");
+		lua_error(L);
+		return 0;
+	}
+	ConCommand concommand(name, callback, description);
+	return 0;
+})
+LUA_FUNC(luaRegisterFunction, [](lua_State* L) {
+	const char* functionName = lua_tostring(L, 1);
+	void* functionPtr = lua_touserdata(L, 2);
+	if (functionPtr == nullptr) {
+		lua_pushstring(L, "Invalid function pointer provided");
+		lua_error(L);
+		return 0;
+	}
+	lua_register(L, functionName, (lua_CFunction)functionPtr);
+	return 0;
+})
+LUA_FUNC(luaSetGlobalVariable, [](lua_State* L) {
+	const char* variableName = lua_tostring(L, 1);
+	lua_setglobal(L, variableName);
+	return 0;
+})
 
 // player stuff
 LUA_FUNC(luaGetPlayerName, [](lua_State *L) { auto p = UTIL_PlayerByIndex(lua_tointeger(L, 1)); lua_pushstring(L, p ? p->GetPlayerName() : nullptr); return 1; })
@@ -206,6 +273,45 @@ LUA_FUNC(luaSetPlayerMaxSpeed, [](lua_State *L) { auto p = UTIL_PlayerByIndex(lu
 LUA_FUNC(luaGetEntityName, [](lua_State *L) { auto ent = UTIL_EntityByIndex(lua_tointeger(L, 1)); lua_pushstring(L, ent ? ent->GetEntityName().ToCStr() : nullptr); return 1; })
 LUA_FUNC(luaGetEntityModel, [](lua_State *L) { auto ent = UTIL_EntityByIndex(lua_tointeger(L, 1)); lua_pushstring(L, ent ? ent->GetModelName().ToCStr() : nullptr); return 1; })
 LUA_FUNC(luaGetEntityClassId, [](lua_State *L) { auto ent = UTIL_EntityByIndex(lua_tointeger(L, 1)); lua_pushinteger(L, ent ? ent->Classify() : -1); return 1; })
+LUA_FUNC(luaGiveAmmo, [](lua_State *L) {
+	int playerIndex = lua_tointeger(L, 1);
+	const char* ammoType = lua_tostring(L, 2);
+	int amount = lua_tointeger(L, 3);
+
+	if (!UTIL_PlayerByIndex(playerIndex)) {
+		lua_pushstring(L, "Invalid player index");
+		return 1;
+	}
+
+	UTIL_PlayerByIndex(playerIndex)->GiveAmmo(amount, ammoType);
+
+	return 0;
+})
+LUA_FUNC(luaSetPlayerHealth, [](lua_State *L) {
+	int playerIndex = lua_tointeger(L, 1);
+	int health = lua_tointeger(L, 2);
+
+	auto player = UTIL_PlayerByIndex(playerIndex);
+	if (!player) {
+		lua_pushstring(L, "Invalid player index");
+		return 1;
+	}
+
+	player->SetHealth(health);
+
+	return 0;
+})
+
+int g_LastPlayerIndex = 1; // assuming the first player index is 1
+
+void SetLastPlayerIndex(int playerIndex) {
+	g_LastPlayerIndex = playerIndex;
+}
+
+LUA_FUNC(luaGetNewPlayer, [](lua_State *L) {
+	lua_pushinteger(L, g_LastPlayerIndex);
+	return 1;
+});
 
 void MainLuaHandle::RegFunctions() {
 	REG_FUNCTION(Msg);
@@ -233,6 +339,14 @@ void MainLuaHandle::RegFunctions() {
 	REG_FUNCTION(TeleportPlayer);
 	REG_FUNCTION(SetEntityProperty);
 	REG_FUNCTION(IsPlayerNearEntity);
+	REG_FUNCTION(GetNewPlayer);
+	REG_FUNCTION(luaGetEntityClassId);
+	REG_FUNCTION(GiveAmmo);
+	REG_FUNCTION(SetPlayerHealth);
+	REG_FUNCTION(CreateCVar);
+	REG_FUNCTION(CreateConCommand);
+	REG_FUNCTION(RegisterFunction);
+	REG_FUNCTION(SetGlobalVariable);
 }
 
 LuaHandle* g_LuaHandle = NULL;

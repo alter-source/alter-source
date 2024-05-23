@@ -1,1 +1,0 @@
-LoadFile("lua/test.lua")
