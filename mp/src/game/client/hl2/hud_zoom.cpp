@@ -135,7 +135,7 @@ bool CHudZoom::ShouldDraw( void )
 	return ( bNeedsDraw && CHudElement::ShouldDraw() );
 }
 
-#define	ZOOM_FADE_TIME	0.4f
+#define	ZOOM_FADE_TIME	0.2f
 //-----------------------------------------------------------------------------
 // Purpose: draws the zoom effect
 //-----------------------------------------------------------------------------
@@ -160,22 +160,20 @@ void CHudZoom::Paint( void )
 	}
 
 	// draw the appropriately scaled zoom animation
-	float deltaTime = ( gpGlobals->curtime - m_flZoomStartTime );
-	float scale = clamp( deltaTime / ZOOM_FADE_TIME, 0.0f, 1.0f );
-	
+	float scale = clamp(ZOOM_FADE_TIME, 0.0f, 1.0f);
+
 	float alpha;
 
-	if ( m_bZoomOn )
-	{
+	if (m_bZoomOn) {
 		alpha = scale;
 	}
-	else
-	{
-		if ( scale >= 1.0f )
+	else {
+		float invScale = 1.0f - scale;
+		if (invScale >= 1.0f)
 			return;
 
-		alpha = ( 1.0f - scale ) * 0.25f;
-		scale = 1.0f - ( scale * 0.5f );
+		alpha = invScale * 0.25f;
+		scale = invScale * 0.5f;
 	}
 
 	Color col = GetFgColor();
@@ -183,90 +181,5 @@ void CHudZoom::Paint( void )
 
 	surface()->DrawSetColor( col );
 	
-	// draw zoom circles
-	float fX, fY;
-	bool bBehindCamera = false;
-	CHudCrosshair::GetDrawPosition( &fX, &fY, &bBehindCamera );
-	if( bBehindCamera )
-		return;
-	int xCrosshair = (int)fX;
-	int yCrosshair = (int)fY;
-	int wide, tall;
-	GetSize( wide, tall );
-
-	surface()->DrawOutlinedCircle( xCrosshair, yCrosshair, m_flCircle1Radius * scale, 48);
-	surface()->DrawOutlinedCircle( xCrosshair, yCrosshair, m_flCircle2Radius * scale, 64);
-
-	// draw dashed lines
-	int dashCount = 2;
-	int ypos = yCrosshair - m_flDashHeight / 2.f;
-	float fGap = m_flDashGap * MAX(scale,0.1f);
-	int dashMax = Max(fX, (float)wide - fX ) / fGap;
-	while ( dashCount < dashMax )
-	{
-		int xpos = (int)(fX - fGap * dashCount + 0.5f);
-		surface()->DrawFilledRect(xpos, ypos, xpos + 1, ypos + m_flDashHeight);
-		xpos = (int)(fX + fGap * dashCount + 0.5f);
-		surface()->DrawFilledRect(xpos, ypos, xpos + 1, ypos + m_flDashHeight);
-		dashCount++;
-	}
-
-	// draw the darkened edges, with a rotated texture in the four corners
-	CMatRenderContextPtr pRenderContext( materials );
-	pRenderContext->Bind( m_ZoomMaterial );
-	IMesh *pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, NULL );
-
-	float x0 = 0.0f, x1 = fX, x2 = wide;
-	float y0 = 0.0f, y1 = fY, y2 = tall;
-
-	float uv1 = 1.0f - (1.0f / 255.0f);
-	float uv2 = 0.0f + (1.0f / 255.0f);
-
-	struct coord_t
-	{
-		float x, y;
-		float u, v;
-	};
-	coord_t coords[16] = 
-	{
-		// top-left
-		{ x0, y0, uv1, uv2 },
-		{ x1, y0, uv2, uv2 },
-		{ x1, y1, uv2, uv1 },
-		{ x0, y1, uv1, uv1 },
-
-		// top-right
-		{ x1, y0, uv2, uv2 },
-		{ x2, y0, uv1, uv2 },
-		{ x2, y1, uv1, uv1 },
-		{ x1, y1, uv2, uv1 },
-
-		// bottom-right
-		{ x1, y1, uv2, uv1 },
-		{ x2, y1, uv1, uv1 },
-		{ x2, y2, uv1, uv2 },
-		{ x1, y2, uv2, uv2 },
-
-		// bottom-left
-		{ x0, y1, uv1, uv1 },
-		{ x1, y1, uv2, uv1 },
-		{ x1, y2, uv2, uv2 },
-		{ x0, y2, uv1, uv2 },
-	};
-
-	CMeshBuilder meshBuilder;
-	meshBuilder.Begin( pMesh, MATERIAL_QUADS, 4 );
-
-	for (int i = 0; i < 16; i++)
-	{
-		meshBuilder.Color4f( 0.0, 0.0, 0.0, alpha );
-		meshBuilder.TexCoord2f( 0, coords[i].u, coords[i].v );
-		meshBuilder.Position3f( coords[i].x, coords[i].y, 0.0f );
-		meshBuilder.AdvanceVertex();
-	}
-
-	meshBuilder.End();
-	pMesh->Draw();
-
 	m_bPainted = true;
 }

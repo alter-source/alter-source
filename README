@@ -15,3 +15,7 @@ changelog:
 - set all accelerate cvars to 9999999999999999
 - added Lua scripting language
 - added the physics gun to manipulate objects
+- made the zoom more look like portal 2 one
+- added lua documentation
+- mounts.cfg file support
+- restored the valve's mp3 player
