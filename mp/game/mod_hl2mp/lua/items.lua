@@ -63,8 +63,8 @@ local function SetGameModeSettings(mode)
             }
         )
     elseif mode == "Chaotic" then
-        SetCVar("sv_infinite_aux_power", 0)
         GiveItems({}, {"weapon_crowbar"})
+		LoadFile("lua/gamemodes/chaotic.lua")
     end
 end
 

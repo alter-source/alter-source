@@ -46,6 +46,9 @@
     <Filter Include="Source Files\Lua\Handles">
       <UniqueIdentifier>{b920bc4c-eb09-436c-8d49-8d348427ddc3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Lua\Other">
+      <UniqueIdentifier>{b111cc24-8848-44fa-a51e-b156b9d957de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\..\lib\public\choreoobjects.lib">
