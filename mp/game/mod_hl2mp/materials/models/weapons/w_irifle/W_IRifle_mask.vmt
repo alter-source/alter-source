@@ -1,0 +1,9 @@
+
+"VertexLitGeneric"
+{
+	"$basetexture" "Models/Weapons/W_IRifle/W_IRifle"
+	"$surfaceprop" "metal"
+	"$translucent" 1
+	"$nocull" 1
+	
+}

@@ -1,0 +1,78 @@
+// Small Machine Gun 2
+
+WeaponData
+{
+	// Weapon data is loaded by both the Game and Client DLLs.
+	"printname"	"SMG2"
+	"viewmodel"				"models/weapons/weapons HL2BETA (RETAIL HAND)/v_smg2.mdl"
+	"playermodel"			"models/weapons/w_smg2.mdl"
+	"anim_prefix"			"smg1"
+	"bucket"				"2"
+	"bucket_position"		"4"
+
+	"clip_size"				"60"
+	"primary_ammo"			"SMG1"
+	"secondary_ammo"		"None"
+
+	"weight"				"2"
+	"item_flags"			"0"
+        "damage"			"10"
+
+	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
+	SoundData
+	{
+		"reload"		"Weapon_SMG2.Reload"
+		"single_shot"	"Weapon_SMG2.Single"
+		"special1"		"Weapon_SMG2.Special1"
+		"special2"		"Weapon_SMG2.Special2"
+		"burst"			"Weapon_SMG2.Burst"
+		// NPC Weapons sounds
+		"single_shot_npc"	"Weapon_SMG2.Single"
+		"reload_npc"		"Weapon_SMG2.Reload"
+	}
+
+	// Weapon Sprite data is loaded by the Client DLL.
+	TextureData
+	{
+		"weapon"
+		{
+				"file"		"sprites/w_icons1"
+				"x"			"0"
+				"y"			"128"
+				"width"		"128"
+				"height"	"64"
+		}
+		"weapon_s"
+		{
+				"file"		"sprites/w_icons1b"
+				"x"			"128"	
+				"y"			"192"
+				"width"		"128"
+				"height"	"64"
+		}
+		"ammo"
+		{
+				"file"		"sprites/a_icons1"
+				"x"			"55"
+				"y"			"75"
+				"width"		"73"
+				"height"	"15"
+		}
+		"crosshair"
+		{
+				"file"		"sprites/crosshairs"
+				"x"			"0"
+				"y"			"48"
+				"width"		"24"
+				"height"	"24"
+		}
+		"autoaim"
+		{
+				"file"		"sprites/crosshairs"
+				"x"			"0"
+				"y"			"48"
+				"width"		"24"
+				"height"	"24"
+		}
+	}
+}

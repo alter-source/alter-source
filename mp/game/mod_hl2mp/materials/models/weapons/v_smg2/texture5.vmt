@@ -1,0 +1,9 @@
+"UnLitGeneric"
+{
+	// Original shader: VertexLitTexture
+	"$basetexture" "models/Weapons/V_smg2/TEXTURE5"
+	"$additive" 1
+	"$model" 1
+	//"$envmap" "env_cubemap"
+	//"$envmaptint" "[ 0.6 0.6 0.6 ]"	
+}

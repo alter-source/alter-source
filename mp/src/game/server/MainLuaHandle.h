@@ -4,6 +4,7 @@
 #include "cbase.h"
 #include "filesystem.h"
 #include "ge_luamanger.h"
+#include "util_shared.h"
 
 extern "C" {
 #include "lua/lauxlib.h"
@@ -29,7 +30,7 @@ private:
 	bool m_bLuaLoaded = false;
 };
 
-void LoadLua(const char* filePath);
+void LoadLua(const char* filePath, const bool isEvented);
 
 LuaHandle* GetLuaHandle();
 

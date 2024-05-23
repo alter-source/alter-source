@@ -1,4 +1,4 @@
-//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright Valve Corporation, All rights reserved. ============//
 //
 // Purpose:		Player for HL2.
 //
@@ -280,9 +280,9 @@ void CHL2MP_Player::GiveDefaultItems( void )
 	cvar->FindVar("sv_cheats")->SetValue(1);
 
 	// bookmark
-	LoadLua("lua/items.lua");
+	LoadLua("lua/afterload.lua", false);
 
-	/*const char* gamemodeStr = as_gamemode.GetString();
+	const char* gamemodeStr = as_gamemode.GetString();
 	GameMode gamemode = GetGameMode(gamemodeStr);
 
 	cvar->FindVar("sv_infinite_aux_power")->SetValue(gamemode == SANDBOX ? 1 : 0);
@@ -302,10 +302,12 @@ void CHL2MP_Player::GiveDefaultItems( void )
 	case CHAOTIC:
 		GiveChaoticItems();
 		SetHealth(1);
+		SetMaxSpeed(9000.0f); // ОВЕР-ДОХРЕНА
+		SuitPower_SetCharge(999999999999999.0f);
 		break;
 	default:
 		break;
-	}*/
+	}
 }
 
 void CHL2MP_Player::PickDefaultSpawnTeam( void )

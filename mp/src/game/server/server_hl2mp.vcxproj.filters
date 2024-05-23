@@ -49,6 +49,9 @@
     <Filter Include="Source Files\Lua\Other">
       <UniqueIdentifier>{b111cc24-8848-44fa-a51e-b156b9d957de}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\beetah">
+      <UniqueIdentifier>{4327ee37-9e09-4849-84c3-92cdf570b3c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\..\lib\public\choreoobjects.lib">
@@ -3597,6 +3600,24 @@
     </ClCompile>
     <ClCompile Include="vehicle_jeep.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hl2beta\weapon_irifle.cpp">
+      <Filter>Source Files\beetah</Filter>
+    </ClCompile>
+    <ClCompile Include="hl2beta\weapon_smg2.cpp">
+      <Filter>Source Files\beetah</Filter>
+    </ClCompile>
+    <ClCompile Include="hl2beta\weapon_sniperrifle.cpp">
+      <Filter>Source Files\beetah</Filter>
+    </ClCompile>
+    <ClCompile Include="hl2beta\weapon_supercrowbar.cpp">
+      <Filter>Source Files\beetah</Filter>
+    </ClCompile>
+    <ClCompile Include="hl2beta\weapon_ar1.cpp">
+      <Filter>Source Files\beetah</Filter>
+    </ClCompile>
+    <ClCompile Include="hl2beta\weapon_iceaxe.cpp">
+      <Filter>Source Files\beetah</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

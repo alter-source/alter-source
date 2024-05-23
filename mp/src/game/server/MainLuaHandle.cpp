@@ -37,6 +37,28 @@ void SandboxLua(lua_State* L) {
 	luaL_dostring(L, "require = nil");
 }
 
+void PlayerJoinGame(int playerIndex, lua_State* L) {
+	lua_getglobal(L, "OnPlayerJoin");
+	if (lua_isfunction(L, -1)) {
+		lua_pushinteger(L, playerIndex);
+		lua_pcall(L, 1, 0, 0);
+	}
+	else {
+		lua_pop(L, 1);
+	}
+}
+
+void PlayerLeaveGame(int playerIndex, lua_State* L) {
+	lua_getglobal(L, "OnPlayerLeave");
+	if (lua_isfunction(L, -1)) {
+		lua_pushinteger(L, playerIndex);
+		lua_pcall(L, 1, 0, 0);
+	}
+	else {
+		lua_pop(L, 1);
+	}
+}
+
 void MainLuaHandle::Init() {
 	SandboxLua(GetLua());
 	const char* fullPath = "lua/main.lua";
@@ -66,7 +88,7 @@ void MainLuaHandle::Init() {
 	((IFileSystem *)filesystem)->FreeOptimalReadBuffer(buffer);
 }
 
-void LoadLua(const char* filePath) {
+void LoadLua(const char* filePath, const bool isEvented) {
 	if (!filePath) {
 		Warning("[LUA-ERR] Invalid file path.\n");
 		return;
@@ -92,6 +114,10 @@ void LoadLua(const char* filePath) {
 		return;
 	}
 
+	if (isEvented) {
+		PlayerJoinGame(1, GetLuaHandle()->GetLua());
+		PlayerLeaveGame(1, GetLuaHandle()->GetLua());
+	}
 	lua_pcall(GetLuaHandle()->GetLua(), 0, LUA_MULTRET, 0);
 	((IFileSystem*)filesystem)->FreeOptimalReadBuffer(buffer);
 }
@@ -209,6 +235,16 @@ LUA_FUNC(luaTablePush, [](lua_State *L) { int n = lua_gettop(L); for (int i = 2;
 LUA_FUNC(luaTablePop, [](lua_State *L) { lua_pushnil(L); lua_rawseti(L, 1, luaL_len(L, 1)); return 0; })
 LUA_FUNC(luaTableConcat, [](lua_State *L) { if (!lua_istable(L, 1)) return 0; std::string result; lua_pushnil(L); while (lua_next(L, 1) != 0) { if (lua_isstring(L, -1)) result += lua_tostring(L, -1); lua_pop(L, 1); } lua_pushstring(L, result.c_str()); return 1; })
 LUA_FUNC(luaGetEntityByClassname, [](lua_State *L) { const char* classname = lua_tostring(L, 1); CBaseEntity* ent = nullptr; while ((ent = gEntList.FindEntityByClassname(ent, classname)) != nullptr) { if (!ent->IsMarkedForDeletion()) { lua_pushinteger(L, ent->entindex()); return 1; } } lua_pushnil(L); return 1;})LUA_FUNC(luaTraceLine, [](lua_State *L) { Vector start(lua_tonumber(L, 1), lua_tonumber(L, 2), lua_tonumber(L, 3)); Vector end(lua_tonumber(L, 4), lua_tonumber(L, 5), lua_tonumber(L, 6)); Ray_t ray; ray.Init(start, end); CTraceFilterWorldAndPropsOnly filter; trace_t tr; enginetrace->TraceRay(ray, MASK_ALL, &filter, &tr); if (tr.fraction < 1.0f) { lua_pushnumber(L, tr.endpos.x); lua_pushnumber(L, tr.endpos.y); lua_pushnumber(L, tr.endpos.z); return 3; } lua_pushnil(L); lua_pushnil(L); lua_pushnil(L); return 3;})LUA_FUNC(luaCreateEntity, [](lua_State *L) { const char* classname = lua_tostring(L, 1); if (!classname) { lua_pushnil(L); return 1; } CBaseEntity* ent = CreateEntityByName(classname); if (ent) { DispatchSpawn(ent); lua_pushinteger(L, ent->entindex()); return 1; } lua_pushnil(L); return 1;})LUA_FUNC(luaSetEntityModel, [](lua_State *L) { CBaseEntity* ent = UTIL_EntityByIndex(lua_tointeger(L, 1)); const char* modelName = lua_tostring(L, 2); if (ent && modelName) { ent->SetModel(modelName); } return 0;})LUA_FUNC(luaSetEntityAngles, [](lua_State *L) { CBaseEntity* ent = UTIL_EntityByIndex(lua_tointeger(L, 1)); float pitch = lua_tonumber(L, 2); float yaw = lua_tonumber(L, 3); float roll = lua_tonumber(L, 4); if (ent) { QAngle angles(pitch, yaw, roll); ent->SetAbsAngles(angles); } return 0;})
+LUA_FUNC(luaSayToClient, [](lua_State *L) {
+	int clientIndex = lua_tointeger(L, 1);
+	std::string msg;
+	for (int i = 2, n = lua_gettop(L); i <= n; ++i)
+		msg += lua_tostring(L, i) + std::string(i < n ? " " : "");
+	CBasePlayer* player = UTIL_PlayerByIndex(clientIndex);
+	if (player)
+		ClientPrint(player, HUD_PRINTTALK, msg.c_str());
+	return 0;
+})
 
 void MainLuaHandle::RegFunctions() {
 	REG_FUNCTION(Msg);
@@ -280,6 +316,7 @@ void MainLuaHandle::RegFunctions() {
 	REG_FUNCTION(CreateEntity);
 	REG_FUNCTION(SetEntityModel);
 	REG_FUNCTION(SetEntityAngles);
+	REG_FUNCTION(SayToClient);
 }
 
 LuaHandle* g_LuaHandle = NULL;

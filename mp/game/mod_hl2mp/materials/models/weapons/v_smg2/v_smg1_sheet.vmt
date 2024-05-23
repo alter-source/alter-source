@@ -1,0 +1,14 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/Weapons/v_smg2/v_smg1_sheet"
+	"$bumpmap" "models/Weapons/v_smg2/v_smg1_sheet_normal"
+
+"$normalmapalphaenvmapmask" 1
+"$envmap" "env_cubemap"
+	"$envmaptint" "[.15 .15 .15]"
+	
+	"$phong" "1"
+		"$phongexponent" "30"
+		"$phongboost"	"3.5"
+		"$phongfresnelranges"	"[.4 1.3 2.1]"
+}
