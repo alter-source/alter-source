@@ -208,7 +208,7 @@ LUA_FUNC(luaGetEntityName, [](lua_State *L) { auto ent = UTIL_EntityByIndex(lua_
 LUA_FUNC(luaGetEntityModel, [](lua_State *L) { auto ent = UTIL_EntityByIndex(lua_tointeger(L, 1)); lua_pushstring(L, ent ? ent->GetModelName().ToCStr() : nullptr); return 1; })
 LUA_FUNC(luaGiveAmmo, [](lua_State *L) { int playerIndex = lua_tointeger(L, 1); const char* ammoType = lua_tostring(L, 2); int amount = lua_tointeger(L, 3); if (!UTIL_PlayerByIndex(playerIndex)) { lua_pushstring(L, "Invalid player index"); return 1; } UTIL_PlayerByIndex(playerIndex)->GiveAmmo(amount, ammoType); return 0; })
 LUA_FUNC(luaSetPlayerHealth, [](lua_State *L) { int playerIndex = lua_tointeger(L, 1); int health = lua_tointeger(L, 2); auto player = UTIL_PlayerByIndex(playerIndex); if (!player) { lua_pushstring(L, "Invalid player index"); return 1; } player->SetHealth(health); return 0;})
-int g_LastPlayerIndex = 1; void SetLastPlayerIndex(int playerIndex) { g_LastPlayerIndex = playerIndex; }LUA_FUNC(luaGetNewPlayer, [](lua_State *L) {	lua_pushinteger(L, g_LastPlayerIndex);	return 1; });
+int g_LastPlayerIndex = 0;void SetLastPlayerIndex(int playerIndex) { g_LastPlayerIndex = playerIndex; }LUA_FUNC(luaGetNewPlayer, [](lua_State * L) { g_LastPlayerIndex++; lua_pushinteger(L, g_LastPlayerIndex); return 1; });
 LUA_FUNC(luaAddNumbers, [](lua_State *L) { double num1 = lua_tonumber(L, 1); double num2 = lua_tonumber(L, 2); lua_pushnumber(L, num1 + num2); return 1; })
 LUA_FUNC(luaSubtractNumbers, [](lua_State *L) { double num1 = lua_tonumber(L, 1); double num2 = lua_tonumber(L, 2); lua_pushnumber(L, num1 - num2); return 1; })
 LUA_FUNC(luaMultiplyNumbers, [](lua_State *L) { double num1 = lua_tonumber(L, 1); double num2 = lua_tonumber(L, 2); lua_pushnumber(L, num1 * num2); return 1; })
