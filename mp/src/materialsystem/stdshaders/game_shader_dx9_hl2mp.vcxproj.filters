@@ -82,6 +82,9 @@
     <ClCompile Include="screenspace_general.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="RedShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
@@ -113,10 +116,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="buildsdkshaders.bat">
-      <Filter></Filter>
+      <Filter>
+      </Filter>
     </None>
     <None Include="buildshaders.bat">
-      <Filter></Filter>
+      <Filter>
+      </Filter>
     </None>
     <None Include="..\..\materialsystem\stdshaders\game_shader_dx9_base.vpc">
       <Filter>VPC Scripts</Filter>

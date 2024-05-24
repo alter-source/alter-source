@@ -1008,6 +1008,14 @@ SpawnMenu
 		{
 			"#"	"give weapon_crowbar"
 		}
+		"Ice Axe"
+		{
+			"#"	"give weapon_iceaxe"
+		}
+		"Super Crowbar"
+		{
+			"#"	"give weapon_supercrowbar"
+		}
 		"StunBaton"
 		{
 			"#"	"give weapon_stunstick"
@@ -1020,9 +1028,13 @@ SpawnMenu
 		{
 			"#"	"give weapon_357"
 		}		
-		"SMG"
+		"SMG1"
 		{
 			"#"	"give weapon_smg1"
+		}
+		"SMG2"
+		{
+			"#"	"give weapon_smg2"
 		}
 		"Shotgun"
 		{
@@ -1047,6 +1059,14 @@ SpawnMenu
 		"Bugbait"
 		{
 			"#"	"give weapon_bugbait"
+		}
+		"Incendiary Rifle"
+		{
+			"#"	"give weapon_irifle"
+		}
+		"Sniper Rifle"
+		{
+			"#"	"give weapon_sniperrifle"
 		}
 	}
 	"Vehicles"

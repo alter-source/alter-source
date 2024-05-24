@@ -19,8 +19,8 @@
 #define	SUPERCROWBAR_RANGE	60
 #define	SUPERCROWBAR_REFIRE	0.25f
 
-ConVar    sk_plr_dmg_supercrowbar("sk_plr_dmg_supercrowbar", "999999999999999999999999999999999999");
-ConVar    sk_npc_dmg_supercrowbar("sk_npc_dmg_supercrowbar", "999999999999999999999999999999999999");
+ConVar    sk_plr_dmg_supercrowbar("sk_plr_dmg_supercrowbar", "100");
+ConVar    sk_npc_dmg_supercrowbar("sk_npc_dmg_supercrowbar", "100");
 
 //-----------------------------------------------------------------------------
 // CWeaponSuperCrowbar
