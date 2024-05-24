@@ -5,17 +5,4 @@ It's main purpose is to make modding easier, reduce the spaghetti code and for g
 The reason that it's a Multiplayer mod instead of a Singleplayer one, is because that it's possible to add Gamemodes thingy.
 So wake up, Mr Freeman, wake up and, smell the ashes.
 
-changelog:
-- added give command autocomplete
-- changed default chat color to white
-- added gamemodes (sandbox, deathmatch, team deathmatch, chaotic, cooperative)
-- added object pickup ability
-- changed default weapon to crowbar instead of gravity gun
-- disabled hud_quickinfo
-- set all accelerate cvars to 9999999999999999
-- added Lua scripting language
-- added the physics gun to manipulate objects
-- made the zoom more look like portal 2 one
-- added lua documentation
-- mounts.cfg file support
-- restored the valve's mp3 player
+[FOR NORMAL CHANGELOG CHECK THE COMMITS]
