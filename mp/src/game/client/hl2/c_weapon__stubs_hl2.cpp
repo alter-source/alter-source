@@ -31,6 +31,8 @@ STUB_WEAPON_CLASS(weapon_sniperrifle, WeaponSniperRifle, C_BaseHLCombatWeapon);
 STUB_WEAPON_CLASS(weapon_iceaxe, WeaponIceAxe, C_BaseHLBludgeonWeapon);
 STUB_WEAPON_CLASS(weapon_supercrowbar, WeaponSuperCrowbar, C_BaseHLBludgeonWeapon);
 
+STUB_WEAPON_CLASS(weapon_toolgun, WeaponToolgun, CBaseHLCombatWeapon);
+
 #ifndef HL2MP
 STUB_WEAPON_CLASS( weapon_ar2, WeaponAR2, C_HLMachineGun );
 STUB_WEAPON_CLASS( weapon_frag, WeaponFrag, C_BaseHLCombatWeapon );

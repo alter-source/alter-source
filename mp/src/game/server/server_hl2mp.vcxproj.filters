@@ -52,6 +52,9 @@
     <Filter Include="Source Files\beetah">
       <UniqueIdentifier>{4327ee37-9e09-4849-84c3-92cdf570b3c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\weapons">
+      <UniqueIdentifier>{59688b8b-9c0e-4b11-b88e-4ccbdc23acd5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\..\lib\public\choreoobjects.lib">
@@ -3618,6 +3621,9 @@
     </ClCompile>
     <ClCompile Include="hl2beta\weapon_iceaxe.cpp">
       <Filter>Source Files\beetah</Filter>
+    </ClCompile>
+    <ClCompile Include="..\shared\weapon_toolgun.cpp">
+      <Filter>Source Files\weapons</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

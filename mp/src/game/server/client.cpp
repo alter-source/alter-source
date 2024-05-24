@@ -1220,7 +1220,7 @@ static int FindPassableSpace( CBasePlayer *pPlayer, const Vector& direction, flo
 	return 0;
 }
 
-static ConVar as_noclip("as_noclip", "Enables/disables Noclip", FCVAR_CHEAT);
+static ConVar as_noclip("as_noclip", "0", FCVAR_CHEAT);
 
 //------------------------------------------------------------------------------
 // Noclip
@@ -1238,6 +1238,7 @@ void CC_Player_NoClip( void )
 {
 
 	if (!strcmp(as_noclip.GetString(), "1") == 0) {
+		Warning("nuh uh! enable as_noclip to do that");
 		return;
 	}
 
