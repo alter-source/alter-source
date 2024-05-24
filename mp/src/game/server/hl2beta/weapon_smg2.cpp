@@ -7,6 +7,8 @@
 #include "cbase.h"
 #include "basehlcombatweapon.h"
 #include "weapon_hl2mpbasehlmpcombatweapon.h"
+#include "weapon_hl2mpbase_machinegun.h"
+#include "weapon_hl2mpbase.h"
 #include "NPCevent.h"
 #include "basecombatcharacter.h"
 #include "ai_basenpc.h"
@@ -17,10 +19,10 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-class CWeaponSMG2 : public CHLSelectFireMachineGun
+class CWeaponSMG2 : public CHLMachineGun
 {
 public:
-	DECLARE_CLASS(CWeaponSMG2, CHLSelectFireMachineGun);
+	DECLARE_CLASS(CWeaponSMG2, CHLMachineGun);
 
 	CWeaponSMG2();
 
@@ -124,7 +126,7 @@ CWeaponSMG2::CWeaponSMG2()
 	m_fMaxRange1 = 2000;
 	m_fMinRange1 = 32;
 
-	m_iFireMode = FIREMODE_3RNDBURST;
+	//m_iFireMode = FIREMODE_3RNDBURST;
 }
 
 void CWeaponSMG2::Precache(void)

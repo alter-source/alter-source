@@ -1,0 +1,9 @@
+"vertexlitgeneric"
+{
+	"$basetexture" "models/Weapons/v_iceaxe/v_iceaxe_sheet"
+	"$bumpmap" "models/Weapons/v_iceaxe/v_iceaxe_sheet_normal"
+        "$envmap" "env_cubemap"
+	"$envmaptint" "[.15 .15 .15]"
+	"$normalmapalphaenvmapmask" 1
+
+}
