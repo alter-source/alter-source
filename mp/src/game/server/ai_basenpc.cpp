@@ -641,19 +641,6 @@ void CAI_BaseNPC::Event_Killed( const CTakeDamageInfo &info )
 void CAI_BaseNPC::Ignite( float flFlameLifetime, bool bNPCOnly, float flSize, bool bCalledByLevelDesigner )
 {
 	BaseClass::Ignite( flFlameLifetime, bNPCOnly, flSize, bCalledByLevelDesigner );
-
-#ifdef HL2_EPISODIC
-	CBasePlayer *pPlayer = AI_GetSinglePlayer();
-	if ( pPlayer->IRelationType( this ) != D_LI )
-	{
-		CNPC_Alyx *alyx = CNPC_Alyx::GetAlyx();
-
-		if ( alyx )
-		{
-			alyx->EnemyIgnited( this );
-		}
-	}
-#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -11386,6 +11373,8 @@ CAI_BaseNPC::CAI_BaseNPC(void)
 	m_bInChoreo = true; // assume so until call to UpdateEfficiency()
 	
 	SetCollisionGroup( COLLISION_GROUP_NPC );
+	m_LagTrack = new CUtlFixedLinkedList< LagRecordNPC >();
+
 }
 
 //-----------------------------------------------------------------------------
@@ -11408,6 +11397,9 @@ CAI_BaseNPC::~CAI_BaseNPC(void)
 	delete m_pMoveProbe;
 	delete m_pSenses;
 	delete m_pTacticalServices;
+
+	m_LagTrack->Purge();
+	delete m_LagTrack;
 }
 
 //-----------------------------------------------------------------------------

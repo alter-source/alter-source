@@ -71,6 +71,7 @@ DESCRIPTION SERVER_OPTIONS
 			"Deathmatch" "Deathmatch"
 			"Team Deathmatch" "TDM"
 			"Chaotic" "Chaotic"
+			"Randomizer" "Randomizer"
 			"Cooperative" "Cooperative"
 		}
 		{ "Sandbox" }
@@ -123,6 +124,13 @@ DESCRIPTION SERVER_OPTIONS
 		"#Valve_Force_Respawn"
 		{ BOOL }
 		{ "0" }
+	}
+	
+	"as_noclip"
+	{
+		"Noclip"
+		{ BOOL }
+		{ "1" }
 	}
 
 }

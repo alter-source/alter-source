@@ -201,7 +201,16 @@ public:
 	void OnTick()
 	{
 		BaseClass::OnTick();
-		SetVisible(spawn.GetBool());
+		ConVar* pAsGameModeCVar = g_pCVar->FindVar("as_gamemode");
+
+		const char* gameModeValue = pAsGameModeCVar->GetString();
+
+		if (strcmp(gameModeValue, "Sandbox") == 0) {
+			SetVisible(spawn.GetBool());
+		}
+		else {
+			return;
+		}
 	}
 
 	void OnCommand(const char *command)

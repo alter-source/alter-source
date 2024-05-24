@@ -21,6 +21,7 @@
 #include "eventqueue.h"
 #include "gamestats.h"
 #include "MainLuaHandle.h"
+#include <random>
 
 #include "engine/IEngineSound.h"
 #include "SoundEmitterSystem/isoundemittersystembase.h"
@@ -107,6 +108,7 @@ enum GameMode
 	DEATHMATCH,
 	CHAOTIC,
 	COOPERATIVE,
+	RANDOMIZER,
 	UNKNOWN
 };
 
@@ -117,7 +119,8 @@ GameMode GetGameMode(const std::string& mode)
 		{ "TDM", TDM },
 		{ "Deathmatch", DEATHMATCH },
 		{ "Chaotic", CHAOTIC },
-		{ "Cooperative", COOPERATIVE }
+		{ "Cooperative", COOPERATIVE },
+		{ "Randomizer", RANDOMIZER }
 	};
 
 	auto it = gameModeMap.find(mode);
@@ -237,6 +240,68 @@ void CHL2MP_Player::GiveChaoticItems(void)
 	SetHealth(1);
 }
 
+void CHL2MP_Player::GiveRandomizerItems(void)
+{
+	EquipSuit(true);
+
+	static const char *g_pszAllWeaponNames[] =
+	{
+		"weapon_stunstick",
+		"weapon_crowbar",
+		"weapon_pistol",
+		"weapon_357",
+		"weapon_smg1",
+		"weapon_ar2",
+		"weapon_shotgun",
+		"weapon_frag",
+		"weapon_crossbow",
+		"weapon_rpg",
+		"weapon_slam",
+		"weapon_physcannon"
+	};
+
+	static const char *g_pszAllAmmoNames[] =
+	{
+		"AR2",
+		"AR2AltFire",
+		"Pistol",
+		"SMG1",
+		"smg1_grenade",
+		"Buckshot",
+		"357",
+		"rpg_round",
+		"XBowBolt",
+		"grenade",
+		"slam"
+	};
+
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<> distrib(3, 5);
+	int random_val = distrib(gen);
+
+	// Give us some weapons.
+	int nWeapons = ARRAYSIZE(g_pszAllWeaponNames);
+	int weaponCount = clamp(random_val, 1, nWeapons); // hazbinos hotelious reference
+	for (int i = 0; i < weaponCount; ++i)
+	{
+		int randomChoice = rand() % nWeapons;
+		GiveNamedItem(g_pszAllWeaponNames[randomChoice]);
+	}
+
+	// Give us ammo for our new weapons.
+	int WeaponList = ARRAYSIZE(g_pszAllWeaponNames);
+	for (int i = 0; i < WeaponList; ++i)
+	{
+		CBaseCombatWeapon *pCheckWeapon = Weapon_OwnsThisType(g_pszAllWeaponNames[i]);
+		if (pCheckWeapon)
+		{
+			CBasePlayer::GiveAmmo(RandomInt(10, 999), pCheckWeapon->GetPrimaryAmmoType());
+			CBasePlayer::GiveAmmo(RandomInt(10, 999), pCheckWeapon->GetSecondaryAmmoType());
+		}
+	}
+}
+
 void CHL2MP_Player::GiveDeathmatchItems(void)
 {
 	EquipSuit();
@@ -298,6 +363,9 @@ void CHL2MP_Player::GiveDefaultItems( void )
 	case DEATHMATCH:
 	case COOPERATIVE:
 		GiveDeathmatchItems();
+		break;
+	case RANDOMIZER:
+		GiveRandomizerItems();
 		break;
 	case CHAOTIC:
 		GiveChaoticItems();
@@ -413,28 +481,7 @@ void CHL2MP_Player::Spawn(void)
 
 void CHL2MP_Player::PickupObject(CBaseEntity *pObject, bool bLimitMassAndSize)
 {
-	// can't pick up what you're standing on
-	if (GetGroundEntity() == pObject)
-		return;
-
-	// store the reference to the currently active weapon
-	CBaseCombatWeapon *pActiveWeapon = GetActiveWeapon();
-
-	BaseClass::PickupObject(pObject, bLimitMassAndSize);
-
-	// Can't be picked up if NPCs are on me
-	if (pObject->HasNPCsOnIt())
-		return;
-
-	HideViewModels();
-	ClearActiveWeapon();
-
-	if (pActiveWeapon)
-	{
-		Weapon_Switch(pActiveWeapon);
-	}
-
-	PlayerPickupObject(this, pObject);
+	Warning("no pickup for you >:(");
 }
 
 
@@ -716,23 +763,28 @@ void CHL2MP_Player::NoteWeaponFired( void )
 
 extern ConVar sv_maxunlag;
 
-bool CHL2MP_Player::WantsLagCompensationOnEntity( const CBasePlayer *pPlayer, const CUserCmd *pCmd, const CBitVec<MAX_EDICTS> *pEntityTransmitBits ) const
+bool CHL2MP_Player::WantsLagCompensationOnEntity( const CBaseEntity *pEntity, const CUserCmd *pCmd, const CBitVec<MAX_EDICTS> *pEntityTransmitBits ) const
 {
-	// No need to lag compensate at all if we're not attacking in this command and
-	// we haven't attacked recently.
-	if ( !( pCmd->buttons & IN_ATTACK ) && (pCmd->command_number - m_iLastWeaponFireUsercmd > 5) )
+	// Team members shouldn't be adjusted unless friendly fire is on.
+	if ( !friendlyfire.GetInt() && pEntity->GetTeamNumber() == GetTeamNumber() )
 		return false;
 
 	// If this entity hasn't been transmitted to us and acked, then don't bother lag compensating it.
-	if ( pEntityTransmitBits && !pEntityTransmitBits->Get( pPlayer->entindex() ) )
+	if ( pEntityTransmitBits && !pEntityTransmitBits->Get( pEntity->entindex() ) )
 		return false;
 
 	const Vector &vMyOrigin = GetAbsOrigin();
-	const Vector &vHisOrigin = pPlayer->GetAbsOrigin();
+	const Vector &vHisOrigin = pEntity->GetAbsOrigin();
 
 	// get max distance player could have moved within max lag compensation time, 
 	// multiply by 1.5 to to avoid "dead zones"  (sqrt(2) would be the exact value)
-	float maxDistance = 1.5 * pPlayer->MaxSpeed() * sv_maxunlag.GetFloat();
+	float maxspeed;
+	CBasePlayer *pPlayer = ToBasePlayer((CBaseEntity*)pEntity);
+	if ( pPlayer )
+		maxspeed = pPlayer->MaxSpeed();
+	else
+		maxspeed = 600;
+	float maxDistance = 1.5 * maxspeed * sv_maxunlag.GetFloat();
 
 	// If the player is within this distance, lag compensate them in case they're running past us.
 	if ( vHisOrigin.DistTo( vMyOrigin ) < maxDistance )

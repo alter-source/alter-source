@@ -10,6 +10,8 @@
 #include "weapon_hl2mpbasebasebludgeon.h"
 #include "IEffects.h"
 #include "debugoverlay_shared.h"
+#include "dlight.h"
+#include "r_efx.h"
 
 #ifndef CLIENT_DLL
 	#include "npc_metropolice.h"
@@ -25,6 +27,7 @@
 	#include "c_te_effect_dispatch.h"
 	#include "fx_quad.h"
 	#include "fx.h"
+	
 
 	extern void DrawHalo( IMaterial* pMaterial, const Vector &source, float scale, float const *color, float flHDRColorScale );
 	extern void FormatViewModelAttachment( Vector &vOrigin, bool bInverse );
@@ -806,6 +809,18 @@ void C_WeaponStunStick::DrawFirstPersonEffects( void )
 	{
 		color[0] = color[1] = color[2] = 0.4f;
 		scale = 22.0f;
+		/*
+		GetAttachment("sparkrear", vAttachment, tempAng);
+
+		d_light *dl = effects->CL_AllocDlight(index);
+		dl->origin = vAttachment;
+		dl->color.r = 245;
+		dl->color.g = 245;
+		dl->color.b = 245;
+		dl->die = gpGlobals->curtime + 0.05f;
+		dl->radius = random->RandomFloat(245.0f, 256.0f);
+		dl->decay = 512.0f;
+		*/
 	}
 	else
 	{
