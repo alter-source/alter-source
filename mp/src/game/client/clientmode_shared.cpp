@@ -475,6 +475,23 @@ void ClientModeShared::OverrideView( CViewSetup *pSetup )
 }
 
 //-----------------------------------------------------------------------------
+// Purpose: Allow weapons to override mouse input to view angles (for orbiting)
+//-----------------------------------------------------------------------------
+// adnan
+// control the mouse input in the grav gun through this
+bool ClientModeShared::OverrideViewAngles(void)
+{
+	C_BaseCombatWeapon *pWeapon = GetActiveWeapon();
+	if (pWeapon)
+	{
+		// adnan
+		return pWeapon->OverrideViewAngles();
+	}
+
+	return false;
+}
+
+//-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
 bool ClientModeShared::ShouldDrawEntity(C_BaseEntity *pEnt)

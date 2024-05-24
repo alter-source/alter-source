@@ -237,6 +237,8 @@ END_RECV_TABLE()
 
 		RecvPropVector		( RECVINFO( m_vecBaseVelocity ) ),
 
+		RecvPropVector(RECVINFO(m_vecUseAngles)),
+
 		RecvPropEHandle		( RECVINFO( m_hConstraintEntity)),
 		RecvPropVector		( RECVINFO( m_vecConstraintCenter) ),
 		RecvPropFloat		( RECVINFO( m_flConstraintRadius )),
@@ -287,6 +289,8 @@ END_RECV_TABLE()
 
 		RecvPropFloat	(RECVINFO(m_flMaxspeed)),
 		RecvPropInt		(RECVINFO(m_fFlags)),
+
+		RecvPropVector(RECVINFO(m_vecUseAngles)),
 
 
 		RecvPropInt		(RECVINFO(m_iObserverMode), 0, RecvProxy_ObserverMode ),
@@ -1385,6 +1389,21 @@ void C_BasePlayer::CreateWaterEffects( void )
 //-----------------------------------------------------------------------------
 void C_BasePlayer::OverrideView( CViewSetup *pSetup )
 {
+	// adnan
+	// OVERRIDING THE VIEW
+	// need to override the angles too
+	C_BaseCombatWeapon *pWeapon = GetActiveWeapon();
+	if (pWeapon)
+	{
+		// adnan
+		if (pWeapon->OverrideViewAngles()) {
+			// use the useAngles!
+			// override with the angles the server sends to us as useAngles
+			// use the useAngles only if we're holding and rotating with the grav gun
+			//pSetup->angles = m_vecUseAngles;
+		}
+	}
+	// end adnan
 }
 
 bool C_BasePlayer::ShouldInterpolate()
@@ -1754,7 +1773,6 @@ float C_BasePlayer::GetDeathCamInterpolationTime()
 {
 	return DEATH_ANIMATION_TIME;
 }
-
 
 void C_BasePlayer::CalcDeathCamView(Vector& eyeOrigin, QAngle& eyeAngles, float& fov)
 {

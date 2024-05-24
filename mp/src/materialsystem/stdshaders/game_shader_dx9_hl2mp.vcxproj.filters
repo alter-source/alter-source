@@ -82,9 +82,6 @@
     <ClCompile Include="screenspace_general.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RedShader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
