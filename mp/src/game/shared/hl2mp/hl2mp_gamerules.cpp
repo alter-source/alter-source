@@ -33,7 +33,7 @@
 	#include "voice_gamemgr.h"
 	#include "hl2mp_gameinterface.h"
 	#include "hl2mp_cvars.h"
-
+	#include "MainLuaHandle.h"
 #ifdef DEBUG	
 	#include "hl2mp_bot_temp.h"
 #endif
@@ -1151,6 +1151,8 @@ CHL2MPRules::CHL2MPRules()
 	m_bHeardAllPlayersReady = false;
 	m_bAwaitingReadyRestart = false;
 	m_bChangelevelDone = false;
+
+	LoadAddons();
 
 #endif
 }

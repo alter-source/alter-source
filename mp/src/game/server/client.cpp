@@ -1238,7 +1238,7 @@ void CC_Player_NoClip( void )
 {
 
 	if (!strcmp(as_noclip.GetString(), "1") == 0) {
-		Warning("nuh uh! enable as_noclip to do that");
+		Warning("nuh uh! enable as_noclip to do that\n");
 		return;
 	}
 

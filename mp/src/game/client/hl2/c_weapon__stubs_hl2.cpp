@@ -7,6 +7,7 @@
 #include "cbase.h"
 #include "c_weapon__stubs.h"
 #include "basehlcombatweapon_shared.h"
+
 #include "c_basehlcombatweapon.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
@@ -32,6 +33,7 @@ STUB_WEAPON_CLASS(weapon_iceaxe, WeaponIceAxe, C_BaseHLBludgeonWeapon);
 STUB_WEAPON_CLASS(weapon_supercrowbar, WeaponSuperCrowbar, C_BaseHLBludgeonWeapon);
 
 STUB_WEAPON_CLASS(weapon_toolgun, WeaponToolgun, CBaseHLCombatWeapon);
+STUB_WEAPON_CLASS(weapon_camera, WeaponCamera, C_BaseHLCombatWeapon);
 
 #ifndef HL2MP
 STUB_WEAPON_CLASS( weapon_ar2, WeaponAR2, C_HLMachineGun );

@@ -3625,6 +3625,9 @@
     <ClCompile Include="..\shared\weapon_toolgun.cpp">
       <Filter>Source Files\weapons</Filter>
     </ClCompile>
+    <ClCompile Include="weapon_camera.cpp">
+      <Filter>Source Files\weapons</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\public\tier0\pointeroverride.asm">

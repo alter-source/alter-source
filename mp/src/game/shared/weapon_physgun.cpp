@@ -773,7 +773,12 @@ void CWeaponGravityGun::EffectUpdate(void)
 			{
 				m_useDown = false;
 				IPhysicsObject *pPhys = pObject->VPhysicsGetObject();
-				pPhys->EnableMotion(false);
+				if (pPhys->IsMotionEnabled()) {
+					pPhys->EnableMotion(false); // freeze
+				}
+				else {
+					pPhys->EnableMotion(true); // unfreeze
+				}
 
 				//Reattach
 				DetachObject();
@@ -786,7 +791,12 @@ void CWeaponGravityGun::EffectUpdate(void)
 			{
 				m_useDown = true;
 				IPhysicsObject *pPhys = pObject->VPhysicsGetObject();
-				pPhys->EnableMotion(false);
+				if (pPhys->IsMotionEnabled()) {
+					pPhys->EnableMotion(false); // freeze
+				}
+				else {
+					pPhys->EnableMotion(true); // unfreeze
+				}
 			}
 		}
 

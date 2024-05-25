@@ -228,8 +228,10 @@ void CHL2MP_Player::GiveAllItems( void )
 	GiveNamedItem( "weapon_slam" );
 
 	GiveNamedItem( "weapon_physcannon" );
+
 	GiveNamedItem("weapon_physgun");
 	GiveNamedItem("weapon_toolgun");
+	GiveNamedItem("weapon_camera");
 
 	GiveNamedItem("weapon_bugbait");
 

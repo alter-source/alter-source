@@ -31,6 +31,7 @@ private:
 };
 
 void LoadLua(const char* filePath, const bool isEvented);
+void LoadAddons();
 
 LuaHandle* GetLuaHandle();
 

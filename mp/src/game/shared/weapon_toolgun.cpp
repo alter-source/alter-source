@@ -136,7 +136,6 @@ private:
 		MODE_DELETE = 0,
 		MODE_IGNITER,
 		MODE_DUPLICATOR,
-		MODE_UNFREEZER,
 		MODE_MAX
 	};
 
@@ -312,14 +311,6 @@ void CWeaponToolgun::PrimaryAttack(void)
 				DispatchSpawn(pDuplicate);
 			}
 			break;
-		case MODE_UNFREEZER:
-			if (!tr.m_pEnt->IsPlayer() && dynamic_cast<CBaseAnimating*>(tr.m_pEnt))
-			{
-				CBaseEntity* pEnt = tr.m_pEnt;
-				IPhysicsObject* pPhys = pEnt->VPhysicsGetObject();
-				pPhys->EnableMotion(true);
-			}
-			break;
 		}
 	}
 
@@ -455,9 +446,6 @@ void CWeaponToolgun::NotifyMode(CBasePlayer* pPlayer)
 		break;
 	case MODE_DUPLICATOR:
 		modeString = "Duplicator";
-		break;
-	case MODE_UNFREEZER:
-		modeString = "Unfreezer";
 		break;
 	default:
 		modeString = "Unknown Mode";

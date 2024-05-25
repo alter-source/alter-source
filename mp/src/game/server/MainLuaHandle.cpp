@@ -4,6 +4,10 @@
 #include "convar.h"
 #include <stdio.h>
 #include "tier0/memdbgon.h"
+#include "vgui/ISurface.h"
+#include "vgui_controls/Controls.h"
+
+using namespace vgui;
 
 #include "hl2_player.h"
 #include "hl2mp_player.h"
@@ -86,6 +90,33 @@ void MainLuaHandle::Init() {
 	CallLUA(GetLua(), 0, LUA_MULTRET, 0, fullPath);
 	m_bLuaLoaded = true;
 	((IFileSystem *)filesystem)->FreeOptimalReadBuffer(buffer);
+}
+
+void LoadAddons() {
+	const char* addonsDirectory = "addons/";
+
+	if (!filesystem->IsDirectory(addonsDirectory)) {
+		Warning("[LUA-ERR] Addons directory not found.\n");
+		return;
+	}
+
+	const char* fileExtension = ".lua";
+
+	char searchPath[MAX_PATH];
+	Q_snprintf(searchPath, sizeof(searchPath), "%s/*%s", addonsDirectory, fileExtension);
+
+	FileFindHandle_t findHandle;
+	const char* fileName = filesystem->FindFirst(searchPath, &findHandle);
+	while (fileName) {
+		char filePath[MAX_PATH];
+		Q_snprintf(filePath, sizeof(filePath), "%s/%s", addonsDirectory, fileName);
+
+		LoadLua(filePath, false);
+
+		fileName = filesystem->FindNext(findHandle);
+	}
+	filesystem->FindClose(findHandle);
+	Msg("[LUA] Addons successfuly loaded!\n");
 }
 
 void LoadLua(const char* filePath, const bool isEvented) {
@@ -245,6 +276,13 @@ LUA_FUNC(luaSayToClient, [](lua_State *L) {
 		ClientPrint(player, HUD_PRINTTALK, msg.c_str());
 	return 0;
 })
+LUA_FUNC(luaPlaySound, [](lua_State *L) {
+	const char* soundName = lua_tostring(L, 1);
+	surface()->PlaySound(soundName);
+
+	return 0;
+})
+
 
 void MainLuaHandle::RegFunctions() {
 	REG_FUNCTION(Msg);
@@ -317,6 +355,7 @@ void MainLuaHandle::RegFunctions() {
 	REG_FUNCTION(SetEntityModel);
 	REG_FUNCTION(SetEntityAngles);
 	REG_FUNCTION(SayToClient);
+	REG_FUNCTION(PlaySound);
 }
 
 LuaHandle* g_LuaHandle = NULL;

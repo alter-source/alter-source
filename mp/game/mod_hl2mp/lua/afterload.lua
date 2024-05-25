@@ -1,1 +1,1 @@
-Say("hi, ".. GetPlayerName(GetNewPlayer()).. "!")
+Say(GetPlayerName(GetNewPlayer()).. " has loaded into the game")
