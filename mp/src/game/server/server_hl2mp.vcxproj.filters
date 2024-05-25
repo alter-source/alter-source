@@ -40,20 +40,14 @@
     <Filter Include="VPC Scripts">
       <UniqueIdentifier>{A40EE377-781A-C6B9-0C7C-B3BE118D248E}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Lua">
-      <UniqueIdentifier>{60eb6924-5df3-411a-92a4-cf1e71132641}</UniqueIdentifier>
+    <Filter Include="Source Files\lua">
+      <UniqueIdentifier>{7a4e29e9-0926-4a43-8f02-72f5d5e2d8ae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Lua\Handles">
-      <UniqueIdentifier>{b920bc4c-eb09-436c-8d49-8d348427ddc3}</UniqueIdentifier>
+    <Filter Include="Source Files\hl2beta">
+      <UniqueIdentifier>{5c9ee438-578e-407b-bf6b-8f128de562eb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Lua\Other">
-      <UniqueIdentifier>{b111cc24-8848-44fa-a51e-b156b9d957de}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\beetah">
-      <UniqueIdentifier>{4327ee37-9e09-4849-84c3-92cdf570b3c0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\weapons">
-      <UniqueIdentifier>{59688b8b-9c0e-4b11-b88e-4ccbdc23acd5}</UniqueIdentifier>
+    <Filter Include="Source Files\weaponzz">
+      <UniqueIdentifier>{f0f7d191-92af-4bef-a18e-4af842206e15}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1841,26 +1835,26 @@
     <ClInclude Include="toolframework_server.h">
       <Filter>Tools Framework</Filter>
     </ClInclude>
+    <ClInclude Include="lua\lauxlib.h">
+      <Filter>Source Files\lua</Filter>
+    </ClInclude>
     <ClInclude Include="lua\lua.h">
-      <Filter>Source Files\Lua</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="lua\lua.hpp">
-      <Filter>Source Files\Lua</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="lua\luaconf.h">
-      <Filter>Source Files\Lua</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="lua\lualib.h">
-      <Filter>Source Files\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="lua\lauxlib.h">
-      <Filter>Source Files\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="MainLuaHandle.h">
-      <Filter>Source Files\Lua\Handles</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="ge_luamanger.h">
-      <Filter>Source Files\Lua</Filter>
+      <Filter>Source Files\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="MainLuaHandle.h">
+      <Filter>Source Files\lua</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3592,42 +3586,38 @@
     <ClCompile Include="toolframework_server.cpp">
       <Filter>Tools Framework</Filter>
     </ClCompile>
-    <ClCompile Include="ge_luamanager.cpp">
-      <Filter>Source Files\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="..\shared\weapon_physgun.cpp">
-      <Filter>Source Files\HL2MP\Weapons</Filter>
-    </ClCompile>
-    <ClCompile Include="MainLuaHandle.cpp">
-      <Filter>Source Files\Lua\Handles</Filter>
-    </ClCompile>
-    <ClCompile Include="vehicle_jeep.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="hl2beta\weapon_irifle.cpp">
-      <Filter>Source Files\beetah</Filter>
-    </ClCompile>
-    <ClCompile Include="hl2beta\weapon_smg2.cpp">
-      <Filter>Source Files\beetah</Filter>
-    </ClCompile>
-    <ClCompile Include="hl2beta\weapon_sniperrifle.cpp">
-      <Filter>Source Files\beetah</Filter>
-    </ClCompile>
-    <ClCompile Include="hl2beta\weapon_supercrowbar.cpp">
-      <Filter>Source Files\beetah</Filter>
-    </ClCompile>
     <ClCompile Include="hl2beta\weapon_ar1.cpp">
-      <Filter>Source Files\beetah</Filter>
+      <Filter>Source Files\hl2beta</Filter>
     </ClCompile>
     <ClCompile Include="hl2beta\weapon_iceaxe.cpp">
-      <Filter>Source Files\beetah</Filter>
+      <Filter>Source Files\hl2beta</Filter>
     </ClCompile>
-    <ClCompile Include="..\shared\weapon_toolgun.cpp">
-      <Filter>Source Files\weapons</Filter>
+    <ClCompile Include="hl2beta\weapon_irifle.cpp">
+      <Filter>Source Files\hl2beta</Filter>
+    </ClCompile>
+    <ClCompile Include="hl2beta\weapon_smg2.cpp">
+      <Filter>Source Files\hl2beta</Filter>
+    </ClCompile>
+    <ClCompile Include="hl2beta\weapon_sniperrifle.cpp">
+      <Filter>Source Files\hl2beta</Filter>
+    </ClCompile>
+    <ClCompile Include="hl2beta\weapon_supercrowbar.cpp">
+      <Filter>Source Files\hl2beta</Filter>
+    </ClCompile>
+    <ClCompile Include="ge_luamanager.cpp">
+      <Filter>Source Files\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="MainLuaHandle.cpp">
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="weapon_camera.cpp">
-      <Filter>Source Files\weapons</Filter>
+      <Filter>Source Files\weaponzz</Filter>
     </ClCompile>
+    <ClCompile Include="..\shared\weapon_physgun.cpp">
+      <Filter>Source Files\weaponzz</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\public\tier0\pointeroverride.asm">
