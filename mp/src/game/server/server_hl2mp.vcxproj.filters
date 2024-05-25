@@ -3616,6 +3616,9 @@
     <ClCompile Include="..\shared\weapon_physgun.cpp">
       <Filter>Source Files\weaponzz</Filter>
     </ClCompile>
+    <ClCompile Include="..\shared\weapon_toolgun.cpp">
+      <Filter>Source Files\weaponzz</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

@@ -1220,7 +1220,7 @@ static int FindPassableSpace( CBasePlayer *pPlayer, const Vector& direction, flo
 	return 0;
 }
 
-static ConVar as_noclip("as_noclip", "0", FCVAR_CHEAT);
+static ConVar as_noclip("as_noclip", "1", FCVAR_CHEAT);
 
 //------------------------------------------------------------------------------
 // Noclip

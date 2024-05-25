@@ -484,7 +484,21 @@ void CHL2MP_Player::Spawn(void)
 
 void CHL2MP_Player::PickupObject(CBaseEntity *pObject, bool bLimitMassAndSize)
 {
-	Warning("no pickup for you >:(");
+	// can't pick up what you're standing on
+	if (GetGroundEntity() == pObject)
+		return;
+
+
+	BaseClass::PickupObject(pObject, bLimitMassAndSize);
+
+	// Can't be picked up if NPCs are on me
+	if (pObject->HasNPCsOnIt())
+		return;
+
+	HideViewModels();
+	ClearActiveWeapon();
+
+	PlayerPickupObject(this, pObject);
 }
 
 

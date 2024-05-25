@@ -634,17 +634,9 @@ SpawnMenu
 		{
 				"#"	"prop_physics_create props_lab/desklamp01.mdl"
 		}
-		"Cannister 1"
+		"Maxwell the Cat"
 		{
-			"#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models\fire_equipment\w_weldtank.mdl"
-		}
-		"Cannister 2"
-		{
-			"#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models\fire_equipment\w_weldtank2.mdl"
-		}
-		"Basketball"
-		{
-			"#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models\basketball.mdl"
+				"#"	"prop_dynamic_create dingus/dingus.mdl"
 		}
         }
 	"Ragdolls"
