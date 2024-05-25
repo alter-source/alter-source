@@ -1781,10 +1781,19 @@ int CHL2MPRules::PlayerRelationship( CBaseEntity *pPlayer, CBaseEntity *pTarget 
 
 const char *CHL2MPRules::GetGameDescription( void )
 { 
-	if ( IsTeamplay() )
-		return "Team Deathmatch"; 
-
-	return "Deathmatch"; 
+	ConVar *gamemodeVar = cvar->FindVar("as_gamemode");
+	if (gamemodeVar) {
+		const char* gamemodeStr = gamemodeVar->GetString();
+		if (FStrEq(gamemodeStr, "TDM")) {
+			return "Team Deathmatch";
+		}
+		else {
+			return gamemodeStr;
+		}
+	}
+	else {
+		return "Sandbox";
+	}
 } 
 
 bool CHL2MPRules::IsConnectedUserInfoChangeAllowed( CBasePlayer *pPlayer )

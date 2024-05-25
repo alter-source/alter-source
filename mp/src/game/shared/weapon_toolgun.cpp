@@ -115,7 +115,7 @@ public:
 
 	virtual float GetFireRate(void)
 	{
-		return 0.5f;
+		return 0.314f;
 	}
 
 	DECLARE_ACTTABLE();
@@ -135,6 +135,8 @@ private:
 	{
 		MODE_DELETE = 0,
 		MODE_IGNITER,
+		MODE_DUPLICATOR,
+		MODE_UNFREEZER,
 		MODE_MAX
 	};
 
@@ -278,23 +280,46 @@ void CWeaponToolgun::PrimaryAttack(void)
 
 	if (tr.m_pEnt && tr.m_pEnt->IsSolid())
 	{
-		if (m_Mode == MODE_DELETE && dynamic_cast<CBaseAnimating*>(tr.m_pEnt) && !tr.m_pEnt->IsPlayer())
+		switch (m_Mode)
 		{
-			DispatchParticleEffect("impact_fx", tr.m_pEnt->GetAbsOrigin(), tr.m_pEnt->GetAbsAngles());
-			UTIL_Remove(tr.m_pEnt);
-		}
-	}
-	else
-	{
-		if (m_Mode == MODE_IGNITER && !tr.m_pEnt->IsPlayer())
-		{
-			CBaseProp* pProp = dynamic_cast<CBaseProp*>(tr.m_pEnt);
-			if (IsServer()) {
-				pProp->Ignite(-2.0f, false, 0.0f, false);
+		case MODE_DELETE:
+			if (dynamic_cast<CBaseAnimating*>(tr.m_pEnt) && !tr.m_pEnt->IsPlayer())
+			{
+				DispatchParticleEffect("impact_fx", tr.m_pEnt->GetAbsOrigin(), tr.m_pEnt->GetAbsAngles());
+				UTIL_Remove(tr.m_pEnt);
 			}
-			else {
-				Warning("not server");
+			break;
+		case MODE_IGNITER:
+			if (!tr.m_pEnt->IsPlayer() && dynamic_cast<CBaseAnimating*>(tr.m_pEnt))
+			{
+				CBaseProp* pProp = dynamic_cast<CBaseProp*>(tr.m_pEnt);
+				if (pProp)
+				{
+					if (IsServer()) {
+						pProp->Ignite(60.0f, false, 0.0f, true);
+					}
+					else {
+						Warning("not server");
+					}
+				}
 			}
+		case MODE_DUPLICATOR:
+			if (!tr.m_pEnt->IsPlayer() && dynamic_cast<CBaseAnimating*>(tr.m_pEnt))
+			{
+				CBaseEntity* pDuplicate = CreateEntityByName(tr.m_pEnt->GetClassname());
+				pDuplicate->SetAbsOrigin(tr.m_pEnt->GetAbsOrigin() + Vector(50, 0, 0));
+				pDuplicate->SetAbsAngles(tr.m_pEnt->GetAbsAngles());
+				DispatchSpawn(pDuplicate);
+			}
+			break;
+		case MODE_UNFREEZER:
+			if (!tr.m_pEnt->IsPlayer() && dynamic_cast<CBaseAnimating*>(tr.m_pEnt))
+			{
+				CBaseEntity* pEnt = tr.m_pEnt;
+				IPhysicsObject* pPhys = pEnt->VPhysicsGetObject();
+				pPhys->EnableMotion(true);
+			}
+			break;
 		}
 	}
 
@@ -405,7 +430,7 @@ bool CWeaponToolgun::Reload(void)
 	SwitchMode();
 	NotifyMode(pOwner);
 
-	m_flNextModeSwitch = gpGlobals->curtime + 1.0f;
+	m_flNextModeSwitch = gpGlobals->curtime + 0.314f;
 
 	return true;
 }
@@ -427,6 +452,12 @@ void CWeaponToolgun::NotifyMode(CBasePlayer* pPlayer)
 		break;
 	case MODE_IGNITER:
 		modeString = "Igniter";
+		break;
+	case MODE_DUPLICATOR:
+		modeString = "Duplicator";
+		break;
+	case MODE_UNFREEZER:
+		modeString = "Unfreezer";
 		break;
 	default:
 		modeString = "Unknown Mode";
