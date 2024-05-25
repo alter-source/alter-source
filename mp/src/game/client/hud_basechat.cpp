@@ -41,11 +41,11 @@ ConVar cl_mute_all_comms("cl_mute_all_comms", "1", FCVAR_ARCHIVE, "If 1, then al
 
 const int kChatFilterVersion = 1;
 
-Color g_ColorBlue( 153, 204, 255, 255 );
-Color g_ColorRed( 255, 63, 63, 255 );
+Color g_ColorBlue( 0, 0, 255, 255 );
+Color g_ColorRed( 255, 0, 0, 255 );
 Color g_ColorGreen( 153, 255, 153, 255 );
-Color g_ColorDarkGreen( 64, 255, 64, 255 );
-Color g_ColorYellow( 255, 178, 0, 255 );
+Color g_ColorDarkGreen( 1, 50, 32, 255 );
+Color g_ColorYellow( 255, 255, 0, 255 );
 Color g_ColorGrey( 204, 204, 204, 255 );
 Color g_ColorWhite(255, 255, 255, 255);
 

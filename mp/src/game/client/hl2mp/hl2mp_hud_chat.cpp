@@ -96,21 +96,26 @@ int CHudChat::GetChatInputOffset( void )
 		return 0;
 }
 
-Color CHudChat::GetClientColor( int clientIndex )
+Color CHudChat::GetClientColor(int clientIndex)
 {
-	if ( clientIndex == 0 ) // console msg
+	if (clientIndex == 0)
 	{
-		return g_ColorYellow;
+		return g_ColorGreen;
 	}
-	else if( g_PR )
+
+	else if (g_PR)
 	{
-		switch ( g_PR->GetTeam( clientIndex ) )
+		bool isTeamGame = (strcmp(cvar->FindVar("as_gamemode")->GetString(), "TDM") == 0 || cvar->FindVar("mp_teamplay")->GetBool());
+
+		if (isTeamGame)
 		{
-		case TEAM_COMBINE	: return g_ColorBlue;
-		case TEAM_REBELS	: return g_ColorRed;
-		default	: return g_ColorYellow;
+			switch (g_PR->GetTeam(clientIndex))
+			{
+			case TEAM_COMBINE: return g_ColorBlue;
+			case TEAM_REBELS: return g_ColorRed;
+			}
 		}
 	}
 
-	return g_ColorYellow;
+	return g_ColorGrey;
 }

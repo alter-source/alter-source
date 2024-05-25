@@ -366,9 +366,11 @@ void CHL2MP_Player::GiveDefaultItems( void )
 	case DEATHMATCH:
 	case COOPERATIVE:
 		GiveDeathmatchItems();
+		SuitPower_Charge(100.0f);
 		break;
 	case RANDOMIZER:
 		GiveRandomizerItems();
+		SuitPower_Charge(100.0f);
 		break;
 	case CHAOTIC:
 		GiveChaoticItems();
@@ -377,6 +379,7 @@ void CHL2MP_Player::GiveDefaultItems( void )
 		SuitPower_SetCharge(999999999999999.0f);
 		break;
 	default:
+		StartAdmireGlovesAnimation();
 		break;
 	}
 }

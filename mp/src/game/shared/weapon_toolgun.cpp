@@ -289,7 +289,7 @@ void CWeaponToolgun::PrimaryAttack(void)
 			}
 			break;
 		case MODE_IGNITER:
-			if (!tr.m_pEnt->IsPlayer() && dynamic_cast<CBaseAnimating*>(tr.m_pEnt))
+			if (!tr.m_pEnt->IsPlayer())
 			{
 				CBaseProp* pProp = dynamic_cast<CBaseProp*>(tr.m_pEnt);
 				if (pProp)
