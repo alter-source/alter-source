@@ -291,19 +291,27 @@ void CWeaponToolgun::PrimaryAttack(void)
 		case MODE_IGNITER:
 			if (!tr.m_pEnt->IsPlayer())
 			{
-				CBaseProp* pProp = dynamic_cast<CBaseProp*>(tr.m_pEnt);
-				if (pProp)
+				CBaseProp* pBaseProp = dynamic_cast<CBaseProp*>(tr.m_pEnt);
+				CBreakableProp *pBreakableProp = dynamic_cast<CBreakableProp *>(tr.m_pEnt); // for some reason dynamic and physics prop classes are based on CBreakableProp
+				if(pBaseProp)
 				{
-					if (IsServer()) {
-						pProp->Ignite(60.0f, false, 0.0f, true);
-					}
-					else {
-						Warning("not server");
-					}
+					pBaseProp->Ignite(60.0f, false, 0.0f, true);
+				}
+				else if(pBreakableProp)
+				{
+					pBreakableProp->Ignite(60.0f, false, 0.0f, true);
 				}
 			}
+			else if(tr.m_pEnt->IsNPC())
+			{
+				CAI_BaseNPC *pNpc = dynamic_cast<CAI_BaseNPC*>(tr.m_pEnt); // intellisense isnt helping me
+				if(pNpc) {
+					pNpc->Ignite(60.0f, false, 0.0f, true);
+				}
+			}
+			break;
 		case MODE_DUPLICATOR:
-			if (!tr.m_pEnt->IsPlayer() && dynamic_cast<CBaseAnimating*>(tr.m_pEnt))
+			if (!tr.m_pEnt->IsPlayer() || dynamic_cast<CBaseAnimating*>(tr.m_pEnt))
 			{
 				CBaseEntity* pDuplicate = CreateEntityByName(tr.m_pEnt->GetClassname());
 				pDuplicate->SetAbsOrigin(tr.m_pEnt->GetAbsOrigin() + Vector(50, 0, 0));
