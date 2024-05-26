@@ -54,7 +54,7 @@ extern CBaseEntity*	FindPickerEntity(CBasePlayer* pPlayer);
 
 extern bool IsInCommentaryMode(void);
 
-ConVar  *sv_cheats = NULL;
+ConVar *sv_cheats = NULL;
 
 enum eAllowPointServerCommand {
 	eAllowNever,
@@ -1344,6 +1344,7 @@ static int FindPassableSpace(CBasePlayer *pPlayer, const Vector& direction, floa
 	return 0;
 }
 
+static ConVar as_noclip("as_noclip", "1", FCVAR_CHEAT, "Enables Noclip");
 
 //------------------------------------------------------------------------------
 // Noclip
@@ -1359,7 +1360,8 @@ void EnableNoClip(CBasePlayer *pPlayer)
 
 void CC_Player_NoClip(void)
 {
-	if (!sv_cheats->GetBool())
+	if (!as_noclip.GetBool())
+		Warning("nuh uh!! enable as_noclip to do that\n");
 		return;
 
 	CBasePlayer *pPlayer = ToBasePlayer(UTIL_GetCommandClient());
@@ -1387,31 +1389,43 @@ void CC_Player_NoClip(void)
 		AngleVectors(pl->v_angle, &forward, &right, &up);
 
 		// Try to move into the world
-		if (!FindPassableSpace(pPlayer, forward, 1, oldorigin))
+		bool foundPassableSpace = false;
+
+		if (FindPassableSpace(pPlayer, forward, 1, oldorigin))
 		{
-			if (!FindPassableSpace(pPlayer, right, 1, oldorigin))
-			{
-				if (!FindPassableSpace(pPlayer, right, -1, oldorigin))		// left
-				{
-					if (!FindPassableSpace(pPlayer, up, 1, oldorigin))	// up
-					{
-						if (!FindPassableSpace(pPlayer, up, -1, oldorigin))	// down
-						{
-							if (!FindPassableSpace(pPlayer, forward, -1, oldorigin))	// back
-							{
-								Msg("Can't find the world\n");
-							}
-						}
-					}
-				}
-			}
+			foundPassableSpace = true;
+		}
+		else if (FindPassableSpace(pPlayer, right, 1, oldorigin))
+		{
+			foundPassableSpace = true;
+		}
+		else if (FindPassableSpace(pPlayer, right, -1, oldorigin)) // left
+		{
+			foundPassableSpace = true;
+		}
+		else if (FindPassableSpace(pPlayer, up, 1, oldorigin)) // up
+		{
+			foundPassableSpace = true;
+		}
+		else if (FindPassableSpace(pPlayer, up, -1, oldorigin)) // down
+		{
+			foundPassableSpace = true;
+		}
+		else if (FindPassableSpace(pPlayer, forward, -1, oldorigin)) // back
+		{
+			foundPassableSpace = true;
+		}
+
+		if (!foundPassableSpace)
+		{
+			Msg("Can't find the world\n");
 		}
 
 		pPlayer->SetAbsOrigin(oldorigin);
 	}
 }
 
-static ConCommand noclip("noclip", CC_Player_NoClip, "Toggle. Player becomes non-solid and flies.", FCVAR_CHEAT);
+static ConCommand noclip("noclip", CC_Player_NoClip, "Toggle. Player becomes non-solid and flies.", FCVAR_NONE);
 
 
 //------------------------------------------------------------------------------

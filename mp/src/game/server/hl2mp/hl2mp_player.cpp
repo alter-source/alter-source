@@ -347,6 +347,7 @@ void CHL2MP_Player::GiveDeathmatchItems(void)
 
 void CHL2MP_Player::GiveDefaultItems( void )
 {
+	cvar->FindVar("sv_cheats")->SetValue(0);
 	LoadLua("lua/afterload.lua", false);
 
 	const char* gamemodeStr = as_gamemode.GetString();

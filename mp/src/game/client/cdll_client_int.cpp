@@ -1015,7 +1015,8 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 	IGameSystem::Add( MumbleSystem() );
 
 	MountGamesFromConfig();
-	
+	cvar->FindVar("sv_cheats")->SetValue(1);
+
 	#if defined( TF_CLIENT_DLL )
 	IGameSystem::Add( CustomTextureToolCacheGameSystem() );
 	IGameSystem::Add( TFSharedContentManager() );

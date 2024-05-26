@@ -454,7 +454,7 @@ void CC_NPC_Create( const CCommand &args )
 	}
 	CBaseEntity::SetAllowPrecache( allowPrecache );
 }
-static ConCommand npc_create("npc_create", CC_NPC_Create, "Creates an NPC of the given type where the player is looking (if the given NPC can actually stand at that location).  Note that this only works for npc classes that are already in the world.  You can not create an entity that doesn't have an instance in the level.\n\tArguments:	{npc_class_name}", FCVAR_CHEAT);
+static ConCommand npc_create("npc_create", CC_NPC_Create, "Creates an NPC of the given type where the player is looking (if the given NPC can actually stand at that location).  Note that this only works for npc classes that are already in the world.  You can not create an entity that doesn't have an instance in the level.\n\tArguments:	{npc_class_name}", FCVAR_NONE);
 
 
 //------------------------------------------------------------------------------

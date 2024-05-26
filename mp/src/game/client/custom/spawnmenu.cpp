@@ -205,7 +205,7 @@ public:
 		ConVar* pAsGameModeCVar = g_pCVar->FindVar("as_gamemode");
 		const char* gameModeValue = pAsGameModeCVar->GetString();
 
-		if (strcmp(gameModeValue, "Sandbox") == 0 || strcmp(as_spawnmenu.GetString(), "1") == 0) {
+		if (strcmp(gameModeValue, "Sandbox") == 0 || as_spawnmenu.GetBool()) {
 			SetVisible(spawn.GetBool());
 		}
 		else {

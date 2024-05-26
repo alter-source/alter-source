@@ -5077,7 +5077,7 @@ void CC_Ent_Remove( const CCommand& args )
 		UTIL_Remove( pEntity );
 	}
 }
-static ConCommand ent_remove("ent_remove", CC_Ent_Remove, "Removes the given entity(s)\n\tArguments:   	{entity_name} / {class_name} / no argument picks what player is looking at ", FCVAR_CHEAT);
+static ConCommand ent_remove("ent_remove", CC_Ent_Remove, "Removes the given entity(s)\n\tArguments:   	{entity_name} / {class_name} / no argument picks what player is looking at ", FCVAR_NONE);
 
 //------------------------------------------------------------------------------
 void CC_Ent_RemoveAll( const CCommand& args )
@@ -7368,7 +7368,7 @@ void CC_Ent_Create( const CCommand& args )
 	}
 	CBaseEntity::SetAllowPrecache( allowPrecache );
 }
-static ConCommand ent_create("ent_create", CC_Ent_Create, "Creates an entity of the given type where the player is looking.  Additional parameters can be passed in in the form: ent_create <entity name> <param 1 name> <param 1> <param 2 name> <param 2>...<param N name> <param N>", FCVAR_GAMEDLL | FCVAR_CHEAT);
+static ConCommand ent_create("ent_create", CC_Ent_Create, "Creates an entity of the given type where the player is looking.  Additional parameters can be passed in in the form: ent_create <entity name> <param 1 name> <param 1> <param 2 name> <param 2>...<param N name> <param N>", FCVAR_GAMEDLL | FCVAR_NONE);
 
 //------------------------------------------------------------------------------
 // Purpose: Teleport a specified entity to where the player is looking
