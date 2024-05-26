@@ -148,6 +148,7 @@ private:
 	CUtlVector< vgui::Panel * >		m_LayoutItems;
 };
 
+ConVar as_spawnmenu("as_spawnmenu", "0", FCVAR_CHEAT | FCVAR_REPLICATED, "Enable the Spawn Menu");
 ConVar spawn("spawnmenu", "0", FCVAR_CLIENTDLL, "Spawn Menu");
 
 class CSMLMenu : public vgui::PropertyDialog
@@ -202,10 +203,9 @@ public:
 	{
 		BaseClass::OnTick();
 		ConVar* pAsGameModeCVar = g_pCVar->FindVar("as_gamemode");
-
 		const char* gameModeValue = pAsGameModeCVar->GetString();
 
-		if (strcmp(gameModeValue, "Sandbox") == 0) {
+		if (strcmp(gameModeValue, "Sandbox") == 0 || strcmp(as_spawnmenu.GetString(), "1") == 0) {
 			SetVisible(spawn.GetBool());
 		}
 		else {

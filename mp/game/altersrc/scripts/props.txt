@@ -1052,6 +1052,14 @@ SpawnMenu
 		{
 			"#"	"give weapon_bugbait"
 		}
+		"Toolgun"
+		{
+			"#"	"give weapon_toolgun"
+		}
+		"Camera"
+		{
+			"#"	"give weapon_camera"
+		}
 		"Incendiary Rifle"
 		{
 			"#"	"give weapon_irifle"

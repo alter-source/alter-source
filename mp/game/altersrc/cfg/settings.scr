@@ -73,6 +73,7 @@ DESCRIPTION SERVER_OPTIONS
 			"Chaotic" "Chaotic"
 			"Randomizer" "Randomizer"
 			"Cooperative" "Cooperative"
+			"Campaign" "Campaign"
 		}
 		{ "Sandbox" }
 	}
@@ -131,6 +132,13 @@ DESCRIPTION SERVER_OPTIONS
 		"Noclip"
 		{ BOOL }
 		{ "1" }
+	}
+	
+	"as_spawnmenu"
+	{
+		"Spawn Menu"
+		{ BOOL }
+		{ "0" }
 	}
 
 }
