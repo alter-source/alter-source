@@ -1344,7 +1344,7 @@ static int FindPassableSpace(CBasePlayer *pPlayer, const Vector& direction, floa
 	return 0;
 }
 
-static ConVar as_noclip("as_noclip", "1", FCVAR_CHEAT, "Enables Noclip");
+static ConVar as_noclip("as_noclip", "1", FCVAR_CHEAT);
 
 //------------------------------------------------------------------------------
 // Noclip
@@ -1360,9 +1360,11 @@ void EnableNoClip(CBasePlayer *pPlayer)
 
 void CC_Player_NoClip(void)
 {
-	if (!as_noclip.GetBool())
-		Warning("nuh uh!! enable as_noclip to do that\n");
+
+	if (!strcmp(as_noclip.GetString(), "1") == 0 || !sv_cheats->GetBool()) {
+		Warning("nuh uh! enable as_noclip to do that\n");
 		return;
+	}
 
 	CBasePlayer *pPlayer = ToBasePlayer(UTIL_GetCommandClient());
 	if (!pPlayer)
@@ -1389,36 +1391,24 @@ void CC_Player_NoClip(void)
 		AngleVectors(pl->v_angle, &forward, &right, &up);
 
 		// Try to move into the world
-		bool foundPassableSpace = false;
-
-		if (FindPassableSpace(pPlayer, forward, 1, oldorigin))
+		if (!FindPassableSpace(pPlayer, forward, 1, oldorigin))
 		{
-			foundPassableSpace = true;
-		}
-		else if (FindPassableSpace(pPlayer, right, 1, oldorigin))
-		{
-			foundPassableSpace = true;
-		}
-		else if (FindPassableSpace(pPlayer, right, -1, oldorigin)) // left
-		{
-			foundPassableSpace = true;
-		}
-		else if (FindPassableSpace(pPlayer, up, 1, oldorigin)) // up
-		{
-			foundPassableSpace = true;
-		}
-		else if (FindPassableSpace(pPlayer, up, -1, oldorigin)) // down
-		{
-			foundPassableSpace = true;
-		}
-		else if (FindPassableSpace(pPlayer, forward, -1, oldorigin)) // back
-		{
-			foundPassableSpace = true;
-		}
-
-		if (!foundPassableSpace)
-		{
-			Msg("Can't find the world\n");
+			if (!FindPassableSpace(pPlayer, right, 1, oldorigin))
+			{
+				if (!FindPassableSpace(pPlayer, right, -1, oldorigin))		// left
+				{
+					if (!FindPassableSpace(pPlayer, up, 1, oldorigin))	// up
+					{
+						if (!FindPassableSpace(pPlayer, up, -1, oldorigin))	// down
+						{
+							if (!FindPassableSpace(pPlayer, forward, -1, oldorigin))	// back
+							{
+								Msg("Can't find the world\n");
+							}
+						}
+					}
+				}
+			}
 		}
 
 		pPlayer->SetAbsOrigin(oldorigin);
@@ -1426,7 +1416,6 @@ void CC_Player_NoClip(void)
 }
 
 static ConCommand noclip("noclip", CC_Player_NoClip, "Toggle. Player becomes non-solid and flies.", FCVAR_NONE);
-
 
 //------------------------------------------------------------------------------
 // Sets client to godmode
