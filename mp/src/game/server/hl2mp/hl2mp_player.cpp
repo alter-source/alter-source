@@ -356,12 +356,14 @@ void CHL2MP_Player::GiveDefaultItems( void )
 #ifndef CLIENT_DLL
 	cvar->FindVar("sv_infinite_aux_power")->SetValue(gamemode == SANDBOX ? 1 : 0);
 	cvar->FindVar("coop")->SetValue(gamemode == COOPERATIVE ? 1 : 0);
+	cvar->FindVar("sv_cheats")->SetValue(gamemode == SANDBOX ? 1 : 0);
 	cvar->FindVar("deathmatch")->SetValue((gamemode == TDM || gamemode == DEATHMATCH) ? 1 : 0);
 #endif
 
 	switch (gamemode)
 	{
 	case SANDBOX:
+
 		GiveAllItems();
 		break;
 	case TDM:

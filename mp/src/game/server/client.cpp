@@ -1360,9 +1360,8 @@ void EnableNoClip(CBasePlayer *pPlayer)
 
 void CC_Player_NoClip(void)
 {
-
-	if (!strcmp(as_noclip.GetString(), "1") == 0 || !sv_cheats->GetBool()) {
-		Warning("nuh uh! enable as_noclip to do that\n");
+	if (!strcmp(as_noclip.GetString(), "1") == 0) {
+		Error("nuh uh! enable as_noclip to do that\n");
 		return;
 	}
 
@@ -1415,7 +1414,7 @@ void CC_Player_NoClip(void)
 	}
 }
 
-static ConCommand noclip("noclip", CC_Player_NoClip, "Toggle. Player becomes non-solid and flies.", FCVAR_NONE);
+static ConCommand noclip("noclip", CC_Player_NoClip, "Toggle. Player becomes non-solid and flies.", FCVAR_CHEAT);
 
 //------------------------------------------------------------------------------
 // Sets client to godmode

@@ -34,6 +34,15 @@
     <Filter Include="Source Files\HL2MP">
       <UniqueIdentifier>{2BA678C8-595F-A004-FD96-60E33CA8DE83}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\HL2MP\Mounting">
+      <UniqueIdentifier>{30DBFDD9-38BF-A5A4-BBE7-64F78EF39C35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\HL2MP\Shadowing/Lightning">
+      <UniqueIdentifier>{256B54F5-CCDE-7464-BE3E-BCFE4A5F5C4E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\HL2MP\Spawnmenu">
+      <UniqueIdentifier>{21813930-EAE2-D33A-A554-2C572A752954}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\HL2MP\UI">
       <UniqueIdentifier>{0B2F6887-5DFD-E914-A406-9470E425C8E9}</UniqueIdentifier>
     </Filter>
@@ -55,15 +64,15 @@
     <Filter Include="VPC Scripts">
       <UniqueIdentifier>{A40EE377-781A-C6B9-0C7C-B3BE118D248E}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\other">
-      <UniqueIdentifier>{e91dc20d-4e88-42d2-b825-e19439665588}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\..\lib\public\bitmap.lib">
       <Filter>Link Libraries</Filter>
     </Library>
     <Library Include="..\..\lib\public\choreoobjects.lib">
+      <Filter>Link Libraries</Filter>
+    </Library>
+    <Library Include="..\..\lib\public\discord-rpc.lib">
       <Filter>Link Libraries</Filter>
     </Library>
     <Library Include="..\..\lib\public\dmxloader.lib">
@@ -1898,6 +1907,18 @@
     <ClInclude Include="..\..\game\shared\hl2mp\hl2mp_weapon_parse.h">
       <Filter>Source Files\HL2MP</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\game\client\gamemounts.h">
+      <Filter>Source Files\HL2MP\Mounting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\game\client\worldlight.h">
+      <Filter>Source Files\HL2MP\Shadowing/Lightning</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\game\client\custom\spawnmenu.h">
+      <Filter>Source Files\HL2MP\Spawnmenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\game\client\custom\vgui_imagebutton.h">
+      <Filter>Source Files\HL2MP\Spawnmenu</Filter>
+    </ClInclude>
     <ClInclude Include="hl2mp\ui\backgroundpanel.h">
       <Filter>Source Files\HL2MP\UI</Filter>
     </ClInclude>
@@ -1945,18 +1966,6 @@
     </ClInclude>
     <ClInclude Include="toolframework_client.h">
       <Filter>Tool Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="custom\spawnmenu.h">
-      <Filter>Source Files\other</Filter>
-    </ClInclude>
-    <ClInclude Include="worldlight.h">
-      <Filter>Source Files\other</Filter>
-    </ClInclude>
-    <ClInclude Include="custom\vgui_imagebutton.h">
-      <Filter>Source Files\other</Filter>
-    </ClInclude>
-    <ClInclude Include="gamemounts.h">
-      <Filter>Source Files\other</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3241,6 +3250,18 @@
     <ClCompile Include="..\..\game\shared\hl2mp\hl2mp_weapon_parse.cpp">
       <Filter>Source Files\HL2MP</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\game\client\gamemounts.cpp">
+      <Filter>Source Files\HL2MP\Mounting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\client\worldlight.cpp">
+      <Filter>Source Files\HL2MP\Shadowing/Lightning</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\client\custom\spawnmenu.cpp">
+      <Filter>Source Files\HL2MP\Spawnmenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\client\custom\vgui_imagebutton.cpp">
+      <Filter>Source Files\HL2MP\Spawnmenu</Filter>
+    </ClCompile>
     <ClCompile Include="hl2mp\ui\backgroundpanel.cpp">
       <Filter>Source Files\HL2MP\UI</Filter>
     </ClCompile>
@@ -3290,6 +3311,9 @@
       <Filter>Source Files\HL2MP\Weapons</Filter>
     </ClCompile>
     <ClCompile Include="..\..\game\shared\hl2mp\weapon_physcannon.cpp">
+      <Filter>Source Files\HL2MP\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\weapon_physgun.cpp">
       <Filter>Source Files\HL2MP\Weapons</Filter>
     </ClCompile>
     <ClCompile Include="..\..\game\shared\hl2mp\weapon_pistol.cpp">
@@ -3519,21 +3543,6 @@
     </ClCompile>
     <ClCompile Include="toolframework_client.cpp">
       <Filter>Tool Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="..\shared\weapon_physgun.cpp">
-      <Filter>Source Files\other</Filter>
-    </ClCompile>
-    <ClCompile Include="custom\spawnmenu.cpp">
-      <Filter>Source Files\other</Filter>
-    </ClCompile>
-    <ClCompile Include="worldlight.cpp">
-      <Filter>Source Files\other</Filter>
-    </ClCompile>
-    <ClCompile Include="custom\vgui_imagebutton.cpp">
-      <Filter>Source Files\other</Filter>
-    </ClCompile>
-    <ClCompile Include="gamemounts.cpp">
-      <Filter>Source Files\other</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

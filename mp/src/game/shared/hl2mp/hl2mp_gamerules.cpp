@@ -1126,6 +1126,13 @@ CHL2MPRules::CHL2MPRules()
 
 	ConVar *gamemodeVar = cvar->FindVar("as_gamemode");
 
+	if (FStrEq(gamemodeVar->GetString(), "None")) {
+		const char* gameModes[] = { "Sandbox", "Deathmatch", "TDM", "Chaotic", "Randomizer", "Cooperative", "Campaign" };
+		int numModes = sizeof(gameModes) / sizeof(gameModes[0]);
+		int randomIndex = rand() % numModes;
+		gamemodeVar->SetValue(gameModes[randomIndex]);
+	}
+
 	if (!gamemodeVar) {
 		m_bTeamPlayEnabled = teamplay.GetBool();
 		return;

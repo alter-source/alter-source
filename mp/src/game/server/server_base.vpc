@@ -61,7 +61,7 @@ $Configuration
 
 	$Linker
 	{
-		$AdditionalDependencies			"$BASE winmm.lib" [$WIN32]
+		$AdditionalDependencies			"$BASE winmm.lib lua53.lib" [$WIN32]
 		$SystemLibraries                                                        "iconv" [$OSXALL]
 	}
 }
@@ -718,7 +718,7 @@ $Project
 			}
 		}
 
-		$Folder	"temporary entities"
+		$Folder	"Temporary Entities"
 		{
 			$File	"basetempentity.cpp"
 			$File	"event_tempentity_tester.cpp"
