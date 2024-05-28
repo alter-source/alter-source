@@ -64,6 +64,9 @@ public:
 	virtual unsigned int PlayerSolidMask( bool brushOnly = false );	///< returns the solid mask for the given player, so bots can have a more-restrictive set
 	CBasePlayer		*player;
 	CMoveData *GetMoveData() { return mv; }
+private:
+	void		PreventBunnyJumping();
+
 protected:
 	// Input/Output for this movement
 	CMoveData		*mv;

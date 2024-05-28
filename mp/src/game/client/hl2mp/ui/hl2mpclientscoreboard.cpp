@@ -541,8 +541,8 @@ bool CHL2MPClientScoreBoardDialog::GetPlayerScoreInfo(int playerIndex, KeyValues
 }
 
 enum {
-	MAX_PLAYERS_PER_TEAM = 16,
-	MAX_SCOREBOARD_PLAYERS = 32
+	MAX_PLAYERS_PER_TEAM = 32,
+	MAX_SCOREBOARD_PLAYERS = 65
 };
 struct PlayerScoreInfo
 {

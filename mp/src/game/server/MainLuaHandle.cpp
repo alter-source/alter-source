@@ -6,6 +6,8 @@
 #include "tier0/memdbgon.h"
 #include "vgui/ISurface.h"
 #include "vgui_controls/Controls.h"
+#include <vector>
+#include <string>
 
 using namespace vgui;
 
@@ -19,7 +21,7 @@ void CC_ReloadLua(const CCommand& args) {
 		handle->Init();
 	}
 	else {
-		ConMsg("Lua handle not available.\n");
+		Warning("Lua handle not available.\n");
 	}
 }
 static ConCommand reload_lua("reload_lua", CC_ReloadLua, "Reload Lua scripts.", FCVAR_NONE);

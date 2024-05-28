@@ -17,11 +17,13 @@
 #include "hl2mp_player.h"
 #include "in_buttons.h"
 #include "movehelper_server.h"
+#include "eiface.h"
+#include "player.h"
+#include "server_class.h"
+#include "engine/ivmodelinfo.h"
 
 void ClientPutInServer( edict_t *pEdict, const char *playername );
 void Bot_Think( CHL2MP_Player *pBot );
-
-#ifdef DEBUG
 
 ConVar bot_forcefireweapon( "bot_forcefireweapon", "", 0, "Force bots with the specified weapon to fire." );
 ConVar bot_forceattack2( "bot_forceattack2", "0", 0, "When firing, use attack2." );
@@ -203,26 +205,63 @@ static void RunPlayerMove( CHL2MP_Player *fakeclient, const QAngle& viewangles, 
 	gpGlobals->curtime = flOldCurtime;
 }
 
+void Bot_HandleRespawn(CHL2MP_Player *pBot, CUserCmd &cmd)
+{
+	if (!pBot || !pBot->IsAlive()) {
+		botdata_t *botdata = &g_BotData[ENTINDEX(pBot->edict()) - 1];
+		if (gpGlobals->curtime - botdata->m_flJoinTeamTime >= 1.0) {
+			pBot->Spawn();
+			botdata->backwards = false;
+			botdata->nextturntime = 0.0f;
+			botdata->lastturntoright = false;
+			botdata->nextstrafetime = 0.0f;
+			botdata->sidemove = 0.0f;
+			botdata->forwardAngle.Init();
+			botdata->lastAngles.Init();
+			botdata->m_flJoinTeamTime = 0.0f;
+			botdata->m_WantedTeam = g_iNextBotTeam;
+			botdata->m_WantedClass = g_iNextBotClass;
+		}
+	}
+}
+
 //-----------------------------------------------------------------------------
 // Purpose: Run this Bot's AI for one frame.
 //-----------------------------------------------------------------------------
 void Bot_Think( CHL2MP_Player *pBot )
 {
-	// Make sure we stay being a bot
-	pBot->AddFlag( FL_FAKECLIENT );
+	if (!pBot || !pBot->IsAlive()) {
+		CUserCmd cmd;
+		Bot_HandleRespawn(pBot, cmd);
+		return;
+	}
 
-	botdata_t *botdata = &g_BotData[ ENTINDEX( pBot->edict() ) - 1 ];
+	// Make sure we stay being a bot
+	pBot->AddFlag(FL_FAKECLIENT);
+
+	botdata_t *botdata = &g_BotData[ENTINDEX(pBot->edict()) - 1];
 
 	QAngle vecViewAngles;
 	float forwardmove = 0.0;
 	float sidemove = botdata->sidemove;
 	float upmove = 0.0;
 	unsigned short buttons = 0;
-	byte  impulse = 0;
+	byte impulse = 0;
 	float frametime = gpGlobals->frametime;
 
 	vecViewAngles = pBot->GetLocalAngles();
 
+	// Smoothly rotate towards the desired angle
+	QAngle angleDiff = botdata->forwardAngle - vecViewAngles;
+	AngleNormalize(angleDiff.y);
+	AngleNormalize(angleDiff.x);
+
+	const float maxAngleChange = 10.0f; // Maximum angle change per frame
+	vecViewAngles.y += Clamp(angleDiff.y, -maxAngleChange, maxAngleChange);
+	vecViewAngles.x += Clamp(angleDiff.x, -maxAngleChange, maxAngleChange);
+
+	// Set the new angles
+	pBot->SetLocalAngles(vecViewAngles);
 
 	// Create some random values
 	if ( pBot->IsAlive() && (pBot->GetSolid() == SOLID_BBOX) )
@@ -379,23 +418,8 @@ void Bot_Think( CHL2MP_Player *pBot )
 	}
 	else
 	{
-		// Wait for Reinforcement wave
-		if ( !pBot->IsAlive() )
-		{
-			// Try hitting my buttons occasionally
-			if ( random->RandomInt( 0, 100 ) > 80 )
-			{
-				// Respawn the bot
-				if ( random->RandomInt( 0, 1 ) == 0 )
-				{
-					buttons |= IN_JUMP;
-				}
-				else
-				{
-					buttons = 0;
-				}
-			}
-		}
+		CUserCmd cmd;
+		Bot_HandleRespawn(pBot, cmd);
 	}
 
 	if ( bot_flipout.GetInt() >= 2 )
@@ -427,9 +451,3 @@ void Bot_Think( CHL2MP_Player *pBot )
 
 	RunPlayerMove( pBot, pBot->GetLocalAngles(), forwardmove, sidemove, upmove, buttons, impulse, frametime );
 }
-
-
-
-
-#endif
-

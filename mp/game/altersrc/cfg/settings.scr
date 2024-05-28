@@ -76,7 +76,7 @@ DESCRIPTION SERVER_OPTIONS
 			"Cooperative" "Cooperative"
 			"Campaign" "Campaign"
 		}
-		{ "< Random >" }
+		{ "Sandbox" }
 	}
 
 	"mp_timelimit"

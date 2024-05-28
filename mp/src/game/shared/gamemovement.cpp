@@ -2404,8 +2404,18 @@ bool CGameMovement::CheckJumpButton( void )
 		return false;
 #endif
 
-	if ( mv->m_nOldButtons & IN_JUMP )
-		return false;		// don't pogo stick
+	// Cannot jump again until the jump button has been released.
+	if (!cvar->FindVar("sv_autojump")->GetBool())
+	{
+		if (mv->m_nOldButtons & IN_JUMP)
+			return false;
+	}
+
+	// Cannot jump while ducked.
+	if (!cvar->FindVar("sv_duckjump")->GetBool() && (player->GetFlags() & FL_DUCKING))
+	{
+		return false;
+	}
 
 	// Cannot jump will in the unduck transition.
 	if ( player->m_Local.m_bDucking && (  player->GetFlags() & FL_DUCKING ) )
@@ -2415,6 +2425,8 @@ bool CGameMovement::CheckJumpButton( void )
 	if ( player->m_Local.m_flDuckJumpTime > 0.0f )
 		return false;
 
+	if (!cvar->FindVar("sv_disable_bh_cap")->GetBool())
+		PreventBunnyJumping();
 
 	// In the air now.
     SetGroundEntity( NULL );
@@ -2529,6 +2541,28 @@ bool CGameMovement::CheckJumpButton( void )
 	return true;
 }
 
+
+// Only allow bunny jumping up to 1.2x server / player maxspeed setting
+#define BUNNYJUMP_MAX_SPEED_FACTOR 1.2f
+
+void CGameMovement::PreventBunnyJumping()
+{
+	// Speed at which bunny jumping is limited
+	float maxscaledspeed = BUNNYJUMP_MAX_SPEED_FACTOR * player->m_flMaxspeed;
+	if (maxscaledspeed <= 0.0f)
+		return;
+
+	// Current player speed
+	float spd = mv->m_vecVelocity.Length();
+	if (spd <= maxscaledspeed)
+		return;
+
+	// Apply this cropping fraction to velocity
+	float fraction = (maxscaledspeed / spd);
+
+
+	mv->m_vecVelocity *= fraction;
+}
 
 //-----------------------------------------------------------------------------
 // Purpose: 

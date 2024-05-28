@@ -77,7 +77,9 @@ extern ConVar autoaim_max_dist;
 
 extern int gEvilImpulse101;
 
-ConVar sv_autojump( "sv_autojump", "0" );
+ConVar sv_autojump("sv_autojump","1");
+ConVar sv_duckjump("sv_duckjump", "1");
+ConVar sv_disable_bh_cap("sv_disable_bh_cap", "1");
 
 ConVar hl2_walkspeed( "hl2_walkspeed", "150" );
 ConVar hl2_normspeed( "hl2_normspeed", "190" );
