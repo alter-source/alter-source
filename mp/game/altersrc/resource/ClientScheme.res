@@ -503,7 +503,7 @@ Scheme
 				"tall"		"41" [$OSX]
 				"weight"	"0"
 				"antialias" "0"
-				"additive"	"1"
+				"additive"	"0"
 				"custom"	"1"
 				"yres"		"1 10000"
 			}
