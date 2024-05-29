@@ -634,10 +634,6 @@ SpawnMenu
 		{
 				"#"	"prop_physics_create props_lab/desklamp01.mdl"
 		}
-		"Maxwell the Cat"
-		{
-				"#"	"prop_dynamic_create dingus/dingus.mdl"
-		}
         }
 	"Ragdolls"
 	{

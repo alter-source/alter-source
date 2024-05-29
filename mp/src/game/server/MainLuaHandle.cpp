@@ -4,13 +4,9 @@
 #include "convar.h"
 #include <stdio.h>
 #include "tier0/memdbgon.h"
-#include "vgui/ISurface.h"
-#include "vgui_controls/Controls.h"
+#include "engine/IEngineSound.h"
 #include <vector>
 #include <string>
-
-using namespace vgui;
-
 #include "hl2_player.h"
 #include "hl2mp_player.h"
 #include "player.h"
@@ -24,6 +20,7 @@ void CC_ReloadLua(const CCommand& args) {
 		Warning("Lua handle not available.\n");
 	}
 }
+
 static ConCommand reload_lua("reload_lua", CC_ReloadLua, "Reload Lua scripts.", FCVAR_NONE);
 
 void SandboxLua(lua_State* L) {
@@ -94,31 +91,109 @@ void MainLuaHandle::Init() {
 	((IFileSystem *)filesystem)->FreeOptimalReadBuffer(buffer);
 }
 
-void LoadAddons() {
-	const char* addonsDirectory = "addons/";
-
-	if (!filesystem->IsDirectory(addonsDirectory)) {
-		Warning("[LUA-ERR] Addons directory not found.\n");
-		return;
-	}
-
-	const char* fileExtension = ".lua";
-
+void GetFilesInDirectory(const char* directory, const char* fileExtension, std::vector<std::string>& outFiles) {
 	char searchPath[MAX_PATH];
-	Q_snprintf(searchPath, sizeof(searchPath), "%s/*%s", addonsDirectory, fileExtension);
+	Q_snprintf(searchPath, sizeof(searchPath), "%s/*", directory);
 
 	FileFindHandle_t findHandle;
 	const char* fileName = filesystem->FindFirst(searchPath, &findHandle);
 	while (fileName) {
-		char filePath[MAX_PATH];
-		Q_snprintf(filePath, sizeof(filePath), "%s/%s", addonsDirectory, fileName);
-
-		LoadLua(filePath, false);
-
+		if (Q_strcmp(fileName, ".") != 0 && Q_strcmp(fileName, "..") != 0) {
+			char filePath[MAX_PATH];
+			Q_snprintf(filePath, sizeof(filePath), "%s/%s", directory, fileName);
+			if (filesystem->IsDirectory(filePath)) {
+				GetFilesInDirectory(filePath, fileExtension, outFiles);
+			}
+			else {
+				if (Q_stristr(fileName, fileExtension)) {
+					outFiles.push_back(filePath);
+				}
+			}
+		}
 		fileName = filesystem->FindNext(findHandle);
 	}
 	filesystem->FindClose(findHandle);
-	Msg("[LUA] Addons successfuly loaded!\n");
+}
+
+void LoadLuaFiles(const char* directory) {
+	std::vector<std::string> luaFiles;
+	GetFilesInDirectory(directory, ".lua", luaFiles);
+
+	for (const auto& luaFile : luaFiles) {
+		LoadLua(luaFile.c_str(), false);
+	}
+}
+
+void PrecacheResources(const char* directory, const char* fileExtension, void(*precacheFunc)(const char*)) {
+	std::vector<std::string> resourceFiles;
+	GetFilesInDirectory(directory, fileExtension, resourceFiles);
+
+	for (const auto& resourceFile : resourceFiles) {
+		precacheFunc(resourceFile.c_str());
+	}
+}
+
+void PrecacheModel(const char* model) {
+	CBaseEntity::PrecacheModel(model);
+	Msg("Precache model: %s\n", model);
+}
+
+void PrecacheSound(const char* sound) {
+	CBaseEntity::PrecacheSound(sound);
+	Msg("Precache sound: %s\n", sound);
+}
+
+
+void LoadAddons() {
+	const char* addonsDirectory = "addons/";
+
+	if (!filesystem->IsDirectory(addonsDirectory)) {
+		Error("[LUA-ERR] addons directory not found\n");
+		return;
+	}
+
+	char searchPath[MAX_PATH];
+	Q_snprintf(searchPath, sizeof(searchPath), "%s/*", addonsDirectory);
+
+	FileFindHandle_t findHandle;
+	const char* addonName = filesystem->FindFirst(searchPath, &findHandle);
+	while (addonName) {
+		if (Q_strcmp(addonName, ".") != 0 && Q_strcmp(addonName, "..") != 0) {
+			char addonPath[MAX_PATH];
+			Q_snprintf(addonPath, sizeof(addonPath), "%s/%s", addonsDirectory, addonName);
+
+			if (filesystem->IsDirectory(addonPath)) {
+				const char* subDirs[] = { "models", "materials", "sounds", "lua" };
+				for (const char* subDir : subDirs) {
+					char subDirPath[MAX_PATH];
+					Q_snprintf(subDirPath, sizeof(subDirPath), "%s/%s", addonPath, subDir);
+
+					if (filesystem->IsDirectory(subDirPath)) {
+						if (Q_strcmp(subDir, "lua") == 0) {
+							char mainLuaPath[MAX_PATH];
+							Q_snprintf(mainLuaPath, sizeof(mainLuaPath), "%s/main.lua", subDirPath);
+							if (filesystem->FileExists(mainLuaPath)) {
+								LoadLua(mainLuaPath, false);
+							}
+						}
+						else if (Q_strcmp(subDir, "models") == 0) {
+							PrecacheResources(subDirPath, ".mdl", PrecacheModel);
+						}
+						else if (Q_strcmp(subDir, "materials") == 0) {
+							PrecacheResources(subDirPath, ".vmt", PrecacheMaterial);
+						}
+						else if (Q_strcmp(subDir, "sounds") == 0) {
+							PrecacheResources(subDirPath, ".wav", PrecacheSound);
+						}
+					}
+				}
+			}
+		}
+		addonName = filesystem->FindNext(findHandle);
+	}
+	filesystem->FindClose(findHandle);
+
+	Msg("[LUA] addons successfully loaded!\n");
 }
 
 void LoadLua(const char* filePath, const bool isEvented) {
@@ -280,8 +355,7 @@ LUA_FUNC(luaSayToClient, [](lua_State *L) {
 })
 LUA_FUNC(luaPlaySound, [](lua_State *L) {
 	const char* soundName = lua_tostring(L, 1);
-	surface()->PlaySound(soundName);
-
+	enginesound->EmitAmbientSound(soundName, 1.0f);
 	return 0;
 })
 

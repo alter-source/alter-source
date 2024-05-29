@@ -347,7 +347,6 @@ void CHL2MP_Player::GiveDeathmatchItems(void)
 
 void CHL2MP_Player::GiveDefaultItems( void )
 {
-	cvar->FindVar("sv_cheats")->SetValue(0);
 	LoadLua("lua/afterload.lua", false);
 
 	const char* gamemodeStr = as_gamemode.GetString();
@@ -389,6 +388,13 @@ void CHL2MP_Player::GiveDefaultItems( void )
 	default:
 		break;
 	}
+
+#ifdef DEBUG
+	const char* playerName = CBasePlayer::GetPlayerName();
+	char message[256];
+	Q_snprintf(message, sizeof(message), "Player %s has loaded into the game", playerName);
+	UTIL_ClientPrintAll(HUD_PRINTTALK, message);
+#endif
 }
 
 void CHL2MP_Player::PickDefaultSpawnTeam( void )

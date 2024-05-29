@@ -21,6 +21,8 @@
 #include "player.h"
 #include "server_class.h"
 #include "engine/ivmodelinfo.h"
+#include <stdlib.h>
+#include <time.h>
 
 void ClientPutInServer( edict_t *pEdict, const char *playername );
 void Bot_Think( CHL2MP_Player *pBot );
@@ -69,6 +71,50 @@ typedef struct
 
 static botdata_t g_BotData[ MAX_PLAYERS ];
 
+const char *bot_names[] = {
+	"Gamma",
+	"Epsilon",
+	"James",
+	"John",
+	"Michael",
+	"Robert",
+	"William",
+	"David",
+	"Joseph",
+	"Daniel",
+	"Matthew",
+	"Andrew",
+	"Richard",
+	"Thomas",
+	"Charles",
+	"Christopher",
+	"Benjamin",
+	"Anthony",
+	"Paul",
+	"Mark",
+	"Steven",
+	"Kevin"
+};
+
+const char *GetRandomWeapon()
+{
+	const char *weapons[] = {
+		"weapon_stunstick",
+		"weapon_crowbar",
+		"weapon_pistol",
+		"weapon_357",
+		"weapon_smg1",
+		"weapon_ar2",
+		"weapon_shotgun",
+		"weapon_crossbow",
+		"weapon_rpg",
+		"weapon_slam",
+		"weapon_physcannon"
+	};
+
+	int index = rand() % (sizeof(weapons) / sizeof(weapons[0]));
+	return weapons[index];
+}
 
 //-----------------------------------------------------------------------------
 // Purpose: Create a new Bot and put it in the game.
@@ -78,8 +124,12 @@ CBasePlayer *BotPutInServer( bool bFrozen, int iTeam )
 {
 	g_iNextBotTeam = iTeam;
 
-	char botname[ 64 ];
-	Q_snprintf( botname, sizeof( botname ), "Bot%02i", BotNumber );
+	srand(time(NULL));
+	int index = rand() % (sizeof(bot_names) / sizeof(bot_names[0]));
+	const char *random_bot_name = bot_names[index];
+	int ranum = rand() % 999 + 1;
+	char botname[64];
+	Q_snprintf(botname, sizeof(botname), "%s%d", random_bot_name, ranum);
 
 	// This is an evil hack, but we use it to prevent sv_autojointeam from kicking in.
 
@@ -87,7 +137,7 @@ CBasePlayer *BotPutInServer( bool bFrozen, int iTeam )
 
 	if (!pEdict)
 	{
-		Msg( "Failed to create Bot.\n");
+		Warning( "Failed to create Bot.\n");
 		return NULL;
 	}
 
@@ -99,6 +149,26 @@ CBasePlayer *BotPutInServer( bool bFrozen, int iTeam )
 
 	if ( bFrozen )
 		pPlayer->AddEFlags( EFL_BOT_FROZEN );
+
+	const char *random_weapon = GetRandomWeapon();
+	CBaseEntity *pEntity = pPlayer->GiveNamedItem(random_weapon);
+	if (pEntity && pEntity->IsBaseCombatWeapon())
+	{
+		CBaseCombatWeapon *pWeapon = dynamic_cast<CBaseCombatWeapon *>(pEntity);
+		if (pWeapon)
+		{
+			pPlayer->Weapon_Equip(pWeapon);
+			Warning("Bot equipped with weapon: %s\n", random_weapon);
+		}
+		else
+		{
+			Warning("Failed to cast weapon: %s\n", random_weapon);
+		}
+	}
+	else
+	{
+		Warning("Failed to give weapon: %s\n", random_weapon);
+	}
 
 	BotNumber++;
 

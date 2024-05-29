@@ -67,7 +67,6 @@ DESCRIPTION SERVER_OPTIONS
 		"Gamemode"
 		{
 			LIST
-            "< Random >" "None"
 			"Sandbox" "Sandbox"
 			"Deathmatch" "Deathmatch"
 			"Team Deathmatch" "TDM"
@@ -75,6 +74,7 @@ DESCRIPTION SERVER_OPTIONS
 			"Randomizer" "Randomizer"
 			"Cooperative" "Cooperative"
 			"Campaign" "Campaign"
+            "< Random >" "None"
 		}
 		{ "Sandbox" }
 	}
