@@ -125,6 +125,7 @@
 #include "sourcevr/isourcevirtualreality.h"
 #include "client_virtualreality.h"
 #include "mumble.h"
+#include <inetchannelinfo.h>
 
 // NVNT includes
 #include "hud_macros.h"
@@ -132,7 +133,12 @@
 #include "haptics/haptic_utils.h"
 #include "haptics/haptic_msgs.h"
 
+// ruh
+#include "c_playerresource.h"
+#include "ilocalize.h"
+
 // discord includes
+#include "discord_register.h"
 #include "discord_rpc.h"
 #include <time.h>
 
@@ -337,8 +343,10 @@ static ConVar s_CV_ShowParticleCounts("showparticlecounts", "0", 0, "Display num
 static ConVar s_cl_team("cl_team", "default", FCVAR_USERINFO|FCVAR_ARCHIVE, "Default team when joining a game");
 static ConVar s_cl_class("cl_class", "default", FCVAR_USERINFO|FCVAR_ARCHIVE, "Default class when joining a game");
 
+#define DISCORD_APP_ID "1243847796830900234"
+
 // Discord RPC
-static ConVar cl_discord_appid("cl_discord_appid", "1243847796830900234", FCVAR_DEVELOPMENTONLY | FCVAR_CHEAT);
+//static ConVar cl_discord_appid("cl_discord_appid", DISCORD_APP_ID, FCVAR_DEVELOPMENTONLY | FCVAR_CHEAT);
 static int64_t startTimestamp = time(0);
 
 #ifdef HL1MP_CLIENT_DLL
@@ -1151,16 +1159,20 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 
 	char appid[255];
 	sprintf(appid, "%d", engine->GetAppID());
-	Discord_Initialize(cl_discord_appid.GetString(), &handlers, 1, appid);
+	char command[512];
+	V_snprintf(command, sizeof(command), "%s -game \"%s\" -novid -steam\n", CommandLine()->GetParm(0), CommandLine()->ParmValue("-game"));
+	Discord_Register(DISCORD_APP_ID, command);
+	Discord_Initialize(DISCORD_APP_ID, &handlers, 1, appid);
 
 	if (!g_bTextMode)
 	{
 		DiscordRichPresence discordPresence;
 		memset(&discordPresence, 0, sizeof(discordPresence));
 
-		discordPresence.state = "In-Game";
-		discordPresence.details = "Main Menu";
+		discordPresence.state = "Main Menu";
 		discordPresence.startTimestamp = startTimestamp;
+		discordPresence.partySize = 0;
+		discordPresence.largeImageKey = "icon";
 		Discord_UpdatePresence(&discordPresence);
 	}
 
@@ -1710,10 +1722,32 @@ void CHLClient::LevelInitPreEntity( char const* pMapName )
 		DiscordRichPresence discordPresence;
 		memset(&discordPresence, 0, sizeof(discordPresence));
 
-		char buffer[256];
-		discordPresence.state = "In-Game";
-		sprintf(buffer, "Map: %s, Gamemode: %s", pMapName, cvar->FindVar("as_gamemode")->GetString());
-		discordPresence.details = buffer;
+		int maxPlayers = gpGlobals->maxClients;
+
+		// PracticeMedicine: assholery shitty stuff but it will work
+
+		if( engine->IsConnected() )
+		{
+
+			INetChannelInfo* ni = engine->GetNetChannelInfo();
+			char partyId[128];
+			sprintf(partyId, "%s-party", ni->GetAddress()); // adding -party here because secrets cannot match the party id
+
+			char state[256];
+			sprintf(state, "Map: %s", pMapName);
+
+			char gamemode[256];
+			sprintf(gamemode, "Playing %s (Server: %s)", cvar->FindVar("as_gamemode")->GetString(), cvar->FindVar("hostname")->GetString());
+
+			discordPresence.state = state;
+			discordPresence.details = gamemode;
+			discordPresence.joinSecret = ni->GetAddress();
+			discordPresence.partyMax = maxPlayers;
+			discordPresence.partySize = 0;
+			discordPresence.partyId = partyId;
+			discordPresence.largeImageKey = "icon";
+		}
+
 		Discord_UpdatePresence(&discordPresence);
 	}
 
@@ -1814,9 +1848,12 @@ void CHLClient::LevelShutdown( void )
 		DiscordRichPresence discordPresence;
 		memset(&discordPresence, 0, sizeof(discordPresence));
 
-		discordPresence.state = "In-Game";
-		discordPresence.details = "Main Menu";
+		discordPresence.state = "Main Menu";
 		discordPresence.startTimestamp = startTimestamp;
+		discordPresence.joinSecret = NULL;
+		discordPresence.partyMax = 0;
+		discordPresence.partyId = NULL;
+		discordPresence.largeImageKey = "icon";
 		Discord_UpdatePresence(&discordPresence);
 	}
 
