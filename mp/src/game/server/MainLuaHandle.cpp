@@ -346,6 +346,24 @@ LUA_FUNC(lua_GetConVar_Bool, [](lua_State *L) {
 	return 1;
 })
 
+// player-related
+LUA_FUNC(lua_GiveItem, [](lua_State * L) {
+	auto p = UTIL_PlayerByIndex(lua_tointeger(L, 1));
+	if (p) p->GiveNamedItem(lua_tostring(L, 2));
+	return 0;
+})
+LUA_FUNC(lua_GiveAmmo, [](lua_State * L) {
+	int playerIndex = lua_tointeger(L, 1);
+	const char * ammoType = lua_tostring(L, 2);
+	int amount = lua_tointeger(L, 3);
+	if (!UTIL_PlayerByIndex(playerIndex)) {
+		lua_pushstring(L, "Invalid player index");
+		return 1;
+	}
+	UTIL_PlayerByIndex(playerIndex)->GiveAmmo(amount, ammoType);
+	return 0;
+})
+
 // file manipulation
 LUA_FUNC(lua_FileExists, [](lua_State *L) {
 	const char* filename = lua_tostring(L, 1);
@@ -484,6 +502,10 @@ void MainLuaHandle::RegFunctions() {
 	REG_FUNCTION(_GetConVar_Float);
 	REG_FUNCTION(_GetConVar_String);
 	REG_FUNCTION(_GetConVar_Bool);
+
+	// player-related
+	REG_FUNCTION(_GiveAmmo);
+	REG_FUNCTION(_GiveItem);
 
 	// file manipulation
 	REG_FUNCTION(_FileExists);
