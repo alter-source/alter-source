@@ -347,7 +347,7 @@ void CHL2MP_Player::GiveDeathmatchItems(void)
 
 void CHL2MP_Player::GiveDefaultItems( void )
 {
-	LoadLua("lua/afterload.lua", false);
+	LoadLua("lua/afterload.lua");
 
 	const char* gamemodeStr = as_gamemode.GetString();
 	GameMode gamemode = GetGameMode(gamemodeStr);

@@ -30,7 +30,7 @@ private:
 	bool m_bLuaLoaded = false;
 };
 
-void LoadLua(const char* filePath, const bool isEvented);
+void LoadLua(const char* filePath);
 void LoadAddons();
 
 LuaHandle* GetLuaHandle();

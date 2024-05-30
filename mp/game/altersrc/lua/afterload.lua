@@ -1,1 +1,1 @@
-PlaySound("common/bugreporter_succeeded.wav")
+_PlaySound("common/bugreporter_succeeded.wav")

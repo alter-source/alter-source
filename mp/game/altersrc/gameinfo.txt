@@ -3,6 +3,7 @@
 	game	"Alter Source"
 	title	"Alter"
 	title2	"Source"
+	icon		"resource/icon"
 	type multiplayer_only
 	nomodels 0
 	nohimodel 1
