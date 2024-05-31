@@ -34,6 +34,9 @@
     <Filter Include="Source Files\HL2MP">
       <UniqueIdentifier>{2BA678C8-595F-A004-FD96-60E33CA8DE83}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\HL2MP\Hand-Models">
+      <UniqueIdentifier>{2896F016-3866-0E14-EB05-86FC439BFDDD}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\HL2MP\Mounting">
       <UniqueIdentifier>{30DBFDD9-38BF-A5A4-BBE7-64F78EF39C35}</UniqueIdentifier>
     </Filter>
@@ -3249,6 +3252,9 @@
     </ClCompile>
     <ClCompile Include="..\..\game\shared\hl2mp\hl2mp_weapon_parse.cpp">
       <Filter>Source Files\HL2MP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\handviewmodel_shared.cpp">
+      <Filter>Source Files\HL2MP\Hand-Models</Filter>
     </ClCompile>
     <ClCompile Include="..\..\game\client\gamemounts.cpp">
       <Filter>Source Files\HL2MP\Mounting</Filter>

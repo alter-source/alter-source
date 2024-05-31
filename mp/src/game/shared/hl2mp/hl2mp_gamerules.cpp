@@ -128,6 +128,7 @@ static const char *s_PreserveEnts[] =
 	"viewmodel",
 	"predicted_viewmodel",
 	"worldspawn",
+	"hand_viewmodel",
 	"point_devshot_camera",
 	"", // END Marker
 };

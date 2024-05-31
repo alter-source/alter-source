@@ -175,6 +175,12 @@ void CHL2MP_Player::Precache( void )
 	BaseClass::Precache();
 
 	PrecacheModel ( "sprites/glow01.vmt" );
+	PrecacheModel("models/weapons/c_arms_hev.mdl");
+	PrecacheModel("models/weapons/c_arms_combine.mdl");
+	PrecacheModel("models/weapons/c_arms_citizen.mdl");
+	PrecacheModel("models/weapons/Arms.mdl");
+	PrecacheModel("models/weapons/c_arms.mdl");
+	PrecacheModel("models/weapons/c_arms_animations.mdl");
 
 	//Precache Citizen models
 	int nHeads = ARRAYSIZE( g_ppszRandomCitizenModels );
@@ -494,6 +500,14 @@ void CHL2MP_Player::Spawn(void)
 	m_Local.m_bDucked = false;
 
 	SetPlayerUnderwater(false);
+	if (GetPlayerModelType() == PLAYER_SOUNDS_METROPOLICE || GetPlayerModelType() == PLAYER_SOUNDS_COMBINESOLDIER)
+	{
+		GetViewModel(1)->SetModel("models/weapons/c_arms_combine.mdl");
+	}
+	else if (GetPlayerModelType() == PLAYER_SOUNDS_CITIZEN)
+	{
+		GetViewModel(1)->SetModel("models/weapons/c_arms_citizen.mdl");
+	}
 
 	m_bReady = false;
 }

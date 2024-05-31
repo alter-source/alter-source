@@ -60,6 +60,11 @@ $Project "Server (Alter)"
 		$File	"trigger_area_capture.h"
 		$File   "$SRCDIR\game\shared\teamplay_round_timer.cpp"
 		$File   "$SRCDIR\game\shared\teamplay_round_timer.h"
+        
+        $Folder "Hand-Models"
+        {
+            $File "$SRCDIR\game\shared\handviewmodel_shared.cpp"
+        }
 
 		$Folder	"HL2 DLL"
 		{

@@ -13,6 +13,9 @@
     <Filter Include="Source Files">
       <UniqueIdentifier>{BA03E055-4FA2-FCE3-8A1C-D348547D379C}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Hand-Models">
+      <UniqueIdentifier>{3CBAC877-E59F-6F7B-4065-97F23BFC0206}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\HL2 DLL">
       <UniqueIdentifier>{3C43D38A-46AF-2183-A5E5-44383B1D2652}</UniqueIdentifier>
     </Filter>
@@ -2973,6 +2976,9 @@
     </ClCompile>
     <ClCompile Include="world.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\handviewmodel_shared.cpp">
+      <Filter>Source Files\Hand-Models</Filter>
     </ClCompile>
     <ClCompile Include="hl2\ai_allymanager.cpp">
       <Filter>Source Files\HL2 DLL</Filter>
