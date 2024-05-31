@@ -1,9 +1,9 @@
 #ifndef MAINLUAHANDLE_H
 #define MAINLUAHANDLE_H
 
-#include "cbase.h"
 #include "filesystem.h"
 #include "ge_luamanger.h"
+#include "GameEventListener.h"
 #include "util_shared.h"
 
 extern "C" {

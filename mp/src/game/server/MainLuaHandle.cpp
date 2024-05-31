@@ -9,6 +9,7 @@
 #include <string>
 #include "hl2_player.h"
 #include "hl2mp_player.h"
+#include "../EventLog.h"
 #include "player.h"
 #include "usermessages.h"
 #include "engine\iserverplugin.h"
@@ -465,9 +466,43 @@ LUA_FUNC(lua_PlaySound, [](lua_State *L) {
 	return 0;
 })
 
+// GameEventManager
+#pragma warning (push)
+#pragma warning ( disable : 4700 )
+LUA_FUNC(lua_ListenForGameEvent, [](lua_State *L) {
+	const char* eventName = lua_tostring(L, 1);
+	CGameEventListener* gameeventlistener;
+	gameeventlistener->ListenForGameEvent(eventName); // YAYYYYYYYYYYYYYYYYYYYYYYYY
+	return 0;
+})
+
+LUA_FUNC(lua_StopListeningForAllEvents, [](lua_State *L) {
+	CGameEventListener* gameeventlistener;
+	gameeventlistener->StopListeningForAllEvents(); // YAYYYYYYYYYYYYYYYYYYYYYYYY
+	return 0;
+})
+
+// CPlayerInfo
+
+// this workaround is rubbish asf
+// if anyone has a better on please let the devs know. too bad!
+LUA_FUNC(lua_IsDead, [](lua_State *L) {
+	CHL2MP_Player* pPlayer = ToHL2MPPlayer(pPlayer);
+	if(pPlayer->IsDead())
+	{
+		lua_pushboolean(L, true);
+	}
+	else
+	{
+		lua_pushboolean(L, false); 
+	}
+	return 1;
+})
+#pragma warning (pop)
+
 // other
 LUA_FUNC(lua_IsLinux, [](lua_State *L) {
-	lua_pushboolean(L, false); // dumbass its available in windows only
+	lua_pushboolean(L, false); // checks if the game is ran on Linux or shit.
 	return 1;
 })
 
@@ -488,6 +523,7 @@ void MainLuaHandle::RegFunctions() {
 	// player-related
 	REG_FUNCTION(_GiveAmmo);
 	REG_FUNCTION(_GiveItem);
+	REG_FUNCTION(_IsDead);
 
 	// file manipulation
 	REG_FUNCTION(_FileExists);
@@ -502,8 +538,12 @@ void MainLuaHandle::RegFunctions() {
 	// sounds
 	REG_FUNCTION(_PlaySound);
 
+	// eventing stuff
+	REG_FUNCTION(_ListenForGameEvent);
+	REG_FUNCTION(_StopListeningForAllEvents);
+
 	// other
-	REG_FUNCTION(_IsLinux);
+	REG_FUNCTION(_IsLinux); // checks if the game is ran on a Linux distrubution
 }
 
 LuaHandle* g_LuaHandle = NULL;
