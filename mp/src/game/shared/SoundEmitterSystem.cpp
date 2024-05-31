@@ -16,6 +16,11 @@
 #include "checksum_crc.h"
 #include "tier0/icommandline.h"
 
+#ifdef CLIENT_DLL
+#include "fmod/fmod_manager.h"
+#include <string>
+#endif
+
 #if defined( TF_CLIENT_DLL ) || defined( TF_DLL )
 #include "tf_shareddefs.h"
 #include "tf_classdata.h"
@@ -526,10 +531,12 @@ public:
 			st = gpGlobals->curtime + (float)params.delay_msec / 1000.f;
 		}
 
-		enginesound->EmitSound( 
-			filter, 
-			entindex, 
-			params.channel, 
+		// bookmark!
+
+		enginesound->EmitSound(
+			filter,
+			entindex,
+			params.channel,
 			params.soundname,
 			params.volume,
 			(soundlevel_t)params.soundlevel,
@@ -541,7 +548,8 @@ public:
 			&ep.m_UtlVecSoundOrigin,
 			true,
 			st,
-			ep.m_nSpeakerEntity );
+			ep.m_nSpeakerEntity);
+
 		if ( ep.m_pflSoundDuration )
 		{
 			*ep.m_pflSoundDuration = enginesound->GetSoundDuration( params.soundname );
@@ -835,7 +843,7 @@ public:
 			params.volume = flVolume;
 		}
 
-#if defined( CLIENT_DLL )
+#ifdef CLIENT_DLL
 		enginesound->EmitAmbientSound( params.soundname, params.volume, params.pitch, iFlags, soundtime );
 #else
 		engine->EmitAmbientSound(entindex, origin, params.soundname, params.volume, params.soundlevel, iFlags, params.pitch, soundtime );

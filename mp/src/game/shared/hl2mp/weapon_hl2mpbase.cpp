@@ -13,6 +13,8 @@
 
 
 #ifdef CLIENT_DLL
+#include "fmod/fmod_manager.h"
+
 extern IVModelInfoClient* modelinfo;
 #else
 extern IVModelInfo* modelinfo;

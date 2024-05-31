@@ -25,6 +25,9 @@
     <Filter Include="Source Files">
       <UniqueIdentifier>{BA03E055-4FA2-FCE3-8A1C-D348547D379C}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\FMOD">
+      <UniqueIdentifier>{785A4591-10EE-51E3-B434-3DAE23D84992}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\game_controls">
       <UniqueIdentifier>{1E7DB91A-DC0A-B17F-617D-4C4FB3FA7A3E}</UniqueIdentifier>
     </Filter>
@@ -79,6 +82,9 @@
       <Filter>Link Libraries</Filter>
     </Library>
     <Library Include="..\..\lib\public\dmxloader.lib">
+      <Filter>Link Libraries</Filter>
+    </Library>
+    <Library Include="..\..\fmod\api\lib\fmodex_vc.lib">
       <Filter>Link Libraries</Filter>
     </Library>
     <Library Include="..\..\lib\common\libcurl.lib">
@@ -1850,6 +1856,9 @@
     <ClInclude Include="viewpostprocess.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="fmod\fmod_manager.h">
+      <Filter>Source Files\FMOD</Filter>
+    </ClInclude>
     <ClInclude Include="game_controls\basemodel_panel.h">
       <Filter>Source Files\game_controls</Filter>
     </ClInclude>
@@ -3012,6 +3021,9 @@
     </ClCompile>
     <ClCompile Include="WorldDimsProxy.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fmod\fmod_manager.cpp">
+      <Filter>Source Files\FMOD</Filter>
     </ClCompile>
     <ClCompile Include="game_controls\basemodel_panel.cpp">
       <Filter>Source Files\game_controls</Filter>

@@ -14,8 +14,12 @@ $Configuration
 {
 	$Compiler
 	{
-		$AdditionalIncludeDirectories		"$BASE;hl2mp\ui,.\hl2mp,$SRCDIR\game\shared\hl2mp,.\hl2,.\hl2\elements,$SRCDIR\game\shared\hl2"
+		$AdditionalIncludeDirectories		"$BASE;hl2mp\ui,.\hl2mp,$SRCDIR\game\shared\hl2mp,.\hl2,.\hl2\elements,$SRCDIR\game\shared\hl2,$SRCDIR\fmod\api\inc;"
 		$PreprocessorDefinitions			"$BASE;HL2MP;HL2_CLIENT_DLL"
+	}
+    $Linker
+	{
+		$AdditionalLibraryDirectories	"$BASE;$SRCDIR\fmod\api\lib"
 	}
 }
 
@@ -34,6 +38,12 @@ $Project "Client (Alter)"
 		$File	"$SRCDIR\game\shared\predicted_viewmodel.h"
 		$File	"$SRCDIR\game\shared\teamplay_round_timer.cpp"
 		$File	"$SRCDIR\game\shared\teamplay_round_timer.h"
+
+        $Folder "FMOD"
+        {
+            $File	"fmod\fmod_manager.cpp"
+            $File	"fmod\fmod_manager.h"
+        }
 
 		$Folder	"HL2 DLL"
 		{
@@ -197,5 +207,9 @@ $Project "Client (Alter)"
 				$File	"hl2mp\hud_deathnotice.cpp"
 			}
 		}
+	}
+    $Folder	"Link Libraries"
+	{
+		$Lib	"$SRCDIR\fmod\api\lib\fmodex_vc"
 	}
 }

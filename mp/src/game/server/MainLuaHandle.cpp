@@ -27,25 +27,7 @@ void CC_ReloadLua(const CCommand& args) {
 
 static ConCommand reload_lua("reload_lua", CC_ReloadLua, "Reload Lua scripts.", FCVAR_NONE);
 
-void SandboxLua(lua_State* L) {
-	lua_newtable(L);
-	lua_newtable(L); 
-
-	lua_pushstring(L, "__index");
-	lua_pushvalue(L, -2);
-	lua_settable(L, -3);
-
-	lua_setmetatable(L, -2);
-
-	lua_replace(L, -2);
-
-	luaL_dostring(L, "os = nil");
-	luaL_dostring(L, "io = nil");
-	luaL_dostring(L, "require = nil");
-}
-
 void MainLuaHandle::Init() {
-	SandboxLua(GetLua());
 	const char* fullPath = "lua/main.lua";
 	FileHandle_t f = filesystem->Open(fullPath, "rb", "MOD");
 	if (!f) {

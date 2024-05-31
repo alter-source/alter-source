@@ -142,6 +142,9 @@
 #include "discord_rpc.h"
 #include <time.h>
 
+// fmod
+#include "fmod/fmod_manager.h"
+
 #if defined( TF_CLIENT_DLL )
 #include "abuse_report.h"
 #endif
@@ -1100,6 +1103,9 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 
 	g_pClientMode->Enable();
 
+	// FMOD - Start 'er up!
+	FMODManager()->InitFMOD();
+
 	if ( !view )
 	{
 		view = ( IViewRender * )&g_DefaultViewRender;
@@ -1274,6 +1280,9 @@ void CHLClient::Shutdown( void )
 
 	g_pClientMode->Disable();
 	g_pClientMode->Shutdown();
+
+	// FMOD - Shut us down
+	FMODManager()->ExitFMOD();
 
 	input->Shutdown_All();
 	C_BaseTempEntity::ClearDynamicTempEnts();
@@ -1588,6 +1597,9 @@ void CHLClient::View_Render( vrect_t *rect )
 	if ( rect->width == 0 || rect->height == 0 )
 		return;
 
+	// S:O - Think about fading ambient sounds if necessary
+	FMODManager()->FadeThink();
+
 	view->Render( rect );
 	UpdatePerfStats();
 }
@@ -1841,6 +1853,9 @@ void CHLClient::LevelShutdown( void )
 	StopAllRumbleEffects();
 
 	gHUD.LevelShutdown();
+
+	// S:O - Stop all FMOD sounds when exiting to the main menu
+	FMODManager()->StopAmbientSound(false);
 
 	// Discord RPC
 	if (!g_bTextMode)
