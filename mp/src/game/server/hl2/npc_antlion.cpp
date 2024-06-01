@@ -4029,77 +4029,78 @@ bool CNPC_Antlion::CorpseGib( const CTakeDamageInfo &info )
 // Purpose: 
 // Input  : *pOther - 
 //-----------------------------------------------------------------------------
-void CNPC_Antlion::Touch( CBaseEntity *pOther )
+void CNPC_Antlion::Touch(CBaseEntity *pOther)
 {
-	//See if the touching entity is a vehicle
-	CBasePlayer *pPlayer = ToBasePlayer( AI_GetSinglePlayer() );
-	
 	// FIXME: Technically we'll want to check to see if a vehicle has touched us with the player OR NPC driver
 
-	if ( pPlayer && pPlayer->IsInAVehicle() )
+	for (int i = 1; i <= gpGlobals->maxClients; i++)
 	{
+		CBasePlayer *pPlayer = UTIL_PlayerByIndex(i);
+		if (!pPlayer || !pPlayer->IsInAVehicle())
+			continue;
 		IServerVehicle	*pVehicle = pPlayer->GetVehicle();
 		CBaseEntity *pVehicleEnt = pVehicle->GetVehicleEnt();
 
-		if ( pVehicleEnt == pOther )
+		if (pVehicleEnt == pOther)
 		{
-			CPropVehicleDriveable	*pDrivableVehicle = dynamic_cast<CPropVehicleDriveable *>( pVehicleEnt );
+			CPropVehicleDriveable	*pDrivableVehicle = dynamic_cast<CPropVehicleDriveable *>(pVehicleEnt);
 
-			if ( pDrivableVehicle != NULL )
+			if (pDrivableVehicle != NULL)
 			{
 				//Get tossed!
 				Vector	vecShoveDir = pOther->GetAbsVelocity();
 				Vector	vecTargetDir = GetAbsOrigin() - pOther->GetAbsOrigin();
-				
-				VectorNormalize( vecShoveDir );
-				VectorNormalize( vecTargetDir );
 
-				bool bBurrowingOut = IsCurSchedule( SCHED_ANTLION_BURROW_OUT );
+				VectorNormalize(vecShoveDir);
+				VectorNormalize(vecTargetDir);
 
-				if ( ( ( pDrivableVehicle->m_nRPM > 75 ) && DotProduct( vecShoveDir, vecTargetDir ) <= 0 ) || bBurrowingOut == true )
+				bool bBurrowingOut = IsCurSchedule(SCHED_ANTLION_BURROW_OUT);
+
+				if (((pDrivableVehicle->m_nRPM > 75) && DotProduct(vecShoveDir, vecTargetDir) <= 0) || bBurrowingOut == true)
 				{
-					if ( IsFlipped() || bBurrowingOut == true )
+					if (IsFlipped() || bBurrowingOut == true)
 					{
 						float flDamage = m_iHealth;
 
-						if ( random->RandomInt( 0, 10 ) > 4 )
-							 flDamage += 25;
-									
-						CTakeDamageInfo	dmgInfo( pVehicleEnt, pPlayer, flDamage, DMG_VEHICLE );
-					
-						CalculateMeleeDamageForce( &dmgInfo, vecShoveDir, pOther->GetAbsOrigin() );
-						TakeDamage( dmgInfo );
+						if (random->RandomInt(0, 10) > 4)
+							flDamage += 25;
+
+						CTakeDamageInfo	dmgInfo(pVehicleEnt, pPlayer, flDamage, DMG_VEHICLE);
+
+						CalculateMeleeDamageForce(&dmgInfo, vecShoveDir, pOther->GetAbsOrigin());
+						TakeDamage(dmgInfo);
 					}
 					else
 					{
 						// We're being shoved
-						CTakeDamageInfo	dmgInfo( pVehicleEnt, pPlayer, 0, DMG_VEHICLE );
-						PainSound( dmgInfo );
+						CTakeDamageInfo	dmgInfo(pVehicleEnt, pPlayer, 0, DMG_VEHICLE);
+						PainSound(dmgInfo);
 
-						SetCondition( COND_ANTLION_FLIPPED );
+						SetCondition(COND_ANTLION_FLIPPED);
 
 						vecTargetDir[2] = 0.0f;
 
-						ApplyAbsVelocityImpulse( ( vecTargetDir * 250.0f ) + Vector(0,0,64.0f) );
-						SetGroundEntity( NULL );
+						ApplyAbsVelocityImpulse((vecTargetDir * 250.0f) + Vector(0, 0, 64.0f));
+						SetGroundEntity(NULL);
 
-						CSoundEnt::InsertSound( SOUND_PHYSICS_DANGER, GetAbsOrigin(), 256, 0.5f, this );
+						CSoundEnt::InsertSound(SOUND_PHYSICS_DANGER, GetAbsOrigin(), 256, 0.5f, this);
 					}
 				}
 			}
+			break;
 		}
 	}
 
-	BaseClass::Touch( pOther );
+	BaseClass::Touch(pOther);
 
 	// in episodic, an antlion colliding with the player in midair does him damage.
 	// pursuant bugs 58590, 56960, this happens only once per glide.
 #ifdef HL2_EPISODIC 
-	if ( GetActivity() == ACT_GLIDE && IsValidEnemy( pOther ) && !m_bHasDoneAirAttack )
+	if (GetActivity() == ACT_GLIDE && IsValidEnemy(pOther) && !m_bHasDoneAirAttack)
 	{
-		CTakeDamageInfo	dmgInfo( this, this, sk_antlion_air_attack_dmg.GetInt(), DMG_SLASH );
+		CTakeDamageInfo	dmgInfo(this, this, sk_antlion_air_attack_dmg.GetInt(), DMG_SLASH);
 
-		CalculateMeleeDamageForce( &dmgInfo, Vector( 0, 0, 1 ), GetAbsOrigin() );
+		CalculateMeleeDamageForce(&dmgInfo, Vector(0, 0, 1), GetAbsOrigin());
 		pOther->TakeDamage( dmgInfo );
 
 		//Kick the player angles
@@ -4121,28 +4122,28 @@ void CNPC_Antlion::Touch( CBaseEntity *pOther )
 	if ( pOther->IsPlayer() )
 	{
 		// Don't test for this if the pusher isn't friendly
-		if ( IsValidEnemy( pOther ) )
+		if (IsValidEnemy(pOther))
 			return;
 
 		// Ignore if pissed at player
-		if ( m_afMemory & bits_MEMORY_PROVOKED )
+		if (m_afMemory & bits_MEMORY_PROVOKED)
 			return;
-	
-		if ( !IsCurSchedule( SCHED_MOVE_AWAY ) && !IsCurSchedule( SCHED_ANTLION_BURROW_OUT ) )
-			 TestPlayerPushing( pOther );
+
+		if (!IsCurSchedule(SCHED_MOVE_AWAY) && !IsCurSchedule(SCHED_ANTLION_BURROW_OUT))
+			TestPlayerPushing(pOther);
 	}
 
 	//Adrian: Explode if hit by gunship!
 	//Maybe only do this if hit by the propellers?
-	if ( pOther->IsNPC() )
+	if (pOther->IsNPC())
 	{
-		if ( pOther->Classify() == CLASS_COMBINE_GUNSHIP )
+		if (pOther->Classify() == CLASS_COMBINE_GUNSHIP)
 		{
 			float flDamage = m_iHealth + 25;
-						
-			CTakeDamageInfo	dmgInfo( pOther, pOther, flDamage, DMG_GENERIC );
-			GuessDamageForce( &dmgInfo, (pOther->GetAbsOrigin() - GetAbsOrigin()), pOther->GetAbsOrigin() );
-			TakeDamage( dmgInfo );
+
+			CTakeDamageInfo	dmgInfo(pOther, pOther, flDamage, DMG_GENERIC);
+			GuessDamageForce(&dmgInfo, (pOther->GetAbsOrigin() - GetAbsOrigin()), pOther->GetAbsOrigin());
+			TakeDamage(dmgInfo);
 		}
 	}
 }

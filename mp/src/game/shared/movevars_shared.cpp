@@ -16,7 +16,7 @@
 #include "tier0/memdbgon.h"
 
 // some cvars used by player movement system
-#define DEFAULT_GRAVITY_STRING	"800"
+#define DEFAULT_GRAVITY_STRING	"600"
 
 float GetCurrentGravity( void )
 {

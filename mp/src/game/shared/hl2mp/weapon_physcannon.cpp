@@ -321,7 +321,6 @@ private:
 	float			m_flLoadWeight;
 	float			m_savedRotDamping[VPHYSICS_MAX_OBJECT_LIST_COUNT];
 	float			m_savedMass[VPHYSICS_MAX_OBJECT_LIST_COUNT];
-	bool			m_savedDrag;
 	EHANDLE			m_attachedEntity;
 	QAngle			m_vecPreferredCarryAngles;
 	bool			m_bHasPreferredCarryAngles;
@@ -554,7 +553,6 @@ void CGrabController::AttachEntity( CBasePlayer *pPlayer, CBaseEntity *pEntity, 
 	
 	// Give extra mass to the phys object we're actually picking up
 	pPhys->SetMass( REDUCED_CARRY_MASS );
-	m_savedDrag = pPhys->IsDragEnabled();
 	pPhys->EnableDrag( false );
 
 	m_errorTime = -1.0f; // 1 seconds until error starts accumulating
@@ -618,7 +616,7 @@ void CGrabController::DetachEntity( bool bClearVelocity )
 				continue;
 
 			// on the odd chance that it's gone to sleep while under anti-gravity
-			pPhys->EnableDrag(m_savedDrag);
+			pPhys->EnableDrag( true );
 			pPhys->Wake();
 			pPhys->SetMass( m_savedMass[i] );
 			pPhys->SetDamping( NULL, &m_savedRotDamping[i] );
@@ -761,6 +759,13 @@ void CPlayerPickupController::Init( CBasePlayer *pPlayer, CBaseEntity *pObject )
 		}
 	}
 
+
+	CHL2MP_Player *pOwner = (CHL2MP_Player *)ToBasePlayer( pPlayer );
+	if ( pOwner )
+	{
+		pOwner->EnableSprint( false );
+	}
+
 	// If the target is debris, convert it to non-debris
 	if ( pObject->GetCollisionGroup() == COLLISION_GROUP_DEBRIS )
 	{
@@ -851,13 +856,7 @@ void CPlayerPickupController::Use( CBaseEntity *pActivator, CBaseEntity *pCaller
 		
 		//Adrian: Oops, our object became motion disabled, let go!
 		IPhysicsObject *pPhys = pAttached->VPhysicsGetObject();
-		if (!pPhys)
-		{
-			Shutdown();
-			return;
-		}
-
-		if (pPhys && !pPhys->IsMoveable())
+		if ( pPhys && pPhys->IsMoveable() == false )
 		{
 			Shutdown();
 			return;
@@ -873,7 +872,7 @@ void CPlayerPickupController::Use( CBaseEntity *pActivator, CBaseEntity *pCaller
 		}
 #endif
 		// +ATTACK will throw phys objects
-		if (pPhys && m_pPlayer->m_nButtons & IN_ATTACK)
+		if ( m_pPlayer->m_nButtons & IN_ATTACK )
 		{
 			Shutdown( true );
 			Vector vecLaunch;
@@ -1091,7 +1090,7 @@ public:
 	bool	DropIfEntityHeld( CBaseEntity *pTarget );	// Drops its held entity if it matches the entity passed in
 	CGrabController &GetGrabController() { return m_grabController; }
 
-	bool	CanHolster( void ) const;
+	bool	CanHolster( void );
 	bool	Holster( CBaseCombatWeapon *pSwitchingTo = NULL );
 	bool	Deploy( void );
 
@@ -1512,13 +1511,15 @@ void CWeaponPhysCannon::Drop( const Vector &vecVelocity )
 {
 	ForceDrop();
 
-	//Delete();
+#ifndef CLIENT_DLL
+	UTIL_Remove( this );
+#endif
 }
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-bool CWeaponPhysCannon::CanHolster( void ) const 
+bool CWeaponPhysCannon::CanHolster( void ) 
 { 
 	//Don't holster this weapon if we're holding onto something
 	if ( m_bActive )
@@ -1550,7 +1551,6 @@ void CWeaponPhysCannon::DryFire( void )
 {
 	SendWeaponAnim( ACT_VM_PRIMARYATTACK );
 
-	IPredictionSystem::SuppressHostEvents(NULL);
 	WeaponSound( EMPTY );
 }
 
@@ -1571,7 +1571,6 @@ void CWeaponPhysCannon::PrimaryFireEffect( void )
 	UTIL_ScreenFade( pOwner, white, 0.1f, 0.0f, FFADE_IN );
 #endif
 
-	IPredictionSystem::SuppressHostEvents(NULL);
 	WeaponSound( SINGLE );
 }
 
@@ -1830,7 +1829,6 @@ void CWeaponPhysCannon::PrimaryAttack( void )
 			{
 				// We can't punt this yet
 				DryFire();
-				m_flNextPrimaryAttack = gpGlobals->curtime + 0.5f;
 				return;
 			}
 		}
@@ -1950,7 +1948,6 @@ void CWeaponPhysCannon::SecondaryAttack( void )
 		switch ( result )
 		{
 		case OBJECT_FOUND:
-			IPredictionSystem::SuppressHostEvents(NULL);
 			WeaponSound( SPECIAL1 );
 			SendWeaponAnim( ACT_VM_PRIMARYATTACK );
 			m_flNextSecondaryAttack = gpGlobals->curtime + 0.5f;
@@ -1960,8 +1957,7 @@ void CWeaponPhysCannon::SecondaryAttack( void )
 			break;
 
 		case OBJECT_NOT_FOUND:
-			//POLL EVERY TICK INSTEAD 100 ms
-			m_flNextSecondaryAttack = gpGlobals->curtime + TICK_INTERVAL;
+			m_flNextSecondaryAttack = gpGlobals->curtime + 0.1f;
 			CloseElements();
 			break;
 
@@ -2042,6 +2038,17 @@ bool CWeaponPhysCannon::AttachObject( CBaseEntity *pObject, const Vector &vPosit
 		m_bResetOwnerEntity = true;
 	}
 
+/*	if( pOwner )
+	{
+		pOwner->EnableSprint( false );
+
+		float	loadWeight = ( 1.0f - GetLoadPercentage() );
+		float	maxSpeed = hl2_walkspeed.GetFloat() + ( ( hl2_normspeed.GetFloat() - hl2_walkspeed.GetFloat() ) * loadWeight );
+
+		//Msg( "Load perc: %f -- Movement speed: %f/%f\n", loadWeight, maxSpeed, hl2_normspeed.GetFloat() );
+		pOwner->SetMaxSpeed( maxSpeed );
+	}*/
+
 	// Don't drop again for a slight delay, in case they were pulling objects near them
 	m_flNextSecondaryAttack = gpGlobals->curtime + 0.4f;
 
@@ -2054,6 +2061,8 @@ bool CWeaponPhysCannon::AttachObject( CBaseEntity *pObject, const Vector &vPosit
 		(CSoundEnvelopeController::GetController()).SoundChangePitch( GetMotorSound(), 100, 0.5f );
 		(CSoundEnvelopeController::GetController()).SoundChangeVolume( GetMotorSound(), 0.8f, 0.5f );
 	}
+
+
 
 	return true;
 }
@@ -2132,7 +2141,6 @@ CWeaponPhysCannon::FindObjectResult_t CWeaponPhysCannon::FindObject( void )
 		if ( !m_flLastDenySoundPlayed )
 		{
 			m_flLastDenySoundPlayed = true;
-			IPredictionSystem::SuppressHostEvents(NULL);
 			WeaponSound( SPECIAL3 );
 		}
 
@@ -2160,8 +2168,7 @@ CWeaponPhysCannon::FindObjectResult_t CWeaponPhysCannon::FindObject( void )
 	// If we're too far, simply start to pull the object towards us
 	Vector	pullDir = start - pEntity->WorldSpaceCenter();
 	VectorNormalize( pullDir );
-	//INCREASED PHYSCANNON POLLING
-	pullDir *= physcannon_pullforce.GetFloat()*TICK_INTERVAL*10.0f;
+	pullDir *= physcannon_pullforce.GetFloat();
 	
 	float mass = PhysGetEntityMass( pEntity );
 	if ( mass < 50.0f )
@@ -2372,6 +2379,7 @@ void CWeaponPhysCannon::DetachObject( bool playSound, bool wasLaunched )
 	if( pOwner != NULL )
 	{
 		pOwner->EnableSprint( true );
+		pOwner->SetMaxSpeed( hl2_normspeed.GetFloat() );
 	}
 
 	CBaseEntity *pObject = m_grabController.GetAttached();
@@ -2402,7 +2410,6 @@ void CWeaponPhysCannon::DetachObject( bool playSound, bool wasLaunched )
 	if ( playSound )
 	{
 		//Play the detach sound
-		IPredictionSystem::SuppressHostEvents(NULL);
 		WeaponSound( MELEE_MISS );
 	}
 	
@@ -2651,13 +2658,6 @@ void CWeaponPhysCannon::DoEffectIdle( void )
 //-----------------------------------------------------------------------------
 void CWeaponPhysCannon::ItemPostFrame()
 {
-	// Peter: Stops an exploit/bug where players can hold an object 
-	// from the physcannon silently (no physcannon holding noise)
-	if (m_bOpen == false)
-	{
-		DetachObject();
-	}
-
 	CBasePlayer *pOwner = ToBasePlayer( GetOwner() );
 	if ( pOwner == NULL )
 	{
@@ -2818,7 +2818,6 @@ void CWeaponPhysCannon::OpenElements( void )
 	if ( m_bOpen )
 		return;
 
-	IPredictionSystem::SuppressHostEvents(NULL);
 	WeaponSound( SPECIAL2 );
 
 	CBasePlayer *pOwner = ToBasePlayer( GetOwner() );
@@ -2847,7 +2846,6 @@ void CWeaponPhysCannon::CloseElements( void )
 	if ( m_bOpen == false )
 		return;
 
-	IPredictionSystem::SuppressHostEvents(NULL);
 	WeaponSound( MELEE_HIT );
 
 	CBasePlayer *pOwner = ToBasePlayer( GetOwner() );
@@ -2896,8 +2894,6 @@ float CWeaponPhysCannon::GetLoadPercentage( void )
 //-----------------------------------------------------------------------------
 CSoundPatch *CWeaponPhysCannon::GetMotorSound( void )
 {
-	IPredictionSystem::SuppressHostEvents(NULL);
-
 	if ( m_sndMotor == NULL )
 	{
 		CPASAttenuationFilter filter( this );

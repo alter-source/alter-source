@@ -1604,8 +1604,7 @@ public:
 //-----------------------------------------------------------------------------
 void CNPC_AntlionGuard::Footstep( bool bHeavy )
 {
-	CBasePlayer *pPlayer = AI_GetSinglePlayer();
-	Assert( pPlayer != NULL );
+	CBasePlayer *pPlayer = UTIL_GetNearestPlayer(GetAbsOrigin()); 
 	if ( pPlayer == NULL )
 		return;
 

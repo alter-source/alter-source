@@ -196,7 +196,7 @@ void CBaseHLCombatWeapon::WeaponIdle( void )
 
 		if( pPlayer )
 		{
-			pPlayer->Weapon_Lower();
+			//pPlayer->Weapon_Lower();
 		}
 #endif
 
