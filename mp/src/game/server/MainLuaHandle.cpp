@@ -29,31 +29,7 @@ void CC_ReloadLua(const CCommand& args) {
 static ConCommand reload_lua("reload_lua", CC_ReloadLua, "Reload Lua scripts.", FCVAR_NONE);
 
 void MainLuaHandle::Init() {
-	const char* fullPath = "lua/main.lua";
-	FileHandle_t f = filesystem->Open(fullPath, "rb", "MOD");
-	if (!f) {
-		Warning("[LUA-ERR] Failed to open %s\n", fullPath);
-		return;
-	}
-
-	int fileSize = filesystem->Size(f);
-	char *buffer = (char*)((IFileSystem *)filesystem)->AllocOptimalReadBuffer(f, fileSize + 1);
-	Assert(buffer);
-
-	((IFileSystem *)filesystem)->ReadEx(buffer, fileSize + 1, fileSize, f);
-	buffer[fileSize] = '\0';
-	filesystem->Close(f);
-
-	if (luaL_loadbuffer(GetLua(), buffer, fileSize, fullPath)) {
-		Warning("[LUA-ERR] %s\n", lua_tostring(GetLua(), -1));
-		lua_pop(GetLua(), 1);
-		((IFileSystem *)filesystem)->FreeOptimalReadBuffer(buffer);
-		return;
-	}
-
-	CallLUA(GetLua(), 0, LUA_MULTRET, 0, fullPath);
-	m_bLuaLoaded = true;
-	((IFileSystem *)filesystem)->FreeOptimalReadBuffer(buffer);
+	LoadLua("lua/main.lua");
 }
 
 void GetFilesInDirectory(const char* directory, const char* fileExtension, std::vector<std::string>& outFiles) {
@@ -329,6 +305,41 @@ LUA_FUNC(lua_GetConVar_Bool, [](lua_State *L) {
 	return 1;
 })
 
+LUA_FUNC(lua_BroadcastMessage, [](lua_State *L) {
+	const char* message = lua_tostring(L, 1);
+	if (message) {
+		UTIL_ClientPrintAll(HUD_PRINTTALK, message);
+	}
+	return 0;
+})
+
+LUA_FUNC(lua_KickPlayer, [](lua_State *L) {
+	int playerIndex = lua_tointeger(L, 1);
+	const char* reason = lua_tostring(L, 2);
+
+	if (auto p = UTIL_PlayerByIndex(playerIndex)) {
+		engine->ServerCommand(UTIL_VarArgs("kickid %d %s\n", p->GetUserID(), reason));
+	}
+	return 0;
+})
+
+LUA_FUNC(lua_BanPlayer, [](lua_State *L) {
+	int playerIndex = lua_tointeger(L, 1);
+	const char* duration = lua_tostring(L, 2); // duration in minutes, or "permanent" for permanent ban
+	const char* reason = lua_tostring(L, 3);
+
+	if (auto p = UTIL_PlayerByIndex(playerIndex)) {
+		if (Q_stricmp(duration, "permanent") == 0) {
+			engine->ServerCommand(UTIL_VarArgs("banid 0 %d kick %s\n", p->GetUserID(), reason));
+		}
+		else {
+			engine->ServerCommand(UTIL_VarArgs("banid %s %d kick %s\n", duration, p->GetUserID(), reason));
+		}
+		engine->ServerCommand("writeid\n");
+	}
+	return 0;
+})
+
 // player-related
 LUA_FUNC(lua_GiveItem, [](lua_State * L) {
 	auto p = UTIL_PlayerByIndex(lua_tointeger(L, 1));
@@ -345,6 +356,67 @@ LUA_FUNC(lua_GiveAmmo, [](lua_State * L) {
 	}
 	UTIL_PlayerByIndex(playerIndex)->GiveAmmo(amount, ammoType);
 	return 0;
+})
+LUA_FUNC(lua_SetHealth, [](lua_State *L) {
+	auto p = UTIL_PlayerByIndex(lua_tointeger(L, 1));
+	if (p) {
+		p->SetHealth(lua_tointeger(L, 2));
+	}
+	return 0;
+})
+LUA_FUNC(lua_GetHealth, [](lua_State *L) {
+	auto p = UTIL_PlayerByIndex(lua_tointeger(L, 1));
+	if (p) {
+		lua_pushinteger(L, p->GetHealth());
+		return 1;
+	}
+	lua_pushnil(L);
+	return 1;
+})
+LUA_FUNC(lua_TeleportPlayer, [](lua_State *L) {
+	auto p = UTIL_PlayerByIndex(lua_tointeger(L, 1));
+	if (p) {
+		Vector position;
+		position.x = lua_tonumber(L, 2);
+		position.y = lua_tonumber(L, 3);
+		position.z = lua_tonumber(L, 4);
+		p->Teleport(&position, nullptr, nullptr);
+	}
+	return 0;
+})
+LUA_FUNC(lua_GetPlayerName, [](lua_State *L) {
+	auto p = UTIL_PlayerByIndex(lua_tointeger(L, 1));
+	if (p) {
+		lua_pushstring(L, p->GetPlayerName());
+		return 1;
+	}
+	lua_pushnil(L);
+	return 1;
+})
+LUA_FUNC(lua_GetPlayerPosition, [](lua_State *L) {
+	auto p = UTIL_PlayerByIndex(lua_tointeger(L, 1));
+	if (p) {
+		Vector position = p->GetAbsOrigin();
+		lua_newtable(L);
+		lua_pushnumber(L, position.x);
+		lua_setfield(L, -2, "x");
+		lua_pushnumber(L, position.y);
+		lua_setfield(L, -2, "y");
+		lua_pushnumber(L, position.z);
+		lua_setfield(L, -2, "z");
+		return 1;
+	}
+	lua_pushnil(L);
+	return 1;
+})
+LUA_FUNC(lua_GetPlayerTeam, [](lua_State *L) {
+	auto p = UTIL_PlayerByIndex(lua_tointeger(L, 1));
+	if (p) {
+		lua_pushinteger(L, p->GetTeamNumber());
+		return 1;
+	}
+	lua_pushnil(L);
+	return 1;
 })
 
 // file manipulation
@@ -456,6 +528,99 @@ LUA_FUNC(lua_RenameFile, [](lua_State *L) {
 	else {
 		lua_pushboolean(L, false);
 	}
+	return 1;
+})
+
+// entity-related
+LUA_FUNC(lua_SpawnEntity, [](lua_State *L) {
+	const char* entityName = lua_tostring(L, 1);
+	float x = lua_tonumber(L, 2);
+	float y = lua_tonumber(L, 3);
+	float z = lua_tonumber(L, 4);
+
+	if (entityName) {
+		Vector position(x, y, z);
+		CBaseEntity* entity = CreateEntityByName(entityName);
+		if (entity) {
+			entity->SetAbsOrigin(position);
+			DispatchSpawn(entity);
+			lua_pushboolean(L, true);
+			return 1;
+		}
+	}
+	lua_pushboolean(L, false);
+	return 1;
+})
+
+LUA_FUNC(lua_RemoveEntity, [](lua_State *L) {
+	const char* entityName = lua_tostring(L, 1);
+	int entityIndex = lua_tointeger(L, 2);
+
+	CBaseEntity* entity = nullptr;
+	if (entityName) {
+		entity = gEntList.FindEntityByName(nullptr, entityName);
+	}
+	else if (entityIndex > 0) {
+		entity = UTIL_EntityByIndex(entityIndex);
+	}
+
+	if (entity) {
+		UTIL_Remove(entity);
+		lua_pushboolean(L, true);
+		return 1;
+	}
+	lua_pushboolean(L, false);
+	return 1;
+})
+
+LUA_FUNC(lua_TriggerGameEvent, [](lua_State *L) {
+	const char* eventName = lua_tostring(L, 1);
+	if (eventName) {
+		IGameEvent *event = gameeventmanager->CreateEvent(eventName);
+		if (event) {
+			gameeventmanager->FireEvent(event);
+			lua_pushboolean(L, true);
+			return 1;
+		}
+	}
+	lua_pushboolean(L, false);
+	return 1;
+})
+
+LUA_FUNC(lua_LogToFile, [](lua_State *L) {
+	const char* filename = lua_tostring(L, 1);
+	const char* message = lua_tostring(L, 2);
+
+	if (filename && message) {
+		FileHandle_t f = filesystem->Open(filename, "a", "MOD");
+		if (f) {
+			filesystem->FPrintf(f, "%s\n", message);
+			filesystem->Close(f);
+			lua_pushboolean(L, true);
+			return 1;
+		}
+	}
+	lua_pushboolean(L, false);
+	return 1;
+})
+
+LUA_FUNC(lua_EntityExists, [](lua_State *L) {
+	const char* entityName = lua_tostring(L, 1);
+	int entityIndex = lua_tointeger(L, 2);
+
+	CBaseEntity* entity = nullptr;
+	if (entityName) {
+		entity = gEntList.FindEntityByName(nullptr, entityName);
+	}
+	else if (entityIndex > 0) {
+		entity = UTIL_EntityByIndex(entityIndex);
+	}
+
+	if (entity) {
+		lua_pushboolean(L, true);
+		return 1;
+	}
+	lua_pushboolean(L, false);
 	return 1;
 })
 
