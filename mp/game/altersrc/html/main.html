@@ -8,6 +8,7 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
+            background-color: black;
         }
         #background
         {
@@ -19,9 +20,11 @@
             background-image: url("backgrounds/background03.jpeg");
             background-size: cover;
             background-repeat: no-repeat;
-            filter: blur(2px);
-            -webkit-filter: blur(2px);
+            /*filter: blur(2px);
+            -webkit-filter: blur(2px);*/
             z-index: -1;
+            transition: opacity 1s ease-in-out;
+            -webkit-transition: opacity 1s ease-in-out;
         }
         #logo
         {
@@ -44,6 +47,7 @@
             left: 0;
             right: 0;
             background-color: rgba( 0, 0, 0, 0.5 );
+            z-index: 100;
         }
         #version
         {
@@ -66,7 +70,12 @@
 
         function changeBackground() {
             currentIndex = (currentIndex + 1) % backgrounds.length;
-            document.getElementById('background').style.backgroundImage = "url('" + backgrounds[currentIndex] + "')";
+            var newBackground = backgrounds[currentIndex];
+            document.getElementById('background').style.opacity = '0';
+            setTimeout(function() {
+                document.getElementById('background').style.backgroundImage = "url('" + newBackground + "')"; // Set new background
+                document.getElementById('background').style.opacity = '1';
+            }, 1000);
         }
 
         setInterval(changeBackground, 10000);

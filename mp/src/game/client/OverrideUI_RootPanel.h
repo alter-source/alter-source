@@ -18,6 +18,10 @@ public:
 	void StartGame(void);
 
 	bool OverrideUI_RootPanel::IsPlayerInGame();
+	void OverrideUI_RootPanel::OnTick();
+
+protected:
+	virtual void OnKeyCodePressed(vgui::KeyCode code) override;
 
 protected:
 	virtual void ApplySchemeSettings(vgui::IScheme *pScheme);

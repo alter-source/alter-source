@@ -263,6 +263,8 @@ void Button::DoClick()
 	FireActionSignal();
 	PlayButtonReleasedSound();
 
+	surface()->PlaySound("ui/buttonclick.wav");
+
 	static ConVarRef vgui_nav_lock( "vgui_nav_lock" );
 	if ( ( !vgui_nav_lock.IsValid() || vgui_nav_lock.GetInt() == 0 ) && NavigateActivate() )
 	{
@@ -902,6 +904,7 @@ void Button::OnSetState(int state)
 //-----------------------------------------------------------------------------
 void Button::OnCursorEntered()
 {
+	surface()->PlaySound("ui/buttonrollover.wav");
 	if (IsEnabled() && !IsSelected() )
 	{
 		SetArmed( true );

@@ -45,6 +45,23 @@ OverrideUI_RootPanel::OverrideUI_RootPanel(VPANEL parent) : Panel(NULL, "Overrid
 	m_ExitingFrameCount = 0;
 
 	LoadMainMenuHTML();
+	ivgui()->AddTickSignal(GetVPanel());
+}
+
+void OverrideUI_RootPanel::OnTick()
+{
+	RequestFocus();
+	BaseClass::OnTick();
+}
+
+void OverrideUI_RootPanel::OnKeyCodePressed(KeyCode code)
+{
+	if (code == KEY_ESCAPE)
+	{
+		LoadMainMenuHTML();
+	}
+
+	BaseClass::OnKeyCodePressed(code);
 }
 
 IGameUI *OverrideUI_RootPanel::GetGameUI()
