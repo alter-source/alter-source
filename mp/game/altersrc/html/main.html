@@ -3,15 +3,13 @@
 <head>
     <title>Alter Source</title>
     <style>
-        body
-        {
+        body {
             margin: 0;
             padding: 0;
             overflow: hidden;
             background-color: black;
         }
-        #background
-        {
+        #background {
             position: fixed;
             top: 0;
             left: 0;
@@ -20,14 +18,13 @@
             background-image: url("backgrounds/background03.jpeg");
             background-size: cover;
             background-repeat: no-repeat;
-            /*filter: blur(2px);
-            -webkit-filter: blur(2px);*/
             z-index: -1;
             transition: opacity 1s ease-in-out;
             -webkit-transition: opacity 1s ease-in-out;
+            animation: zoom 20s infinite;
+            -webkit-animation: zoom 20s infinite;
         }
-        #logo
-        {
+        #logo {
             color: white;
             font-family: Arial;
             font-size: 50px;
@@ -35,22 +32,19 @@
             z-index: 1;
             position: relative;
         }
-        span
-        {
+        span {
             color: rgb(3, 190, 252);
         }
-        #navbar
-        {
+        #navbar {
             position: absolute;
             bottom: 0px;
             height: 50px;
             left: 0;
             right: 0;
-            background-color: rgba( 0, 0, 0, 0.5 );
+            background-color: rgba(0, 0, 0, 0.5);
             z-index: 100;
         }
-        #version
-        {
+        #version {
             position: absolute;
             right: 3px;
             top: 3px;
@@ -58,10 +52,50 @@
             font-size: 11px;
             font-weight: bold;
             padding: 5px;
-            background-color: rgba( 0, 0, 0, 1.0 );
+            background-color: rgba(0, 0, 0, 1.0);
             border-radius: 3px;
             cursor: pointer;
             z-index: 1000;
+        }
+        #log {
+            position: absolute;
+            top: 80px;
+            right: 3px;
+            width: 300px;
+            height: 200px;
+            border: 1px solid #ccc;
+            background-color: rgba(255,255,255,0.95);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 1000;
+        }
+        #log p {
+            color: black;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+        #log #title {
+            color: black;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 24px;
+        }
+        @keyframes zoom {
+            0% {
+                transform: scale(1);
+                -webkit-transform: scale(1);
+            }
+            100% {
+                transform: scale(1.2);
+                -webkit-transform: scale(1.2);
+            }
+        }
+        @-webkit-keyframes zoom {
+            0% {
+                -webkit-transform: scale(1);
+            }
+            100% {
+                -webkit-transform: scale(1.2);
+            }
         }
     </style>
     <script>
@@ -71,10 +105,16 @@
         function changeBackground() {
             currentIndex = (currentIndex + 1) % backgrounds.length;
             var newBackground = backgrounds[currentIndex];
-            document.getElementById('background').style.opacity = '0';
+            var backgroundElement = document.getElementById('background');
+            backgroundElement.style.opacity = '0';
             setTimeout(function() {
-                document.getElementById('background').style.backgroundImage = "url('" + newBackground + "')"; // Set new background
-                document.getElementById('background').style.opacity = '1';
+                backgroundElement.style.backgroundImage = "url('" + newBackground + "')";
+                backgroundElement.style.opacity = '1';
+                backgroundElement.style.animation = 'none';
+                backgroundElement.style.webkitAnimation = 'none'; 
+                backgroundElement.offsetHeight;
+                backgroundElement.style.animation = '';
+                backgroundElement.style.webkitAnimation = ''; 
             }, 1000);
         }
 
@@ -84,7 +124,11 @@
 <body>
     <div id="background"></div>
     <p id="logo"><span>Alter</span> Source</p>
-    <div id="version">You are on the GitHub branch. <a href="https://github.com/alter-source/alter-source" target="_blank">Click here</a> to find out more. ( - )</span></div>
+    <div id="version">You are on the <i>GitHub</i> branch. <a href="https://github.com/alter-source/alter-source" target="_blank">Click here</a> to find out more. ( - )</div>
+    <div id="log">
+        <p id="title">changelog</p>
+        <p>TBA</p>
+    </div>
     <div id="navbar">
         <p>...</p>
     </div>

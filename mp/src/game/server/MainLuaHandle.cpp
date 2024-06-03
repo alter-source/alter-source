@@ -671,6 +671,12 @@ LUA_FUNC(lua_IsLinux, [](lua_State *L) {
 	return 1;
 })
 
+LUA_FUNC(lua_LoadLua, [](lua_State *L) {
+	const char* Path = lua_tostring(L, 1);
+	LoadLua(Path);
+	return 1;
+})
+
 void MainLuaHandle::RegFunctions() {
 	// server-related
 	REG_FUNCTION(_StartNextLevel);
@@ -709,6 +715,7 @@ void MainLuaHandle::RegFunctions() {
 
 	// other
 	REG_FUNCTION(_IsLinux); // checks if the game is ran on a Linux distrubution
+	REG_FUNCTION(_LoadLua);
 }
 
 LuaHandle* g_LuaHandle = NULL;

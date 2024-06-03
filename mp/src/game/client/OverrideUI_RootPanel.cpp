@@ -113,8 +113,6 @@ void OverrideUI_RootPanel::LoadMainMenuHTML()
 	m_MainMenuAwesomium->SetBounds(0, 0, wide, tall);
 	m_MainMenuAwesomium->OpenHTMLFile("html/main.html");
 
-	IGameUI* gameUI = GetGameUI();
-
 	if (m_pResumeButton)
 		m_pResumeButton->DeletePanel();
 
@@ -133,27 +131,21 @@ void OverrideUI_RootPanel::LoadMainMenuHTML()
 	if (m_pDisconnectButton)
 		m_pDisconnectButton->DeletePanel();
 
-	if (gameUI && IsPlayerInGame())
-	{
-		m_pResumeButton = new Button(this, "mResumeButton", "Resume Game", this, "ResumeGame");
-		m_pResumeButton->SetBounds(80, 140, 150, 30);
-	}
+	m_pResumeButton = new Button(this, "mResumeButton", "Resume Game", this, "ResumeGame");
+	m_pResumeButton->SetBounds(80, 140, 150, 30);
 
 	m_pStartButton = new Button(this, "mStartGameButton", "Start Game", this, "StartGame");
 	m_pStartButton->SetAlpha(255);
-	m_pStartButton->SetBounds(80, 180, 250, 30);
+	m_pStartButton->SetBounds(80, 220, 250, 30);
 
 	m_pOptionsButton = new Button(this, "mOptionsButton", "Settings", this, "Options");
-	m_pOptionsButton->SetBounds(80, 220, 150, 30);
+	m_pOptionsButton->SetBounds(80, 260, 150, 30);
 
-	m_pFindButton = new Button(this, "mFindButton", "Find Servers", this, "FindServers");
-	m_pFindButton->SetBounds(80, 260, 150, 30);
+	m_pFindButton = new Button(this, "mFindButton", "Server Browser", this, "FindServers");
+	m_pFindButton->SetBounds(80, 300, 150, 30);
 
-	if (gameUI && IsPlayerInGame())
-	{
-		m_pDisconnectButton = new Button(this, "mDisconnectButton", "Disconnect", this, "DisconnectGame");
-		m_pDisconnectButton->SetBounds(80, 300, 150, 30);
-	}
+	m_pDisconnectButton = new Button(this, "mDisconnectButton", "Disconnect", this, "DisconnectGame");
+	m_pDisconnectButton->SetBounds(80, 340, 150, 30);
 
 	m_pExitButton = new Button(this, "mExitButton", "Exit", this, "ExitGame");
 	m_pExitButton->SetBounds(80, 380, 150, 30);
@@ -184,12 +176,13 @@ void OverrideUI_RootPanel::OnCommand(const char *command)
 		gameUI->SendMainMenuCommand("OpenOptionsDialog");
 	}
 	else if (FStrEq(command, "Exit")) {
-		gameUI->OnConfirmQuit();
+		gameUI->SendMainMenuCommand("Quit");
 	}
 	else if (FStrEq(command, "FindServers")) {
 		gameUI->SendMainMenuCommand("OpenServerBrowser");
 	}
 	else if (FStrEq(command, "DisconnectGame")) {
+		surface()->PlaySound("common/talk.wav");
 		gameUI->SendMainMenuCommand("Disconnect");
 	}
 	else if (FStrEq(command, "ResumeGame")) {
