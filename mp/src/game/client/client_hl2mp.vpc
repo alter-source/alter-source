@@ -14,12 +14,13 @@ $Configuration
 {
 	$Compiler
 	{
-		$AdditionalIncludeDirectories		"$BASE;hl2mp\ui,.\hl2mp,$SRCDIR\game\shared\hl2mp,.\hl2,.\hl2\elements,$SRCDIR\game\shared\hl2,$SRCDIR\fmod\api\inc;"
+		$AdditionalIncludeDirectories		"$BASE;hl2mp\ui,.\hl2mp,$SRCDIR\game\shared\hl2mp,.\hl2,.\hl2\elements,$SRCDIR\game\shared\hl2,$SRCDIR\fmod\api\inc;$SRCDIR\awesomium\inc"
 		$PreprocessorDefinitions			"$BASE;HL2MP;HL2_CLIENT_DLL"
 	}
     $Linker
 	{
-		$AdditionalLibraryDirectories	"$BASE;$SRCDIR\fmod\api\lib"
+		$AdditionalLibraryDirectories	"$BASE;$SRCDIR\fmod\api\lib;$SRCDIR\awesomium\lib"
+        $AdditionalDependencies         "$BASE winmm.lib awesomium.lib"
 	}
 }
 
@@ -43,6 +44,20 @@ $Project "Client (Alter)"
         {
             $File	"fmod\fmod_manager.cpp"
             $File	"fmod\fmod_manager.h"
+        }
+        
+        $Folder "Awesomium"
+        {
+            $File "VAwesomium.cpp"
+            $File "VAwesomium.h"
+        }
+        
+        $Folder "GameUI"
+        {
+            $File "IOverrideInterface.h"
+            $File "OverrideInterface.cpp"
+            $File "OverrideUI_RootPanel.h"
+            $File "OverrideUI_RootPanel.cpp"
         }
 
 		$Folder	"HL2 DLL"

@@ -13,6 +13,8 @@
 #include <vgui_controls/Menu.h>
 #include <vgui_controls/MessageBox.h>
 
+#include <vgui_controls\HTML.h>
+
 #include "filesystem.h"
 #include "../vgui2/src/vgui_key_translation.h"
 

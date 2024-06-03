@@ -1,8 +1,8 @@
 "GameInfo"
 {
 	game	"Alter Source"
-	title	"Alter"
-	title2	"Source"
+	title	" "
+	title2	" "
 	icon		"resource/icon"
 	type multiplayer_only
 	nomodels 0

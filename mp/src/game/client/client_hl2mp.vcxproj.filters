@@ -25,11 +25,17 @@
     <Filter Include="Source Files">
       <UniqueIdentifier>{BA03E055-4FA2-FCE3-8A1C-D348547D379C}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Awesomium">
+      <UniqueIdentifier>{48C18CDA-F109-64DD-CD15-DDB9906B3EF7}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\FMOD">
       <UniqueIdentifier>{785A4591-10EE-51E3-B434-3DAE23D84992}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\game_controls">
       <UniqueIdentifier>{1E7DB91A-DC0A-B17F-617D-4C4FB3FA7A3E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameUI">
+      <UniqueIdentifier>{3A3B721D-5B1F-6104-218A-0B14D098AA5D}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\HL2 DLL">
       <UniqueIdentifier>{3C43D38A-46AF-2183-A5E5-44383B1D2652}</UniqueIdentifier>
@@ -1856,6 +1862,9 @@
     <ClInclude Include="viewpostprocess.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="VAwesomium.h">
+      <Filter>Source Files\Awesomium</Filter>
+    </ClInclude>
     <ClInclude Include="fmod\fmod_manager.h">
       <Filter>Source Files\FMOD</Filter>
     </ClInclude>
@@ -1864,6 +1873,12 @@
     </ClInclude>
     <ClInclude Include="game_controls\basemodelpanel.h">
       <Filter>Source Files\game_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="IOverrideInterface.h">
+      <Filter>Source Files\GameUI</Filter>
+    </ClInclude>
+    <ClInclude Include="OverrideUI_RootPanel.h">
+      <Filter>Source Files\GameUI</Filter>
     </ClInclude>
     <ClInclude Include="hl2\c_basehelicopter.h">
       <Filter>Source Files\HL2 DLL</Filter>
@@ -3022,6 +3037,9 @@
     <ClCompile Include="WorldDimsProxy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="VAwesomium.cpp">
+      <Filter>Source Files\Awesomium</Filter>
+    </ClCompile>
     <ClCompile Include="fmod\fmod_manager.cpp">
       <Filter>Source Files\FMOD</Filter>
     </ClCompile>
@@ -3060,6 +3078,12 @@
     </ClCompile>
     <ClCompile Include="game_controls\vguitextwindow.cpp">
       <Filter>Source Files\game_controls</Filter>
+    </ClCompile>
+    <ClCompile Include="OverrideInterface.cpp">
+      <Filter>Source Files\GameUI</Filter>
+    </ClCompile>
+    <ClCompile Include="OverrideUI_RootPanel.cpp">
+      <Filter>Source Files\GameUI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\game\shared\hl2\basehlcombatweapon_shared.cpp">
       <Filter>Source Files\HL2 DLL</Filter>

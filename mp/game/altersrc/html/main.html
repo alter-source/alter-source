@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alter Source</title>
+    <style>
+        body
+        {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        #background
+        {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("backgrounds/background03.jpeg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            filter: blur(2px);
+            -webkit-filter: blur(2px);
+            z-index: -1;
+        }
+        #logo
+        {
+            color: white;
+            font-family: Arial;
+            font-size: 50px;
+            padding-left: 70px;
+            z-index: 1;
+            position: relative;
+        }
+        span
+        {
+            color: rgb(3, 190, 252);
+        }
+        #navbar
+        {
+            position: absolute;
+            bottom: 0px;
+            height: 50px;
+            left: 0;
+            right: 0;
+            background-color: rgba( 0, 0, 0, 0.5 );
+        }
+        #version
+        {
+            position: absolute;
+            right: 3px;
+            top: 3px;
+            color: #aaa;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 5px;
+            background-color: rgba( 0, 0, 0, 1.0 );
+            border-radius: 3px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+    </style>
+    <script>
+        var backgrounds = ["backgrounds/background01.jpeg", "backgrounds/background02.jpeg", "backgrounds/background03.jpeg"];
+        var currentIndex = 0;
+
+        function changeBackground() {
+            currentIndex = (currentIndex + 1) % backgrounds.length;
+            document.getElementById('background').style.backgroundImage = "url('" + backgrounds[currentIndex] + "')";
+        }
+
+        setInterval(changeBackground, 10000);
+    </script>
+</head>
+<body>
+    <div id="background"></div>
+    <p id="logo"><span>Alter</span> Source</p>
+    <div id="version">You are on the GitHub branch. <a href="https://github.com/alter-source/alter-source" target="_blank">Click here</a> to find out more. ( - )</span></div>
+    <div id="navbar">
+        <p>...</p>
+    </div>
+</body>
+</html>

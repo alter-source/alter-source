@@ -9,4 +9,6 @@ credits:
 dreadcraftre - helping me compile Lua
 PracticeMedicine03 - for helping with discord RPC
 
+!TO COMPILE, DISABLE TREAT WARNINGS AS ERRORS IN THE CLIENT PROJECT (C/C++ -> General)!
+
 [FOR NORMAL CHANGELOG CHECK THE COMMITS]
