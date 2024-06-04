@@ -119,6 +119,7 @@ ConVar	sv_noclipduringpause( "sv_noclipduringpause", "0", FCVAR_REPLICATED | FCV
 extern ConVar sv_maxunlag;
 extern ConVar sv_turbophysics;
 extern ConVar *sv_maxreplay;
+extern ConVar mp_suitvoice;
 
 extern CServerGameDLL g_ServerGameDLL;
 
@@ -4241,7 +4242,7 @@ void CBasePlayer::CheckSuitUpdate()
 	// if in range of radiation source, ping geiger counter
 	UpdateGeigerCounter();
 
-	if ( g_pGameRules->IsMultiplayer() )
+	if (!mp_suitvoice.GetBool())
 	{
 		// don't bother updating HEV voice in multiplayer.
 		return;
@@ -5942,7 +5943,6 @@ void CBasePlayer::ImpulseCommands( )
 		if ( sv_cheats->GetBool() )
 		{
 			CBaseCombatWeapon *pWeapon;
-
 			pWeapon = GetActiveWeapon();
 			
 			if( pWeapon->IsEffectActive( EF_NODRAW ) )

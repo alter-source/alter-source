@@ -13,7 +13,7 @@
 *.exp
 *.ilk
 *.lastbuildstate
-vc100.pdb
+*.pdb
 ipch
 *.sdf
 *.opensdf

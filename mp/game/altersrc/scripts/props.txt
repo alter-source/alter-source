@@ -594,10 +594,6 @@ SpawnMenu
 		{
 			"#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_lab/crematorcase.mdl"
 		}
-		"Extinguisher"
-		{
-			"#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/weapons/w_fire_extinguisher.mdl"
-		}
 		"Radio"
 		{
 			    "#"	"prop_physics_create props_lab/citizenradio.mdl"
