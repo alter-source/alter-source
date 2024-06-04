@@ -1,4 +1,4 @@
-haha source spaghetti go brr
+haha open sauce gagis mod go brr
 ----------------------------
 Alter Source is an extremely epic Source Engine fork, currently under heavy development.
 It's main purpose is to make modding easier, reduce the spaghetti code and for game fixes.
@@ -6,8 +6,8 @@ The reason that it's a Multiplayer mod instead of a Singleplayer one, is because
 So wake up, Mr Freeman, wake up and, smell the ashes.
 
 credits:
-dreadcraftre - helping me compile Lua
-PracticeMedicine03 - for helping with discord RPC
+dreadcraftre - helping with Lua & letting me borrow the Spawn Menu
+PracticeMedicine03 - lua funcs & helping with discord RPC
 
 !TO COMPILE, DISABLE TREAT WARNINGS AS ERRORS IN THE CLIENT PROJECT (C/C++ -> General)!
 
