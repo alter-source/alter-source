@@ -66,19 +66,6 @@ $Project "Server (Alter)"
             $File "$SRCDIR\game\shared\handviewmodel_shared.cpp"
         }
 
-        $Folder "HL2B DLL"
-        {
-            $Folder "Weapons"
-            {
-                $File	"hl2beta\weapon_ar1.cpp"
-                $File	"hl2beta\weapon_iceaxe.cpp"
-                $File	"hl2beta\weapon_irifle.cpp"
-                $File	"hl2beta\weapon_smg2.cpp"
-                $File	"hl2beta\weapon_sniperrifle.cpp"
-                $File	"hl2beta\weapon_supercrowbar.cpp"
-            }
-        }
-
 		$Folder	"HL2 DLL"
 		{
 			$File	"hl2\ai_allymanager.cpp"

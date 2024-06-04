@@ -1,9 +1,0 @@
-"VertexLitGeneric"
-{
-	"$basetexture" "models/Weapons/V_sniper/lense"
-	"$bumpmap" "models/Weapons/V_sniper/lense_normal"
-	"$envmap" "env_cubemap"
-	"$normalmapalphaenvmapmask" 1
-	"$envmapcontrast" 0.3"
-
-}

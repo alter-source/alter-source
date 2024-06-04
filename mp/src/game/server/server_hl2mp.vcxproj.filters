@@ -22,12 +22,6 @@
     <Filter Include="Source Files\HL2 DLL\unused">
       <UniqueIdentifier>{A52C827A-EB95-73A5-F031-C0395B5E2677}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\HL2B DLL">
-      <UniqueIdentifier>{2873CC54-DAFA-A6F5-7FC8-8D5E3C705D24}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\HL2B DLL\Weapons">
-      <UniqueIdentifier>{F3545214-4A85-A18A-B710-2C9263A2428E}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\HL2MP">
       <UniqueIdentifier>{2BA678C8-595F-A004-FD96-60E33CA8DE83}</UniqueIdentifier>
     </Filter>
@@ -3321,24 +3315,6 @@
     </ClCompile>
     <ClCompile Include="hl2\weapon_flaregun.cpp">
       <Filter>Source Files\HL2 DLL\unused</Filter>
-    </ClCompile>
-    <ClCompile Include="hl2beta\weapon_ar1.cpp">
-      <Filter>Source Files\HL2B DLL\Weapons</Filter>
-    </ClCompile>
-    <ClCompile Include="hl2beta\weapon_iceaxe.cpp">
-      <Filter>Source Files\HL2B DLL\Weapons</Filter>
-    </ClCompile>
-    <ClCompile Include="hl2beta\weapon_irifle.cpp">
-      <Filter>Source Files\HL2B DLL\Weapons</Filter>
-    </ClCompile>
-    <ClCompile Include="hl2beta\weapon_smg2.cpp">
-      <Filter>Source Files\HL2B DLL\Weapons</Filter>
-    </ClCompile>
-    <ClCompile Include="hl2beta\weapon_sniperrifle.cpp">
-      <Filter>Source Files\HL2B DLL\Weapons</Filter>
-    </ClCompile>
-    <ClCompile Include="hl2beta\weapon_supercrowbar.cpp">
-      <Filter>Source Files\HL2B DLL\Weapons</Filter>
     </ClCompile>
     <ClCompile Include="hl2mp\hl2mp_bot_temp.cpp">
       <Filter>Source Files\HL2MP</Filter>

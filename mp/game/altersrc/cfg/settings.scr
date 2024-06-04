@@ -32,7 +32,7 @@
 
 
 // Half-Life Server Configuration Layout Script (stores last settings chosen, too)
-// File generated:  Sun May 19 01:42:54 PM
+// File generated:  Tue Jun 04 03:16:22 PM
 //
 //
 // Cvar	-	Setting
@@ -61,7 +61,7 @@ DESCRIPTION SERVER_OPTIONS
 		{ NUMBER 1 32 }
 		{ "32" }
 	}
-	
+
 	"as_gamemode"
 	{
 		"Gamemode"
@@ -74,9 +74,9 @@ DESCRIPTION SERVER_OPTIONS
 			"Randomizer" "Randomizer"
 			"Cooperative" "Cooperative"
 			"Campaign" "Campaign"
-            "< Random >" "None"
+			"< Random >" "None"
 		}
-		{ "Sandbox" }
+		{ "0" }
 	}
 
 	"mp_timelimit"
@@ -127,14 +127,14 @@ DESCRIPTION SERVER_OPTIONS
 		{ BOOL }
 		{ "0" }
 	}
-	
+
 	"as_noclip"
 	{
 		"Noclip"
 		{ BOOL }
 		{ "1" }
 	}
-	
+
 	"as_spawnmenu"
 	{
 		"Spawn Menu"

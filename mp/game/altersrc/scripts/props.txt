@@ -992,15 +992,7 @@ SpawnMenu
 		{
 			"#"	"give weapon_crowbar"
 		}
-		"Ice Axe"
-		{
-			"#"	"give weapon_iceaxe"
-		}
-		"Super Crowbar"
-		{
-			"#"	"give weapon_supercrowbar"
-		}
-		"StunBaton"
+		"Stunstick"
 		{
 			"#"	"give weapon_stunstick"
 		}
@@ -1015,10 +1007,6 @@ SpawnMenu
 		"SMG1"
 		{
 			"#"	"give weapon_smg1"
-		}
-		"SMG2"
-		{
-			"#"	"give weapon_smg2"
 		}
 		"Shotgun"
 		{
@@ -1051,14 +1039,6 @@ SpawnMenu
 		"Camera"
 		{
 			"#"	"give weapon_camera"
-		}
-		"Incendiary Rifle"
-		{
-			"#"	"give weapon_irifle"
-		}
-		"Sniper Rifle"
-		{
-			"#"	"give weapon_sniperrifle"
 		}
 	}
 	"Vehicles"
