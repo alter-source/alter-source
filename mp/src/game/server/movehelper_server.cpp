@@ -387,7 +387,7 @@ bool CMoveHelperServer::PlayerFallingDamage( void )
 
     }
 
-	if ( m_pHostPlayer->m_iHealth <= 0 )
+	/*if ( m_pHostPlayer->m_iHealth <= 0 )
 	{
 		if ( g_pGameRules->FlPlayerFallDeathDoesScreenFade( m_pHostPlayer ) )
 		{
@@ -395,7 +395,7 @@ bool CMoveHelperServer::PlayerFallingDamage( void )
 			UTIL_ScreenFade( m_pHostPlayer, black, 0, 9999, FFADE_OUT | FFADE_STAYOUT );
 		}
 		return(false);
-	}
+	}*/
 
 	return(true);
 }

@@ -2914,29 +2914,29 @@ void CPhysicsProp::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE 
 // Purpose: 
 // Input  : *pPhysics - 
 //-----------------------------------------------------------------------------
-void CPhysicsProp::VPhysicsUpdate( IPhysicsObject *pPhysics )
+void CPhysicsProp::VPhysicsUpdate(IPhysicsObject *pPhysics)
 {
-	BaseClass::VPhysicsUpdate( pPhysics );
+	BaseClass::VPhysicsUpdate(pPhysics);
 	m_bAwake = !pPhysics->IsAsleep();
 	NetworkStateChanged();
-	if ( HasSpawnFlags( SF_PHYSPROP_START_ASLEEP ) )
+	if (HasSpawnFlags(SF_PHYSPROP_START_ASLEEP))
 	{
-		if ( m_bAwake )
+		if (m_bAwake)
 		{
 			m_OnAwakened.FireOutput(this, this);
-			RemoveSpawnFlags( SF_PHYSPROP_START_ASLEEP );
+			RemoveSpawnFlags(SF_PHYSPROP_START_ASLEEP);
 		}
 	}
 
 	// If we're asleep, clear the player thrown flag
-	if ( m_bThrownByPlayer && !m_bAwake )
+	if (m_bThrownByPlayer && !m_bAwake)
 	{
 		m_bThrownByPlayer = false;
 	}
 
-	if ( !IsInWorld() )
+	if (!IsInWorld())
 	{
-		m_OnOutOfWorld.FireOutput( this, this );
+		m_OnOutOfWorld.FireOutput(this, this);
 	}
 }
 

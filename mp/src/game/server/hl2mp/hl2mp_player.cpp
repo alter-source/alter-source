@@ -22,6 +22,7 @@
 #include "gamestats.h"
 #include "MainLuaHandle.h"
 #include <random>
+#include "hl2mp_cvars.h"
 
 #include "engine/IEngineSound.h"
 #include "SoundEmitterSystem/isoundemittersystembase.h"
@@ -364,17 +365,22 @@ void CHL2MP_Player::GiveDefaultItems( void )
 	switch (gamemode)
 	{
 	case SANDBOX:
-
-		GiveAllItems();
+		if (!mp_skipdefaults.GetBool()) {
+			GiveAllItems();
+		}
 		break;
 	case TDM:
 	case DEATHMATCH:
 	case COOPERATIVE:
-		GiveDeathmatchItems();
+		if (!mp_skipdefaults.GetBool()) {
+			GiveDeathmatchItems();
+		}
 		SuitPower_Charge(100.0f);
 		break;
 	case RANDOMIZER:
-		GiveRandomizerItems();
+		if (!mp_skipdefaults.GetBool()) { 
+			GiveRandomizerItems(); 
+		}
 		SuitPower_Charge(100.0f);
 		break;
 	case CAMPAIGN:
@@ -382,7 +388,9 @@ void CHL2MP_Player::GiveDefaultItems( void )
 		RemoveSuit();
 		break;
 	case CHAOTIC:
-		GiveChaoticItems();
+		if (!mp_skipdefaults.GetBool()) {
+			GiveChaoticItems();
+		}
 		SetHealth(1);
 		SetMaxSpeed(9000.0f); // ОВЕР-ДОХРЕНА
 		SuitPower_SetCharge(999999999999999.0f);
@@ -510,21 +518,7 @@ void CHL2MP_Player::Spawn(void)
 
 void CHL2MP_Player::PickupObject(CBaseEntity *pObject, bool bLimitMassAndSize)
 {
-	// can't pick up what you're standing on
-	if (GetGroundEntity() == pObject)
-		return;
-
-
-	BaseClass::PickupObject(pObject, bLimitMassAndSize);
-
-	// Can't be picked up if NPCs are on me
-	if (pObject->HasNPCsOnIt())
-		return;
-
-	HideViewModels();
-	ClearActiveWeapon();
-
-	PlayerPickupObject(this, pObject);
+	BaseClass::PickupObject(pObject, bLimitMassAndSize); // Use PickupObject from base class
 }
 
 
@@ -1138,6 +1132,14 @@ void CHL2MP_Player::ChangeTeam( int iTeam )
 
 bool CHL2MP_Player::HandleCommand_JoinTeam( int team )
 {
+	if (team == TEAM_SPECTATOR && IsHLTV())
+	{
+		ChangeTeam(TEAM_SPECTATOR);
+		ResetDeathCount();
+		ResetFragCount();
+		return true;
+	}
+
 	if ( !GetGlobalTeam( team ) || team == 0 )
 	{
 		Warning( "HandleCommand_JoinTeam( %d ) - invalid team index.\n", team );
