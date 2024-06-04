@@ -303,15 +303,6 @@ void CMissile::AccelerateThink(void)
 //---------------------------------------------------------
 void CMissile::AugerThink(void)
 {
-	CBasePlayer *pPlayer = ToBasePlayer(GetOwnerEntity());
-	if (pPlayer->GetTeamNumber() == TEAM_SPECTATOR)
-	{
-		pPlayer->DeathNotice(this);
-		SetOwnerEntity(NULL);
-		UTIL_Remove(this);
-		return;
-	}
-
 	// If we've augered long enough, then just explode
 	if (m_flAugerTime < gpGlobals->curtime)
 	{
@@ -374,12 +365,9 @@ void CMissile::ShotDown(void)
 //-----------------------------------------------------------------------------
 void CMissile::DoExplosion(void)
 {
-	if (m_hOwner->IsPlayer() && !m_hOwner->GetTeamNumber() == TEAM_SPECTATOR)
-	{
-		// Explode
-		ExplosionCreate(GetAbsOrigin(), GetAbsAngles(), GetOwnerEntity(), GetDamage(), CMissile::EXPLOSION_RADIUS,
-			SF_ENVEXPLOSION_NOSPARKS | SF_ENVEXPLOSION_NODLIGHTS | SF_ENVEXPLOSION_NOSMOKE, 0.0f, this);
-	}
+	// Explode
+	ExplosionCreate(GetAbsOrigin(), GetAbsAngles(), GetOwnerEntity(), GetDamage(), CMissile::EXPLOSION_RADIUS,
+		SF_ENVEXPLOSION_NOSPARKS | SF_ENVEXPLOSION_NODLIGHTS | SF_ENVEXPLOSION_NOSMOKE, 0.0f, this);
 }
 
 
@@ -436,15 +424,7 @@ void CMissile::MissileTouch(CBaseEntity *pOther)
 			return;
 	}
 
-	if (pOther->IsPlayer() && !pOther->GetTeamNumber() == TEAM_SPECTATOR)
-	{
-		Explode();
-	}
-	else
-	{
-		UTIL_Remove(this);
-		return;
-	}
+	Explode();
 }
 
 //-----------------------------------------------------------------------------
@@ -717,6 +697,7 @@ CMissile *CMissile::Create(const Vector &vecOrigin, const QAngle &vecAngles, edi
 	CMissile *pMissile = (CMissile *)CBaseEntity::Create("rpg_missile", vecOrigin, vecAngles, CBaseEntity::Instance(pentOwner));
 	pMissile->SetOwnerEntity(Instance(pentOwner));
 	pMissile->Spawn();
+	pMissile->AddEffects(EF_NOSHADOW);
 
 	Vector vecForward;
 	AngleVectors(vecAngles, &vecForward);
@@ -963,6 +944,7 @@ CAPCMissile *CAPCMissile::Create(const Vector &vecOrigin, const QAngle &vecAngle
 	pMissile->Spawn();
 	pMissile->SetAbsVelocity(vecVelocity);
 	pMissile->AddFlag(FL_NOTARGET);
+	pMissile->AddEffects(EF_NOSHADOW);
 	return pMissile;
 }
 
