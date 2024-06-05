@@ -1,21 +1,9 @@
 #include "cbase.h"
 #include "MainLuaHandle.h"
 #include "filesystem.h"
-#include "convar.h"
-#include <stdio.h>
-#include "tier0/memdbgon.h"
-#include "engine/IEngineSound.h"
-#include <vector>
-#include <string>
+
 #include "hl2_player.h"
 #include "hl2mp_player.h"
-#include "../EventLog.h"
-#include "player.h"
-#include "usermessages.h"
-#include "engine\iserverplugin.h"
-#include <cstdlib>
-#include <iostream>
-
 
 void CC_ReloadLua(const CCommand& args) {
 	if (auto handle = GetLuaHandle()) {
