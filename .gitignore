@@ -37,7 +37,16 @@ server.lib
 
 *.so
 *.dbg
-*.dll
+
+server.dll
+server.pdb
+client.dll
+client.pdb
+game_shader_dx9.dll
+game_shader_dx9.pdb
+
+awesomium.log
+
 *.pdb
 *.dylib
 *.dSYM/
