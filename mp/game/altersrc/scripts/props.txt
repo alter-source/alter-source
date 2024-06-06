@@ -630,7 +630,7 @@ SpawnMenu
 		{
 				"#"	"prop_physics_create props_lab/desklamp01.mdl"
 		}
-        }
+    }
 	"Ragdolls"
 	{
 		"Dr. Kleiner"
@@ -1041,6 +1041,77 @@ SpawnMenu
 			"#"	"give weapon_camera"
 		}
 	}
+    "Ammo"
+    {
+        "Pistol Ammo"
+		{
+			"#"	"give item_ammo_pistol"
+		}
+		"Smg1 Ammo"
+		{
+			"#"	"give item_ammo_smg1"
+		}
+		"Shotgun Ammo"
+		{
+			"#"	"give item_box_buckshot"
+		}
+		"Pulse Ammo"
+		{
+			"#"	"give item_ammo_ar2"
+		}
+		"357 Ammo"
+		{
+			"#"	"give item_ammo_357"
+		}
+		"Crossbow Bolts"
+		{
+			"#"	"give item_ammo_crossbow"
+		}
+		"RPG Round"
+		{
+			"#"	"give item_rpg_round"
+		}
+		"Smg1 Grenade"
+		{
+			"#"	"give item_ammo_smg1_grenade"
+		}
+		"Combine Ball"
+		{
+			"#"	"give item_ammo_ar2_altfire"
+		}
+        "Ammo Crate (Pistol)"
+		{
+			"#"	"ent_create item_ammo_crate AmmoType 0"
+		}
+		"Ammo Crate (SMG)"
+		{
+			"#"	"ent_create item_ammo_crate AmmoType 1"
+		}
+		"Ammo Crate (Ar2)"
+		{
+			"#"	"ent_create item_ammo_crate AmmoType 2"
+		}
+		"Ammo Crate (RPG)"
+		{
+			"#"	"ent_create item_ammo_crate AmmoType 3"
+		}
+		"Ammo Crate (Shotgun)"
+		{
+			"#"	"ent_create item_ammo_crate AmmoType 4"
+		}
+		"Ammo Crate (Grenade)"
+		{
+			"#"	"ent_create item_ammo_crate AmmoType 5"
+		}
+		"Ammo Crate (Combine Ball)"
+		{
+			"#"	"ent_create item_ammo_crate AmmoType 8"
+		}
+		"Ammo Crate (SMG Grenade)"
+		{
+			"#"	"ent_create item_ammo_crate AmmoType 9"
+		}
+    }
 	"Vehicles"
 	{
 		"Jeep"
@@ -1052,12 +1123,27 @@ SpawnMenu
 			"#"	"impulse 83; ent_fire airboat enablegun 1"
 		}
 	}
+    "Entities"
+    {
+        "Health Kit"
+		{
+			"#"	"give item_healthkit"
+		}
+		"Health Vial"
+		{
+			"#"	"give item_healthvial"
+		}
+		"Suit Battery"
+		{
+			"#"	"give item_battery"
+		}
+		"Suit"
+		{
+			"#"	"give item_suit"
+		}
+	}
 	"Other Stuff"
 	{
-		"Health Kit"
-		{
-			"#"	"ent_create item_healthkit"
-		}
 		"Suit Charger"
 		{
 			"#"	"ent_create item_suitcharger"
@@ -1069,14 +1155,6 @@ SpawnMenu
 	}
 	"Extras"
 	{
-		"Remove all props"
-		{
-			"#"	"ent_remove_all prop_physics"
-		}
-		"Remove all ragdolls"
-		{
-			"#"	"ent_remove_all prop_ragdoll"
-		}
 		"Disable/Enable AI"
 		{
 			"#"	"ai_disable"
@@ -1092,6 +1170,17 @@ SpawnMenu
 		"Strip Weapons"
 		{
 			"#"	"ent_create  player_weaponstrip targetname stent;ent_fire stent strip;ent_fire stent kill"
+		}
+	}
+    "Effect"
+	{
+		"Flashlight"
+		{
+			"#"	"create_flashlight"
+		}
+		"Hair Ball"
+		{
+			"#"	"CreateHairball"
 		}
 	}
 }

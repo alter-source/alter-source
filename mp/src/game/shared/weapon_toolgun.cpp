@@ -24,6 +24,8 @@
 #include <vgui_controls/Label.h>
 #include <vgui_controls/Frame.h>
 
+#include "lua/luahandle.h"
+
 #include "particle_parse.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
@@ -63,6 +65,8 @@ public:
 	void	AddViewKick(void);
 	void	DryFire(void);
 	void	Operator_HandleAnimEvent(animevent_t *pEvent, CBaseCombatCharacter *pOperator);
+
+	void CreateFlashlight(const Vector& position);
 
 	void	UpdatePenaltyTime(void);
 
@@ -135,7 +139,7 @@ private:
 	{
 		MODE_DELETE = 0,
 		MODE_IGNITER,
-		MODE_DUPLICATOR,
+		MODE_LIGHT,
 		MODE_MAX
 	};
 
@@ -277,50 +281,45 @@ void CWeaponToolgun::PrimaryAttack(void)
 	trace_t tr;
 	UTIL_TraceLine(vecStart, vecEnd, MASK_SHOT, pPlayer, COLLISION_GROUP_NONE, &tr);
 
-	if (tr.m_pEnt && tr.m_pEnt->IsSolid())
+	switch (m_Mode)
 	{
-		switch (m_Mode)
+	case MODE_DELETE:
+		if (dynamic_cast<CBaseAnimating*>(tr.m_pEnt) && !tr.m_pEnt->IsPlayer())
 		{
-		case MODE_DELETE:
-			if (dynamic_cast<CBaseAnimating*>(tr.m_pEnt) && !tr.m_pEnt->IsPlayer())
-			{
-				DispatchParticleEffect("impact_fx", tr.m_pEnt->GetAbsOrigin(), tr.m_pEnt->GetAbsAngles());
-				UTIL_Remove(tr.m_pEnt);
-			}
-			break;
-		case MODE_IGNITER:
-			if (!tr.m_pEnt->IsPlayer())
-			{
-				CBaseProp* pBaseProp = dynamic_cast<CBaseProp*>(tr.m_pEnt);
-				CBreakableProp *pBreakableProp = dynamic_cast<CBreakableProp *>(tr.m_pEnt); // for some reason dynamic and physics prop classes are based on CBreakableProp
-				if(pBaseProp)
-				{
-					pBaseProp->Ignite(60.0f, false, 0.0f, true);
-				}
-				else if(pBreakableProp)
-				{
-					pBreakableProp->Ignite(60.0f, false, 0.0f, true);
-				}
-			}
-			else if(tr.m_pEnt->IsNPC())
-			{
-				CAI_BaseNPC *pNpc = dynamic_cast<CAI_BaseNPC*>(tr.m_pEnt); // intellisense isnt helping me
-				if(pNpc) {
-					pNpc->Ignite(60.0f, false, 0.0f, true);
-				}
-			}
-			break;
-		case MODE_DUPLICATOR:
-			if (!tr.m_pEnt->IsPlayer() || dynamic_cast<CBaseAnimating*>(tr.m_pEnt))
-			{
-				CBaseEntity* pDuplicate = CreateEntityByName(tr.m_pEnt->GetClassname());
-				pDuplicate->SetAbsOrigin(tr.m_pEnt->GetAbsOrigin() + Vector(50, 0, 0));
-				pDuplicate->SetAbsAngles(tr.m_pEnt->GetAbsAngles());
-				DispatchSpawn(pDuplicate);
-			}
-			break;
+			DispatchParticleEffect("impact_fx", tr.m_pEnt->GetAbsOrigin(), tr.m_pEnt->GetAbsAngles());
+			UTIL_Remove(tr.m_pEnt);
 		}
+		break;
+	case MODE_IGNITER:
+		if (!tr.m_pEnt->IsPlayer())
+		{
+			CBaseProp* pBaseProp = dynamic_cast<CBaseProp*>(tr.m_pEnt);
+			CBreakableProp *pBreakableProp = dynamic_cast<CBreakableProp *>(tr.m_pEnt); // for some reason dynamic and physics prop classes are based on CBreakableProp
+			if (pBaseProp)
+			{
+				pBaseProp->Ignite(60.0f, false, 0.0f, true);
+			}
+			else if (pBreakableProp)
+			{
+				pBreakableProp->Ignite(60.0f, false, 0.0f, true);
+			}
+		}
+		else if (tr.m_pEnt->IsNPC())
+		{
+			CAI_BaseNPC *pNpc = dynamic_cast<CAI_BaseNPC*>(tr.m_pEnt);
+			if (pNpc) {
+				pNpc->Ignite(60.0f, false, 0.0f, true);
+			}
+		}
+		break;
+	case MODE_LIGHT:
+		pPlayer->RunNullCommand();
+		break;
 	}
+
+	Lua()->InitDll();
+	LuaHandle* lua = new LuaHandle();
+	lua->LoadLua("lua/toolgun/fire.lua");
 
 	WeaponSound(SINGLE);
 	SendWeaponAnim(GetPrimaryAttackActivity());
@@ -411,6 +410,9 @@ Activity CWeaponToolgun::GetPrimaryAttackActivity(void)
 //-----------------------------------------------------------------------------
 void CWeaponToolgun::SwitchMode()
 {
+	Lua()->InitDll();
+	LuaHandle* lua = new LuaHandle();
+	lua->LoadLua("lua/toolgun/switch.lua");
 	m_Mode = static_cast<ToolgunMode>((m_Mode + 1) % MODE_MAX);
 }
 
@@ -452,8 +454,8 @@ void CWeaponToolgun::NotifyMode(CBasePlayer* pPlayer)
 	case MODE_IGNITER:
 		modeString = "Igniter";
 		break;
-	case MODE_DUPLICATOR:
-		modeString = "Duplicator";
+	case MODE_LIGHT:
+		modeString = "Light";
 		break;
 	default:
 		modeString = "Unknown Mode";

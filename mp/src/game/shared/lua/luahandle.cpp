@@ -94,7 +94,7 @@ void LuaHandle::LoadLua(const char *luaFile) {
 		Warning("[LUA-ERR] %s\n", lua_tostring(GetLua(), -1));
 		lua_pop(GetLua(), 1); /* pop error message from the stack */
 		Warning(
-			"[LUA-ERR] One or more errors occured while loading lua "
+			"[LUA-ERR] One or more errors occured while loading Lua "
 			"script!\n");
 		return;
 	}
@@ -638,6 +638,14 @@ LUA_FUNC(luaIsDead, [](lua_State *L) {
 	return 1;
 })
 #endif
+
+LUA_FUNC(luaLoadLua, [](lua_State *L) {
+	const char* filename = lua_tostring(L, 1);
+	Lua()->InitDll();
+	LuaHandle* lua = new LuaHandle();
+	lua->LoadLua(filename);
+	return 1;
+})
 
 // other
 LUA_FUNC(luaIsLinux, [](lua_State *L) {

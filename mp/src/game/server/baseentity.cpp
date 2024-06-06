@@ -5089,6 +5089,12 @@ void CC_Ent_RemoveAll( const CCommand& args )
 	}
 	else 
 	{
+		if (FStrEq(args.Arg(1), "prop_ragdoll") || FStrEq(args.Arg(1), "prop_physics"))
+		{
+			Warning("bro tried to remove every props? nahh bro you cant :skull:\n");
+			return;
+		}
+
 		// Otherwise remove based on name or classname
 		int iCount = 0;
 		CBaseEntity *ent = NULL;

@@ -56,20 +56,36 @@
             border-radius: 3px;
             cursor: pointer;
             z-index: 1000;
+            font-family: Arial;
         }
         #log {
             position: absolute;
-            top: 80px;
-            right: 3px;
+            top: 50px;
+            right: 12px;
             width: 300px;
             height: 200px;
             border: 1px solid #ccc;
-            background-color: rgba(255,255,255,0.95);
+            background-image: url("changelog/image.png");
+            background-size: cover;
+            background-repeat: no-repeat;
             color: white;
             padding: 10px;
-            border-radius: 5px;
             z-index: 1000;
         }
+        
+        #changelogText {
+            position: absolute;
+            bottom: 20px;
+            right: 10px;
+        }
+
+        #overall {
+            position: absolute;
+            bottom: -20px;
+            right: 0px;
+            width: 100%;
+        }
+        
         #log p {
             color: black;
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -78,6 +94,14 @@
             color: black;
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             font-size: 24px;
+        }
+        #youtube-link {
+            border: 1px solid transparent;
+            /*background-color: #fff;*/
+            position: absolute;
+            width: 25px;
+            top: -10px;
+            right: 25px;
         }
         @keyframes zoom {
             0% {
@@ -137,11 +161,15 @@
     <p id="logo"><span>Alter</span> Source</p>
     <div id="version">You are on the <i>GitHub</i> branch. <a href="https://github.com/alter-source/alter-source" target="_blank">Click here</a> to find out more. ( - )</div>
     <div id="log">
-        <p id="title">changelog</p>
-        <p>TBA</p>
+        <div id="changelogText">
+            <p id="title">v0.5.3-beta1</p>
+            <p id="overall">bug fixes, fun stuff</p>
+        </div>
     </div>
     <div id="navbar">
-        <p>...</p>
+        <p id="youtube-link">
+            <img src="icons/yt.png" width="35px" height="35px" />
+        </p>
     </div>
 </body>
 </html>
