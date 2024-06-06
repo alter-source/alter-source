@@ -1594,14 +1594,14 @@ void CChangeLevel::ChangeLevelNow( CBaseEntity *pActivator )
 
 	Assert(!FStrEq(m_szMapName, ""));
 
-	// Don't work in deathmatch
-	if ( g_pGameRules->IsDeathmatch() )
-		return;
-
 	// Some people are firing these multiple times in a frame, disable
 	if ( m_bTouched )
 		return;
 
+	if (g_pGameRules->IsDeathmatch())
+		engine->ChangeLevel(m_szMapName, false); // in theory it will be only changelevel
+		return;
+	
 	m_bTouched = true;
 
 	CBaseEntity *pPlayer = (pActivator && pActivator->IsPlayer()) ? pActivator : UTIL_GetLocalPlayer();

@@ -91,12 +91,49 @@ void MountGames()
 		char szPath[MAX_PATH * 2];
 		if (sscanf(szLine, "%d : %s \"%[^\"]\"", &appID, szGameName, szPath) == 3)
 		{
+			// Adding main VPK files
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_textures.vpk", szPath, szGameName, szGameName), "GAME");
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_misc.vpk", szPath, szGameName, szGameName), "GAME");
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_sound_misc.vpk", szPath, szGameName, szGameName), "GAME");
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_pak_dir.vpk", szPath, szGameName, szGameName), "GAME");
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/fallbacks_pak_dir.vpk", szPath, szGameName), "GAME");
+
+			// Adding directories
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s", szPath, szGameName), "GAME");
+
+			// Add other common VPK files
+			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_textures_dir.vpk", szPath, szGameName, szGameName), "GAME");
+			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_misc_dir.vpk", szPath, szGameName, szGameName), "GAME");
+			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_sound_dir.vpk", szPath, szGameName, szGameName), "GAME");
+
+			// Adding potential localization files
+			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/scenes", szPath, szGameName), "GAME");
+			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_sound_vo_english_dir.vpk", szPath, szGameName, szGameName), "GAME");
+			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_sound_vo_french_dir.vpk", szPath, szGameName, szGameName), "GAME");
+			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_sound_vo_german_dir.vpk", szPath, szGameName, szGameName), "GAME");
+			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_sound_vo_russian_dir.vpk", szPath, szGameName, szGameName), "GAME");
+			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_sound_vo_spanish_dir.vpk", szPath, szGameName, szGameName), "GAME");
+			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_sound_vo_italian_dir.vpk", szPath, szGameName, szGameName), "GAME");
+			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_sound_vo_japanese_dir.vpk", szPath, szGameName, szGameName), "GAME");
+			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_sound_vo_chinese_dir.vpk", szPath, szGameName, szGameName), "GAME");
+			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_sound_vo_korean_dir.vpk", szPath, szGameName, szGameName), "GAME");
+
+			// Add more specific paths as necessary
+			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/maps", szPath, szGameName), "GAME");
+			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/models", szPath, szGameName), "GAME");
+			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/materials", szPath, szGameName), "GAME");
+			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/sounds", szPath, szGameName), "GAME");
+
+			// Add search paths for mod support if applicable
+			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/custom", szPath, szGameName), "GAME");
+			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/addons", szPath, szGameName), "GAME");
+
+			// Add any other known or commonly used directories
+			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/updates", szPath, szGameName), "GAME");
+			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/dlc", szPath, szGameName), "GAME");
+
+			// Ensure the root path is also included as a fallback
+			g_pFullFileSystem->AddSearchPath(CFmtStr("%s", szPath), "GAME");
 
 			ConMsg("successfuly mounted appID %d (%s)\n", appID, szGameName);
 
