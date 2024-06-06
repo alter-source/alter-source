@@ -91,7 +91,7 @@
 #include "querycache.h"
 
 #ifdef GE_LUA
-#include "ge_luamanger.h"
+#include "lua/baseluahandle.h"
 #endif
 
 #ifdef TF_DLL
@@ -748,7 +748,7 @@ bool CServerGameDLL::DLLInit( CreateInterfaceFn appSystemFactory,
 
 #ifdef GE_LUA
 	// Start LUA
-	GELua()->InitDll();
+	Lua()->InitDll();
 #endif
 
 	return true;
@@ -813,7 +813,7 @@ void CServerGameDLL::DLLShutdown( void )
 
 #ifdef GE_LUA
 	// Shutdown LUA, close all open gameplays
-	GELua()->ShutdownDll();
+	Lua()->ShutdownDll();
 #endif
 }
 

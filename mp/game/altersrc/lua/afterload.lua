@@ -1,1 +1,0 @@
-_PlaySound("common/bugreporter_succeeded.wav")

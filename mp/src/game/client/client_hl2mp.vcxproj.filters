@@ -61,6 +61,9 @@
     <Filter Include="Source Files\HL2MP\Weapons">
       <UniqueIdentifier>{382A0C79-1859-D554-1EB7-DCBE8F115956}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Lua">
+      <UniqueIdentifier>{939EDCD0-6EA9-D723-4838-30149B401D30}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\Precompiled Header">
       <UniqueIdentifier>{A7D26A13-21F4-C6B5-5922-8A4FB05AF07D}</UniqueIdentifier>
     </Filter>
@@ -1877,6 +1880,9 @@
     <ClInclude Include="IOverrideInterface.h">
       <Filter>Source Files\GameUI</Filter>
     </ClInclude>
+    <ClInclude Include="loading\mapload_background.h">
+      <Filter>Source Files\GameUI</Filter>
+    </ClInclude>
     <ClInclude Include="OverrideUI_RootPanel.h">
       <Filter>Source Files\GameUI</Filter>
     </ClInclude>
@@ -1978,6 +1984,12 @@
     </ClInclude>
     <ClInclude Include="..\..\game\shared\hl2mp\weapon_slam.h">
       <Filter>Source Files\HL2MP\Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\game\shared\lua\baseluahandle.h">
+      <Filter>Source Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\game\shared\lua\luahandle.h">
+      <Filter>Source Files\Lua</Filter>
     </ClInclude>
     <ClInclude Include="sixense\in_sixense.h">
       <Filter>Source Files\Sixense</Filter>
@@ -3079,6 +3091,9 @@
     <ClCompile Include="game_controls\vguitextwindow.cpp">
       <Filter>Source Files\game_controls</Filter>
     </ClCompile>
+    <ClCompile Include="loading\mapload_background.cpp">
+      <Filter>Source Files\GameUI</Filter>
+    </ClCompile>
     <ClCompile Include="OverrideInterface.cpp">
       <Filter>Source Files\GameUI</Filter>
     </ClCompile>
@@ -3375,6 +3390,12 @@
     </ClCompile>
     <ClCompile Include="..\..\game\shared\hl2mp\weapon_stunstick.cpp">
       <Filter>Source Files\HL2MP\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\lua\baseluahandle.cpp">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\lua\luahandle.cpp">
+      <Filter>Source Files\Lua</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files\Precompiled Header</Filter>

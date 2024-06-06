@@ -26,6 +26,7 @@
 #include "multiplay_gamerules.h"
 #include "voice_status.h"
 
+#include "lua/luahandle.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -1702,6 +1703,9 @@ void CBaseHudChat::LevelShutdown( void )
 //-----------------------------------------------------------------------------
 void CBaseHudChat::ChatPrintf( int iPlayerIndex, int iFilter, const char *fmt, ... )
 {
+	LuaHandle* lua = new LuaHandle();
+	lua->LoadLua("lua/cl/message.lua");
+
 	va_list marker;
 	char msg[4096];
 
@@ -1835,6 +1839,8 @@ void CBaseHudChat::FireGameEvent( IGameEvent *event )
 		if ( !player )
 			return;
 		
+		LuaHandle* lua = new LuaHandle();
+		lua->LoadLua("lua/cl/srctv_message.lua");
 		ChatPrintf( player->entindex(), CHAT_FILTER_NONE, "(SourceTV) %s", event->GetString( "text" ) );
 	}
 #endif

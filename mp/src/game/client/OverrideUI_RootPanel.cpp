@@ -113,7 +113,7 @@ void OverrideUI_RootPanel::LoadMainMenuHTML()
 	m_MainMenuAwesomium->SetBounds(0, 0, wide, tall);
 	m_MainMenuAwesomium->OpenHTMLFile("html/main.html");
 
-	if (m_pResumeButton)
+	/*if (m_pResumeButton)
 		m_pResumeButton->DeletePanel();
 
 	if (m_pStartButton)
@@ -129,7 +129,7 @@ void OverrideUI_RootPanel::LoadMainMenuHTML()
 		m_pExitButton->DeletePanel();
 
 	if (m_pDisconnectButton)
-		m_pDisconnectButton->DeletePanel();
+		m_pDisconnectButton->DeletePanel();*/
 
 	m_pResumeButton = new Button(this, "mResumeButton", "Resume Game", this, "ResumeGame");
 	m_pResumeButton->SetBounds(80, 140, 150, 30);

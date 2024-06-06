@@ -45,6 +45,9 @@ client.pdb
 game_shader_dx9.dll
 game_shader_dx9.pdb
 
+*.obj
+*.tlog
+
 awesomium.log
 
 *.pdb

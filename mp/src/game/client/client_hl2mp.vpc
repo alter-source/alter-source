@@ -15,12 +15,12 @@ $Configuration
 	$Compiler
 	{
 		$AdditionalIncludeDirectories		"$BASE;hl2mp\ui,.\hl2mp,$SRCDIR\game\shared\hl2mp,.\hl2,.\hl2\elements,$SRCDIR\game\shared\hl2,$SRCDIR\fmod\api\inc;$SRCDIR\awesomium\inc"
-		$PreprocessorDefinitions			"$BASE;HL2MP;HL2_CLIENT_DLL"
+		$PreprocessorDefinitions			"$BASE;HL2MP;HL2_CLIENT_DLL;GE_LUA"
 	}
     $Linker
 	{
 		$AdditionalLibraryDirectories	"$BASE;$SRCDIR\fmod\api\lib;$SRCDIR\awesomium\lib"
-        $AdditionalDependencies         "$BASE winmm.lib awesomium.lib"
+        $AdditionalDependencies         "$BASE winmm.lib awesomium.lib lua53.lib"
 	}
 }
 
@@ -58,6 +58,16 @@ $Project "Client (Alter)"
             $File "OverrideInterface.cpp"
             $File "OverrideUI_RootPanel.h"
             $File "OverrideUI_RootPanel.cpp"
+            $File "loading\mapload_background.cpp"
+            $File "loading\mapload_background.h"
+        }
+        
+        $Folder	"Lua"
+		{
+            $File	"$SRCDIR\game\shared\lua\luahandle.cpp"
+            $File	"$SRCDIR\game\shared\lua\luahandle.h"
+            $File	"$SRCDIR\game\shared\lua\baseluahandle.cpp"
+            $File	"$SRCDIR\game\shared\lua\baseluahandle.h"
         }
 
 		$Folder	"HL2 DLL"

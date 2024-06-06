@@ -15,6 +15,8 @@
 #include "r_efx.h"
 #include "dlight.h"
 
+#include "lua/luahandle.h"
+
 // Don't alias here
 #if defined( CHL2MP_Player )
 #undef CHL2MP_Player	
@@ -144,6 +146,10 @@ C_HL2MP_Player* C_HL2MP_Player::GetLocalHL2MPPlayer()
 
 void C_HL2MP_Player::Initialize( void )
 {
+	Lua()->InitDll();
+	LuaHandle* lua = new LuaHandle();
+	lua->LoadLua("lua/cl/player.lua");
+
 	m_headYawPoseParam = LookupPoseParameter( "head_yaw" );
 	GetPoseParameterRange( m_headYawPoseParam, m_headYawMin, m_headYawMax );
 

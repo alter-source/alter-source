@@ -11,6 +11,8 @@
 #include "KeyValues.h"
 #include "iachievementmgr.h"
 
+#include "lua/luahandle.h"
+
 #ifdef CLIENT_DLL
 
 	#include "usermessages.h"
@@ -131,6 +133,12 @@ CGameRules::CGameRules() : CAutoGameSystemPerFrame( "CGameRules" )
 {
 	Assert( !g_pGameRules );
 	g_pGameRules = this;
+
+	if (!GetLuaHandle()) {
+		Lua()->InitDll();
+		LuaHandle* lua = new LuaHandle();
+		lua->Init();
+	}
 }	
 
 #else //}{
@@ -154,6 +162,12 @@ CGameRules::CGameRules() : CAutoGameSystemPerFrame( "CGameRules" )
 	ClearMultiDamage();
 
 	m_flNextVerboseLogOutput = 0.0f;
+
+	if (!GetLuaHandle()) {
+		Lua()->InitDll();
+		LuaHandle* lua = new LuaHandle(); 
+		lua->Init();
+	}
 }
 
 //-----------------------------------------------------------------------------

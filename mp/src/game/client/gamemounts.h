@@ -4,7 +4,8 @@
 #include "cbase.h"
 #include "filesystem.h"
 
-void MountGamesFromConfig();
-void Mounts_Shutdown();
+void MountGames();
+void LoadAddons();
+void MountAddon(const char *pszAddonName);
 
 #endif // MOUNTCONTENT_H

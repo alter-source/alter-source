@@ -5,6 +5,7 @@
 #include "VAwesomium.h"
 #include "vgui_controls/Button.h"
 
+
 // This class is what is actually used instead of the main menu.
 class OverrideUI_RootPanel : public vgui::Panel
 {

@@ -12,10 +12,11 @@
 #include "ammodef.h"
 #include "hl2_shareddefs.h"
 
+#include "lua/luahandle.h"
+
 #ifdef CLIENT_DLL
 	#include "c_hl2mp_player.h"
 #else
-	#include "MainLuaHandle.h"
 	#include "eventqueue.h"
 	#include "player.h"
 	#include "gamerules.h"
@@ -33,7 +34,6 @@
 	#include "voice_gamemgr.h"
 	#include "hl2mp_gameinterface.h"
 	#include "hl2mp_cvars.h"
-	#include "MainLuaHandle.h"
 	#include "hl2mp_bot_temp.h"
 
 extern void respawn(CBaseEntity *pEdict, bool fCopyCorpse);
@@ -1122,7 +1122,6 @@ CHL2MPRules::CHL2MPRules()
 		g_Teams.AddToTail( pTeam );
 	}
 
-
 	ConVar *gamemodeVar = cvar->FindVar("as_gamemode");
 
 	if (FStrEq(gamemodeVar->GetString(), "None")) {
@@ -1145,8 +1144,6 @@ CHL2MPRules::CHL2MPRules()
 		m_bTeamPlayEnabled = teamplay.GetBool();
 	}
 
-	new MainLuaHandle();
-
 	m_flIntermissionEndTime = 0.0f;
 	m_flGameStartTime = 0;
 
@@ -1158,7 +1155,9 @@ CHL2MPRules::CHL2MPRules()
 	m_bAwaitingReadyRestart = false;
 	m_bChangelevelDone = false;
 
-	LoadAddons();
+	Lua()->InitDll();
+	LuaHandle* lua = new LuaHandle(); 
+	lua->LoadLua("lua/game.lua");
 
 #endif
 }

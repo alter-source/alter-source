@@ -1,0 +1,1 @@
+Msg("serverside lua initialized")

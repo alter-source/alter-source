@@ -31,12 +31,6 @@
     <Filter Include="Source Files\Lua">
       <UniqueIdentifier>{939EDCD0-6EA9-D723-4838-30149B401D30}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Lua\GE_LUA managers">
-      <UniqueIdentifier>{DB3BD935-33F1-28BB-CC53-27B205CDE223}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Lua\Handles">
-      <UniqueIdentifier>{20B93BE1-CCED-734E-CA5E-EDB38A9A2FC4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Navigation Mesh">
       <UniqueIdentifier>{B09D60FE-50B0-FE99-73C2-303E809808E2}</UniqueIdentifier>
     </Filter>
@@ -1793,26 +1787,11 @@
     <ClInclude Include="..\..\game\shared\hl2mp\weapon_slam.h">
       <Filter>Source Files\HL2MP\Weapons</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\game\server\lua\lauxlib.h">
+    <ClInclude Include="..\..\game\shared\lua\baseluahandle.h">
       <Filter>Source Files\Lua</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\game\server\lua\lua.h">
+    <ClInclude Include="..\..\game\shared\lua\luahandle.h">
       <Filter>Source Files\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\game\server\lua\lua.hpp">
-      <Filter>Source Files\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\game\server\lua\luaconf.h">
-      <Filter>Source Files\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\game\server\lua\lualib.h">
-      <Filter>Source Files\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\game\server\ge_luamanger.h">
-      <Filter>Source Files\Lua\GE_LUA managers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\game\server\MainLuaHandle.h">
-      <Filter>Source Files\Lua\Handles</Filter>
     </ClInclude>
     <ClInclude Include="nav.h">
       <Filter>Source Files\Navigation Mesh</Filter>
@@ -3406,11 +3385,11 @@
     <ClCompile Include="..\..\game\shared\weapon_toolgun.cpp">
       <Filter>Source Files\HL2MP\Weapons</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\game\server\ge_luamanager.cpp">
-      <Filter>Source Files\Lua\GE_LUA managers</Filter>
+    <ClCompile Include="..\..\game\shared\lua\baseluahandle.cpp">
+      <Filter>Source Files\Lua</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\game\server\MainLuaHandle.cpp">
-      <Filter>Source Files\Lua\Handles</Filter>
+    <ClCompile Include="..\..\game\shared\lua\luahandle.cpp">
+      <Filter>Source Files\Lua</Filter>
     </ClCompile>
     <ClCompile Include="nav_area.cpp">
       <Filter>Source Files\Navigation Mesh</Filter>

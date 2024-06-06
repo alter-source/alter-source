@@ -31,6 +31,7 @@
 #include "checksum_crc.h"
 
 #include "engine/IEngineSound.h"
+#include "lua/luahandle.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -74,6 +75,10 @@ static void mp3_f()
 void MP3Player_Create( vgui::VPANEL parent )
 {
 	Assert( !g_pPlayer );
+	
+	Lua()->InitDll();
+	LuaHandle* lua = new LuaHandle(); 
+	lua->LoadLua("lua/cl/mp3_init.lua");
 
 	new CMP3Player( parent, "MP3Player" );
 

@@ -251,21 +251,10 @@ $Project "Server (Alter)"
         
         $Folder	"Lua"
 		{
-            $Folder	"Handles"
-            {
-                $File	"$SRCDIR\game\server\MainLuaHandle.cpp"
-                $File	"$SRCDIR\game\server\MainLuaHandle.h"
-            }
-            $Folder	"GE_LUA managers"
-            {
-                $File	"$SRCDIR\game\server\ge_luamanager.cpp"
-                $File	"$SRCDIR\game\server\ge_luamanger.h"
-            }
-            $File	"$SRCDIR\game\server\lua\lauxlib.h"
-            $File	"$SRCDIR\game\server\lua\lua.h"
-            $File	"$SRCDIR\game\server\lua\lua.hpp"
-            $File	"$SRCDIR\game\server\lua\luaconf.h"
-            $File	"$SRCDIR\game\server\lua\lualib.h"
+            $File	"$SRCDIR\game\shared\lua\luahandle.cpp"
+            $File	"$SRCDIR\game\shared\lua\luahandle.h"
+            $File	"$SRCDIR\game\shared\lua\baseluahandle.cpp"
+            $File	"$SRCDIR\game\shared\lua\baseluahandle.h"
         }
 
 		$Folder	"HL2MP"

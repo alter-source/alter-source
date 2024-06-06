@@ -137,6 +137,11 @@
 #include "c_playerresource.h"
 #include "ilocalize.h"
 
+#include "lua/luahandle.h"
+
+#include "filesystem.h"
+#include "tier1/fmtstr.h"
+
 // discord includes
 #include "discord_register.h"
 #include "discord_rpc.h"
@@ -861,6 +866,10 @@ bool IsEngineThreaded()
 //-----------------------------------------------------------------------------
 static void HandleDiscordReady(const DiscordUser* connectedUser)
 {
+	Lua()->InitDll();
+	LuaHandle* lua = new LuaHandle();
+	lua->LoadLua("lua/discord/init.lua");
+
 	DevMsg("Discord: Connected to user %s#%s - %s\n",
 		connectedUser->username,
 		connectedUser->discriminator,
@@ -869,16 +878,28 @@ static void HandleDiscordReady(const DiscordUser* connectedUser)
 
 static void HandleDiscordDisconnected(int errcode, const char* message)
 {
+	Lua()->InitDll();
+	LuaHandle* lua = new LuaHandle();
+	lua->LoadLua("lua/discord/disconnect.lua");
+
 	DevMsg("Discord: Disconnected (%d: %s)\n", errcode, message);
 }
 
 static void HandleDiscordError(int errcode, const char* message)
 {
+	Lua()->InitDll();
+	LuaHandle* lua = new LuaHandle();
+	lua->LoadLua("lua/discord/error.lua");
+
 	DevMsg("Discord: Error (%d: %s)\n", errcode, message);
 }
 
 static void HandleDiscordJoin(const char* secret)
 {
+	Lua()->InitDll();
+	LuaHandle* lua = new LuaHandle();
+	lua->LoadLua("lua/discord/on_join.lua");
+
 	char szCommand[128];
 	Q_snprintf(szCommand, sizeof(szCommand), "connect %s\n", secret);
 	engine->ExecuteClientCmd(szCommand);
@@ -886,11 +907,19 @@ static void HandleDiscordJoin(const char* secret)
 
 static void HandleDiscordSpectate(const char* secret)
 {
-	// Not implemented
+	Lua()->InitDll();
+	LuaHandle* lua = new LuaHandle();
+	lua->LoadLua("lua/discord/spectate.lua");
+
+	// i let y'all guys do this
 }
 
 static void HandleDiscordJoinRequest(const DiscordUser* request)
 {
+	Lua()->InitDll();
+	LuaHandle* lua = new LuaHandle();
+	lua->LoadLua("lua/discord/join_request.lua");
+
 	Discord_Respond(request->userId, DISCORD_REPLY_YES);
 }
 
@@ -1008,6 +1037,13 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 	InitFbx();
 #endif
 
+	Lua()->InitDll();
+	LuaHandle* lua = new LuaHandle();
+	lua->LoadLua("lua/cl/engine/init.lua");
+
+	MountGames();
+	LoadAddons();
+
 	// it's ok if this is NULL. That just means the sourcevr.dll wasn't found
 	g_pSourceVR = (ISourceVirtualReality *)appSystemFactory(SOURCE_VIRTUAL_REALITY_INTERFACE_VERSION, NULL);
 
@@ -1071,7 +1107,6 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 	IGameSystem::Add( PerfVisualBenchmark() );
 	IGameSystem::Add( MumbleSystem() );
 
-	MountGamesFromConfig();
 	cvar->FindVar("sv_cheats")->SetValue(1);
 
 	#if defined( TF_CLIENT_DLL )
@@ -1152,6 +1187,10 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 	HookHapticMessages(); // Always hook the messages
 #endif
 
+	Lua()->InitDll();
+	LuaHandle* mlua = new LuaHandle();
+	mlua->LoadLua("lua/cl/menu.lua");
+
 	// Discord RPC
 	DiscordEventHandlers handlers;
 	memset(&handlers, 0, sizeof(handlers));
@@ -1187,6 +1226,10 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 
 bool CHLClient::ReplayInit( CreateInterfaceFn fnReplayFactory )
 {
+	Lua()->InitDll();
+	LuaHandle* lua = new LuaHandle();
+	lua->LoadLua("lua/cl/engine/replay.lua");
+
 #if defined( REPLAY_ENABLED )
 	if ( !IsPC() )
 		return false;
@@ -1226,6 +1269,10 @@ bool CHLClient::ReplayPostInit()
 void CHLClient::PostInit()
 {
 	IGameSystem::PostInitAllSystems();
+
+	Lua()->InitDll();
+	LuaHandle* lua = new LuaHandle();
+	lua->LoadLua("lua/cl/engine/post_init.lua");
 
 #ifdef SIXENSE
 	// allow sixnese input to perform post-init operations
@@ -1678,6 +1725,10 @@ void CHLClient::LevelInitPreEntity( char const* pMapName )
 		return;
 	g_bLevelInitialized = true;
 
+#if defined ( GE_LUA )
+	Lua()->InitDll();
+#endif
+
 	input->LevelInit();
 
 	vieweffects->LevelInit();
@@ -1854,6 +1905,10 @@ void CHLClient::LevelShutdown( void )
 
 	gHUD.LevelShutdown();
 
+	Lua()->InitDll();
+	LuaHandle* lua = new LuaHandle();
+	lua->LoadLua("lua/cl/menu.lua");
+
 	// S:O - Stop all FMOD sounds when exiting to the main menu
 	FMODManager()->StopAmbientSound(false);
 
@@ -1875,6 +1930,10 @@ void CHLClient::LevelShutdown( void )
 	internalCenterPrint->Clear();
 
 	messagechars->Clear();
+
+#if defined ( GE_LUA )
+	Lua()->ShutdownDll();
+#endif
 
 #ifndef TF_CLIENT_DLL
 	// don't want to do this for TF2 because we have particle systems in our
