@@ -3,19 +3,41 @@
 #include "steam/steam_api.h"
 #include "tier1/strtools.h"
 #include "tier1/fmtstr.h"
+#include "lua/luahandle.h"
+#include "filesystem.h"
 
 #define MAX_LINE_LENGTH 256
 
+void FreePath(char* path) {
+	free(path);
+}
+
+char* GetPath() {
+	char* path = getenv("ADDONS_FOLDER");
+	if (!path) {
+		Warning("ADDONS_FOLDER environment variable is not set.\n");
+		return NULL;
+	}
+	return path;
+}
+
 void LoadAddons()
 {
-	const char *pszAddonDir = "addons/*";
+	char* addonsFolder = GetPath();
+	if (!addonsFolder)
+	{
+		Warning("ADDONS_FOLDER environment variable is not set.\n");
+		return;
+	}
+
+	const char *pszAddonDir = "addons\\*";
 
 	FileFindHandle_t findHandle;
 	const char *pszAddonName = filesystem->FindFirst(pszAddonDir, &findHandle);
 
 	if (!pszAddonName)
 	{
-		ConMsg("No addons found in directory: %s\n", pszAddonDir);
+		ConMsg("no addons found in directory: %s\n", pszAddonDir);
 		return;
 	}
 
@@ -23,46 +45,61 @@ void LoadAddons()
 	{
 		if (V_stricmp(pszAddonName, ".") != 0 && V_stricmp(pszAddonName, "..") != 0 && V_stricmp(pszAddonName, "checkers") != 0 && V_stricmp(pszAddonName, "chess") != 0
 			&& V_stricmp(pszAddonName, "common") != 0 && V_stricmp(pszAddonName, "go") != 0 && V_stricmp(pszAddonName, "hearts") != 0 && V_stricmp(pszAddonName, "spades") != 0
-			&& V_stricmp(pszAddonName, "??mportal") != 0 && V_stricmp(pszAddonName, "addons") != 0)
+			&& V_stricmp(pszAddonName, "ð„Ómportal") != 0 && V_stricmp(pszAddonName, "addons") != 0 && V_stricmp(pszAddonName, "maps") != 0 && V_stricmp(pszAddonName, "materials") != 0
+			&& V_stricmp(pszAddonName, "sound") != 0 && V_stricmp(pszAddonName, "models") != 0 && V_stricmp(pszAddonName, "particles") != 0)
 		{
-			if (V_stricmp(pszAddonName, "maps") != 0 && V_stricmp(pszAddonName, "materials") != 0 && V_stricmp(pszAddonName, "models") != 0
-				&& V_stricmp(pszAddonName, "particles") != 0 && V_stricmp(pszAddonName, "sound") != 0)
+			char szFullPath[MAX_PATH];
+			Q_snprintf(szFullPath, sizeof(szFullPath), "%s\\%s", addonsFolder, pszAddonName);
+			ConMsg("found addon dir: %s\n", szFullPath);
+			MountAddon(szFullPath);
+			ConMsg("mounted addon: %s\n", pszAddonName);
+
+			char szInitLuaPath[MAX_PATH];
+			Q_snprintf(szInitLuaPath, sizeof(szInitLuaPath), "%s\\%s\\lua\\init.lua", addonsFolder, pszAddonName);
+
+			if (filesystem->FileExists(szInitLuaPath))
 			{
-				char szFullPath[MAX_PATH];
-				Q_snprintf(szFullPath, sizeof(szFullPath), "addons/%s", pszAddonName);
-				ConMsg("found addon dir: %s\n", szFullPath);
-				MountAddon(pszAddonName);
-				ConMsg("mounted addon: %s\n", pszAddonName);
+				ConMsg("found init.lua for addon %s at %s\n", pszAddonName, szInitLuaPath);
+				Lua()->InitDll();
+				LuaHandle* lua = new LuaHandle();
+				lua->LoadLua(szInitLuaPath);
+			}
+			else
+			{
+				ConMsg("init.lua not found for addon %s\n", pszAddonName);
+				return;
 			}
 		}
 		pszAddonName = filesystem->FindNext(findHandle);
 	} while (pszAddonName);
 
 	filesystem->FindClose(findHandle);
-}
 
+	FreePath(addonsFolder);
+}
 
 void MountAddon(const char *pszAddonName)
 {
-	char szPath[MAX_PATH];
-	Q_snprintf(szPath, sizeof(szPath), "addons/%s", pszAddonName);
+	char szFullPath[MAX_PATH];
+	Q_snprintf(szFullPath, sizeof(szFullPath), "%s", pszAddonName);
 
-	g_pFullFileSystem->AddSearchPath(CFmtStr("%s/models", szPath), "GAME");
-	g_pFullFileSystem->AddSearchPath(CFmtStr("addons/%s/models", szPath), "GAME");
+	g_pFullFileSystem->AddSearchPath(CFmtStr("%s/models", szFullPath), "GAME");
+	g_pFullFileSystem->AddSearchPath(CFmtStr("addons/%s/models", szFullPath), "GAME");
 
-	g_pFullFileSystem->AddSearchPath(CFmtStr("%s/sound", szPath), "GAME");
-	g_pFullFileSystem->AddSearchPath(CFmtStr("addons/%s/sound", szPath), "GAME");
+	g_pFullFileSystem->AddSearchPath(CFmtStr("%s/sound", szFullPath), "GAME");
+	g_pFullFileSystem->AddSearchPath(CFmtStr("addons/%s/sound", szFullPath), "GAME");
 
-	g_pFullFileSystem->AddSearchPath(CFmtStr("%s/materials", szPath), "GAME");
-	g_pFullFileSystem->AddSearchPath(CFmtStr("addons/%s/materials", szPath), "GAME");
+	g_pFullFileSystem->AddSearchPath(CFmtStr("%s/materials", szFullPath), "GAME");
+	g_pFullFileSystem->AddSearchPath(CFmtStr("addons/%s/materials", szFullPath), "GAME");
 
-	g_pFullFileSystem->AddSearchPath(CFmtStr("%s/particles", szPath), "GAME");
-	g_pFullFileSystem->AddSearchPath(CFmtStr("addons/%s/particles", szPath), "GAME");
+	g_pFullFileSystem->AddSearchPath(CFmtStr("%s/particles", szFullPath), "GAME");
+	g_pFullFileSystem->AddSearchPath(CFmtStr("addons/%s/particles", szFullPath), "GAME");
 
-	g_pFullFileSystem->AddSearchPath(CFmtStr("%s/maps", szPath), "GAME");
-	g_pFullFileSystem->AddSearchPath(CFmtStr("addons/%s/maps", szPath), "GAME");
+	g_pFullFileSystem->AddSearchPath(CFmtStr("%s/maps", szFullPath), "GAME");
+	g_pFullFileSystem->AddSearchPath(CFmtStr("addons/%s/maps", szFullPath), "GAME");
 
-	g_pFullFileSystem->AddSearchPath(szPath, "GAME");}
+	g_pFullFileSystem->AddSearchPath(szFullPath, "GAME");
+}
 
 void MountGames()
 {

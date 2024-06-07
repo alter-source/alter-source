@@ -211,9 +211,8 @@ void CWeaponToolgun::Precache(void)
 	BaseClass::Precache();
 
 	g_beam1 = PrecacheModel(BEAM_SPRITE1);
-	PrecacheParticleSystem("blood_impact_red_01");
 	PrecacheMaterial(BEAM_SPRITE1);
-	PrecacheParticleSystem("impact_fx");
+	PrecacheParticleSystem("blood_impact");
 }
 
 
@@ -410,9 +409,6 @@ Activity CWeaponToolgun::GetPrimaryAttackActivity(void)
 //-----------------------------------------------------------------------------
 void CWeaponToolgun::SwitchMode()
 {
-	Lua()->InitDll();
-	LuaHandle* lua = new LuaHandle();
-	lua->LoadLua("lua/toolgun/switch.lua");
 	m_Mode = static_cast<ToolgunMode>((m_Mode + 1) % MODE_MAX);
 }
 
@@ -427,6 +423,10 @@ bool CWeaponToolgun::Reload(void)
 
 	if (gpGlobals->curtime < m_flNextModeSwitch)
 		return false;
+
+	Lua()->InitDll();
+	LuaHandle* lua = new LuaHandle();
+	lua->LoadLua("lua/toolgun/switch.lua");
 
 	SwitchMode();
 	NotifyMode(pOwner);

@@ -1594,12 +1594,11 @@ void CChangeLevel::ChangeLevelNow( CBaseEntity *pActivator )
 
 	Assert(!FStrEq(m_szMapName, ""));
 
+	/*if (g_pGameRules->IsDeathmatch())
+		return;*/
+
 	// Some people are firing these multiple times in a frame, disable
 	if ( m_bTouched )
-		return;
-
-	if (g_pGameRules->IsDeathmatch())
-		engine->ChangeLevel(m_szMapName, false); // in theory it will be only changelevel
 		return;
 	
 	m_bTouched = true;
@@ -1667,7 +1666,7 @@ void CChangeLevel::ChangeLevelNow( CBaseEntity *pActivator )
 	// If we're debugging, don't actually change level
 	if ( g_debug_transitions.GetInt() == 0 )
 	{
-		engine->ChangeLevel( st_szNextMap, st_szNextSpot );
+		engine->ChangeLevel( st_szNextMap, NULL );
 	}
 	else
 	{

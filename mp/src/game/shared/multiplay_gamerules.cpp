@@ -446,8 +446,9 @@ ConVarRef suitcharger( "sk_suitcharger" );
 	//=========================================================
 	bool CMultiplayRules::IsDeathmatch( void )
 	{
-		const char* gamemode = g_pCVar->FindVar("as_gamemode")->GetString();
-		return (strcmp(gamemode, "TDM") == 0 || strcmp(gamemode, "Deathmatch") == 0);
+		//const char* gamemode = g_pCVar->FindVar("as_gamemode")->GetString();
+		//return (strcmp(gamemode, "TDM") == 0 || strcmp(gamemode, "Deathmatch") == 0);
+		return true;
 	}
 
 	//=========================================================

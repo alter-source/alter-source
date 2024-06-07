@@ -108,10 +108,7 @@ enum GameMode
 	SANDBOX,
 	TDM,
 	DEATHMATCH,
-	CHAOTIC,
-	COOPERATIVE,
 	RANDOMIZER,
-	CAMPAIGN,
 	UNKNOWN
 };
 
@@ -121,10 +118,7 @@ GameMode GetGameMode(const std::string& mode)
 		{ "Sandbox", SANDBOX },
 		{ "TDM", TDM },
 		{ "Deathmatch", DEATHMATCH },
-		{ "Chaotic", CHAOTIC },
-		{ "Cooperative", COOPERATIVE },
 		{ "Randomizer", RANDOMIZER },
-		{ "Campaign", CAMPAIGN }
 	};
 
 	auto it = gameModeMap.find(mode);
@@ -358,11 +352,14 @@ void CHL2MP_Player::GiveDefaultItems( void )
 	const char* gamemodeStr = as_gamemode.GetString();
 	GameMode gamemode = GetGameMode(gamemodeStr);
 
+	cvar->FindVar("deathmatch")->SetValue(1);
+
 #ifndef CLIENT_DLL
 	cvar->FindVar("sv_infinite_aux_power")->SetValue(gamemode == SANDBOX ? 1 : 0);
-	cvar->FindVar("coop")->SetValue(gamemode == COOPERATIVE ? 1 : 0);
 	cvar->FindVar("sv_cheats")->SetValue(gamemode == SANDBOX ? 1 : 0);
-	cvar->FindVar("deathmatch")->SetValue((gamemode == TDM || gamemode == DEATHMATCH) ? 1 : 0);
+	//cvar->FindVar("deathmatch")->SetValue((gamemode == TDM || gamemode == DEATHMATCH) ? 1 : 0);
+	//cvar->FindVar("coop")->SetValue(gamemode == COOPERATIVE ? 1 : 0);
+	// ^ in theory these variables fuck up the changelevel thing
 #endif
 
 	switch (gamemode)
@@ -374,7 +371,6 @@ void CHL2MP_Player::GiveDefaultItems( void )
 		break;
 	case TDM:
 	case DEATHMATCH:
-	case COOPERATIVE:
 		if (!mp_skipdefaults.GetBool()) {
 			GiveDeathmatchItems();
 		}
@@ -385,18 +381,6 @@ void CHL2MP_Player::GiveDefaultItems( void )
 			GiveRandomizerItems(); 
 		}
 		SuitPower_Charge(100.0f);
-		break;
-	case CAMPAIGN:
-		// yep, no items
-		RemoveSuit();
-		break;
-	case CHAOTIC:
-		if (!mp_skipdefaults.GetBool()) {
-			GiveChaoticItems();
-		}
-		SetHealth(1);
-		SetMaxSpeed(9000.0f); // ОВЕР-ДОХРЕНА
-		SuitPower_SetCharge(999999999999999.0f);
 		break;
 	default:
 		break;
