@@ -175,7 +175,7 @@ void OverrideUI_RootPanel::OnCommand(const char *command)
 	else if (FStrEq(command, "Options")) {
 		gameUI->SendMainMenuCommand("OpenOptionsDialog");
 	}
-	else if (FStrEq(command, "Exit")) {
+	else if (FStrEq(command, "ExitGame")) {
 		gameUI->SendMainMenuCommand("Quit");
 	}
 	else if (FStrEq(command, "FindServers")) {
