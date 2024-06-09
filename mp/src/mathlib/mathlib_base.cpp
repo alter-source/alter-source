@@ -1193,27 +1193,20 @@ void AngleMatrix( const QAngle &angles, const Vector &position, matrix3x4_t& mat
 
 void AngleMatrix( const QAngle &angles, matrix3x4_t& matrix )
 {
-#ifdef _VPROF_MATHLIB
 	VPROF_BUDGET( "AngleMatrix", "Mathlib" );
-#endif
 	Assert( s_bMathlibInitialized );
 
 	float sr, sp, sy, cr, cp, cy;
 
-#ifdef _X360
-	fltx4 radians, scale, sine, cosine;
-	radians = LoadUnaligned3SIMD( angles.Base() );
-	scale = ReplicateX4( M_PI_F / 180.f ); 
-	radians = MulSIMD( radians, scale );
+	fltx4 sine, cosine;
+
+	fltx4 radians = LoadUnaligned3SIMD(angles.Base());
+	fltx4 scale = ReplicateX4(M_PI_F / 180.f);
+	radians = MulSIMD(radians, scale);
 	SinCos3SIMD( sine, cosine, radians ); 	
 
 	sp = SubFloat( sine, 0 );	sy = SubFloat( sine, 1 );	sr = SubFloat( sine, 2 );
 	cp = SubFloat( cosine, 0 );	cy = SubFloat( cosine, 1 );	cr = SubFloat( cosine, 2 );
-#else
-	SinCos( DEG2RAD( angles[YAW] ), &sy, &cy );
-	SinCos( DEG2RAD( angles[PITCH] ), &sp, &cp );
-	SinCos( DEG2RAD( angles[ROLL] ), &sr, &cr );
-#endif
 
 	// matrix = (YAW * PITCH) * ROLL
 	matrix[0][0] = cp*cy;

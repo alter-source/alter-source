@@ -109,7 +109,11 @@ void LuaHandle::RegisterGlobals() {
 	LG_DEFINE_INT("FOR_ALL_PLAYERS", -1);
 	LG_DEFINE_INT("INVALID_ENTITY", -1);
 	LG_DEFINE_INT("NULL", 0);
-	LG_DEFINE_STRING("GAMEMODE", cvar->FindVar("as_gamemode")->GetString());
+	
+	auto* gaymer = cvar->FindVar("as_gamemode");
+	const char* GAMEMODE = (gaymer != nullptr) ? gaymer->GetString() : "None";
+	LG_DEFINE_STRING("GAMEMODE", GAMEMODE);
+
 	LG_DEFINE_INT("TEAMPLAY", cvar->FindVar("mp_teamplay")->GetInt());
 	LG_DEFINE_INT("COOP", cvar->FindVar("coop")->GetInt());
 

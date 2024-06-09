@@ -5736,10 +5736,10 @@ model_t *CBaseEntity::GetModel( void )
 //-----------------------------------------------------------------------------
 void CBaseEntity::CalcAbsolutePosition( void )
 {
-	if (!IsEFlagSet( EFL_DIRTY_ABSTRANSFORM ))
-		return;
+//	if (!IsEFlagSet( EFL_DIRTY_ABSTRANSFORM ))
+//		return;
 
-	RemoveEFlags( EFL_DIRTY_ABSTRANSFORM );
+//	RemoveEFlags( EFL_DIRTY_ABSTRANSFORM );
 
 	// Plop the entity->parent matrix into m_rgflCoordinateFrame
 	AngleMatrix( m_angRotation, m_vecOrigin, m_rgflCoordinateFrame );
@@ -5751,9 +5751,9 @@ void CBaseEntity::CalcAbsolutePosition( void )
 		m_vecAbsOrigin = m_vecOrigin;
 		m_angAbsRotation = m_angRotation;
 		if ( HasDataObjectType( POSITIONWATCHER ) )
-		{
-			ReportPositionChanged( this );
-		}
+//		{
+//			ReportPositionChanged( this );
+//		}
 		return;
 	}
 
@@ -5769,16 +5769,16 @@ void CBaseEntity::CalcAbsolutePosition( void )
 	if (( m_angRotation == vec3_angle ) && ( m_iParentAttachment == 0 ))
 	{
 		// just copy our parent's absolute angles
-		VectorCopy( pMoveParent->GetAbsAngles(), m_angAbsRotation );
+		//VectorCopy( pMoveParent->GetAbsAngles(), m_angAbsRotation );
 	}
 	else
 	{
 		MatrixAngles( m_rgflCoordinateFrame, m_angAbsRotation );
 	}
-	if ( HasDataObjectType( POSITIONWATCHER ) )
-	{
-		ReportPositionChanged( this );
-	}
+	//if ( HasDataObjectType( POSITIONWATCHER ) )
+	//{
+	//	ReportPositionChanged( this );
+	//}
 }
 
 void CBaseEntity::CalcAbsoluteVelocity()

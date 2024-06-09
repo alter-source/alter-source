@@ -332,7 +332,7 @@ void CHudDeathNotice::FireGameEvent( IGameEvent * event )
 		}
 		else	//d_world
 		{
-			Q_snprintf( sDeathMsg, sizeof( sDeathMsg ), "%s suicided.\n", deathMsg.Victim.szName );
+			Q_snprintf( sDeathMsg, sizeof( sDeathMsg ), "%s didn't want to live.\n", deathMsg.Victim.szName );
 		}
 	}
 	else

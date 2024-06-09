@@ -1,4 +1,4 @@
-//========= Copyright © 2023-2024, GameWave Studio, All rights reserved. ============//
+//========= Copyright ï¿½ 2023-2024, GameWave Studio, All rights reserved. ============//
 //
 // Purpose: Implements a camera tools/weapon.
 //			
@@ -385,28 +385,27 @@ void CWeaponCamera::Zoom(void)
 		return;
 	}
 
+	CCommand commandO;
+	commandO.Tokenize("cl_drawhud 0");
+
+	CCommand commandT;
+	commandT.Tokenize("cl_drawhud 1");
+
 	if (m_nZoomLevel >= sizeof(g_nZoomFOV) / sizeof(g_nZoomFOV[0]))
 	{
 		if (pPlayer->SetFOV(this, 0))
 		{
 			pPlayer->ShowViewModel(true);
+			pPlayer->ClientCommand(commandO);
 
-			/*
-			// Hide hud
-			engine->ServerCommand("cl_drawhud 0");
-
-			// Zoom out to the default zoom level
 			WeaponSound(SPECIAL2);
 			m_nZoomLevel = 0;
-			*/
 
 			WeaponSound(SPECIAL2);
 
-			// Execute the console command on the client
 			if (pPlayer->IsNetClient())
 			{
-				// Ensure the player is a valid network client
-				engine->ClientCommand(pPlayer->edict(), "cl_drawhud 1");
+				pPlayer->ClientCommand(commandT);
 			}
 		}
 	}
@@ -420,11 +419,9 @@ void CWeaponCamera::Zoom(void)
 
 				WeaponSound(SPECIAL2);
 
-				// Execute the console command on the client
 				if (pPlayer->IsNetClient())
 				{
-					// Ensure the player is a valid network client
-					engine->ClientCommand(pPlayer->edict(), "cl_drawhud 0");
+					pPlayer->ClientCommand(commandO);
 				}
 			}
 

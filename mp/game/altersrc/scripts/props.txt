@@ -1028,6 +1028,10 @@ SpawnMenu
 		{
 			"#"	"give weapon_rpg"
 		}
+		"Prop Launcher"
+		{
+			"#"	"give weapon_proplauncher"
+		}
 		"Bugbait"
 		{
 			"#"	"give weapon_bugbait"

@@ -188,7 +188,7 @@ $Project "Client (Alter)"
 				$File	"$SRCDIR\game\shared\hl2mp\weapon_slam.h"
 				$File	"$SRCDIR\game\shared\hl2mp\weapon_smg1.cpp"
 				$File	"$SRCDIR\game\shared\hl2mp\weapon_stunstick.cpp"
-                //$File	"$SRCDIR\game\shared\weapon_toolgun.cpp"
+                $File	"$SRCDIR\game\shared\weapon_toolgun.cpp"
                 $File	"$SRCDIR\game\shared\weapon_physgun.cpp"
 			}
             

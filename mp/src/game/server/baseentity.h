@@ -2094,10 +2094,10 @@ inline const Vector& CBaseEntity::GetAbsOrigin( void ) const
 {
 	Assert( CBaseEntity::IsAbsQueriesValid() );
 
-	if (IsEFlagSet(EFL_DIRTY_ABSTRANSFORM))
-	{
-		const_cast<CBaseEntity*>(this)->CalcAbsolutePosition();
-	}
+	//if (IsEFlagSet(EFL_DIRTY_ABSTRANSFORM))
+	//{
+	const_cast<CBaseEntity*>(this)->CalcAbsolutePosition();
+	//}
 	return m_vecAbsOrigin;
 }
 
@@ -2105,10 +2105,10 @@ inline const QAngle& CBaseEntity::GetAbsAngles( void ) const
 {
 	Assert( CBaseEntity::IsAbsQueriesValid() );
 
-	if (IsEFlagSet(EFL_DIRTY_ABSTRANSFORM))
-	{
-		const_cast<CBaseEntity*>(this)->CalcAbsolutePosition();
-	}
+	//if (IsEFlagSet(EFL_DIRTY_ABSTRANSFORM))
+	//{
+	//const_cast<CBaseEntity*>(this)->CalcAbsolutePosition();
+	//}
 	return m_angAbsRotation;
 }
 

@@ -25,15 +25,9 @@ STUB_WEAPON_CLASS( weapon_alyxgun, WeaponAlyxGun, C_HLSelectFireMachineGun );
 STUB_WEAPON_CLASS( weapon_citizenpackage, WeaponCitizenPackage, C_BaseHLCombatWeapon );
 STUB_WEAPON_CLASS( weapon_citizensuitcase, WeaponCitizenSuitcase, C_WeaponCitizenPackage );
 
-STUB_WEAPON_CLASS(weapon_irifle, WeaponIrifle, C_BaseHLCombatWeapon);
-STUB_WEAPON_CLASS(weapon_ar1, WeaponAR1, C_BaseHLCombatWeapon);
-STUB_WEAPON_CLASS(weapon_smg2, WeaponSMG2, C_HLSelectFireMachineGun);
-STUB_WEAPON_CLASS(weapon_sniperrifle, WeaponSniperRifle, C_BaseHLCombatWeapon);
-STUB_WEAPON_CLASS(weapon_iceaxe, WeaponIceAxe, C_BaseHLBludgeonWeapon);
-STUB_WEAPON_CLASS(weapon_supercrowbar, WeaponSuperCrowbar, C_BaseHLBludgeonWeapon);
-
-STUB_WEAPON_CLASS(weapon_toolgun, WeaponToolgun, CBaseHLCombatWeapon);
+STUB_WEAPON_CLASS(weapon_toolgun, WeaponToolgun, C_BaseHLCombatWeapon);
 STUB_WEAPON_CLASS(weapon_camera, WeaponCamera, C_BaseHLCombatWeapon);
+STUB_WEAPON_CLASS(weapon_proplauncher, WeaponPropLauncher, C_BaseHLCombatWeapon);
 
 #ifndef HL2MP
 STUB_WEAPON_CLASS( weapon_ar2, WeaponAR2, C_HLMachineGun );

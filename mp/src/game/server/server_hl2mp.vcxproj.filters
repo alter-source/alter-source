@@ -3595,6 +3595,9 @@
     <ClCompile Include="toolframework_server.cpp">
       <Filter>Tools Framework</Filter>
     </ClCompile>
+    <ClCompile Include="weapon_proplauncher.cpp">
+      <Filter>Source Files\HL2MP\Weapons</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

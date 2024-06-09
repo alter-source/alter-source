@@ -3391,6 +3391,9 @@
     <ClCompile Include="..\..\game\shared\hl2mp\weapon_stunstick.cpp">
       <Filter>Source Files\HL2MP\Weapons</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\game\shared\weapon_toolgun.cpp">
+      <Filter>Source Files\HL2MP\Weapons</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\game\shared\lua\baseluahandle.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>

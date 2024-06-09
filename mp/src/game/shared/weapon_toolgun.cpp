@@ -6,6 +6,21 @@
 //=============================================================================//
 
 #include "cbase.h"
+
+#ifdef CLIENT_DLL
+#include "npcevent.h"
+#include "c_basehlcombatweapon.h"
+#include "gamerules.h"
+#include "in_buttons.h"
+#include "vgui/IVGui.h"
+#include "vgui_controls/Panel.h"
+#include "vgui_controls/Label.h"
+#include "vgui/ISurface.h"
+#include "vgui/IScheme.h"
+#include "vgui/ILocalize.h"
+#include "beam_shared.h"
+#include "props_shared.h"
+#else
 #include "npcevent.h"
 #include "basehlcombatweapon.h"
 #include "basecombatcharacter.h"
@@ -20,9 +35,7 @@
 #include "beam_shared.h"
 #include "props.h"
 #include "baseentity.h"
-#include <vgui/IVGui.h>
-#include <vgui_controls/Label.h>
-#include <vgui_controls/Frame.h>
+#endif
 
 #include "lua/luahandle.h"
 
@@ -46,16 +59,21 @@ static int g_beam1;
 // CWeaponToolgun
 //-----------------------------------------------------------------------------
 
-class CWeaponToolgun : public CBaseHLCombatWeapon
+class CWeaponToolgun :
+	public CBaseHLCombatWeapon
 {
 	DECLARE_DATADESC();
 
 public:
-	DECLARE_CLASS(CWeaponToolgun, CBaseHLCombatWeapon);
+	DECLARE_CLASS(CWeaponToolgun,
+	CBaseHLCombatWeapon
+		);
 
 	CWeaponToolgun(void);
 
+#ifndef CLIENT_DLL
 	DECLARE_SERVERCLASS();
+#endif
 
 	void	Precache(void);
 	void	ItemPostFrame(void);
@@ -70,7 +88,10 @@ public:
 
 	void	UpdatePenaltyTime(void);
 
+#ifndef CLIENT_DLL
 	int		CapabilitiesGet(void) { return bits_CAP_WEAPON_RANGE_ATTACK1; }
+#endif
+
 	Activity	GetPrimaryAttackActivity(void);
 
 	virtual bool Reload(void);
@@ -124,8 +145,10 @@ public:
 
 	DECLARE_ACTTABLE();
 
+#ifdef CLIENT_DLL
 private:
 	CBeam *m_pBeam;
+#endif
 
 private:
 	float	m_flSoonestPrimaryAttack;
@@ -149,11 +172,13 @@ private:
 	void NotifyMode(CBasePlayer* pPlayer);
 };
 
-
+#ifndef CLIENT_DLL
 IMPLEMENT_SERVERCLASS_ST(CWeaponToolgun, DT_WeaponToolgun)
 END_SEND_TABLE()
 
 LINK_ENTITY_TO_CLASS(weapon_toolgun, CWeaponToolgun);
+#endif
+
 PRECACHE_WEAPON_REGISTER(weapon_toolgun);
 
 BEGIN_DATADESC(CWeaponToolgun)
@@ -165,8 +190,17 @@ DEFINE_FIELD(m_nNumShotsFired, FIELD_INTEGER),
 
 END_DATADESC()
 
-acttable_t	CWeaponToolgun::m_acttable[] =
+acttable_t CWeaponToolgun::m_acttable[] = 
 {
+	{ ACT_HL2MP_IDLE,					ACT_HL2MP_IDLE_PISTOL,					false },
+	{ ACT_HL2MP_RUN,					ACT_HL2MP_RUN_PISTOL,					false },
+	{ ACT_HL2MP_IDLE_CROUCH,			ACT_HL2MP_IDLE_CROUCH_PISTOL,			false },
+	{ ACT_HL2MP_WALK_CROUCH,			ACT_HL2MP_WALK_CROUCH_PISTOL,			false },
+	{ ACT_HL2MP_GESTURE_RANGE_ATTACK,	ACT_HL2MP_GESTURE_RANGE_ATTACK_PISTOL,	false },
+	{ ACT_HL2MP_GESTURE_RELOAD,			ACT_HL2MP_GESTURE_RELOAD_PISTOL,		false },
+	{ ACT_HL2MP_JUMP,					ACT_HL2MP_JUMP_PISTOL,					false },
+	{ ACT_RANGE_ATTACK1,				ACT_RANGE_ATTACK_PISTOL,				false },
+
 	{ ACT_IDLE, ACT_IDLE_PISTOL, true },
 	{ ACT_IDLE_ANGRY, ACT_IDLE_ANGRY_PISTOL, true },
 	{ ACT_RANGE_ATTACK1, ACT_RANGE_ATTACK_PISTOL, true },
@@ -184,7 +218,7 @@ acttable_t	CWeaponToolgun::m_acttable[] =
 };
 
 
-IMPLEMENT_ACTTABLE(CWeaponToolgun);
+IMPLEMENT_ACTTABLE( CWeaponToolgun );
 
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
@@ -223,6 +257,7 @@ void CWeaponToolgun::Precache(void)
 //-----------------------------------------------------------------------------
 void CWeaponToolgun::Operator_HandleAnimEvent(animevent_t *pEvent, CBaseCombatCharacter *pOperator)
 {
+#ifndef CLIENT_DLL
 	switch (pEvent->event)
 	{
 	case EVENT_WEAPON_PISTOL_FIRE:
@@ -247,6 +282,7 @@ void CWeaponToolgun::Operator_HandleAnimEvent(animevent_t *pEvent, CBaseCombatCh
 		BaseClass::Operator_HandleAnimEvent(pEvent, pOperator);
 		break;
 	}
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -286,12 +322,15 @@ void CWeaponToolgun::PrimaryAttack(void)
 		if (dynamic_cast<CBaseAnimating*>(tr.m_pEnt) && !tr.m_pEnt->IsPlayer())
 		{
 			DispatchParticleEffect("impact_fx", tr.m_pEnt->GetAbsOrigin(), tr.m_pEnt->GetAbsAngles());
+#ifndef CLIENT_DLL
 			UTIL_Remove(tr.m_pEnt);
+#endif
 		}
 		break;
 	case MODE_IGNITER:
 		if (!tr.m_pEnt->IsPlayer())
 		{
+#ifndef CLIENT_DLL
 			CBaseProp* pBaseProp = dynamic_cast<CBaseProp*>(tr.m_pEnt);
 			CBreakableProp *pBreakableProp = dynamic_cast<CBreakableProp *>(tr.m_pEnt); // for some reason dynamic and physics prop classes are based on CBreakableProp
 			if (pBaseProp)
@@ -302,17 +341,19 @@ void CWeaponToolgun::PrimaryAttack(void)
 			{
 				pBreakableProp->Ignite(60.0f, false, 0.0f, true);
 			}
+#endif
 		}
 		else if (tr.m_pEnt->IsNPC())
 		{
+#ifndef CLIENT_DLL
 			CAI_BaseNPC *pNpc = dynamic_cast<CAI_BaseNPC*>(tr.m_pEnt);
 			if (pNpc) {
 				pNpc->Ignite(60.0f, false, 0.0f, true);
 			}
+#endif
 		}
 		break;
 	case MODE_LIGHT:
-		pPlayer->RunNullCommand();
 		break;
 	}
 
@@ -329,7 +370,9 @@ void CWeaponToolgun::PrimaryAttack(void)
 	m_flSoonestPrimaryAttack = gpGlobals->curtime + TOOLGUN_FASTEST_REFIRE_TIME;
 
 	m_iPrimaryAttacks++;
+#ifndef CLIENT_DLL
 	gamestats->Event_WeaponFired(pPlayer, true, GetClassname());
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -462,11 +505,9 @@ void CWeaponToolgun::NotifyMode(CBasePlayer* pPlayer)
 		break;
 	}
 
-	char buf[256];
-	Q_snprintf(buf, sizeof(buf), "%s\n", modeString);
-	CRecipientFilter filter;
-	filter.AddRecipient(pPlayer);
-	UTIL_ClientPrintFilter(filter, HUD_PRINTTALK, buf);
+#ifdef CLIENT_DLL
+	
+#endif
 }
 
 
