@@ -44,7 +44,7 @@ OverrideUI_RootPanel::OverrideUI_RootPanel(VPANEL parent) : Panel(NULL, "Overrid
 
 	m_ExitingFrameCount = 0;
 
-	LoadMainMenuHTML();
+	LoadMainMenuHTML(false);
 	ivgui()->AddTickSignal(GetVPanel());
 }
 
@@ -58,7 +58,7 @@ void OverrideUI_RootPanel::OnKeyCodePressed(KeyCode code)
 {
 	if (code == KEY_ESCAPE)
 	{
-		LoadMainMenuHTML();
+		LoadMainMenuHTML(true);
 	}
 
 	BaseClass::OnKeyCodePressed(code);
@@ -105,50 +105,18 @@ void OverrideUI_RootPanel::ApplySchemeSettings(IScheme *pScheme)
 	SetSize(wide, tall);
 }
 
-void OverrideUI_RootPanel::LoadMainMenuHTML()
+void OverrideUI_RootPanel::LoadMainMenuHTML(bool reload)
 {
-	m_MainMenuAwesomium = new VAwesomium(this, "MainMenuAwesomium");
+	if (reload)
+	{
+		m_MainMenuAwesomium->DeletePanel();
+	}
+
+	m_MainMenuAwesomium = new Alter_VAwesomium(this, "MainMenuAwesomium");
 	int wide, tall;
 	vgui::surface()->GetScreenSize(wide, tall);
 	m_MainMenuAwesomium->SetBounds(0, 0, wide, tall);
 	m_MainMenuAwesomium->OpenHTMLFile("html/main.html");
-
-	/*if (m_pResumeButton)
-		m_pResumeButton->DeletePanel();
-
-	if (m_pStartButton)
-		m_pStartButton->DeletePanel();
-
-	if (m_pOptionsButton)
-		m_pOptionsButton->DeletePanel();
-
-	if (m_pFindButton)
-		m_pFindButton->DeletePanel();
-
-	if (m_pExitButton)
-		m_pExitButton->DeletePanel();
-
-	if (m_pDisconnectButton)
-		m_pDisconnectButton->DeletePanel();*/
-
-	m_pResumeButton = new Button(this, "mResumeButton", "Resume Game", this, "ResumeGame");
-	m_pResumeButton->SetBounds(80, 140, 150, 30);
-
-	m_pStartButton = new Button(this, "mStartGameButton", "Start Game", this, "StartGame");
-	m_pStartButton->SetAlpha(255);
-	m_pStartButton->SetBounds(80, 220, 250, 30);
-
-	m_pOptionsButton = new Button(this, "mOptionsButton", "Settings", this, "Options");
-	m_pOptionsButton->SetBounds(80, 260, 150, 30);
-
-	m_pFindButton = new Button(this, "mFindButton", "Server Browser", this, "FindServers");
-	m_pFindButton->SetBounds(80, 300, 150, 30);
-
-	m_pDisconnectButton = new Button(this, "mDisconnectButton", "Disconnect", this, "DisconnectGame");
-	m_pDisconnectButton->SetBounds(80, 340, 150, 30);
-
-	m_pExitButton = new Button(this, "mExitButton", "Exit", this, "ExitGame");
-	m_pExitButton->SetBounds(80, 380, 150, 30);
 }
 
 bool OverrideUI_RootPanel::IsPlayerInGame()
@@ -167,38 +135,13 @@ void OverrideUI_RootPanel::OnCommand(const char *command)
 {
 	IGameUI* gameUI = GetGameUI();
 	if (!gameUI) { return; }
-
-	if (FStrEq(command, "StartGame"))
-	{
-		gameUI->SendMainMenuCommand("OpenCreateMultiplayerGameDialog");
-	}
-	else if (FStrEq(command, "Options")) {
-		gameUI->SendMainMenuCommand("OpenOptionsDialog");
-	}
-	else if (FStrEq(command, "ExitGame")) {
-		gameUI->SendMainMenuCommand("Quit");
-	}
-	else if (FStrEq(command, "FindServers")) {
-		gameUI->SendMainMenuCommand("OpenServerBrowser");
-	}
-	else if (FStrEq(command, "DisconnectGame")) {
-		surface()->PlaySound("common/talk.wav");
-		gameUI->SendMainMenuCommand("Disconnect");
-	}
-	else if (FStrEq(command, "ResumeGame")) {
-		gameUI->SendMainMenuCommand("ResumeGame");
-	}
-	else
-	{
-		BaseClass::OnCommand(command);
-	}
 }
 
 void ReloadHTML(const CCommand &args)
 {
 	if (guiroot)
 	{
-		guiroot->LoadMainMenuHTML();
+		guiroot->LoadMainMenuHTML(true);
 	}
 }
 

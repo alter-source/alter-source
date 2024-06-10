@@ -4,6 +4,7 @@
     <title>Alter Source</title>
     <style>
         body {
+            display: none;
             margin: 0;
             padding: 0;
             overflow: hidden;
@@ -85,7 +86,25 @@
             right: 0px;
             width: 100%;
         }
-        
+        #buttons {
+            padding-left: 70px;
+            z-index: 1;
+            position: relative;
+        }
+        #buttons a {
+            width: 140px;
+            height: 40px;
+            color: white;
+            text-decoration: none;
+            font-size: 21px;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            text-shadow: none;
+        }
+        #buttons a:hover {
+            color: rgb(246, 246, 172);
+            font-weight: bold;
+            cursor: pointer;
+        }
         #log p {
             color: black;
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -123,6 +142,33 @@
         }
     </style>
     <script>
+        function AwesomiumInitialized() {
+            document.body.style.display = 'block';
+            Object.InGame()
+        }
+
+        function OnInGameResult(inGame) {
+            if (!inGame == true) {
+                InGameButtons(false);
+            } else {
+                InGameButtons(true);
+            }
+        }          
+        
+        function InGameButtons(show) {
+            if (show == false) {
+                var ingameButtons = document.querySelectorAll('#buttons a#ingame');
+                for (var i = 0; i < ingameButtons.length; i++) {
+                    ingameButtons[i].style.display = 'none';
+                }
+            } else {
+                var ingameButtons = document.querySelectorAll('#buttons a#ingame');
+                for (var i = 0; i < ingameButtons.length; i++) {
+                    ingameButtons[i].style.display = 'block';
+                }
+            }
+        }
+    
         var backgrounds = [];
         var currentIndex = 0;
 
@@ -159,6 +205,19 @@
 <body>
     <div id="background"></div>
     <p id="logo"><span>Alter</span> Source</p>
+    <div id="buttons">
+        <a id="ingame" href="#" onclick="Object.ResumeGame()">RESUME GAME</a>
+        <br /> <br />
+        <a id="btn" href="#" onclick="Object.CreateServer()">CREATE SERVER</a>
+        <br /> <br />
+        <a id="btn" href="#" onclick="Object.OpenOptions()">SETTINGS</a>
+        <br /> <br />
+        <a id="btn" href="#" onclick="Object.FindServers()">SERVER BROWSER</a>
+        <br /> <br />
+        <a id="ingame" href="#" onclick="Object.Disconnect()">DISCONNECT</a>
+        <br /> <br />
+        <a id="btn" href="#" onclick="Object.Quit()">QUIT</a>
+    </div>
     <div id="version">You are on the <i>GitHub</i> branch. <a href="https://github.com/alter-source/alter-source" target="_blank">Click here</a> to find out more. ( - )</div>
     <div id="log">
         <div id="changelogText">
@@ -171,5 +230,14 @@
             <img src="icons/yt.png" width="35px" height="35px" />
         </p>
     </div>
+    <script>
+        function callInGame() {
+            setInterval(function() {
+                Object.InGame();
+            }, 1000);
+        }
+        
+        callInGame();
+    </script>
 </body>
 </html>

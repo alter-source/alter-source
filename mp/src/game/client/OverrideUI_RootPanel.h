@@ -2,7 +2,7 @@
 
 #include "vgui_controls/Panel.h"
 #include "GameUI/IGameUI.h"
-#include "VAwesomium.h"
+#include "Alter_VAwesomium.h"
 #include "vgui_controls/Button.h"
 
 
@@ -15,7 +15,7 @@ public:
 	virtual ~OverrideUI_RootPanel();
 
 	IGameUI* GetGameUI();
-	void LoadMainMenuHTML();
+	void LoadMainMenuHTML(bool reload);
 	void StartGame(void);
 
 	bool OverrideUI_RootPanel::IsPlayerInGame();
@@ -42,5 +42,5 @@ private:
 	bool m_bCopyFrameBuffer;
 
 	IGameUI* gameui;
-	VAwesomium* m_MainMenuAwesomium;
+	Alter_VAwesomium* m_MainMenuAwesomium;
 };

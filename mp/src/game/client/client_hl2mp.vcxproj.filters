@@ -2006,6 +2006,9 @@
     <ClInclude Include="toolframework_client.h">
       <Filter>Tool Framework</Filter>
     </ClInclude>
+    <ClInclude Include="Alter_VAwesomium.h">
+      <Filter>Source Files\Awesomium</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mp3player.cpp">
@@ -3609,6 +3612,9 @@
     </ClCompile>
     <ClCompile Include="toolframework_client.cpp">
       <Filter>Tool Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Alter_VAwesomium.cpp">
+      <Filter>Source Files\Awesomium</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
