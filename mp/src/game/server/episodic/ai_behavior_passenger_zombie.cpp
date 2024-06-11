@@ -341,7 +341,7 @@ void CAI_PassengerBehaviorZombie::Event_Killed( const CTakeDamageInfo &info )
 	if ( m_hVehicle )
 	{
 		// Stop taking messages from the vehicle
-		m_hVehicle->RemovePhysicsChild( GetOuter() );
+		//m_hVehicle->RemovePhysicsChild( GetOuter() );
 		m_hVehicle->NPC_RemovePassenger( GetOuter() );
 		m_hVehicle->NPC_FinishedExitVehicle( GetOuter(), false );
 	}
@@ -414,7 +414,7 @@ void CAI_PassengerBehaviorZombie::StartDismount( void )
 	GetOuter()->SetIdealActivity( ACT_SCRIPT_CUSTOM_MOVE );
 
 	// This removes the NPC from the vehicle's handling and fires all necessary outputs
-	m_hVehicle->RemovePhysicsChild( GetOuter() );
+	//m_hVehicle->RemovePhysicsChild( GetOuter() );
 	m_hVehicle->NPC_RemovePassenger( GetOuter() );
 	m_hVehicle->NPC_FinishedExitVehicle( GetOuter(), (IsPassengerHostile()==false) );
 

@@ -92,7 +92,7 @@
 #endif
 
 #ifdef PORTAL
-	#include "prop_portal_shared.h"
+	#include "portal/prop_portal_shared.h"
 #endif
 
 #include "env_debughistory.h"

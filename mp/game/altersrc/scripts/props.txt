@@ -631,7 +631,462 @@ SpawnMenu
 				"#"	"prop_physics_create props_lab/desklamp01.mdl"
 		}
     }
-	"Ragdolls"
+	"Portal"
+	{
+		"Cube"
+        {
+            "#"    "ent_create_portal_weight_box"
+        }
+        "Companion Cube"
+        {
+            "#"    "ent_create_portal_weight_box; ent_fire !picker skin 1"
+        }
+        "Bed Body Reference"
+        {
+            "#"    "prop_physics_create props/bed_body_reference.mdl"
+        }
+        "Bed Cover Reference"
+        {
+            "#"    "prop_physics_create props/bed_cover_reference.mdl"
+        }
+        "Box Dropper"
+        {
+            "#"    "prop_physics_create props/box_dropper.mdl"
+        }
+        "Box Dropper Cover"
+        {
+            "#"    "prop_physics_create props/box_dropper_cover.mdl"
+        }
+        "Box Dropper Cover Broken"
+        {
+            "#"    "prop_physics_create props/box_dropper_cover_broken.mdl"
+        }
+        "Box Dropper Cover Broken Cover"
+        {
+            "#"    "prop_physics_create props/box_dropper_cover_broken_cover.mdl"
+        }
+        "Button Base Reference"
+        {
+            "#"    "prop_physics_create props/button_base_reference.mdl"
+        }
+        "Button Top Reference"
+        {
+            "#"    "prop_physics_create props/button_top_reference.mdl"
+        }
+        "Clock"
+        {
+            "#"    "prop_physics_create props/clock.mdl"
+        }
+        "Combine Ball Catcher"
+        {
+            "#"    "prop_physics_create props/combine_ball_catcher.mdl"
+        }
+        "Combine Ball Launcher"
+        {
+            "#"    "prop_physics_create props/combine_ball_launcher.mdl"
+        }
+        "Door 01 Frame Reference"
+        {
+            "#"    "prop_physics_create props/door_01_frame_reference.mdl"
+        }
+        "Door 01 Frame Wide Reference"
+        {
+            "#"    "prop_physics_create props/door_01_frame_wide_reference.mdl"
+        }
+        "Door 01 Left Door Reference"
+        {
+            "#"    "prop_physics_create props/door_01_lftdoor_reference.mdl"
+        }
+        "Door 01 Right Door Reference"
+        {
+            "#"    "prop_physics_create props/door_01_rtdoor_reference.mdl"
+        }
+        "Door 02"
+        {
+            "#"    "prop_physics_create props/door_02.mdl"
+        }
+        "GLaDOS Room Shelves"
+        {
+            "#"    "prop_physics_create props/gladosroom_shelves.mdl"
+        }
+        "GLaDOS Room Sphere Center"
+        {
+            "#"    "prop_physics_create props/gladosroom_spherecenter.mdl"
+        }
+        "GLaDOS Room Sphere Mid"
+        {
+            "#"    "prop_physics_create props/gladosroom_spheremid.mdl"
+        }
+        "GLaDOS Stairs"
+        {
+            "#"    "prop_physics_create props/glados_stairs.mdl"
+        }
+        "Hospital IV Stand 01"
+        {
+            "#"    "prop_physics_create props/hospital_ivstand01.mdl"
+        }
+        "Lift Platform"
+        {
+            "#"    "prop_physics_create props/lift_platform.mdl"
+        }
+        "Light Rail Corner"
+        {
+            "#"    "prop_physics_create props/light_rail_corner.mdl"
+        }
+        "Light Rail Endcap"
+        {
+            "#"    "prop_physics_create props/light_rail_endcap.mdl"
+        }
+        "Light Rail Platform"
+        {
+            "#"    "prop_physics_create props/light_rail_platform.mdl"
+        }
+        "Light Rail Platform 02"
+        {
+            "#"    "prop_physics_create props/light_rail_platform_02.mdl"
+        }
+        "Light Rail Wall Emitter"
+        {
+            "#"    "prop_physics_create props/light_rail_wall_emitter.mdl"
+        }
+        "Metal Box"
+        {
+            "#"    "prop_physics_create props/metal_box.mdl"
+        }
+        "Pedestal Base Reference"
+        {
+            "#"    "prop_physics_create props/pedestal_base_reference.mdl"
+        }
+        "Pedestal Center Reference"
+        {
+            "#"    "prop_physics_create props/pedestal_center_reference.mdl"
+        }
+        "Portal Cleanser 1"
+        {
+            "#"    "prop_physics_create props/portal_cleanser_1.mdl"
+        }
+        "Radio Reference"
+        {
+            "#"    "prop_physics_create props/radio_reference.mdl"
+        }
+        "Round Elevator Body"
+        {
+            "#"    "prop_physics_create props/round_elevator_body.mdl"
+        }
+        "Round Elevator Doors"
+        {
+            "#"    "prop_physics_create props/round_elevator_doors.mdl"
+        }
+        "Security Camera"
+        {
+            "#"    "prop_physics_create props/security_camera.mdl"
+        }
+        "Security Camera Prop Reference"
+        {
+            "#"    "prop_physics_create props/security_camera_prop_reference.mdl"
+        }
+        "Sphere"
+        {
+            "#"    "prop_physics_create props/sphere.mdl"
+        }
+        "Switch 001"
+        {
+            "#"    "prop_physics_create props/switch001.mdl"
+        }
+        "Table Reference"
+        {
+            "#"    "prop_physics_create props/table_reference.mdl"
+        }
+        "Toilet Body Reference"
+        {
+            "#"    "prop_physics_create props/toilet_body_reference.mdl"
+        }
+        "Toilet Lid Reference"
+        {
+            "#"    "prop_physics_create props/toilet_lid_reference.mdl"
+        }
+        "Turret 01"
+        {
+            "#"    "prop_physics_create props/turret_01.mdl"
+        }
+        "128 Fuse Set 01"
+        {
+            "#"    "prop_physics_create props/128_fuse_set01/128_fuse_set01.mdl"
+        }
+        "128 Fuse Set 02"
+        {
+            "#"    "prop_physics_create props/128_fuse_set02/128_fuse_set02.mdl"
+        }
+        "128 Fuse Set 03"
+        {
+            "#"    "prop_physics_create props/128_fuse_set03/128_fuse_set03.mdl"
+        }
+        "128 Fuse Set 04"
+        {
+            "#"    "prop_physics_create props/128_fuse_set04/128_fuse_set04.mdl"
+        }
+        "128 Fuse Set 05"
+        {
+            "#"    "prop_physics_create props/128_fuse_set05/128_fuse_set05.mdl"
+        }
+        "128 Fuse Set 06"
+        {
+            "#"    "prop_physics_create props/128_fuse_set06/128_fuse_set06.mdl"
+        }
+        "128 Fuse Set 07"
+        {
+            "#"    "prop_physics_create props/128_fuse_set07/128_fuse_set07.mdl"
+        }
+        "128 Fuse Set 08"
+        {
+            "#"    "prop_physics_create props/128_fuse_set08/128_fuse_set08.mdl"
+        }
+        "128 Fuse Set 09"
+        {
+            "#"    "prop_physics_create props/128_fuse_set09/128_fuse_set09.mdl"
+        }
+        "128 Fuse Set 10"
+        {
+            "#"    "prop_physics_create props/128_fuse_set10/128_fuse_set10.mdl"
+        }
+        "Autoportal Frame"
+        {
+            "#"    "prop_physics_create props/autoportal_frame/autoportal_frame.mdl"
+        }
+        "BTS Bed"
+        {
+            "#"    "prop_physics_create props/bts_bed/bts_bed.mdl"
+        }
+        "Cake"
+        {
+            "#"    "prop_physics_create props/cake/cake.mdl"
+        }
+        "Camera"
+        {
+            "#"    "prop_physics_create props/camera/ghostanim.mdl"
+        }
+        "Claw"
+        {
+            "#"    "prop_physics_create props/claw/claw.mdl"
+        }
+        "Claw Body"
+        {
+            "#"    "prop_physics_create props/claw/claw_body.mdl"
+        }
+        "Claw Pincer 01"
+        {
+            "#"    "prop_physics_create props/claw/claw_pincer01.mdl"
+        }
+        "Claw Pincer 02"
+        {
+            "#"    "prop_physics_create props/claw/claw_pincer02.mdl"
+        }
+        "Elevator Shaft Wall"
+        {
+            "#"    "prop_physics_create props/elevatorshaft_wall/elevatorshaft_wall.mdl"
+        }
+        "Elevator Caps"
+        {
+            "#"    "prop_physics_create props/elevator_caps/elevator_caps.mdl"
+        }
+        "Food Can"
+        {
+            "#"    "prop_physics_create props/food_can/food_can.mdl"
+        }
+        "Food Can Open"
+        {
+            "#"    "prop_physics_create props/food_can/food_can_open.mdl"
+        }
+        "GLaDOS Ceiling Light"
+        {
+            "#"    "prop_physics_create props/glados_ceiling_light/glados_ceiling_light.mdl"
+        }
+        "GLaDOS Pillar"
+        {
+            "#"    "prop_physics_create props/glados_pillar/glados_pillar.mdl"
+        }
+        "Keyboard"
+        {
+            "#"    "prop_physics_create props/kb_mouse/keyboard.mdl"
+        }
+        "Mouse"
+        {
+            "#"    "prop_physics_create props/kb_mouse/mouse.mdl"
+        }
+        "Lab Chair"
+        {
+            "#"    "prop_physics_create props/lab_chair/lab_chair.mdl"
+        }
+        "Lab Desk 01"
+        {
+            "#"    "prop_physics_create props/lab_desk01/lab_desk01.mdl"
+        }
+        "Lab Desk 02"
+        {
+            "#"    "prop_physics_create props/lab_desk02/lab_desk02.mdl"
+        }
+        "Lab Desk 03"
+        {
+            "#"    "prop_physics_create props/lab_desk03/lab_desk03.mdl"
+        }
+        "Lab Desk 04"
+        {
+            "#"    "prop_physics_create props/lab_desk04/lab_desk04.mdl"
+        }
+        "Lab Desk 05"
+        {
+            "#"    "prop_physics_create props/lab_desk05/lab_desk05.mdl"
+        }
+        "Lab Monitor Pose 01"
+        {
+            "#"    "prop_physics_create props/lab_monitor_pose01/lab_monitor_pose01.mdl"
+        }
+        "Lab Monitor Pose 02"
+        {
+            "#"    "prop_physics_create props/lab_monitor_pose01/lab_monitor_pose02.mdl"
+        }
+        "Lab Monitor Pose 03"
+        {
+            "#"    "prop_physics_create props/lab_monitor_pose01/lab_monitor_pose03.mdl"
+        }
+        "Lab Shelf"
+        {
+            "#"    "prop_physics_create props/lab_shelf/lab_shelf.mdl"
+        }
+        "Lab Shelf Small"
+        {
+            "#"    "prop_physics_create props/lab_shelf_small/lab_shelf_small.mdl"
+        }
+        "Milk Carton"
+        {
+            "#"    "prop_physics_create props/milk_carton/milk_carton.mdl"
+        }
+        "Milk Carton Open"
+        {
+            "#"    "prop_physics_create props/milk_carton/milk_carton_open.mdl"
+        }
+        "PC Case 02"
+        {
+            "#"    "prop_physics_create props/pc_case02/pc_case02.mdl"
+        }
+        "PC Case Open"
+        {
+            "#"    "prop_physics_create props/pc_case_open/pc_case_open.mdl"
+        }
+        "Rot Door Frame"
+        {
+            "#"    "prop_physics_create props/rot_door/rot_door_frame.mdl"
+        }
+        "Rot Door Hinges"
+        {
+            "#"    "prop_physics_create props/rot_door/rot_door_hinges.mdl"
+        }
+        "Saucepan"
+        {
+            "#"    "prop_physics_create props/saucepan/saucepan.mdl"
+        }
+        "Server Wall"
+        {
+            "#"    "prop_physics_create props/server_wall/server_wall.mdl"
+        }
+        "Shelf 128"
+        {
+            "#"    "prop_physics_create props/shelf128/shelf128.mdl"
+        }
+        "Shelf 128 Group 01"
+        {
+            "#"    "prop_physics_create props/shelf128/shelf128_group01.mdl"
+        }
+        "Shelf 128 Group 02"
+        {
+            "#"    "prop_physics_create props/shelf128/shelf128_group02.mdl"
+        }
+        "Shelf 128 Group 03"
+        {
+            "#"    "prop_physics_create props/shelf128/shelf128_group03.mdl"
+        }
+        "Sign Frame 01"
+        {
+            "#"    "prop_physics_create props/sign_frame01/sign_frame01.mdl"
+        }
+        "Sign Frame 02"
+        {
+            "#"    "prop_physics_create props/sign_frame02/sign_frame02.mdl"
+        }
+        "Speaker System 01"
+        {
+            "#"    "prop_physics_create props/speaker_system01/speaker_system01.mdl"
+        }
+        "Speaker System 02"
+        {
+            "#"    "prop_physics_create props/speaker_system01/speaker_system02.mdl"
+        }
+        "Vertical Door Frame"
+        {
+            "#"    "prop_physics_create props/vert_door/vert_door_frame.mdl"
+        }
+        "Vertical Door Lower"
+        {
+            "#"    "prop_physics_create props/vert_door/vert_door_lower.mdl"
+        }
+        "Vertical Door Upper"
+        {
+            "#"    "prop_physics_create props/vert_door/vert_door_upper.mdl"
+        }
+        "Wall Pipes Bend 01"
+        {
+            "#"    "prop_physics_create props/wall_pipes_bend01/wall_pipes_bend01.mdl"
+        }
+        "Wall Pipes Bend 01 Flipped"
+        {
+            "#"    "prop_physics_create props/wall_pipes_bend01/wall_pipes_bend01_flipped.mdl"
+        }
+        "Wall Pipes Bend 02"
+        {
+            "#"    "prop_physics_create props/wall_pipes_bend02/wall_pipes_bend02.mdl"
+        }
+        "Wall Pipes Bend 03"
+        {
+            "#"    "prop_physics_create props/wall_pipes_bend03/wall_pipes_bend03.mdl"
+        }
+        "Wall Pipes Corner"
+        {
+            "#"    "prop_physics_create props/wall_pipes_corner/wall_pipes_corner.mdl"
+        }
+        "Wall Pipes Corner 02"
+        {
+            "#"    "prop_physics_create props/wall_pipes_corner02/wall_pipes_corner02.mdl"
+        }
+        "Wall Pipes Horizontal"
+        {
+            "#"    "prop_physics_create props/wall_pipes_horiz/wall_pipes_horiz.mdl"
+        }
+        "Wall Pipes Terminate 01"
+        {
+            "#"    "prop_physics_create props/wall_pipes_terminate01/wall_pipes_terminate01.mdl"
+        }
+        "Wall Pipes T Junction 01"
+        {
+            "#"    "prop_physics_create props/wall_pipes_tjunc01/wall_pipes_tjunc01.mdl"
+        }
+        "Wall Pipes Wave"
+        {
+            "#"    "prop_physics_create props/wall_pipes_wave/wall_pipes_wave.mdl"
+        }
+        "Wall Pipes Wave Flipped"
+        {
+            "#"    "prop_physics_create props/wall_pipes_wave/wall_pipes_wave_flipped.mdl"
+        }
+        "Water Bottle"
+        {
+            "#"    "prop_physics_create props/water_bottle/water_bottle.mdl"
+        }
+        "Chell"
+        {
+            "#"    "prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/player/chell.mdl"
+        }
+	}
+    "Ragdolls"
 	{
 		"Dr. Kleiner"
 		{
@@ -977,7 +1432,6 @@ SpawnMenu
 			"#"	"npc_create npc_seagull"
 		}
 	}
-	
 	"Weapons"
 	{
 		"Physics Gun"
@@ -1044,9 +1498,6 @@ SpawnMenu
 		{
 			"#"	"give weapon_camera"
 		}
-	}
-    "Ammo"
-    {
         "Pistol Ammo"
 		{
 			"#"	"give item_ammo_pistol"
@@ -1115,17 +1566,6 @@ SpawnMenu
 		{
 			"#"	"ent_create item_ammo_crate AmmoType 9"
 		}
-    }
-	"Vehicles"
-	{
-		"Jeep"
-		{
-			"#"	"impulse 82"
-		}
-		"Airboat"
-		{
-			"#"	"impulse 83; ent_fire airboat enablegun 1"
-		}
 	}
     "Entities"
     {
@@ -1145,16 +1585,17 @@ SpawnMenu
 		{
 			"#"	"give item_suit"
 		}
-	}
-	"Other Stuff"
-	{
-		"Suit Charger"
+        "Jeep"
+		{
+			"#"	"impulse 82"
+		}
+		"Airboat"
+		{
+			"#"	"impulse 83; ent_fire airboat enablegun 1"
+		}
+        "Suit Charger"
 		{
 			"#"	"ent_create item_suitcharger"
-		}
-		"Death!"
-		{
-			"#"	"impulse 69"
 		}
 	}
 	"Extras"
@@ -1163,28 +1604,9 @@ SpawnMenu
 		{
 			"#"	"ai_disable"
 		}
-		"Hide HUD"
-		{
-			"#"	"cl_drawhud 0"
-		}
-		"Show HUD"
-		{
-			"#"	"cl_drawhud 1"
-		}
-		"Strip Weapons"
-		{
-			"#"	"ent_create  player_weaponstrip targetname stent;ent_fire stent strip;ent_fire stent kill"
-		}
-	}
-    "Effect"
-	{
-		"Flashlight"
+        "Flashlight Effect"
 		{
 			"#"	"create_flashlight"
-		}
-		"Hair Ball"
-		{
-			"#"	"CreateHairball"
 		}
 	}
 }

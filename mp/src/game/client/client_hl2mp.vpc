@@ -14,7 +14,7 @@ $Configuration
 {
 	$Compiler
 	{
-		$AdditionalIncludeDirectories		"$BASE;hl2mp\ui,.\hl2mp,$SRCDIR\game\shared\hl2mp,.\hl2,.\hl2\elements,$SRCDIR\game\shared\hl2,$SRCDIR\fmod\api\inc;$SRCDIR\awesomium\inc"
+		$AdditionalIncludeDirectories		"$BASE;hl2mp\ui,.\hl2mp,$SRCDIR\game\shared\hl2mp,.\hl2,.\hl2\elements,$SRCDIR\game\shared\hl2,$SRCDIR\fmod\api\inc;$SRCDIR\awesomium\inc;$SRCDIR\game\shared\episodic;.\episodic"
 		$PreprocessorDefinitions			"$BASE;HL2MP;HL2_CLIENT_DLL;GE_LUA"
 	}
     $Linker
@@ -40,6 +40,22 @@ $Project "Client (Alter)"
 		$File	"$SRCDIR\game\shared\teamplay_round_timer.cpp"
 		$File	"$SRCDIR\game\shared\teamplay_round_timer.h"
 
+        $Folder "Episodic"
+        {
+            //$File	"$SRCDIR\game\shared\episodic\achievements_ep1.cpp"
+			//$File	"$SRCDIR\game\shared\episodic\achievements_ep2.cpp"
+			//$File	"$SRCDIR\game\shared\episodic\achievements_epx.cpp"
+            $File	"episodic\c_prop_scalable.cpp"
+            $File	"episodic\c_vort_charge_token.cpp"
+            $File	"episodic\c_weapon_hopwire.cpp"
+            $File	"$SRCDIR\game\shared\episodic\npc_advisor_shared.h"
+			$File	"episodic\c_npc_advisor.cpp"
+			$File	"episodic\episodic_screenspaceeffects.cpp"
+			$File	"episodic\episodic_screenspaceeffects.h"
+			$File	"episodic\flesh_internal_material_proxy.cpp"
+            $File	"episodic\c_npc_puppet.cpp"
+        }
+
         $Folder "FMOD"
         {
             $File	"fmod\fmod_manager.cpp"
@@ -48,6 +64,8 @@ $Project "Client (Alter)"
         
         $Folder "Awesomium"
         {
+            $File "Alter_VAwesomium.h"
+            $File "Alter_VAwesomium.cpp"
             $File "VAwesomium.cpp"
             $File "VAwesomium.h"
         }

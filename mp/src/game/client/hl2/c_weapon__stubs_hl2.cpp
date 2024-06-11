@@ -7,6 +7,7 @@
 #include "cbase.h"
 #include "c_weapon__stubs.h"
 #include "basehlcombatweapon_shared.h"
+//#include "portal/weapon_portalbasecombatweapon.h"
 
 #include "c_basehlcombatweapon.h"
 
@@ -28,6 +29,7 @@ STUB_WEAPON_CLASS( weapon_citizensuitcase, WeaponCitizenSuitcase, C_WeaponCitize
 STUB_WEAPON_CLASS(weapon_toolgun, WeaponToolgun, C_BaseHLCombatWeapon);
 STUB_WEAPON_CLASS(weapon_camera, WeaponCamera, C_BaseHLCombatWeapon);
 STUB_WEAPON_CLASS(weapon_proplauncher, WeaponPropLauncher, C_BaseHLCombatWeapon);
+//STUB_WEAPON_CLASS(weapon_portalgun, WeaponPortalGun, C_BaseHLCombatWeapon);
 
 #ifndef HL2MP
 STUB_WEAPON_CLASS( weapon_ar2, WeaponAR2, C_HLMachineGun );

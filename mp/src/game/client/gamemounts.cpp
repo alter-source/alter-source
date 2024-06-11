@@ -8,6 +8,9 @@
 
 #define MAX_LINE_LENGTH 256
 
+ConVar portal_mounted("portal_mounted", "0", FCVAR_REPLICATED, "Indicates if Portal is mounted");
+ConVar tf2_mounted("tf2_mounted", "0", FCVAR_REPLICATED, "Indicates if Team Fortress 2 is mounted");
+
 void FreePath(char* path) {
 	free(path);
 }
@@ -128,6 +131,21 @@ void MountGames()
 		char szPath[MAX_PATH * 2];
 		if (sscanf(szLine, "%d : %s \"%[^\"]\"", &appID, szGameName, szPath) == 3)
 		{
+			if (Q_stricmp(szGameName, "portal") == 0)
+			{
+				portal_mounted.SetValue(1);
+			}
+
+			if (Q_stricmp(szGameName, "tf") == 0)
+			{
+				tf2_mounted.SetValue(1);
+			}
+
+			if (Q_stricmp(szGameName, "episodic") == 0)
+			{
+				cvar->FindVar("hl2_episodic")->SetValue(1);
+			}
+
 			// Adding main VPK files
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_textures.vpk", szPath, szGameName, szGameName), "GAME");
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_misc.vpk", szPath, szGameName, szGameName), "GAME");

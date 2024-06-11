@@ -167,9 +167,9 @@ public:
 	bool IsAllowedToInteract();
 	virtual void	BarnacleDeathSound( void );
 
-	virtual const char *GetDeathMessageText( void ) { return "GAMEOVER_ALYXDEAD"; }
+	virtual const char *GetDeathMessageText(void) { return "GAMEOVER_ALYXDEAD"; }
 
-	PassengerState_e	GetPassengerState( void );
+	//PassengerState_e	GetPassengerState( void );
 
 	void				Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
 	bool				PlayerInSpread( const Vector &sourcePos, const Vector &targetPos, float flSpread, float maxDistOffCenter, bool ignoreHatedPlayers );

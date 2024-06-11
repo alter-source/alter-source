@@ -7,6 +7,46 @@ using namespace Awesomium;
 #undef PostMessage
 #endif
 
+// practicemedicine-addict: these gameui codes here are from alter source's custom main menu code
+
+// See interface.h/.cpp for specifics:  basically this ensures that we actually Sys_UnloadModule the dll and that we don't call Sys_LoadModule 
+//  over and over again.
+static CDllDemandLoader g_GameUIDLL( "GameUI" );
+
+//extern ConVar cl_showmypanel; // practicemedicine-addict: from my unreleased mod aridmess :pensive:
+
+IGameUI *Alter_VAwesomium::GetGameUI()
+{
+	if (!gameui)
+	{
+		if (!LoadGameUI())
+			return NULL;
+	}
+
+	return gameui;
+}
+
+bool Alter_VAwesomium::LoadGameUI()
+{
+	if (!gameui)
+	{
+		CreateInterfaceFn gameUIFactory = g_GameUIDLL.GetFactory();
+		if (gameUIFactory)
+		{
+			gameui = (IGameUI *)gameUIFactory(GAMEUI_INTERFACE_VERSION, NULL);
+			if (!gameui)
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
 void SendCommand(const char* command) {
 	engine->ClientCmd_Unrestricted(command);
 }
@@ -34,24 +74,32 @@ bool IsPlayerInGame() {
 
 void Alter_VAwesomium::OnMethodCall(Awesomium::WebView* caller, unsigned int remote_object_id, const Awesomium::WebString& method_name, const Awesomium::JSArray& args)
 {
+	// note: its better if you've used the IGameUI interface
+	IGameUI* gameui = GetGameUI();
 	if (method_name == WSLit("OpenOptions"))
 	{
-		SendCommand("gamemenucommand openoptionsdialog");
+		//SendCommand("gamemenucommand openoptionsdialog");
+		gameui->SendMainMenuCommand("openoptionsdialog");
 	}
 	if (method_name == WSLit("CreateServer")) {
-		SendCommand("gamemenucommand opencreatemultiplayergamedialog");
+		//SendCommand("gamemenucommand opencreatemultiplayergamedialog");
+		gameui->SendMainMenuCommand("opencreatemultiplayergamedialog");
 	}
 	if (method_name == WSLit("FindServers")) {
-		SendCommand("gamemenucommand openserverbrowser");
+		//SendCommand("gamemenucommand openserverbrowser");
+		gameui->SendMainMenuCommand("openserverbrowser");
 	}
 	if (method_name == WSLit("Quit")) {
-		SendCommand("gamemenucommand quit");
+		//SendCommand("gamemenucommand quit");
+		gameui->SendMainMenuCommand("quit");
 	}
 	if (method_name == WSLit("Disconnect")) {
-		SendCommand("gamemenucommand disconnect");
+		//SendCommand("gamemenucommand disconnect");
+		gameui->SendMainMenuCommand("disconnect");
 	}
 	if (method_name == WSLit("ResumeGame")) {
-		SendCommand("gamemenucommand resumegame");
+		//SendCommand("gamemenucommand resumegame");
+		gameui->SendMainMenuCommand("resumegame");
 	}
 	if (method_name == WSLit("InGame")) {
 		bool inGame = IsPlayerInGame();

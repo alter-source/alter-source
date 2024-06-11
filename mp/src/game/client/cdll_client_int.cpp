@@ -182,7 +182,7 @@ extern vgui::IInputInternal *g_InputInternal;
 
 
 #ifdef PORTAL
-#include "PortalRender.h"
+#include "portal/PortalRender.h"
 #endif
 
 #ifdef SIXENSE

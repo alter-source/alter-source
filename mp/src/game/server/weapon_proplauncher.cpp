@@ -7,7 +7,6 @@
 
 #include "cbase.h"
 #include "npcevent.h"
-#include "basehlcombatweapon.h"
 #include "basecombatcharacter.h"
 #include "ai_basenpc.h"
 #include "player.h"
@@ -19,6 +18,8 @@
 #include "gamestats.h"
 #include "props.h"
 
+#include "weapon_hl2mpbasebasebludgeon.h"
+
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
@@ -28,18 +29,18 @@
 #define	PROPLAUNCHER_ACCURACY_SHOT_PENALTY_TIME		0.2f	// Applied amount of time each shot adds to the time we must recover from
 #define	PROPLAUNCHER_ACCURACY_MAXIMUM_PENALTY_TIME	1.5f	// Maximum penalty to deal out
 
-ConVar	PROPLAUNCHER_use_new_accuracy("PROPLAUNCHER_use_new_accuracy", "1");
+ConVar	PROPLAUNCHER_use_new_accuracy("proplauncher_use_new_accuracy", "1");
 
 //-----------------------------------------------------------------------------
 // CWeaponPropLauncher
 //-----------------------------------------------------------------------------
 
-class CWeaponPropLauncher : public CBaseHLCombatWeapon
+class CWeaponPropLauncher : public CBaseHL2MPBludgeonWeapon
 {
 	DECLARE_DATADESC();
 
 public:
-	DECLARE_CLASS(CWeaponPropLauncher, CBaseHLCombatWeapon);
+	DECLARE_CLASS(CWeaponPropLauncher, CBaseHL2MPBludgeonWeapon);
 
 	CWeaponPropLauncher(void);
 
@@ -250,9 +251,6 @@ void CWeaponPropLauncher::DryFire(void)
 //-----------------------------------------------------------------------------
 void CWeaponPropLauncher::PrimaryAttack(void)
 {
-	if (gpGlobals->curtime < m_flNextPrimaryAttack)
-		return;
-
 	CBasePlayer *pOwner = ToBasePlayer(GetOwner());
 	if (!pOwner)
 		return;
@@ -283,7 +281,7 @@ void CWeaponPropLauncher::PrimaryAttack(void)
 	m_flNextPrimaryAttack = gpGlobals->curtime + 0.05f;
 	m_flLastAttackTime = gpGlobals->curtime;
 
-	m_iPrimaryAttacks++;
+	//m_iPrimaryAttacks++;
 	gamestats->Event_WeaponFired(pOwner, true, GetClassname());
 }
 

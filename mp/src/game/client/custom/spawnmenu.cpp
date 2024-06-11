@@ -180,17 +180,23 @@ public:
 						continue;
 					}
 
-					CSMLPage *page = new CSMLPage(this, dat->GetName());
+					const char* tabName = dat->GetName();
+
+					if (Q_strcasecmp(tabName, "Portal") == 0 && !cvar->FindVar("portal_mounted")->GetBool())
+					{
+						continue;
+					}
+
+					CSMLPage *page = new CSMLPage(this, tabName);
 					page->Init(dat);
 
-					AddPage(page, dat->GetName());
+					AddPage(page, tabName);
 				}
 			}
 			kv->deleteThis();
 		}
 
 		vgui::ivgui()->AddTickSignal(GetVPanel(), 100);
-		//oh ok
 		GetPropertySheet()->SetTabWidth(72);
 		SetVisible(true);
 		SetMouseInputEnabled(true);

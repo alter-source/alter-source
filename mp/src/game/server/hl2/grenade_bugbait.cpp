@@ -16,7 +16,7 @@
 #include "eventqueue.h"
 
 #ifdef PORTAL
-	#include "portal_util_shared.h"
+	#include "portal/portal_util_shared.h"
 #endif
 
 // memdbgon must be the last include file in a .cpp file!!!

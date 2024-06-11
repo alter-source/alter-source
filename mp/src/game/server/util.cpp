@@ -38,7 +38,7 @@
 #include "cdll_int.h"
 
 #ifdef PORTAL
-#include "PortalSimulation.h"
+#include "portal/PortalSimulation.h"
 //#include "Portal_PhysicsEnvironmentMgr.h"
 #endif
 

@@ -146,6 +146,17 @@ void LuaHandle::RegisterGlobals() {
 	LG_DEFINE_INT("HUD_PRINTCENTER", HUD_PRINTCENTER);
 }
 
+void RegisterConsoleCommand(const char *cmdName, void(*function)(const CCommand &), const char *description) {
+	if (!cmdName || !function || !description) {
+		Warning("Failed to register console command. Invalid arguments.\n");
+		return;
+	}
+	ConCommand* newCmd = new ConCommand(cmdName, function, description);
+	if (!newCmd) {
+		Warning("Failed to create console command %s\n", cmdName);
+	}
+}
+
 // Note:
 // All functions that are registered in "RegisterFunctions" must have their
 // actual function definition names prefixed with "lua".
@@ -185,6 +196,9 @@ void LuaHandle::RegisterFunctions() {
 	REG_FUNCTION(IsDir);
 	REG_FUNCTION(DeleteFile);
 	REG_FUNCTION(RenameFile);
+
+	REG_FUNCTION(RegisterConVar);
+
 #ifndef CLIENT_DLL
 	REG_FUNCTION(SpawnEntity);
 	REG_FUNCTION(RemoveEntity);
@@ -208,6 +222,24 @@ void LuaHandle::RegisterFunctions() {
 #pragma warning(disable: 4189)
 #pragma warning(disable: 4700)
 // Important
+
+// convars/concommands
+LUA_FUNC(luaRegisterConVar, [](lua_State *L) {
+	const char* name = lua_tostring(L, 1);
+	const char* defaultValue = lua_tostring(L, 2);
+	int flags = lua_tointeger(L, 3);
+	const char* description = lua_tostring(L, 4);
+	if (name && defaultValue && description) {
+		ConVar* newConVar = new ConVar(name, defaultValue, flags, description);
+		if (!newConVar) {
+			Warning("Failed to create ConVar %s\n", name);
+		}
+		lua_pushboolean(L, true);
+		return 1;
+	}
+	lua_pushboolean(L, false);
+	return 1;
+})
 
 // server-related
 LUA_FUNC(luaMsg, [](lua_State * L) {

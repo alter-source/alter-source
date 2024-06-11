@@ -16,8 +16,8 @@
 
 #ifdef PORTAL
 //#include "C_Portal_Player.h"
-#include "portal_render_targets.h"
-#include "PortalRender.h"
+#include "portal/portal_render_targets.h"
+#include "portal/PortalRender.h"
 #endif
 
 //-----------------------------------------------------------------------------

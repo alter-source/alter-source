@@ -23,7 +23,7 @@
 #endif
 
 #ifdef PORTAL
-#include "portal_util_shared.h"
+#include "portal/portal_util_shared.h"
 #endif
 
 //-----------------------------------------------------------------------------

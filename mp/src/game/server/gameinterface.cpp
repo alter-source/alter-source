@@ -125,8 +125,8 @@ extern ConVar tf_mm_servermode;
 #endif
 
 #ifdef PORTAL
-#include "prop_portal_shared.h"
-#include "portal_player.h"
+#include "portal/prop_portal_shared.h"
+#include "portal/portal_player.h"
 #endif
 
 #if defined( REPLAY_ENABLED )

@@ -23,9 +23,9 @@
 #include "tier0/icommandline.h"
 
 #ifdef PORTAL
-	#include "portal_shareddefs.h"
-	#include "portal_util_shared.h"
-	#include "prop_portal_shared.h"
+	#include "portal/portal_shareddefs.h"
+	#include "portal/portal_util_shared.h"
+	#include "portal/prop_portal_shared.h"
 #endif
 
 // memdbgon must be the last include file in a .cpp file!!!

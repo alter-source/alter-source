@@ -28,6 +28,9 @@
     <Filter Include="Source Files\Awesomium">
       <UniqueIdentifier>{48C18CDA-F109-64DD-CD15-DDB9906B3EF7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Episodic">
+      <UniqueIdentifier>{B59041BD-AF88-79C0-DAE6-4F8A2376306A}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\FMOD">
       <UniqueIdentifier>{785A4591-10EE-51E3-B434-3DAE23D84992}</UniqueIdentifier>
     </Filter>
@@ -1865,8 +1868,17 @@
     <ClInclude Include="viewpostprocess.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Alter_VAwesomium.h">
+      <Filter>Source Files\Awesomium</Filter>
+    </ClInclude>
     <ClInclude Include="VAwesomium.h">
       <Filter>Source Files\Awesomium</Filter>
+    </ClInclude>
+    <ClInclude Include="episodic\episodic_screenspaceeffects.h">
+      <Filter>Source Files\Episodic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\game\shared\episodic\npc_advisor_shared.h">
+      <Filter>Source Files\Episodic</Filter>
     </ClInclude>
     <ClInclude Include="fmod\fmod_manager.h">
       <Filter>Source Files\FMOD</Filter>
@@ -2005,9 +2017,6 @@
     </ClInclude>
     <ClInclude Include="toolframework_client.h">
       <Filter>Tool Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Alter_VAwesomium.h">
-      <Filter>Source Files\Awesomium</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3052,8 +3061,32 @@
     <ClCompile Include="WorldDimsProxy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Alter_VAwesomium.cpp">
+      <Filter>Source Files\Awesomium</Filter>
+    </ClCompile>
     <ClCompile Include="VAwesomium.cpp">
       <Filter>Source Files\Awesomium</Filter>
+    </ClCompile>
+    <ClCompile Include="episodic\c_npc_advisor.cpp">
+      <Filter>Source Files\Episodic</Filter>
+    </ClCompile>
+    <ClCompile Include="episodic\c_npc_puppet.cpp">
+      <Filter>Source Files\Episodic</Filter>
+    </ClCompile>
+    <ClCompile Include="episodic\c_prop_scalable.cpp">
+      <Filter>Source Files\Episodic</Filter>
+    </ClCompile>
+    <ClCompile Include="episodic\c_vort_charge_token.cpp">
+      <Filter>Source Files\Episodic</Filter>
+    </ClCompile>
+    <ClCompile Include="episodic\c_weapon_hopwire.cpp">
+      <Filter>Source Files\Episodic</Filter>
+    </ClCompile>
+    <ClCompile Include="episodic\episodic_screenspaceeffects.cpp">
+      <Filter>Source Files\Episodic</Filter>
+    </ClCompile>
+    <ClCompile Include="episodic\flesh_internal_material_proxy.cpp">
+      <Filter>Source Files\Episodic</Filter>
     </ClCompile>
     <ClCompile Include="fmod\fmod_manager.cpp">
       <Filter>Source Files\FMOD</Filter>
@@ -3197,9 +3230,6 @@
       <Filter>Source Files\HL2 DLL</Filter>
     </ClCompile>
     <ClCompile Include="hl2\c_vehicle_prisoner_pod.cpp">
-      <Filter>Source Files\HL2 DLL</Filter>
-    </ClCompile>
-    <ClCompile Include="episodic\c_vort_charge_token.cpp">
       <Filter>Source Files\HL2 DLL</Filter>
     </ClCompile>
     <ClCompile Include="hl2\c_weapon__stubs_hl2.cpp">
@@ -3612,9 +3642,6 @@
     </ClCompile>
     <ClCompile Include="toolframework_client.cpp">
       <Filter>Tool Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Alter_VAwesomium.cpp">
-      <Filter>Source Files\Awesomium</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,7 @@
 
 #include <vgui/VGUI.h>
 #include <vgui_controls/Panel.h>
+#include <GameUI/IGameUI.h>
 
 class Alter_VAwesomium : public VAwesomium
 {
@@ -14,4 +15,9 @@ public:
 	virtual void OnDocumentReady(Awesomium::WebView* caller, const Awesomium::WebURL& url);
 
 	virtual void OnMethodCall(Awesomium::WebView* caller, unsigned int remote_object_id, const Awesomium::WebString& method_name, const Awesomium::JSArray& args);
+
+private:
+	IGameUI* GetGameUI();
+	bool LoadGameUI();
+	IGameUI* gameui;
 };
