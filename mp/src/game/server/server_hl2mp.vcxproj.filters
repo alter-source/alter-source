@@ -13,6 +13,9 @@
     <Filter Include="Source Files">
       <UniqueIdentifier>{BA03E055-4FA2-FCE3-8A1C-D348547D379C}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Alter Source">
+      <UniqueIdentifier>{86035EE4-17B4-D480-4A63-DF7736099236}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\Episodic">
       <UniqueIdentifier>{B59041BD-AF88-79C0-DAE6-4F8A2376306A}</UniqueIdentifier>
     </Filter>
@@ -2968,6 +2971,9 @@
     <ClCompile Include="world.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="as_concmds.cpp">
+      <Filter>Source Files\Alter Source</Filter>
+    </ClCompile>
     <ClCompile Include="episodic\ep1_gamestats.cpp">
       <Filter>Source Files\Episodic</Filter>
     </ClCompile>
@@ -3398,6 +3404,9 @@
       <Filter>Source Files\HL2MP\Weapons</Filter>
     </ClCompile>
     <ClCompile Include="..\..\game\shared\hl2mp\weapon_pistol.cpp">
+      <Filter>Source Files\HL2MP\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\server\weapon_proplauncher.cpp">
       <Filter>Source Files\HL2MP\Weapons</Filter>
     </ClCompile>
     <ClCompile Include="..\..\game\shared\hl2mp\weapon_rpg.cpp">

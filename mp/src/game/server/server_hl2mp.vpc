@@ -283,6 +283,11 @@ $Project "Server (Alter)"
             $File	"$SRCDIR\game\shared\lua\baseluahandle.cpp"
             $File	"$SRCDIR\game\shared\lua\baseluahandle.h"
         }
+        
+        $Folder "Alter Source"
+        {
+            $File "as_concmds.cpp"
+        }
 
 		$Folder	"HL2MP"
 		{
@@ -335,6 +340,7 @@ $Project "Server (Alter)"
                 $File	"$SRCDIR\game\shared\weapon_toolgun.cpp"
                 $File	"$SRCDIR\game\shared\weapon_physgun.cpp"
                 $File	"$SRCDIR\game\server\weapon_camera.cpp"
+                $File	"$SRCDIR\game\server\weapon_proplauncher.cpp"
 			}
 		}
 	}

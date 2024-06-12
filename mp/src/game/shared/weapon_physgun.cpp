@@ -767,11 +767,14 @@ void CWeaponGravityGun::EffectUpdate(void)
 			{
 				m_useDown = false;
 				IPhysicsObject *pPhys = pObject->VPhysicsGetObject();
-				if (pPhys->IsMotionEnabled()) {
-					pPhys->EnableMotion(false); // freeze
-				}
-				else {
-					pPhys->EnableMotion(true); // unfreeze
+				const char* className = pObject->GetClassname();
+				if (strcmp(className, "prop_vehicle_jeep") != 0 && strcmp(className, "prop_vehicle_airboat") != 0) {
+					if (pPhys->IsMotionEnabled()) {
+						pPhys->EnableMotion(false); // freeze
+					}
+					else {
+						pPhys->EnableMotion(true); // unfreeze
+					}
 				}
 
 				//Reattach
@@ -785,11 +788,14 @@ void CWeaponGravityGun::EffectUpdate(void)
 			{
 				m_useDown = true;
 				IPhysicsObject *pPhys = pObject->VPhysicsGetObject();
-				if (pPhys->IsMotionEnabled()) {
-					pPhys->EnableMotion(false); // freeze
-				}
-				else {
-					pPhys->EnableMotion(true); // unfreeze
+				const char* className = pObject->GetClassname();
+				if (strcmp(className, "prop_vehicle_jeep") != 0 && strcmp(className, "prop_vehicle_airboat") != 0) {
+					if (pPhys->IsMotionEnabled()) {
+						pPhys->EnableMotion(false); // freeze
+					}
+					else {
+						pPhys->EnableMotion(true); // unfreeze
+					}
 				}
 			}
 		}
