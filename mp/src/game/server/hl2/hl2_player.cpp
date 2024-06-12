@@ -3121,9 +3121,9 @@ bool CHL2_Player::Weapon_CanSwitchTo( CBaseCombatWeapon *pWeapon )
 
 void CHL2_Player::PickupObject( CBaseEntity *pObject, bool bLimitMassAndSize )
 {
-	// can't pick up what you're standing on
-	if ( GetGroundEntity() == pObject )
-		return;
+	/*if ( GetGroundEntity() == pObject )
+		return;*/
+	// speedrunners, it's your turn
 	
 	if ( bLimitMassAndSize == true )
 	{

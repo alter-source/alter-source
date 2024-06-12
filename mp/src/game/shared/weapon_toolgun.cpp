@@ -39,6 +39,11 @@
 
 #include "lua/luahandle.h"
 
+#ifndef CLIENT_DLL
+#include "EntityFlame.h"
+#include "EntityDissolve.h"
+#endif
+
 #include "particle_parse.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
@@ -145,9 +150,11 @@ public:
 
 	DECLARE_ACTTABLE();
 
-#ifdef CLIENT_DLL
+#ifndef CLIENT_DLL
 private:
-	CBeam *m_pBeam;
+	CHandle<CEntityFlame> m_pIgniter;
+	CHandle<CEntityDissolve> m_pDissolver;
+	string_t m_szModelName;
 #endif
 
 private:
@@ -246,7 +253,7 @@ void CWeaponToolgun::Precache(void)
 
 	g_beam1 = PrecacheModel(BEAM_SPRITE1);
 	PrecacheMaterial(BEAM_SPRITE1);
-	PrecacheParticleSystem("blood_impact");
+	PrecacheParticleSystem("impact_fx");
 }
 
 
@@ -316,43 +323,78 @@ void CWeaponToolgun::PrimaryAttack(void)
 	trace_t tr;
 	UTIL_TraceLine(vecStart, vecEnd, MASK_SHOT, pPlayer, COLLISION_GROUP_NONE, &tr);
 
+	/*CBasePlayer* pOwner = nullptr;
+	QAngle vecAngles;
+	Vector vForward, vRight, vUp, muzzlePoint, vecAiming, vecShootOrigin, vecShootDir;
+	IPhysicsObject *VPhysicsGetObject = nullptr;*/
+
 	switch (m_Mode)
 	{
 	case MODE_DELETE:
+	{
+#pragma warning(push)
+#pragma warning(disable: 4706)
 		if (dynamic_cast<CBaseAnimating*>(tr.m_pEnt) && !tr.m_pEnt->IsPlayer())
 		{
-			DispatchParticleEffect("impact_fx", tr.m_pEnt->GetAbsOrigin(), tr.m_pEnt->GetAbsAngles());
 #ifndef CLIENT_DLL
-			UTIL_Remove(tr.m_pEnt);
-#endif
+			QAngle vecAngles(0, GetAbsAngles().y - 90, 0);
+
+			Vector vForward, vRight, vUp;
+			pPlayer->EyeVectors(&vForward, &vRight, &vUp);
+			Vector muzzlePoint = pPlayer->Weapon_ShootPosition() + vForward + vRight + vUp;
+			Vector vecAiming = pPlayer->GetAutoaimVector(AUTOAIM_5DEGREES);
+
+			trace_t tr;
+			UTIL_TraceLine(muzzlePoint, muzzlePoint + vForward * MAX_TRACE_LENGTH, MASK_SHOT, this, COLLISION_GROUP_NONE, &tr);
+			if (tr.fraction == 1.0)
+				return;
+			Vector vecShootOrigin, vecShootDir;
+			Vector VPhysicsGetObject;
+			vecShootOrigin = pPlayer->Weapon_ShootPosition();
+
+			m_flNextPrimaryAttack = gpGlobals->curtime + 1.0f;
+
+			if (tr.m_pEnt->IsNPC() || tr.m_pEnt->VPhysicsGetObject())
+			{
+				UTIL_Remove(m_pIgniter);
+				m_pDissolver = CEntityDissolve::Create(tr.m_pEnt, STRING(m_szModelName), gpGlobals->curtime, NULL);
+			}
+#endif // !CLIENT_DLL
 		}
 		break;
+	}
 	case MODE_IGNITER:
-		if (!tr.m_pEnt->IsPlayer())
-		{
+	{
+#pragma warning(push)
+#pragma warning(disable: 4706)
 #ifndef CLIENT_DLL
-			CBaseProp* pBaseProp = dynamic_cast<CBaseProp*>(tr.m_pEnt);
-			CBreakableProp *pBreakableProp = dynamic_cast<CBreakableProp *>(tr.m_pEnt); // for some reason dynamic and physics prop classes are based on CBreakableProp
-			if (pBaseProp)
-			{
-				pBaseProp->Ignite(60.0f, false, 0.0f, true);
-			}
-			else if (pBreakableProp)
-			{
-				pBreakableProp->Ignite(60.0f, false, 0.0f, true);
-			}
-#endif
-		}
-		else if (tr.m_pEnt->IsNPC())
+		QAngle vecAngles(0, GetAbsAngles().y - 90, 0);
+
+		Vector vForward, vRight, vUp;
+		pPlayer->EyeVectors(&vForward, &vRight, &vUp);
+		Vector muzzlePoint = pPlayer->Weapon_ShootPosition() + vForward + vRight + vUp;
+		Vector vecAiming = pPlayer->GetAutoaimVector(AUTOAIM_5DEGREES);
+
+		UTIL_TraceLine(muzzlePoint, muzzlePoint + vForward * MAX_TRACE_LENGTH, MASK_SHOT, this, COLLISION_GROUP_NONE, &tr);
+		if (tr.fraction == 1.0)
+			return;
+
+		if (tr.m_pEnt->IsNPC() || (tr.m_pEnt->VPhysicsGetObject()))
 		{
-#ifndef CLIENT_DLL
-			CAI_BaseNPC *pNpc = dynamic_cast<CAI_BaseNPC*>(tr.m_pEnt);
-			if (pNpc) {
-				pNpc->Ignite(60.0f, false, 0.0f, true);
+			if (m_pIgniter)
+			{
+				UTIL_Remove(m_pIgniter);
 			}
-#endif
+			m_pIgniter = CEntityFlame::Create(tr.m_pEnt, true);
+			if (tr.m_pEnt->IsPlayer())
+			{
+				ClientPrint(pPlayer, HUD_PRINTCONSOLE, "brotha it cant be set on fire");
+			}
 		}
+#endif
 		break;
+	}
+#pragma warning(pop)
 	case MODE_LIGHT:
 		break;
 	}

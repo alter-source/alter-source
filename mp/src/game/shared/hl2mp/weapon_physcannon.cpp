@@ -29,6 +29,10 @@
 #include "util.h"
 #endif
 
+#ifndef CLIENT_DLL
+#include "hl2mp_player.h"
+#endif
+
 #include "gamerules.h"
 #include "soundenvelope.h"
 #include "engine/IEngineSound.h"
@@ -778,6 +782,7 @@ void CPlayerPickupController::Init(CBasePlayer *pPlayer, CBaseEntity *pObject)
 	// Holster player's weapon
 	if (pPlayer->GetActiveWeapon())
 	{
+		pPlayer->GetViewModel(1)->SetModel(""); // FIX: Removes hand model
 		if (!pPlayer->GetActiveWeapon()->Holster())
 		{
 			Shutdown();
@@ -828,6 +833,17 @@ void CPlayerPickupController::Shutdown(bool bThrown)
 	if (!bThrown && pObject && pObject->VPhysicsGetObject() && pObject->VPhysicsGetObject()->GetContactPoint(NULL, NULL))
 	{
 		bClearVelocity = true;
+	}
+
+	CHL2MP_Player *player = ToHL2MPPlayer(m_pPlayer);
+
+	if (player->GetPlayerModelType() == PLAYER_SOUNDS_METROPOLICE || player->GetPlayerModelType() == PLAYER_SOUNDS_COMBINESOLDIER)
+	{
+		m_pPlayer->GetViewModel(1)->SetModel("models/weapons/c_arms_combine.mdl");
+	}
+	else
+	{
+		m_pPlayer->GetViewModel(1)->SetModel("models/weapons/c_arms_citizen.mdl");
 	}
 
 	m_grabController.DetachEntity(bClearVelocity);

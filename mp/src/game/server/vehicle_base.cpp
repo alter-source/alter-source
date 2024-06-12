@@ -19,6 +19,8 @@
 #include "physics_impact_damage.h"
 #include "entityblocker.h"
 
+#include "hl2mp_player.h"
+
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
@@ -580,8 +582,11 @@ void CPropVehicleDriveable::EnterVehicle( CBaseCombatCharacter *pPassenger )
 		return;
 
 	CBasePlayer *pPlayer = ToBasePlayer( pPassenger	);
+
 	if ( pPlayer != NULL )
 	{
+		pPlayer->GetViewModel(1)->SetModel(""); // FIX: Removes hand model
+
 		// Remove any player who may be in the vehicle at the moment
 		if ( m_hPlayer )
 		{
@@ -623,6 +628,16 @@ void CPropVehicleDriveable::ExitVehicle( int nRole )
 	CBasePlayer *pPlayer = m_hPlayer;
 	if ( !pPlayer )
 		return;
+
+	CHL2MP_Player *player = ToHL2MPPlayer(pPlayer);
+	if (player->GetPlayerModelType() == PLAYER_SOUNDS_METROPOLICE || player->GetPlayerModelType() == PLAYER_SOUNDS_COMBINESOLDIER)
+	{
+		player->GetViewModel(1)->SetModel("models/weapons/c_arms_combine.mdl");
+	}
+	else
+	{
+		player->GetViewModel(1)->SetModel("models/weapons/c_arms_citizen.mdl");
+	}
 
 	m_hPlayer = NULL;
 	ResetUseKey( pPlayer );
