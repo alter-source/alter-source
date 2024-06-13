@@ -32,7 +32,7 @@
 
 
 // Half-Life Server Configuration Layout Script (stores last settings chosen, too)
-// File generated:  Thu Jun 13 01:58:31 PM
+// File generated:  Thu Jun 13 05:49:09 PM
 //
 //
 // Cvar	-	Setting
@@ -45,14 +45,28 @@ DESCRIPTION SERVER_OPTIONS
 	{
 		"#Valve_Hostname"
 		{ STRING }
-		{ "deathmatch" }
+		{ "epic server" }
 	}
 
 	"maxplayers"
 	{
 		"#Valve_Max_Players"
 		{ NUMBER 1 12 }
-		{ "12" }
+		{ "16" }
+	}
+
+	"as_gamemode"
+	{
+		"Gamemode"
+		{
+			LIST
+			"Sandbox" "Sandbox"
+			"Deathmatch" "Deathmatch"
+			"Team Deathmatch" "TDM"
+			"Randomizer" "Randomizer"
+			"< Random >" "None"
+		}
+		{ "0" }
 	}
 
 	"mp_fraglimit"
@@ -76,62 +90,6 @@ DESCRIPTION SERVER_OPTIONS
 		{ "0" }
 	}
 
-	"decalfrequency"
-	{
-		"Decal Frequency"
-		{ NUMBER 0 -1 }
-		{ "10" }
-	}
-
-	"skill"
-	{
-		"Skill Level"
-		{ NUMBER 1 3 }
-		{ "2" }
-	}
-
-	"sv_playergibbage"
-	{
-		"Allow Player Gibbing"
-		{ BOOL }
-		{ "1" }
-	}
-
-	"sv_allowocmapvote"
-	{
-		"Allow Obsidian Map Vote"
-		{ BOOL }
-		{ "0" }
-	}
-
-	"mp_teamoverride"
-	{
-		"Force Teamplay"
-		{ BOOL }
-		{ "0" }
-	}
-
-	"mp_livesoverride"
-	{
-		"Force Lives Mode"
-		{ BOOL }
-		{ "0" }
-	}
-
-	"mp_numlives"
-	{
-		"Number of Lives"
-		{ NUMBER 0 99 }
-		{ "2" }
-	}
-
-	"mp_hl1crossbow"
-	{
-		"Half-Life 1 Style Crossbow"
-		{ BOOL }
-		{ "0" }
-	}
-
 	"mp_footsteps"
 	{
 		"Footsteps"
@@ -151,13 +109,6 @@ DESCRIPTION SERVER_OPTIONS
 		"Fall Damage"
 		{ BOOL }
 		{ "0" }
-	}
-
-	"mp_allowsprint"
-	{
-		"Allow Sprinting"
-		{ BOOL }
-		{ "1" }
 	}
 
 	"mp_weaponstay"
@@ -188,41 +139,6 @@ DESCRIPTION SERVER_OPTIONS
 		{ "0" }
 	}
 
-	"mp_mapvotepercentage"
-	{
-		"Percent of players needed to pass a mapvote."
-		{ NUMBER 0 101 }
-		{ "51" }
-	}
-
-	"mp_allowcrosshair"
-	{
-		"Allow Crosshair"
-		{ BOOL }
-		{ "1" }
-	}
-
-	"mp_allowironsights"
-	{
-		"Allow Ironsights"
-		{ BOOL }
-		{ "1" }
-	}
-
-	"as_gamemode"
-	{
-		"Gamemode"
-		{
-			LIST
-			"Sandbox" "Sandbox"
-			"Deathmatch" "Deathmatch"
-			"Team Deathmatch" "TDM"
-			"Randomizer" "Randomizer"
-			"< Random >" "None"
-		}
-		{ "0" }
-	}
-
 	"mp_teamplay"
 	{
 		"#Valve_Teamplay"
@@ -241,7 +157,7 @@ DESCRIPTION SERVER_OPTIONS
 	{
 		"Spawn Menu"
 		{ BOOL }
-		{ "0" }
+		{ "1" }
 	}
 
 }
