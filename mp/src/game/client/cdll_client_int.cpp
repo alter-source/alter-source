@@ -936,6 +936,49 @@ CHLClient::CHLClient()
 
 extern IGameSystem *ViewportClientSystem();
 
+void PlayWebmCommand(const CCommand& args)
+{
+	if (args.ArgC() < 2)
+	{
+		ConMsg("Usage: play_webm <webm_file_path>\n");
+		return;
+	}
+
+	const char* webmFilePath = args[1];
+	char videoPath[MAX_PATH];
+	Q_snprintf(videoPath, sizeof(videoPath), "%s/%s", engine->GetGameDirectory(), webmFilePath);
+
+	// get video_services.dll from our game's bin folder
+	char video_service_path[MAX_PATH];
+	Q_snprintf(video_service_path, sizeof(video_service_path), "%s\\bin\\video_services.dll", engine->GetGameDirectory());
+
+	CSysModule *video_services_module = Sys_LoadModule(video_service_path);
+
+	if (video_services_module != nullptr)
+	{
+
+		CreateInterfaceFn VideoServicesFactory = Sys_GetFactory(video_services_module);
+		if (VideoServicesFactory)
+		{
+			g_pVideo = (IVideoServices *)VideoServicesFactory(VIDEO_SERVICES_INTERFACE_VERSION, NULL);
+			if (g_pVideo != nullptr)
+			{
+				vgui::ISurface *pSurface = vgui::surface();
+				int screenWidth, screenHeight;
+				pSurface->GetScreenSize(screenWidth, screenHeight);
+
+				g_pVideo->PlayVideoFileFullScreen(videoPath, "GAME", nullptr, screenWidth, screenHeight, ScreenWidth(), ScreenHeight(), engine->IsWindowedMode(), 5);
+			}
+		}
+	}
+	else
+	{
+		ConMsg("Failed to load video module for %s\n", videoPath);
+	}
+}
+
+static ConCommand play_webm("play_webm", PlayWebmCommand, "Plays the specified WebM video file.", FCVAR_CLIENTCMD_CAN_EXECUTE);
+
 
 //-----------------------------------------------------------------------------
 ISourceVirtualReality *g_pSourceVR = NULL;
@@ -1036,6 +1079,43 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 		return false;
 	InitFbx();
 #endif
+
+	// disconnect the original video services
+	if (g_pVideo)
+	{
+		g_pVideo->Shutdown();
+		g_pVideo->Disconnect();
+		g_pVideo = nullptr;
+	}
+
+	// get video_services.dll from our game's bin folder
+	char video_service_path[MAX_PATH];
+	Q_snprintf(video_service_path, sizeof(video_service_path), "%s\\bin\\video_services.dll", engine->GetGameDirectory());
+
+	CSysModule *video_services_module = Sys_LoadModule(video_service_path);
+
+	if (video_services_module != nullptr)
+	{
+
+		CreateInterfaceFn VideoServicesFactory = Sys_GetFactory(video_services_module);
+		if (VideoServicesFactory)
+		{
+			g_pVideo = (IVideoServices *)VideoServicesFactory(VIDEO_SERVICES_INTERFACE_VERSION, NULL);
+			if (g_pVideo != nullptr)
+			{
+				vgui::ISurface *pSurface = vgui::surface();
+				int screenWidth, screenHeight;
+				pSurface->GetScreenSize(screenWidth, screenHeight);
+
+				char file[256];
+				const char* gameDir = engine->GetGameDirectory();
+				sprintf(file, "%s\\media\\intro.webm", gameDir);
+
+				g_pVideo->Connect(appSystemFactory);
+				g_pVideo->PlayVideoFileFullScreen(file, "GAME", nullptr, screenWidth, screenHeight, ScreenWidth(), ScreenHeight(), engine->IsWindowedMode(), 5);
+			}
+		}
+	}
 
 	Lua()->InitDll();
 	LuaHandle* lua = new LuaHandle();

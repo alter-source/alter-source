@@ -16,9 +16,19 @@ ConVar tf2_mounted("tf2_mounted", "0", FCVAR_REPLICATED, "Indicates if Team Fort
 }*/
 
 char* GetPath() {
-	return "C:\\Program Files (x86)\\Steam\\steamapps\\sourcemods\\altersrc\\addons";
-	// according to my calculations everyone must have the mod installed
-	// in this path because otherwise addons wont work :nerd:
+	auto* gameDirectory = engine->GetGameDirectory();
+	char* addonPath = "\\addons";
+	size_t totalLength = strlen(gameDirectory) + strlen(addonPath) + 1;
+	char* result = (char*)malloc(totalLength);
+
+	if (result != NULL) {
+		strcpy(result, gameDirectory);
+		strcat(result, addonPath);
+		return result;
+	}
+	else {
+		Error("memory allocation error");
+	}
 }
 
 void LoadAddons()
