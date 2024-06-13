@@ -11,25 +11,24 @@
 ConVar portal_mounted("portal_mounted", "0", FCVAR_REPLICATED, "Indicates if Portal is mounted");
 ConVar tf2_mounted("tf2_mounted", "0", FCVAR_REPLICATED, "Indicates if Team Fortress 2 is mounted");
 
-void FreePath(char* path) {
+/*void FreePath(char* path) {
 	free(path);
-}
+}*/
 
 char* GetPath() {
-	char* path = getenv("ADDONS_FOLDER");
-	if (!path) {
-		Warning("ADDONS_FOLDER environment variable is not set.\n");
-		return NULL;
-	}
-	return path;
+	return "C:\\Program Files (x86)\\Steam\\steamapps\\sourcemods\\altersrc\\addons";
+	// according to my calculations everyone must have the mod installed
+	// in this path because otherwise addons wont work :nerd:
 }
 
 void LoadAddons()
 {
+	//FreePath(GetPath());
+
 	char* addonsFolder = GetPath();
 	if (!addonsFolder)
 	{
-		Warning("ADDONS_FOLDER environment variable is not set.\n");
+		Warning("addon folder not found\n");
 		return;
 	}
 
@@ -78,7 +77,7 @@ void LoadAddons()
 
 	filesystem->FindClose(findHandle);
 
-	FreePath(addonsFolder);
+	//FreePath(addonsFolder);
 }
 
 void MountAddon(const char *pszAddonName)

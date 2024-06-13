@@ -74,32 +74,51 @@ bool IsPlayerInGame() {
 
 void Alter_VAwesomium::OnMethodCall(Awesomium::WebView* caller, unsigned int remote_object_id, const Awesomium::WebString& method_name, const Awesomium::JSArray& args)
 {
-	// note: its better if you've used the IGameUI interface
+	// FIXME:: god damn it why is it so long
+
 	IGameUI* gameui = GetGameUI();
 	if (method_name == WSLit("OpenOptions"))
 	{
-		//SendCommand("gamemenucommand openoptionsdialog");
+#ifdef _DEBUG
+		SendCommand("gamemenucommand openoptionsdialog");
+#else
 		gameui->SendMainMenuCommand("openoptionsdialog");
+#endif
 	}
 	if (method_name == WSLit("CreateServer")) {
-		//SendCommand("gamemenucommand opencreatemultiplayergamedialog");
+#ifdef _DEBUG
+		SendCommand("gamemenucommand opencreatemultiplayergamedialog");
+#else
 		gameui->SendMainMenuCommand("opencreatemultiplayergamedialog");
+#endif
 	}
 	if (method_name == WSLit("FindServers")) {
-		//SendCommand("gamemenucommand openserverbrowser");
+#ifdef _DEBUG
+		SendCommand("gamemenucommand openserverbrowser");
+#else
 		gameui->SendMainMenuCommand("openserverbrowser");
+#endif
 	}
 	if (method_name == WSLit("Quit")) {
-		//SendCommand("gamemenucommand quit");
+#ifdef _DEBUG
+		SendCommand("gamemenucommand quit");
+#else
 		gameui->SendMainMenuCommand("quit");
+#endif
 	}
 	if (method_name == WSLit("Disconnect")) {
-		//SendCommand("gamemenucommand disconnect");
+#ifdef _DEBUG
+		SendCommand("gamemenucommand disconnect");
+#else
 		gameui->SendMainMenuCommand("disconnect");
+#endif
 	}
 	if (method_name == WSLit("ResumeGame")) {
-		//SendCommand("gamemenucommand resumegame");
+#ifdef _DEBUG
+		SendCommand("gamemenucommand resumegame");
+#else
 		gameui->SendMainMenuCommand("resumegame");
+#endif
 	}
 	if (method_name == WSLit("InGame")) {
 		bool inGame = IsPlayerInGame();

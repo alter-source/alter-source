@@ -4,6 +4,7 @@ it also has gamemodes stuff so have fun
 credits:
 dreadcraftre - helping with Lua & letting me borrow the Spawn Menu
 PracticeMedicine03 - lua funcs & helping with discord RPC
+Deepzz - triggers stuff, weapon viewmodel bobbing fix
 
 !TO COMPILE, DISABLE TREAT WARNINGS AS ERRORS IN THE CLIENT PROJECT (C/C++ -> General)!
 

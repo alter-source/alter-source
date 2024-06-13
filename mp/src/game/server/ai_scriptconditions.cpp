@@ -473,12 +473,18 @@ void CAI_ScriptConditions::EvaluationThink()
 
 	int iActorsDone = 0;
 
-	if( UTIL_GetLocalPlayer()->GetFlags() & FL_NOTARGET )
+	for (int i = 1; i <= gpGlobals->maxClients; i++)
 	{
-		//ScrCondDbgMsg( ("%s WARNING: Player is NOTARGET. This will affect all LOS conditiosn involving the player!\n", GetDebugName()) );
-		Warning("WARNING: player is NOTARGET");
-	}
+		CBasePlayer *pPlayer = UTIL_PlayerByIndex(i);
+		if (!pPlayer)
+			return;
 
+		if (pPlayer->GetFlags() & FL_NOTARGET)
+		{
+			ScrCondDbgMsg(("%s WARNING: Player is NOTARGET. This will affect all LOS conditions involving the player!\n", GetDebugName()));
+			Warning("WARNING: player is NOTARGET");
+		}
+	}
 
 	for ( int i = 0; i < m_ElementList.Count(); )
 	{

@@ -1,4 +1,4 @@
-VertexLitGeneric
+"VertexLitGeneric"
 {
 	"$basetexture"	"models/weapons/v_models/hands/v_hands"
 	"$bumpmap"      "models/weapons/v_models/hands/v_hands_normal"

@@ -110,8 +110,8 @@ void LuaHandle::RegisterGlobals() {
 	LG_DEFINE_INT("INVALID_ENTITY", -1);
 	LG_DEFINE_INT("NULL", 0);
 	
-	auto* gaymer = cvar->FindVar("as_gamemode");
-	const char* GAMEMODE = (gaymer != nullptr) ? gaymer->GetString() : "None";
+	auto* gamemode = cvar->FindVar("as_gamemode");
+	const char* GAMEMODE = (gamemode != nullptr) ? gamemode->GetString() : "None";
 	LG_DEFINE_STRING("GAMEMODE", GAMEMODE);
 
 	LG_DEFINE_INT("TEAMPLAY", cvar->FindVar("mp_teamplay")->GetInt());
