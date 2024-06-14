@@ -10,7 +10,7 @@ that one person who archived the Awesomium SDK download link
 credits to other projects that made Alter Source possible:
 Garry's Mod - for the "c_arms" models
 video_services - for webm support (link: https://github.com/nooodles-ahh/video_services)
-VAwesomium - for awesomium integration (stfu we know its sucks and heres the link: https://github.com/alanedwardes/VAwesomium)
+VAwesomium - for awesomium integration (stfu we know it sucks and heres the link: https://github.com/alanedwardes/VAwesomium)
 
 !TO COMPILE, DISABLE TREAT WARNINGS AS ERRORS IN THE CLIENT PROJECT (C/C++ -> General)!
 
