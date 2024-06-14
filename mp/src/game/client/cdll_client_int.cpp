@@ -940,7 +940,7 @@ void PlayWebmCommand(const CCommand& args)
 {
 	if (args.ArgC() < 2)
 	{
-		ConMsg("Usage: play_webm <webm_file_path>\n");
+		ConMsg("usage: play_webm <file_path>\n");
 		return;
 	}
 
@@ -967,13 +967,13 @@ void PlayWebmCommand(const CCommand& args)
 				int screenWidth, screenHeight;
 				pSurface->GetScreenSize(screenWidth, screenHeight);
 
-				g_pVideo->PlayVideoFileFullScreen(videoPath, "GAME", nullptr, screenWidth, screenHeight, ScreenWidth(), ScreenHeight(), engine->IsWindowedMode(), 5);
+				g_pVideo->PlayVideoFileFullScreen(videoPath, "GAME", nullptr, screenWidth, screenHeight, ScreenWidth(), ScreenHeight(), engine->IsWindowedMode(), nullptr);
 			}
 		}
 	}
 	else
 	{
-		ConMsg("Failed to load video module for %s\n", videoPath);
+		Warning("failed to load: %s\n", videoPath);
 	}
 }
 
@@ -1112,7 +1112,7 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 				sprintf(file, "%s\\media\\intro.webm", gameDir);
 
 				g_pVideo->Connect(appSystemFactory);
-				g_pVideo->PlayVideoFileFullScreen(file, "GAME", nullptr, screenWidth, screenHeight, ScreenWidth(), ScreenHeight(), engine->IsWindowedMode(), 5);
+				g_pVideo->PlayVideoFileFullScreen(file, "GAME", nullptr, screenWidth, screenHeight, ScreenWidth(), ScreenHeight(), engine->IsWindowedMode(), nullptr);
 			}
 		}
 	}

@@ -32,7 +32,7 @@
 
 
 // Half-Life Server Configuration Layout Script (stores last settings chosen, too)
-// File generated:  Thu Jun 13 07:26:26 PM
+// File generated:  Fri Jun 14 11:30:37 AM
 //
 //
 // Cvar	-	Setting
@@ -51,8 +51,8 @@ DESCRIPTION SERVER_OPTIONS
 	"maxplayers"
 	{
 		"#Valve_Max_Players"
-		{ NUMBER 1 12 }
-		{ "16" }
+		{ NUMBER 1 32 }
+		{ "12" }
 	}
 
 	"as_gamemode"
@@ -69,6 +69,13 @@ DESCRIPTION SERVER_OPTIONS
 		{ "0" }
 	}
 
+    "sv_password"
+	{
+		"#Valve_Server_Password"
+		{ STRING }
+		{ "" }
+	}
+
 	"mp_fraglimit"
 	{
 		"Flag Limit"
@@ -76,77 +83,28 @@ DESCRIPTION SERVER_OPTIONS
 		{ "0" }
 	}
 
-	"sv_password"
-	{
-		"#Valve_Server_Password"
-		{ STRING }
-		{ "" }
-	}
-
 	"mp_timelimit"
 	{
-		"Time Limit"
+		"Time Limit (Min.)"
 		{ NUMBER 0 -1 }
 		{ "0" }
 	}
-
-	"mp_footsteps"
+    
+    "sv_autojump"
 	{
-		"Footsteps"
+		"Automatic Jumping"
 		{ BOOL }
 		{ "1" }
 	}
-
-	"mp_flashlight"
+    
+    "sv_duckjump"
 	{
-		"Allow Flashlight"
+		"Crouch-Jumping"
 		{ BOOL }
 		{ "1" }
 	}
-
-	"mp_falldamage"
-	{
-		"Fall Damage"
-		{ BOOL }
-		{ "0" }
-	}
-
-	"mp_weaponstay"
-	{
-		"MP weapons Stay"
-		{ BOOL }
-		{ "0" }
-	}
-
-	"mp_forcerespawn"
-	{
-		"Force Respawn"
-		{ BOOL }
-		{ "0" }
-	}
-
-	"mp_autocrosshair"
-	{
-		"Auto Crosshair"
-		{ BOOL }
-		{ "1" }
-	}
-
-	"mp_friendlyfire"
-	{
-		"Player Friendly Fire"
-		{ BOOL }
-		{ "0" }
-	}
-
-	"mp_teamplay"
-	{
-		"#Valve_Teamplay"
-		{ BOOL }
-		{ "0" }
-	}
-
-	"as_noclip"
+    
+    "as_noclip"
 	{
 		"Noclip"
 		{ BOOL }
@@ -160,4 +118,52 @@ DESCRIPTION SERVER_OPTIONS
 		{ "1" }
 	}
 
+	"mp_footsteps"
+	{
+		"Footsteps"
+		{ BOOL }
+		{ "1" }
+	}
+
+	"mp_flashlight"
+	{
+		"Flashlight"
+		{ BOOL }
+		{ "1" }
+	}
+
+	"mp_falldamage"
+	{
+		"Fall Damage"
+		{ BOOL }
+		{ "0" }
+	}
+
+	"mp_weaponstay"
+	{
+		"Weapons Stay"
+		{ BOOL }
+		{ "0" }
+	}
+
+	"mp_forcerespawn"
+	{
+		"Force Respawn"
+		{ BOOL }
+		{ "0" }
+	}
+
+	"mp_friendlyfire"
+	{
+		"Friendly Fire"
+		{ BOOL }
+		{ "0" }
+	}
+
+	"mp_teamplay"
+	{
+		"#Valve_Teamplay"
+		{ BOOL }
+		{ "0" }
+	}
 }
