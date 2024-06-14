@@ -32,7 +32,7 @@
 
 
 // Half-Life Server Configuration Layout Script (stores last settings chosen, too)
-// File generated:  Fri Jun 14 11:30:37 AM
+// File generated:  Fri Jun 14 03:23:39 PM
 //
 //
 // Cvar	-	Setting
@@ -69,7 +69,7 @@ DESCRIPTION SERVER_OPTIONS
 		{ "0" }
 	}
 
-    "sv_password"
+	"sv_password"
 	{
 		"#Valve_Server_Password"
 		{ STRING }
@@ -89,22 +89,22 @@ DESCRIPTION SERVER_OPTIONS
 		{ NUMBER 0 -1 }
 		{ "0" }
 	}
-    
-    "sv_autojump"
+
+	"sv_autojump"
 	{
 		"Automatic Jumping"
 		{ BOOL }
 		{ "1" }
 	}
-    
-    "sv_duckjump"
+
+	"sv_duckjump"
 	{
 		"Crouch-Jumping"
 		{ BOOL }
 		{ "1" }
 	}
-    
-    "as_noclip"
+
+	"as_noclip"
 	{
 		"Noclip"
 		{ BOOL }
@@ -166,4 +166,5 @@ DESCRIPTION SERVER_OPTIONS
 		{ BOOL }
 		{ "0" }
 	}
+
 }
