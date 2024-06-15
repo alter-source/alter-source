@@ -125,14 +125,16 @@ void MountGames()
 
 	if (!hFile)
 	{
-		Warning("failed to open mounts.cfg file\n");
+		Warning("failed to open cfg/mounts.cfg file\n");
 		return;
 	}
+
+	int numGamesLoaded = 0;
 
 	char szLine[MAX_LINE_LENGTH];
 	while (filesystem->ReadLine(szLine, sizeof(szLine), hFile))
 	{
-		if (szLine[0] == '\0' || szLine[0] == '/' || szLine[0] == '#')
+		if (szLine[0] == '\0' || szLine[0] == '/' || szLine[0] == '#' || szLine[0] == ' ' || szLine[0] == '{' || szLine[0] == '}' || Q_strnicmp(szLine, "\"mounts\"", 8) == 0)
 			continue;
 
 		int appID;
@@ -201,16 +203,11 @@ void MountGames()
 
 			ConMsg("successfuly mounted appID %d (%s)\n", appID, szGameName);
 
-			//numGamesLoaded++;
-		}
-		else
-		{
-			Warning("invalid line format in mounts.cfg: %s\n", szLine);
-			//numGamesLoaded = 0;
+			numGamesLoaded++;
 		}
 	}
 
-	//ConMsg("successfuly loaded %s games\n", numGamesLoaded);
+	ConMsg("successfuly loaded %d game(s)\n", numGamesLoaded);
 
 	filesystem->Close(hFile);
 }

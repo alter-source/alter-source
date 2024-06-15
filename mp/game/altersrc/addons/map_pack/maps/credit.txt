@@ -1,2 +1,0 @@
-gm_* - garrys mod 9
-rm_* - rafasn's mod

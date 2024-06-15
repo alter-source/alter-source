@@ -647,40 +647,27 @@ void CAI_BaseNPC::Ignite( float flFlameLifetime, bool bNPCOnly, float flSize, bo
 
 ConVar	ai_block_damage( "ai_block_damage","0" );
 
-bool CAI_BaseNPC::PassesDamageFilter( const CTakeDamageInfo &info )
+bool CAI_BaseNPC::PassesDamageFilter(const CTakeDamageInfo &info)
 {
-	if ( ai_block_damage.GetBool() )
+	if (ai_block_damage.GetBool())
 		return false;
 	// FIXME: hook a friendly damage filter to the npc instead?
-	if ( (CapabilitiesGet() & bits_CAP_FRIENDLY_DMG_IMMUNE) && info.GetAttacker() && info.GetAttacker() != this )
+	if ((CapabilitiesGet() & bits_CAP_FRIENDLY_DMG_IMMUNE) && info.GetAttacker() && info.GetAttacker() != this)
 	{
 		// check attackers relationship with me
 		CBaseCombatCharacter *npcEnemy = info.GetAttacker()->MyCombatCharacterPointer();
 		bool bHitByVehicle = false;
-		if ( !npcEnemy )
+		if (!npcEnemy)
 		{
-			if ( info.GetAttacker()->GetServerVehicle() )
+			if (info.GetAttacker()->GetServerVehicle())
 			{
 				bHitByVehicle = true;
 			}
-		}
-
-		if ( bHitByVehicle || (npcEnemy && npcEnemy->IRelationType( this ) == D_LI) )
-		{
-			m_fNoDamageDecal = true;
-
-			if ( npcEnemy && npcEnemy->IsPlayer() )
-			{
-				m_OnDamagedByPlayer.FireOutput( info.GetAttacker(), this );
-				// This also counts as being harmed by player's squad.
-				m_OnDamagedByPlayerSquad.FireOutput( info.GetAttacker(), this );
-			}
-
 			return false;
 		}
 	}
-	
-	if ( !BaseClass::PassesDamageFilter( info ) )
+
+	if (!BaseClass::PassesDamageFilter(info))
 	{
 		m_fNoDamageDecal = true;
 		return false;

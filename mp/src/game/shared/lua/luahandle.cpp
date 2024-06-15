@@ -109,8 +109,8 @@ void LuaHandle::RegisterGlobals() {
 	LG_DEFINE_INT("FOR_ALL_PLAYERS", -1);
 	LG_DEFINE_INT("INVALID_ENTITY", -1);
 	LG_DEFINE_INT("NULL", 0);
-	
-	auto* gamemode = cvar->FindVar("as_gamemode");
+
+	ConVar* gamemode = cvar->FindVar("as_gamemode");
 	const char* GAMEMODE = (gamemode != nullptr) ? gamemode->GetString() : "None";
 	LG_DEFINE_STRING("GAMEMODE", GAMEMODE);
 

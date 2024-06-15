@@ -3,13 +3,69 @@
 <head>
     <title>Loading...</title>
     <style>
-        p {
-            width: 500px;
+        body {
+            background-color: darkblue;
+            font-family: arial;
+        }
+
+        .container {
+            background-color: blue;
+            color: white;
+            width: 700px;
+            margin: 0 auto;
+            outline: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+        }
+        
+        @-webkit-keyframes walk
+        {
+	        0%
+	        {
+		        -webkit-transform: rotateZ(0deg);
+	        }
+
+	        50%
+	        {
+		        -webkit-transform: rotateZ(180deg);
+	        }
+
+	        100%
+	        {
+		        -webkit-transform: rotateZ(360deg);
+	        }
+        }
+        
+        .walk
+        {
+	        -webkit-animation-name: walk;
+	        -webkit-animation-duration: 10.0s;
+	        -webkit-animation-iteration-count: infinite;
+	        -webkit-animation-timing-function: linear;
+	        -webkit-perspective: 6000px;
+	        text-align: center;
+	        width: 24px;
+	        height: 24px;
+	        border-radius: 3px;
+	        display: inline-block;
         }
     </style>
 </head>
 <body>
-    <h1>don't you see, it's loading</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec faucibus nibh vitae felis tempor sodales. Cras fermentum vestibulum commodo. Nam lectus arcu, lacinia at faucibus eget, rutrum quis nisi. Nam fringilla ex id aliquam cursus. Fusce tincidunt ex mi, sit amet consectetur felis pharetra vel. Quisque nec scelerisque nisl, eu lobortis dui. Donec pulvinar eget augue ac ultrices. Aliquam quis congue libero.</p>
+    <div class="container">
+        <h1>Alter Source is loading..</h1>
+        <p>did you drink water today?</p>
+        <center>
+            <br />
+            <div class="walk"><img src="icons/icon.png" width="20" height="20" /></div>
+        </center>
+        <p><small><small><small>&nbsp;</small></small></small></p>
+    </div>
 </body>
 </html>

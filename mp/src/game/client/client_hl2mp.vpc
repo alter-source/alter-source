@@ -79,6 +79,13 @@ $Project "Client (Alter)"
             $File "loading\mapload_background.cpp"
             $File "loading\mapload_background.h"
         }
+
+		//$Folder "Alter Source"
+        //{
+        //    $File "altersrc/toolgun_mode_display.cpp"
+		//	$File "altersrc/toolgun_mode_display.h"
+		//	$File "altersrc/IToolGunModeDisplay.h"
+        //}
         
         $Folder	"Lua"
 		{
