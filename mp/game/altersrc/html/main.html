@@ -4,7 +4,6 @@
     <title>Alter Source</title>
     <style>
         body {
-            display: none;
             margin: 0;
             padding: 0;
             overflow: hidden;
@@ -200,23 +199,34 @@
         }
 
         setInterval(changeBackground, 10000);
+
+        // sounds stuff
+        function hoverAudio() {
+            var buttonHover = new Audio("./../sound/ui/menu_hover.mp3");
+            buttonHover.play();
+        }
+
+        function clickAudio() {
+            var buttonClick = new Audio("./../sound/ui/menu_click.mp3");
+            buttonClick.play();
+        }
     </script>
 </head>
 <body>
     <div id="background"></div>
     <p id="logo"><span>Alter</span> Source</p>
     <div id="buttons">
-        <a id="ingame" href="#" onclick="Object.ResumeGame()">RESUME GAME</a>
+        <a id="ingame" href="#" onmouseover="hoverAudio();" onclick="clickAudio(); Object.ResumeGame()">RESUME GAME</a>
         <br /> <br />
-        <a id="btn" href="#" onclick="Object.CreateServer()">CREATE SERVER</a>
+        <a id="btn" href="#" onmouseover="hoverAudio();" onclick="clickAudio(); Object.CreateServer()">CREATE SERVER</a>
         <br /> <br />
-        <a id="btn" href="#" onclick="Object.OpenOptions()">SETTINGS</a>
+        <a id="btn" href="#" onmouseover="hoverAudio();" onclick="clickAudio(); Object.OpenOptions()">SETTINGS</a>
         <br /> <br />
-        <a id="btn" href="#" onclick="Object.FindServers()">SERVER BROWSER</a>
+        <a id="btn" href="#" onmouseover="hoverAudio();" onclick="clickAudio(); Object.FindServers()">SERVER BROWSER</a>
         <br /> <br />
-        <a id="ingame" href="#" onclick="Object.Disconnect()">DISCONNECT</a>
+        <a id="ingame" href="#" onmouseover="hoverAudio();" onclick="clickAudio(); Object.Disconnect()">DISCONNECT</a>
         <br /> <br />
-        <a id="btn" href="#" onclick="Object.Quit()">QUIT</a>
+        <a id="btn" href="#" onmouseover="hoverAudio();" onclick="clickAudio(); Object.Quit()">QUIT</a>
     </div>
     <div id="version">You are on the <i>GitHub</i> branch. <a href="https://github.com/alter-source/alter-source" target="_blank">Click here</a> to find out more. ( - )</div>
     <div id="log">

@@ -3,12 +3,12 @@ it also has gamemodes stuff so have fun
 
 credits to ppl who contributed to the development:
 dreadcraftre - helping with Lua & letting me borrow the Spawn Menu
-PracticeMedicine03 - lua funcs, for writing the wiki ig & helping with discord RPC
+PracticeMedicine03 - lua funcs, for writing the wiki ig, html shit & helping with discord RPC
 Deepzz - triggers stuff, weapon viewmodel bobbing fix
 that one person who archived the Awesomium SDK download link
 
 credits to other projects that made Alter Source possible:
-Garry's Mod - for the "c_arms" models
+Garry's Mod - for the "c_arms" models and the spinning block guy from the map loading screen
 video_services - for webm support (link: https://github.com/nooodles-ahh/video_services)
 VAwesomium - for awesomium integration (stfu we know it sucks and heres the link: https://github.com/alanedwardes/VAwesomium)
 
