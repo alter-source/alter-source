@@ -863,12 +863,12 @@ void CTeamControlPoint::UpdateCapPercentage( void )
 		if ( i == TEAM_SPECTATOR )
 			continue;
 
-		float flPerc = GetTeamCapPercentage(i);
+/*		float flPerc = GetTeamCapPercentage(i);
 
 		if ( m_TeamData[i].iTeamPoseParam != -1 )
 		{
 			SetPoseParameter( m_TeamData[i].iTeamPoseParam, flPerc );
-		}
+		}*/
 	}
 }
 

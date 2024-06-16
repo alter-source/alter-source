@@ -22,19 +22,24 @@
 #include "vgui_imagebutton.h"
 #include "filesystem.h"
 
+#include <iostream>
+#include <cstring>
+#include <string>
+
 #include "tier0/memdbgon.h"
 
 using namespace vgui;
 
-class CSMLButton : public MenuButton
-{
-	typedef MenuButton BaseClass;
-public:
-	CSMLButton(Panel *parent, const char *panelName, const char *text);
+bool endsWith(const char* str, const char* suffix) {
+	size_t str_len = std::strlen(str);
+	size_t suffix_len = std::strlen(suffix);
 
-private:
-	Menu	*m_pMenu;
-};
+	if (str_len < suffix_len) {
+		return false;
+	}
+
+	return std::strncmp(str + str_len - suffix_len, suffix, suffix_len) == 0;
+}
 
 class CSMLCommandButton : public vgui::Button
 {
@@ -137,6 +142,32 @@ public:
 				m = control->GetString("#", "");
 				if (m && m[0])
 				{
+					if (endsWith(control->GetName(), "(Episodic)")) {
+						if (!cvar->FindVar("hl2_episodic")->GetBool()) {
+							break;
+						}
+					}
+					else if (endsWith(control->GetName(), "(EP2)")) {
+						if (!cvar->FindVar("ep2_mounted")->GetBool()) {
+							break;
+						}
+					}
+					else if (endsWith(control->GetName(), "(Lost Coast)")) {
+						if (!cvar->FindVar("lc_mounted")->GetBool()) {
+							break;
+						}
+					}
+					else if (endsWith(control->GetName(), "(Portal)")) {
+						if (!cvar->FindVar("portal_mounted")->GetBool()) {
+							break;
+						}
+					}
+					else if (endsWith(control->GetName(), "(TF2)")) {
+						if (!cvar->FindVar("tf2_mounted")->GetBool()) {
+							break;
+						}
+					}
+
 					CSMLCommandButton *btn = new CSMLCommandButton(this, "CommandButton", control->GetName(), m);
 					m_LayoutItems.AddToTail(btn);
 					continue;
@@ -183,6 +214,11 @@ public:
 					const char* tabName = dat->GetName();
 
 					if (Q_strcasecmp(tabName, "Portal") == 0 && !cvar->FindVar("portal_mounted")->GetBool())
+					{
+						continue;
+					}
+
+					if (Q_strcasecmp(tabName, "TF2") == 0 && !cvar->FindVar("tf2_mounted")->GetBool())
 					{
 						continue;
 					}

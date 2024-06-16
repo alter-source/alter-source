@@ -35,6 +35,8 @@ inline void CallLua(lua_State *L, int iV1, int iV2, int iV3,
 	}
 };
 
+#define LUA_FUNC(name, func) int name(lua_State *L) { return func(L); }
+
 #define REG_FUNCTION_GLOBAL(name)       \
     extern int lua##name(lua_State *L); \
     lua_register(L, #name, lua##name);
@@ -61,6 +63,19 @@ inline void CallLua(lua_State *L, int iV1, int iV2, int iV3,
     lua_setglobal(L, _name);
 #define LG_DEFINE_BOOL_GLOBAL(_name, _value) \
     lua_pushboolean(L, _value);              \
+    lua_setglobal(L, _name);
+
+#define LG_DEFINE_OBJECT_GLOBAL(_name, _obj_type, _obj_ptr) \
+    lua_pushlightuserdata(L, (void*)_obj_ptr);               \
+    lua_setglobal(L, _name);
+
+#define LG_DEFINE_ARRAY_GLOBAL(_name, _array_ptr, _array_size) \
+    lua_newtable(L);                                           \
+    for (int i = 0; i < _array_size; ++i) {                     \
+        lua_pushinteger(L, i + 1);                              \
+        lua_pushinteger(L, _array_ptr[i]);                      \
+        lua_settable(L, -3);                                    \
+	    }                                                           \
     lua_setglobal(L, _name);
 
 #define MAX_EVENT_STRING 255

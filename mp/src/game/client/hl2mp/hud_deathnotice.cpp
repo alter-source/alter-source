@@ -17,7 +17,6 @@
 #include "c_baseplayer.h"
 #include "c_team.h"
 
-
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
@@ -257,26 +256,38 @@ void CHudDeathNotice::RetireExpiredDeathNotices( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose: Server's told us that someone's died
-//-----------------------------------------------------------------------------
-void CHudDeathNotice::FireGameEvent( IGameEvent * event )
+void CHudDeathNotice::FireGameEvent(IGameEvent * event)
 {
 	if (!g_PR)
 		return;
 
-	if ( hud_deathnotice_time.GetFloat() == 0 )
+	if (hud_deathnotice_time.GetFloat() == 0)
 		return;
 
-	// the event should be "player_death"
-	int killer = engine->GetPlayerForUserID( event->GetInt("attacker") );
-	int victim = engine->GetPlayerForUserID( event->GetInt("userid") );
-	const char *killedwith = event->GetString( "weapon" );
+	// Extract information from the event
+	int killer = engine->GetPlayerForUserID(event->GetInt("attacker"));
+	int victim = engine->GetPlayerForUserID(event->GetInt("userid"));
+	const char *killedwith = event->GetString("weapon");
+
+	// Determine if the killer is an NPC
+	bool bNPCInflictor = false;
+	CBaseEntity *pInflictor = NULL;
+	CBaseEntity *pKiller = UTIL_PlayerByIndex(killer);
+	CBaseEntity *pVictim = UTIL_PlayerByIndex(victim);
+
+	if (!pKiller)
+	{
+		pInflictor = ClientEntityList().GetBaseEntity(event->GetInt("attacker"));
+		if (pInflictor && pInflictor->IsNPC())
+		{
+			bNPCInflictor = true;
+		}
+	}
 
 	char fullkilledwith[128];
-	if ( killedwith && *killedwith )
+	if (killedwith && *killedwith)
 	{
-		Q_snprintf( fullkilledwith, sizeof(fullkilledwith), "death_%s", killedwith );
+		Q_snprintf(fullkilledwith, sizeof(fullkilledwith), "death_%s", killedwith);
 	}
 	else
 	{
@@ -284,69 +295,79 @@ void CHudDeathNotice::FireGameEvent( IGameEvent * event )
 	}
 
 	// Do we have too many death messages in the queue?
-	if ( m_DeathNotices.Count() > 0 &&
-		m_DeathNotices.Count() >= (int)m_flMaxDeathNotices )
+	if (m_DeathNotices.Count() > 0 &&
+		m_DeathNotices.Count() >= (int)m_flMaxDeathNotices)
 	{
 		// Remove the oldest one in the queue, which will always be the first
 		m_DeathNotices.Remove(0);
 	}
 
-	// Get the names of the players
-	const char *killer_name = g_PR->GetPlayerName( killer );
-	const char *victim_name = g_PR->GetPlayerName( victim );
+	// Get the names of the players or NPCs
+	const char *killer_name = "";
+	const char *victim_name = "";
 
-	if ( !killer_name )
-		killer_name = "";
-	if ( !victim_name )
-		victim_name = "";
+	if (pKiller)
+	{
+		killer_name = g_PR->GetPlayerName(killer);
+	}
+	else if (bNPCInflictor && pInflictor)
+	{
+		killer_name = pInflictor->GetClassname(); // Use classname as a fallback
+	}
+
+	if (pVictim)
+	{
+		victim_name = g_PR->GetPlayerName(victim);
+	}
+	else if (pVictim)
+	{
+		victim_name = pVictim->GetClassname(); // Use classname as a fallback
+	}
 
 	// Make a new death notice
 	DeathNoticeItem deathMsg;
 	deathMsg.Killer.iEntIndex = killer;
 	deathMsg.Victim.iEntIndex = victim;
-	Q_strncpy( deathMsg.Killer.szName, killer_name, MAX_PLAYER_NAME_LENGTH );
-	Q_strncpy( deathMsg.Victim.szName, victim_name, MAX_PLAYER_NAME_LENGTH );
+	Q_strncpy(deathMsg.Killer.szName, killer_name, MAX_PLAYER_NAME_LENGTH);
+	Q_strncpy(deathMsg.Victim.szName, victim_name, MAX_PLAYER_NAME_LENGTH);
 	deathMsg.flDisplayTime = gpGlobals->curtime + hud_deathnotice_time.GetFloat();
-	deathMsg.iSuicide = ( !killer || killer == victim );
+	deathMsg.iSuicide = (!killer || killer == victim);
 
 	// Try and find the death identifier in the icon list
-	deathMsg.iconDeath = gHUD.GetIcon( fullkilledwith );
+	deathMsg.iconDeath = gHUD.GetIcon(fullkilledwith);
 
-	if ( !deathMsg.iconDeath || deathMsg.iSuicide )
+	if (!deathMsg.iconDeath || deathMsg.iSuicide)
 	{
 		// Can't find it, so use the default skull & crossbones icon
 		deathMsg.iconDeath = m_iconD_skull;
 	}
 
 	// Add it to our list of death notices
-	m_DeathNotices.AddToTail( deathMsg );
+	m_DeathNotices.AddToTail(deathMsg);
 
 	char sDeathMsg[512];
 
 	// Record the death notice in the console
-	if ( deathMsg.iSuicide )
+	if (deathMsg.iSuicide)
 	{
-		if ( !strcmp( fullkilledwith, "d_worldspawn" ) )
+		if (!strcmp(fullkilledwith, "d_worldspawn"))
 		{
-			Q_snprintf( sDeathMsg, sizeof( sDeathMsg ), "%s died.\n", deathMsg.Victim.szName );
+			Q_snprintf(sDeathMsg, sizeof(sDeathMsg), "%s died.\n", deathMsg.Victim.szName);
 		}
-		else	//d_world
+		else
 		{
-			Q_snprintf( sDeathMsg, sizeof( sDeathMsg ), "%s didn't want to live.\n", deathMsg.Victim.szName );
+			Q_snprintf(sDeathMsg, sizeof(sDeathMsg), "%s didn't want to live.\n", deathMsg.Victim.szName);
 		}
 	}
 	else
 	{
-		Q_snprintf( sDeathMsg, sizeof( sDeathMsg ), "%s killed %s", deathMsg.Killer.szName, deathMsg.Victim.szName );
+		Q_snprintf(sDeathMsg, sizeof(sDeathMsg), "%s killed %s", deathMsg.Killer.szName, deathMsg.Victim.szName);
 
-		if ( fullkilledwith && *fullkilledwith && (*fullkilledwith > 13 ) )
+		if (fullkilledwith && *fullkilledwith && (*fullkilledwith > 13))
 		{
-			Q_strncat( sDeathMsg, VarArgs( " with %s.\n", fullkilledwith+6 ), sizeof( sDeathMsg ), COPY_ALL_CHARACTERS );
+			Q_strncat(sDeathMsg, VarArgs(" with %s.\n", fullkilledwith + 6), sizeof(sDeathMsg), COPY_ALL_CHARACTERS);
 		}
 	}
 
-	Msg( "%s", sDeathMsg );
+	Msg("%s", sDeathMsg);
 }
-
-
-

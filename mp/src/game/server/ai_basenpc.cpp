@@ -541,7 +541,7 @@ void CAI_BaseNPC::CleanupOnDeath( CBaseEntity *pCulprit, bool bFireDeathOutput )
 			m_pSquad = NULL;
 		}
 
-		RemoveActorFromScriptedScenes( this, false /*all scenes*/ );
+		RemoveActorFromScriptedScenes( this, false );
 	}
 	else
 		DevMsg( "Unexpected double-death-cleanup\n" );

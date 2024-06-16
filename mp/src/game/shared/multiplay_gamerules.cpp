@@ -798,89 +798,109 @@ ConVarRef suitcharger( "sk_suitcharger" );
 		}
 	}
 
-	//=========================================================
-	// Deathnotice. 
-	//=========================================================
-	void CMultiplayRules::DeathNotice( CBasePlayer *pVictim, const CTakeDamageInfo &info )
+	void CMultiplayRules::DeathNotice(CBasePlayer *pVictim, const CTakeDamageInfo &info)
 	{
-		// Work out what killed the player, and send a message to all clients about it
-		const char *killer_weapon_name = "world";		// by default, the player is killed by the world
+		const char *killer_weapon_name = "world"; // default killer is "world"
 		int killer_ID = 0;
 
-		// Find the killer & the scorer
 		CBaseEntity *pInflictor = info.GetInflictor();
 		CBaseEntity *pKiller = info.GetAttacker();
-		CBasePlayer *pScorer = GetDeathScorer( pKiller, pInflictor, pVictim );
+		CBasePlayer *pScorer = GetDeathScorer(pKiller, pInflictor, pVictim);
+		CBaseEntity *pVictimEntity = pVictim;
 
-		// Custom damage type?
-		if ( info.GetDamageCustom() )
+		// Determine if the killer is an NPC
+		bool bNPCInflictor = (pInflictor && pInflictor->IsNPC());
+
+		if (info.GetDamageCustom())
 		{
-			killer_weapon_name = GetDamageCustomString( info );
-			if ( pScorer )
+			killer_weapon_name = GetDamageCustomString(info);
+			if (pScorer)
 			{
 				killer_ID = pScorer->GetUserID();
 			}
 		}
-		else
+		else if (pScorer)
 		{
-			// Is the killer a client?
-			if ( pScorer )
+			killer_ID = pScorer->GetUserID();
+
+			if (pInflictor)
 			{
-				killer_ID = pScorer->GetUserID();
-				
-				if ( pInflictor )
+				if (pInflictor == pScorer)
 				{
-					if ( pInflictor == pScorer )
+					if (pScorer->GetActiveWeapon())
 					{
-						// If the inflictor is the killer,  then it must be their current weapon doing the damage
-						if ( pScorer->GetActiveWeapon() )
-						{
 #ifdef HL1MP_DLL
-							killer_weapon_name = pScorer->GetActiveWeapon()->GetClassname();
+						killer_weapon_name = pScorer->GetActiveWeapon()->GetClassname();
 #else
-							killer_weapon_name = pScorer->GetActiveWeapon()->GetDeathNoticeName();
+						killer_weapon_name = pScorer->GetActiveWeapon()->GetDeathNoticeName();
 #endif
-						}
+					}
+				}
+				else
+				{
+					if (bNPCInflictor)
+					{
+						// For NPC killers, use the NPC's name as the weapon name
+						killer_weapon_name = STRING(pInflictor->GetEntityName());
 					}
 					else
 					{
-						killer_weapon_name = STRING( pInflictor->m_iClassname );  // it's just that easy
+						// For player killers, use the inflictor's classname
+						killer_weapon_name = STRING(pInflictor->m_iClassname);
 					}
 				}
+				}
+			}
+		else if (pInflictor)
+		{
+			if (bNPCInflictor)
+			{
+				// For NPC killers and no scorer, use the NPC's name as the killer
+				killer_weapon_name = STRING(pInflictor->GetEntityName());
 			}
 			else
 			{
-				killer_weapon_name = STRING( pInflictor->m_iClassname );
-			}
-
-			// strip the NPC_* or weapon_* from the inflictor's classname
-			if ( strncmp( killer_weapon_name, "weapon_", 7 ) == 0 )
-			{
-				killer_weapon_name += 7;
-			}
-			else if ( strncmp( killer_weapon_name, "NPC_", 4 ) == 0 )
-			{
-				killer_weapon_name += 4;
-			}
-			else if ( strncmp( killer_weapon_name, "func_", 5 ) == 0 )
-			{
-				killer_weapon_name += 5;
+				// For non-NPC inflictor and no scorer, use the inflictor's classname
+				killer_weapon_name = STRING(pInflictor->m_iClassname);
 			}
 		}
 
-		IGameEvent * event = gameeventmanager->CreateEvent( "player_death" );
-		if ( event )
+		// Strip unnecessary prefixes from the weapon name
+		if (strncmp(killer_weapon_name, "weapon_", 7) == 0)
 		{
-			event->SetInt("userid", pVictim->GetUserID() );
-			event->SetInt("attacker", killer_ID );
-			event->SetInt("customkill", info.GetDamageCustom() );
-			event->SetInt("priority", 7 );	// HLTV event priority, not transmitted
-#ifdef HL1MP_DLL
-			event->SetString("weapon", killer_weapon_name );
-#endif			
-			gameeventmanager->FireEvent( event );
+			killer_weapon_name += 7;
+		}
+		else if (strncmp(killer_weapon_name, "NPC_", 4) == 0)
+		{
+			killer_weapon_name += 4;
+		}
+		else if (strncmp(killer_weapon_name, "func_", 5) == 0)
+		{
+			killer_weapon_name += 5;
 		}
 
+		// Prepare and fire the event
+		IGameEvent *event = gameeventmanager->CreateEvent("player_death");
+		if (event)
+		{
+			event->SetInt("userid", ToBasePlayer(pVictimEntity)->GetUserID());
+			event->SetInt("attacker", killer_ID);
+			event->SetInt("customkill", info.GetDamageCustom());
+			event->SetInt("priority", 7); // HLTV event priority, not transmitted
+
+			// Set the killer's name or weapon name based on the inflictor type
+			if (bNPCInflictor)
+			{
+				event->SetString("weapon", killer_weapon_name);
+				event->SetString("inflictor", STRING(pInflictor->GetEntityName()));
+			}
+			else
+			{
+				event->SetString("weapon", killer_weapon_name);
+			}
+
+			gameeventmanager->FireEvent(event);
+		}
 	}
 
 	//=========================================================

@@ -66,7 +66,6 @@ public:
 	Menu	*GetMenu();
 
 private:
-	
 	Menu *m_pMenu;
 	Menu::MenuDirection_e m_iDirection;
 

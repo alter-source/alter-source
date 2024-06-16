@@ -32,7 +32,7 @@
 
 
 // Half-Life Server Configuration Layout Script (stores last settings chosen, too)
-// File generated:  Sat Jun 15 02:09:55 PM
+// File generated:  Sun Jun 16 08:14:47 PM
 //
 //
 // Cvar	-	Setting
@@ -51,8 +51,36 @@ DESCRIPTION SERVER_OPTIONS
 	"maxplayers"
 	{
 		"#Valve_Max_Players"
-		{ NUMBER 1 32 }
+		{ NUMBER 1 24 }
 		{ "12" }
+	}
+
+	"sv_password"
+	{
+		"#Valve_Server_Password"
+		{ STRING }
+		{ "" }
+	}
+
+	"mp_timelimit"
+	{
+		"#TF_Timelimit"
+		{ NUMBER 0 -1 }
+		{ "0" }
+	}
+
+	"mp_winlimit"
+	{
+		"#TF_WinLimit"
+		{ NUMBER 0 -1 }
+		{ "0" }
+	}
+
+	"mp_maxrounds"
+	{
+		"#TF_MaxRounds"
+		{ NUMBER 0 -1 }
+		{ "0" }
 	}
 
 	"as_gamemode"
@@ -69,23 +97,9 @@ DESCRIPTION SERVER_OPTIONS
 		{ "0" }
 	}
 
-	"sv_password"
-	{
-		"#Valve_Server_Password"
-		{ STRING }
-		{ "" }
-	}
-
 	"mp_fraglimit"
 	{
 		"Flag Limit"
-		{ NUMBER 0 -1 }
-		{ "0" }
-	}
-
-	"mp_timelimit"
-	{
-		"Time Limit (Min.)"
 		{ NUMBER 0 -1 }
 		{ "0" }
 	}

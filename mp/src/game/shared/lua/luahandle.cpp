@@ -5,6 +5,7 @@
 #ifndef CLIENT_DLL
 #include "hl2_player.h"
 #include "hl2mp_player.h"
+#include "eiface.h"
 #else
 #include "vgui/ISurface.h"
 #include "vgui_controls/Controls.h"
@@ -125,6 +126,10 @@ void LuaHandle::RegisterGlobals() {
 	LG_DEFINE_INT("WEAPON_TOOL_SLOT", WEAPON_TOOL_SLOT);
 #endif
 
+#ifdef CLIENT_DLL
+	LG_DEFINE_INT("PLAYER_ID", engine->GetLocalPlayer());
+#endif
+
 	LG_DEFINE_INT("MAX_FOV", MAX_FOV);
 	LG_DEFINE_INT("MAX_HEALTH", 100);
 	LG_DEFINE_INT("MAX_ARMOR", 200);
@@ -146,29 +151,21 @@ void LuaHandle::RegisterGlobals() {
 	LG_DEFINE_INT("HUD_PRINTCENTER", HUD_PRINTCENTER);
 }
 
-void RegisterConsoleCommand(const char *cmdName, void(*function)(const CCommand &), const char *description) {
-	if (!cmdName || !function || !description) {
-		Warning("Failed to register console command. Invalid arguments.\n");
-		return;
-	}
-	ConCommand* newCmd = new ConCommand(cmdName, function, description);
-	if (!newCmd) {
-		Warning("Failed to create console command %s\n", cmdName);
-	}
-}
-
 // Note:
 // All functions that are registered in "RegisterFunctions" must have their
 // actual function definition names prefixed with "lua".
 void LuaHandle::RegisterFunctions() {
+	// General Functions
 	REG_FUNCTION(Msg);
 	REG_FUNCTION(CurTime);
 	REG_FUNCTION(MaxPlayers);
-	REG_FUNCTION(GetModPath);
-	REG_FUNCTION(GetConVar_Float);
-	REG_FUNCTION(GetConVar_String);
-	REG_FUNCTION(GetConVar_Bool);
+
+	// Console Variables (ConVars)
+	REG_FUNCTION(GetConVar);
+	REG_FUNCTION(RegisterConVar);
+
 #ifndef CLIENT_DLL
+	// Server-Specific Functions
 	REG_FUNCTION(StartNextLevel);
 	REG_FUNCTION(ServerCommand);
 	REG_FUNCTION(BroadcastMessage);
@@ -176,19 +173,29 @@ void LuaHandle::RegisterFunctions() {
 	REG_FUNCTION(GetCurrentMap);
 	REG_FUNCTION(KickPlayer);
 	REG_FUNCTION(BanPlayer);
-#endif
-#ifndef CLIENT_DLL
+
+	// Server-Specific Player-Related Functions
 	REG_FUNCTION(GiveItem);
 	REG_FUNCTION(GiveAmmo);
+	REG_FUNCTION(TeleportPlayer);
+	REG_FUNCTION(IsDead);
+
+	// Server-Specific Entity-Related Functions
+	REG_FUNCTION(SpawnEntity);
+	REG_FUNCTION(RemoveEntity);
+	REG_FUNCTION(TriggerGameEvent);
+	REG_FUNCTION(LogToFile);
+	REG_FUNCTION(EntityExists);
 #endif
+
+	// Player-Related Functions
 	REG_FUNCTION(SetHealth);
 	REG_FUNCTION(GetHealth);
 	REG_FUNCTION(GetPlayerName);
-#ifndef CLIENT_DLL
-	REG_FUNCTION(TeleportPlayer);
-#endif
 	REG_FUNCTION(GetPlayerPosition);
 	REG_FUNCTION(GetPlayerTeam);
+
+	// File Manipulation Functions
 	REG_FUNCTION(FileExists);
 	REG_FUNCTION(FileRead);
 	REG_FUNCTION(FileWrite);
@@ -197,33 +204,22 @@ void LuaHandle::RegisterFunctions() {
 	REG_FUNCTION(DeleteFile);
 	REG_FUNCTION(RenameFile);
 
-	REG_FUNCTION(RegisterConVar);
-
-#ifndef CLIENT_DLL
-	REG_FUNCTION(SpawnEntity);
-	REG_FUNCTION(RemoveEntity);
-	REG_FUNCTION(TriggerGameEvent);
-	REG_FUNCTION(LogToFile);
-	REG_FUNCTION(EntityExists);
-#endif
 #ifdef CLIENT_DLL
+	// Client-Specific Functions
 	REG_FUNCTION(PlaySound);
+	REG_FUNCTION(GetModPath);
 #endif
-#ifndef CLIENT_DLL
-	REG_FUNCTION(IsDead);
-#endif
+
+	// Other Functions
 	REG_FUNCTION(IsLinux);
 }
-
-#define LUA_FUNC(name, func) int name(lua_State *L) { return func(L); }
 
 #pragma warning(disable: 4238)
 #pragma warning(disable: 4800)
 #pragma warning(disable: 4189)
 #pragma warning(disable: 4700)
-// Important
 
-// convars/concommands
+// console management
 LUA_FUNC(luaRegisterConVar, [](lua_State *L) {
 	const char* name = lua_tostring(L, 1);
 	const char* defaultValue = lua_tostring(L, 2);
@@ -238,6 +234,19 @@ LUA_FUNC(luaRegisterConVar, [](lua_State *L) {
 		return 1;
 	}
 	lua_pushboolean(L, false);
+	return 1;
+})
+
+LUA_FUNC(luaGetConVar, [](lua_State *L) {
+	const char* name = lua_tostring(L, 1);
+	if (name) {
+		ConVar* conVar = cvar->FindVar(name);
+		if (conVar && !conVar->IsFlagSet(FCVAR_SERVER_CANNOT_QUERY)) {
+			lua_pushstring(L, conVar->GetString());
+			return 1;
+		}
+	}
+	lua_pushnil(L);
 	return 1;
 })
 
@@ -257,55 +266,12 @@ LUA_FUNC(luaMaxPlayers, [](lua_State * L) {
 	return 1;
 })
 
+#ifdef CLIENT_DLL
 LUA_FUNC(luaGetModPath, [](lua_State *L) {
-	char modPath[MAX_PATH];
-	if (filesystem->GetCurrentDirectory(modPath, sizeof(modPath))) {
-		lua_pushstring(L, modPath);
-	}
-	else {
-		lua_pushnil(L);
-	}
+	lua_pushstring(L, engine->GetGameDirectory());
 	return 1;
 })
-
-LUA_FUNC(luaGetConVar_Float, [](lua_State *L) {
-	const char* name = lua_tostring(L, 1);
-	if (name) {
-		ConVar* conVar = cvar->FindVar(name);
-		if (conVar && !conVar->IsFlagSet(FCVAR_SERVER_CANNOT_QUERY)) {
-			lua_pushnumber(L, conVar->GetFloat());
-			return 1;
-		}
-	}
-	lua_pushnil(L);
-	return 1;
-})
-
-LUA_FUNC(luaGetConVar_String, [](lua_State *L) {
-	const char* name = lua_tostring(L, 1);
-	if (name) {
-		ConVar* conVar = cvar->FindVar(name);
-		if (conVar && !conVar->IsFlagSet(FCVAR_SERVER_CANNOT_QUERY)) {
-			lua_pushstring(L, conVar->GetString());
-			return 1;
-		}
-	}
-	lua_pushnil(L);
-	return 1;
-})
-
-LUA_FUNC(luaGetConVar_Bool, [](lua_State *L) {
-	const char* name = lua_tostring(L, 1);
-	if (name) {
-		ConVar* conVar = cvar->FindVar(name);
-		if (conVar && !conVar->IsFlagSet(FCVAR_SERVER_CANNOT_QUERY)) {
-			lua_pushboolean(L, conVar->GetBool());
-			return 1;
-		}
-	}
-	lua_pushnil(L);
-	return 1;
-})
+#endif
 
 #ifndef CLIENT_DLL
 LUA_FUNC(luaStartNextLevel, [](lua_State *L) {

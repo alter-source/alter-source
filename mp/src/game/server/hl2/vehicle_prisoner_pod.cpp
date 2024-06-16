@@ -371,7 +371,7 @@ void CPropVehiclePrisonerPod::InputOpen( inputdata_t &inputdata )
 void CPropVehiclePrisonerPod::InputClose( inputdata_t &inputdata )
 {
 	// The enter anim closes the pod, so don't do this redundantly!
-	if ( m_bLocked || m_bEnterAnimOn )
+	if ( /*m_bLocked ||*/ m_bEnterAnimOn )
 		return;
 
 	int nSequence = LookupSequence( "close" );
@@ -407,7 +407,7 @@ void CPropVehiclePrisonerPod::HandleAnimEvent( animevent_t *pEvent )
 	else if ( pEvent->event == AE_POD_CLOSE )
 	{
 		m_OnClose.FireOutput( this, this );
-		m_bLocked = true;
+		m_bLocked = false;
 	}
 }
 
@@ -570,7 +570,7 @@ CBaseEntity *CPropVehiclePrisonerPod::GetDriver( void )
 //-----------------------------------------------------------------------------
 void CPropVehiclePrisonerPod::InputLock( inputdata_t &inputdata )
 {
-	m_bLocked = true;
+	m_bLocked = false;
 }
 
 
@@ -601,12 +601,7 @@ void CPropVehiclePrisonerPod::InputEnterVehicle( inputdata_t &inputdata )
 			return;
 	}
 
-	// FIXME: I hate code like this. I should really add a parameter to HandlePassengerEntry
-	//		  to allow entry into locked vehicles
-	bool bWasLocked = m_bLocked;
-	m_bLocked = false;
 	GetServerVehicle()->HandlePassengerEntry( pPassenger, true );
-	m_bLocked = bWasLocked;
 }
 
 //-----------------------------------------------------------------------------

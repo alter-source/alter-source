@@ -1081,11 +1081,14 @@ SpawnMenu
         {
             "#"    "prop_physics_create props/water_bottle/water_bottle.mdl"
         }
-        "Chell"
-        {
-            "#"    "prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/player/chell.mdl"
-        }
 	}
+    "TF2"
+    {
+        "RED Scout"
+		{
+			"#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/player/scout.mdl"
+		}
+    }
     "Ragdolls"
 	{
 		"Dr. Kleiner"
@@ -1296,6 +1299,14 @@ SpawnMenu
 		{
 			"#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Humans/Charple04.mdl"
 		}	
+        "Chell (Portal)"
+        {
+            "#"    "prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/player/chell.mdl"
+        }
+        "Fisherman (Lost Coast)"
+		{
+			"#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/lostcoast/fisherman/fisherman.mdl"
+		}	
 	}
 	"NPCs"
 	{
@@ -1430,6 +1441,10 @@ SpawnMenu
 		"Seagull"
 		{
 			"#"	"npc_create npc_seagull"
+		}
+        "Fisherman (Lost Coast)"
+		{
+			"#"	"npc_create npc_fisherman"
 		}
 	}
 	"Weapons"
@@ -1585,6 +1600,13 @@ SpawnMenu
 		{
 			"#"	"give item_suit"
 		}
+        "Suit Charger"
+		{
+			"#"	"ent_create item_suitcharger"
+		}
+	}
+    "Vehicles"
+    {
         "Jeep"
 		{
 			"#"	"impulse 82"
@@ -1593,11 +1615,15 @@ SpawnMenu
 		{
 			"#"	"impulse 83; ent_fire airboat enablegun 1"
 		}
-        "Suit Charger"
+        "Prisoner Pod"
 		{
-			"#"	"ent_create item_suitcharger"
+			"#"	"impulse 84"
 		}
-	}
+        "Jalopy (EP2)"
+		{
+			"#"	"ch_createjalopy"
+		}
+    }
 	"Extras"
 	{
 		"Disable/Enable AI"

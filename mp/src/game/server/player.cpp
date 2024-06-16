@@ -6024,8 +6024,6 @@ void CBasePlayer::ImpulseCommands( )
 	m_nImpulse = 0;
 }
 
-#ifdef HL2_EPISODIC
-
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
@@ -6061,7 +6059,6 @@ void CC_CH_CreateJalopy( void )
 
 static ConCommand ch_createjalopy("ch_createjalopy", CC_CH_CreateJalopy, "Spawn jalopy in front of the player.", FCVAR_CHEAT);
 
-#endif // HL2_EPISODIC
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -6098,6 +6095,42 @@ void CC_CH_CreateJeep( void )
 }
 
 static ConCommand ch_createjeep("ch_createjeep", CC_CH_CreateJeep, "Spawn jeep in front of the player.", FCVAR_CHEAT);
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+static void CreatePod(CBasePlayer *pPlayer)
+{
+	// Cheat to create a jeep in front of the player
+	Vector vecForward;
+	AngleVectors(pPlayer->EyeAngles(), &vecForward);
+	CBaseEntity *pPod = (CBaseEntity *)CreateEntityByName("prop_vehicle_prisoner_pod");
+	if (pPod)
+	{
+		Vector vecOrigin = pPlayer->GetAbsOrigin() + vecForward * 256 + Vector(0, 0, 64);
+		QAngle vecAngles(0, pPlayer->GetAbsAngles().y - 90, 0);
+		pPod->SetAbsOrigin(vecOrigin);
+		pPod->SetAbsAngles(vecAngles);
+		pPod->KeyValue("model", "models/vehicles/prisoner_pod_inner.mdl");
+		pPod->KeyValue("solid", "6");
+		pPod->KeyValue("targetname", "prisoner_pod");
+		pPod->KeyValue("vehiclescript", "scripts/vehicles/prisoner_pod.txt");
+		DispatchSpawn(pPod);
+		pPod->Activate();
+		pPod->Teleport(&vecOrigin, &vecAngles, NULL);
+	}
+}
+
+
+void CC_CH_CreatePod(void)
+{
+	CBasePlayer *pPlayer = UTIL_GetCommandClient();
+	if (!pPlayer)
+		return;
+	CreatePod(pPlayer);
+}
+
+static ConCommand ch_createpod("ch_createpod", CC_CH_CreatePod, "Spawn a prisoner pod in front of the player.", FCVAR_CHEAT);
 
 
 //-----------------------------------------------------------------------------
@@ -6188,6 +6221,11 @@ void CBasePlayer::CheatImpulseCommands( int iImpulse )
 	case 83:
 		// Cheat to create a airboat in front of the player
 		CreateAirboat( this );
+		break;
+
+	case 84:
+		// Cheat to create a pod in front of the player
+		CreatePod( this );
 		break;
 
 	case 101:

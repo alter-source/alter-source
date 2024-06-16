@@ -1421,28 +1421,15 @@ static ConCommand noclip("noclip", CC_Player_NoClip, "Toggle. Player becomes non
 //------------------------------------------------------------------------------
 void CC_God_f(void)
 {
-	if (!sv_cheats->GetBool())
-		return;
-
 	CBasePlayer *pPlayer = ToBasePlayer(UTIL_GetCommandClient());
 	if (!pPlayer)
 		return;
-
-#ifdef TF_DLL
-	if (TFGameRules() && (TFGameRules()->IsPVEModeActive() == false))
-	{
-		if (gpGlobals->deathmatch)
-			return;
-	}
-#else
-	if (gpGlobals->deathmatch)
-		return;
-#endif
 
 	pPlayer->ToggleFlag(FL_GODMODE);
 	if (!(pPlayer->GetFlags() & FL_GODMODE))
 		ClientPrint(pPlayer, HUD_PRINTCONSOLE, "godmode OFF\n");
 	else
+		pPlayer->SetHealth(100);
 		ClientPrint(pPlayer, HUD_PRINTCONSOLE, "godmode ON\n");
 }
 

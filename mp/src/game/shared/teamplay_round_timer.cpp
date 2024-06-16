@@ -798,7 +798,7 @@ void CTeamRoundTimer::SetState( int nState, bool bFireOutput )
 			TeamplayRoundBasedRules()->SetSetup( true );
 		}
 
-		SetTimerThink( RT_THINK_SETUP );
+//		SetTimerThink( RT_THINK_SETUP );
 
 		if ( bFireOutput )
 		{
@@ -812,7 +812,7 @@ void CTeamRoundTimer::SetState( int nState, bool bFireOutput )
 			TeamplayRoundBasedRules()->SetSetup( false );
 		}
 
-		SetTimerThink( RT_THINK_NORMAL );
+//		SetTimerThink( RT_THINK_NORMAL );
 
 		if ( bFireOutput )
 		{

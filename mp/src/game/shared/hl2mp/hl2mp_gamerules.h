@@ -109,7 +109,7 @@ public:
 	virtual void ClientSettingsChanged( CBasePlayer *pPlayer );
 	virtual int PlayerRelationship( CBaseEntity *pPlayer, CBaseEntity *pTarget );
 	virtual void GoToIntermission( void );
-	virtual void DeathNotice( CBasePlayer *pVictim, const CTakeDamageInfo &info );
+	virtual void DeathNotice( CBaseEntity *pVictim, const CTakeDamageInfo &info );
 	virtual const char *GetGameDescription( void );
 	// derive this function if you mod uses encrypted weapon info files
 	virtual const unsigned char *GetEncryptionKey( void ) { return (unsigned char *)"x9Ke0BY7"; }

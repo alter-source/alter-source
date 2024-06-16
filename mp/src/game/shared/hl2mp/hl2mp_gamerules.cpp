@@ -1648,107 +1648,109 @@ void CHL2MPRules::ClientDisconnected( edict_t *pClient )
 #endif
 }
 
-
-//=========================================================
-// Deathnotice. 
-//=========================================================
-void CHL2MPRules::DeathNotice( CBasePlayer *pVictim, const CTakeDamageInfo &info )
+void CHL2MPRules::DeathNotice(CBaseEntity *pVictim, const CTakeDamageInfo &info)
 {
 #ifndef CLIENT_DLL
 	// Work out what killed the player, and send a message to all clients about it
-	const char *killer_weapon_name = "world";		// by default, the player is killed by the world
+	const char *killer_weapon_name = "world";     // by default, the player is killed by the world
 	int killer_ID = 0;
 
 	// Find the killer & the scorer
 	CBaseEntity *pInflictor = info.GetInflictor();
 	CBaseEntity *pKiller = info.GetAttacker();
-	CBasePlayer *pScorer = GetDeathScorer( pKiller, pInflictor );
+	CBasePlayer *pScorer = GetDeathScorer(pKiller, pInflictor);
 
 	// Custom kill type?
-	if ( info.GetDamageCustom() )
+	if (info.GetDamageCustom())
 	{
-		killer_weapon_name = GetDamageCustomString( info );
-		if ( pScorer )
+		killer_weapon_name = GetDamageCustomString(info);
+		if (pScorer)
 		{
 			killer_ID = pScorer->GetUserID();
 		}
 	}
-	else
+	else if (pScorer)
 	{
-		// Is the killer a client?
-		if ( pScorer )
+		killer_ID = pScorer->GetUserID();
+
+		if (pInflictor)
 		{
-			killer_ID = pScorer->GetUserID();
-			
-			if ( pInflictor )
+			if (pInflictor == pScorer)
 			{
-				if ( pInflictor == pScorer )
+				// If the inflictor is the killer, then it must be their current weapon doing the damage
+				if (pScorer->GetActiveWeapon())
 				{
-					// If the inflictor is the killer,  then it must be their current weapon doing the damage
-					if ( pScorer->GetActiveWeapon() )
-					{
-						killer_weapon_name = pScorer->GetActiveWeapon()->GetClassname();
-					}
-				}
-				else
-				{
-					killer_weapon_name = pInflictor->GetClassname();  // it's just that easy
+					killer_weapon_name = pScorer->GetActiveWeapon()->GetClassname();
 				}
 			}
+			else
+			{
+				killer_weapon_name = pInflictor->GetClassname();
+			}
 		}
-		else
+	}
+	else if (pKiller)
+	{
+		// Check if the killer is an NPC
+		CBaseCombatCharacter *pBCC = dynamic_cast<CBaseCombatCharacter *>(pKiller);
+		if (pBCC && pBCC->IsNPC())
+		{
+			killer_weapon_name = STRING(pBCC->GetEntityName()); // Get NPC entity name as killer_weapon_name
+		}
+		else if (pInflictor)
 		{
 			killer_weapon_name = pInflictor->GetClassname();
 		}
-
-		// strip the NPC_* or weapon_* from the inflictor's classname
-		if ( strncmp( killer_weapon_name, "weapon_", 7 ) == 0 )
-		{
-			killer_weapon_name += 7;
-		}
-		else if ( strncmp( killer_weapon_name, "npc_", 4 ) == 0 )
-		{
-			killer_weapon_name += 4;
-		}
-		else if ( strncmp( killer_weapon_name, "func_", 5 ) == 0 )
-		{
-			killer_weapon_name += 5;
-		}
-		else if ( strstr( killer_weapon_name, "physics" ) )
-		{
-			killer_weapon_name = "physics";
-		}
-		if (strstr(killer_weapon_name, "physbox"))
-		{
-			killer_weapon_name = "physics";
-		}
-		if ( strcmp( killer_weapon_name, "prop_combine_ball" ) == 0 )
-		{
-			killer_weapon_name = "combine_ball";
-		}
-		else if ( strcmp( killer_weapon_name, "grenade_ar2" ) == 0 )
-		{
-			killer_weapon_name = "smg1_grenade";
-		}
-		else if ( strcmp( killer_weapon_name, "satchel" ) == 0 || strcmp( killer_weapon_name, "tripmine" ) == 0)
-		{
-			killer_weapon_name = "slam";
-		}
-
-
+	}
+	else if (pInflictor)
+	{
+		killer_weapon_name = pInflictor->GetClassname();
 	}
 
-	IGameEvent *event = gameeventmanager->CreateEvent( "player_death" );
-	if( event )
+	// Strip prefixes or rename specific entities
+	if (strncmp(killer_weapon_name, "weapon_", 7) == 0)
 	{
-		event->SetInt("userid", pVictim->GetUserID() );
-		event->SetInt("attacker", killer_ID );
-		event->SetString("weapon", killer_weapon_name );
-		event->SetInt( "priority", 7 );
-		gameeventmanager->FireEvent( event );
+		killer_weapon_name += 7;
+	}
+	else if (strncmp(killer_weapon_name, "npc_", 4) == 0)
+	{
+		killer_weapon_name += 4;
+	}
+	else if (strncmp(killer_weapon_name, "func_", 5) == 0)
+	{
+		killer_weapon_name += 5;
+	}
+	else if (strstr(killer_weapon_name, "physics"))
+	{
+		killer_weapon_name = "physics";
+	}
+	if (strstr(killer_weapon_name, "physbox"))
+	{
+		killer_weapon_name = "physics";
+	}
+	if (strcmp(killer_weapon_name, "prop_combine_ball") == 0)
+	{
+		killer_weapon_name = "combine_ball";
+	}
+	else if (strcmp(killer_weapon_name, "grenade_ar2") == 0)
+	{
+		killer_weapon_name = "smg1_grenade";
+	}
+	else if (strcmp(killer_weapon_name, "satchel") == 0 || strcmp(killer_weapon_name, "tripmine") == 0)
+	{
+		killer_weapon_name = "slam";
+	}
+
+	IGameEvent *event = gameeventmanager->CreateEvent("player_death");
+	if (event)
+	{
+		event->SetInt("userid", ToBasePlayer(pVictim)->GetUserID());
+		event->SetInt("attacker", killer_ID);
+		event->SetString("weapon", killer_weapon_name);
+		event->SetInt("priority", 7);
+		gameeventmanager->FireEvent(event);
 	}
 #endif
-
 }
 
 void CHL2MPRules::ClientSettingsChanged( CBasePlayer *pPlayer )

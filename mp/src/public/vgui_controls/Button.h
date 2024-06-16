@@ -170,6 +170,8 @@ public:
 	virtual void NavigateTo();
 	virtual void NavigateFrom();
 
+	Color _hoverColor;
+
 protected:
 	virtual void DrawFocusBorder(int tx0, int ty0, int tx1, int ty1);
 

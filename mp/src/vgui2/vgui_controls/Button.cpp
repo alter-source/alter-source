@@ -78,6 +78,9 @@ void Button::Init()
 	SetMouseClickEnabled( MOUSE_LEFT, true );
 	SetButtonActivationType(ACTIVATE_ONPRESSEDANDRELEASED);
 
+	_hoverColor = Color(200, 200, 200, 255);
+	SetBgColor(GetBgColor());
+
 	// labels have this off by default, but we need it on
 	SetPaintBackgroundEnabled( true );
 
