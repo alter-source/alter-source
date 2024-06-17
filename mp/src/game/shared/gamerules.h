@@ -31,7 +31,6 @@
 #include "igamesystem.h"
 #include "gamerules_register.h"
 
-
 //#include "items.h"
 class CBaseCombatWeapon;
 class CBaseCombatCharacter;

@@ -20,6 +20,7 @@ ConVar tf2_mounted("tf2_mounted", "0", FCVAR_REPLICATED, "Indicates if Team Fort
 extern ConVar hl2_episodic; // indicates if episode one is mounted
 ConVar hl2_ep2("ep2_mounted", "0", FCVAR_REPLICATED, "Indicates if Half-Life 2: Episode Two is mounted");
 ConVar hl2_lc("lc_mounted", "0", FCVAR_REPLICATED, "Indicates if Half-Life 2: Lost Coast is mounted");
+ConVar hl1_src("hl_source_mounted", "0", FCVAR_REPLICATED, "Indicated if Half Life: Source is mounted");
 
 char* GetPath() {
 	auto* gameDirectory = engine->GetGameDirectory();
@@ -156,7 +157,8 @@ void MountGames()
 				{ "tf", [](int val) { tf2_mounted.SetValue(val); } },
 				{ "episodic", [](int val) { hl2_episodic.SetValue(val); } },
 				{ "ep2", [](int val) { hl2_ep2.SetValue(val); } },
-				{ "lostcoast", [](int val) { hl2_lc.SetValue(val); } }
+				{ "lostcoast", [](int val) { hl2_lc.SetValue(val); } },
+				{ "hl1", [](int val) { hl1_src.SetValue(val); } }
 			};
 
 			auto it = gameMapping.find(szGameName);

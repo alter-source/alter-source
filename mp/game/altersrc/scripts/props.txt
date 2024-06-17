@@ -1513,73 +1513,61 @@ SpawnMenu
 		{
 			"#"	"give weapon_camera"
 		}
-        "Pistol Ammo"
+        "Camera"
 		{
-			"#"	"give item_ammo_pistol"
+			"#"	"give weapon_camera"
 		}
-		"Smg1 Ammo"
+        "Cubemap"
 		{
-			"#"	"give item_ammo_smg1"
+			"#"	"give weapon_cubemap"
 		}
-		"Shotgun Ammo"
+        "Citizen Package"
 		{
-			"#"	"give item_box_buckshot"
+			"#"	"give weapon_citizenpackage"
 		}
-		"Pulse Ammo"
+        "Citizen Suitcase"
 		{
-			"#"	"give item_ammo_ar2"
+			"#"	"give weapon_citizensuitcase"
 		}
-		"357 Ammo"
-		{
-			"#"	"give item_ammo_357"
+        "MP5 (HLS)"
+        {
+			"#"	"give weapon_mp5_hl1"
 		}
-		"Crossbow Bolts"
-		{
-			"#"	"give item_ammo_crossbow"
+        "9mm Handgun (HLS)"
+        {
+			"#"	"give weapon_glock_hl1"
 		}
-		"RPG Round"
-		{
-			"#"	"give item_rpg_round"
+        "Hand Grenade (HLS)"
+        {
+			"#"	"give weapon_handgrenade"
 		}
-		"Smg1 Grenade"
-		{
-			"#"	"give item_ammo_smg1_grenade"
+        "Gauss Gun (HLS)"
+        {
+			"#"	"give weapon_gauss"
 		}
-		"Combine Ball"
-		{
-			"#"	"give item_ammo_ar2_altfire"
-		}
-        "Ammo Crate (Pistol)"
-		{
-			"#"	"ent_create item_ammo_crate AmmoType 0"
-		}
-		"Ammo Crate (SMG)"
-		{
-			"#"	"ent_create item_ammo_crate AmmoType 1"
-		}
-		"Ammo Crate (Ar2)"
-		{
-			"#"	"ent_create item_ammo_crate AmmoType 2"
-		}
-		"Ammo Crate (RPG)"
-		{
-			"#"	"ent_create item_ammo_crate AmmoType 3"
-		}
-		"Ammo Crate (Shotgun)"
-		{
-			"#"	"ent_create item_ammo_crate AmmoType 4"
-		}
-		"Ammo Crate (Grenade)"
-		{
-			"#"	"ent_create item_ammo_crate AmmoType 5"
-		}
-		"Ammo Crate (Combine Ball)"
-		{
-			"#"	"ent_create item_ammo_crate AmmoType 8"
-		}
-		"Ammo Crate (SMG Grenade)"
-		{
-			"#"	"ent_create item_ammo_crate AmmoType 9"
+        "Gluon gun (HLS)"
+        {
+            "#" "give weapon_egon"
+        }
+        "Snark (HLS)"
+        {
+            "#" "give weapon_snark"
+        }
+        "Tripmine (HLS)"
+        {
+            "#" "give weapon_tripmine"
+        }
+        "Satchel Charge (HLS)"
+        {
+            "#" "give weapon_satchel"
+        }
+        ".357 Magnum (HLS)"
+        {
+            "#" "give weapon_357_hl1"
+        }
+        "Hornet Gun (HLS)"
+        {
+			"#"	"give weapon_hornetgun"
 		}
 	}
     "Entities"

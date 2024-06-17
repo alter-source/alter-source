@@ -45,8 +45,6 @@ bool endsWith(const char* str, const char* suffix) {
 class CSMLCommandButton : public vgui::Button
 {
 	typedef vgui::Button BaseClass;
-private:
-	Color _hoveredColor;
 
 public:
 	CSMLCommandButton(vgui::Panel *parent, const char *panelName, const char *labelText, const char *command)
@@ -68,18 +66,6 @@ public:
 	virtual void Paint()
 	{
 		BaseClass::Paint();
-		SetBgColor(_hoveredColor);
-	}
-
-	virtual void OnCursorEntered(void)
-	{
-		IScheme* pScheme = vgui::scheme()->GetIScheme(vgui::scheme()->GetScheme("ClientScheme"));
-		_hoveredColor = GetSchemeColor("PropertySheet.PageHoveredColor", GetFgColor(), pScheme);;
-	}
-	virtual void OnCursorExited(void)
-	{
-		IScheme* pScheme = vgui::scheme()->GetIScheme(vgui::scheme()->GetScheme("ClientScheme"));
-		_hoveredColor = GetSchemeColor("PropertySheet.PageUnHoveredColor", GetFgColor(), pScheme);
 	}
 };
 
@@ -184,6 +170,11 @@ public:
 					}
 					else if (endsWith(control->GetName(), "(TF2)")) {
 						if (!cvar->FindVar("tf2_mounted")->GetBool()) {
+							break;
+						}
+					}
+					else if (endsWith(control->GetName(), "(HLS)")) {
+						if (!cvar->FindVar("hl_source_mounted")->GetBool()) {
 							break;
 						}
 					}

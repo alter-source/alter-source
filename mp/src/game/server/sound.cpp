@@ -474,23 +474,6 @@ void CAmbientGeneric::Activate( void )
 		}
 	}
 
-#ifdef PORTAL
-		// This is the only way we can silence the radio sound from the first room without touching them map -- jdw
-		if ( PortalGameRules() && PortalGameRules()->ShouldRemoveRadio() )
-		{		
-			if ( V_strcmp( STRING( gpGlobals->mapname ), "testchmb_a_00" ) == 0 || 
-			    V_strcmp( STRING( gpGlobals->mapname ), "testchmb_a_11" ) == 0 || 
-			    V_strcmp( STRING( gpGlobals->mapname ), "testchmb_a_14" ) == 0 )
-			{
-				if ( V_strcmp( STRING( GetEntityName() ), "radio_sound" ) == 0 )
-				{
-					UTIL_Remove( this );
-					return;
-				}
-			}
-		}
-#endif // PORTAL
-
 	// If active start the sound
 	if ( m_fActive )
 	{

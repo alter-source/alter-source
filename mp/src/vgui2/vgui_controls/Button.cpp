@@ -78,7 +78,6 @@ void Button::Init()
 	SetMouseClickEnabled( MOUSE_LEFT, true );
 	SetButtonActivationType(ACTIVATE_ONPRESSEDANDRELEASED);
 
-	_hoverColor = Color(200, 200, 200, 255);
 	SetBgColor(GetBgColor());
 
 	// labels have this off by default, but we need it on
@@ -351,6 +350,7 @@ void Button::Paint(void)
 		return; 
 
 	BaseClass::Paint();
+	SetBgColor(_hoveredColor);
 
 	if ( HasFocus() && IsEnabled() && IsDrawingFocusBox() )
 	{
@@ -908,6 +908,8 @@ void Button::OnSetState(int state)
 void Button::OnCursorEntered()
 {
 	surface()->PlaySound("ui/buttonrollover.wav");
+	IScheme* pScheme = vgui::scheme()->GetIScheme(vgui::scheme()->GetScheme("ClientScheme"));
+	_hoveredColor = GetSchemeColor("PropertySheet.PageHoveredColor", GetFgColor(), pScheme);;
 	if (IsEnabled() && !IsSelected() )
 	{
 		SetArmed( true );
@@ -919,6 +921,8 @@ void Button::OnCursorEntered()
 //-----------------------------------------------------------------------------
 void Button::OnCursorExited()
 {
+	IScheme* pScheme = vgui::scheme()->GetIScheme(vgui::scheme()->GetScheme("ClientScheme"));
+	_hoveredColor = GetSchemeColor("PropertySheet.PageUnHoveredColor", GetFgColor(), pScheme);
 	if ( !_buttonFlags.IsFlagSet( BUTTON_KEY_DOWN ) && !IsSelected() )
 	{
 		SetArmed( false );
