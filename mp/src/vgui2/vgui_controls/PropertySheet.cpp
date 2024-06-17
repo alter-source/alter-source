@@ -114,6 +114,7 @@ private:
 	bool _active;
 	Color _textColor;
 	Color _dimTextColor;
+	Color _hoveredColor;
 	int m_bMaxTabWidth;
 	IBorder *m_pActiveBorder;
 	IBorder *m_pNormalBorder;
@@ -144,6 +145,7 @@ public:
 		m_bMaxTabWidth = maxTabWidth;
 		SetDropEnabled( true );
 		SetDragEnabled( m_pParent->IsDraggableTab() );
+
 		if ( imageName )
 		{
 			m_pImage = new ImagePanel( this, text );
@@ -157,6 +159,7 @@ public:
 
 		REGISTER_COLOR_AS_OVERRIDABLE( _textColor, "selectedcolor" );
 		REGISTER_COLOR_AS_OVERRIDABLE( _dimTextColor, "unselectedcolor" );
+		REGISTER_COLOR_AS_OVERRIDABLE( _hoveredColor, "hoveredcolor" );
 	}
 
 	~PageTab()
@@ -167,15 +170,20 @@ public:
 	virtual void Paint()
 	{
 		BaseClass::Paint();
+		SetBgColor(_hoveredColor);
 	}
 
 	virtual void OnCursorEntered()
 	{
+		IScheme* pScheme = vgui::scheme()->GetIScheme(vgui::scheme()->GetScheme("ClientScheme"));
+		_hoveredColor = GetSchemeColor("PropertySheet.PageHoveredColor", GetFgColor(), pScheme);
 		m_dropHoverTime = system()->GetTimeMillis();
 	}
 
 	virtual void OnCursorExited()
 	{
+		IScheme* pScheme = vgui::scheme()->GetIScheme(vgui::scheme()->GetScheme("ClientScheme"));
+		_hoveredColor = GetSchemeColor("PropertySheet.PageUnHoveredColor", GetFgColor(), pScheme);
 		m_dropHoverTime = -1;
 	}
 
@@ -314,6 +322,7 @@ public:
 
 		_textColor = GetSchemeColor("PropertySheet.SelectedTextColor", GetFgColor(), pScheme);
 		_dimTextColor = GetSchemeColor("PropertySheet.TextColor", GetFgColor(), pScheme);
+		//_hoveredColor = GetSchemeColor("PropertySheet.PageUnHoveredColor", GetFgColor(), pScheme);
 		m_pActiveBorder = pScheme->GetBorder("TabActiveBorder");
 		m_pNormalBorder = pScheme->GetBorder("TabBorder");
 

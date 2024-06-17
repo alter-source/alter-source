@@ -40,6 +40,9 @@
     <Filter Include="Source Files\GameUI">
       <UniqueIdentifier>{3A3B721D-5B1F-6104-218A-0B14D098AA5D}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Half-Life: Source">
+      <UniqueIdentifier>{FB4A2046-B061-BB10-1092-B6664C6CB7CB}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\HL2 DLL">
       <UniqueIdentifier>{3C43D38A-46AF-2183-A5E5-44383B1D2652}</UniqueIdentifier>
     </Filter>
@@ -3135,6 +3138,60 @@
     </ClCompile>
     <ClCompile Include="OverrideUI_RootPanel.cpp">
       <Filter>Source Files\GameUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl1\hl1_basecombatweapon_shared.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_c_rpg_rocket.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_c_weapon__stubs.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_fx_gauss.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_fx_shelleject.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\server\hl1\hl1_weapon_crowbar.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl1\hl1mp_basecombatweapon_shared.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl1\hl1mp_weapon_357.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl1\hl1mp_weapon_crossbow.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl1\hl1mp_weapon_egon.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl1\hl1mp_weapon_gauss.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl1\hl1mp_weapon_glock.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl1\hl1mp_weapon_handgrenade.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl1\hl1mp_weapon_hornetgun.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl1\hl1mp_weapon_mp5.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl1\hl1mp_weapon_rpg.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl1\hl1mp_weapon_sachel.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl1\hl1mp_weapon_shotgun.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\game\shared\hl2\basehlcombatweapon_shared.cpp">
       <Filter>Source Files\HL2 DLL</Filter>

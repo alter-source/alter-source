@@ -6244,6 +6244,20 @@ void CBasePlayer::CheatImpulseCommands( int iImpulse )
 
 		CBasePlayer::GiveAmmo(1, "grenade");
 		CBasePlayer::GiveAmmo(2, "slam");
+		/*hls*/
+		CBasePlayer::GiveAmmo(255, "9mmRound");
+		CBasePlayer::GiveAmmo(255, "12mmRound");
+		CBasePlayer::GiveAmmo(255, "357Round");
+		CBasePlayer::GiveAmmo(255, "BuckshotHL1");
+		CBasePlayer::GiveAmmo(30, "XBowBoltHL1");
+		CBasePlayer::GiveAmmo(5, "MP5_Grenade");
+		CBasePlayer::GiveAmmo(255, "RPG_Rocket");
+		CBasePlayer::GiveAmmo(1, "Uranium");
+		CBasePlayer::GiveAmmo(255, "Hornet");
+		CBasePlayer::GiveAmmo(32, "Snark");
+		CBasePlayer::GiveAmmo(5, "TripMine");
+		CBasePlayer::GiveAmmo(5, "Satchel");
+		CBasePlayer::GiveAmmo(5, "GrenadeHL1");
 
 		GiveNamedItem("weapon_crowbar");
 		GiveNamedItem("weapon_stunstick");

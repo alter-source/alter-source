@@ -13,6 +13,7 @@
 #include <vgui_controls/Menu.h>
 #include <vgui_controls/MenuItem.h>
 #include <vgui/IScheme.h>
+#include <vgui/ISurface.h>
 #include <vgui/IVGui.h>
 #include <vgui_controls/Frame.h>
 #include <vgui_controls/Slider.h>
@@ -44,6 +45,8 @@ bool endsWith(const char* str, const char* suffix) {
 class CSMLCommandButton : public vgui::Button
 {
 	typedef vgui::Button BaseClass;
+private:
+	Color _hoveredColor;
 
 public:
 	CSMLCommandButton(vgui::Panel *parent, const char *panelName, const char *labelText, const char *command)
@@ -60,6 +63,23 @@ public:
 
 	virtual void OnTick(void)
 	{
+	}
+
+	virtual void Paint()
+	{
+		BaseClass::Paint();
+		SetBgColor(_hoveredColor);
+	}
+
+	virtual void OnCursorEntered(void)
+	{
+		IScheme* pScheme = vgui::scheme()->GetIScheme(vgui::scheme()->GetScheme("ClientScheme"));
+		_hoveredColor = GetSchemeColor("PropertySheet.PageHoveredColor", GetFgColor(), pScheme);;
+	}
+	virtual void OnCursorExited(void)
+	{
+		IScheme* pScheme = vgui::scheme()->GetIScheme(vgui::scheme()->GetScheme("ClientScheme"));
+		_hoveredColor = GetSchemeColor("PropertySheet.PageUnHoveredColor", GetFgColor(), pScheme);
 	}
 };
 
@@ -180,6 +200,8 @@ private:
 };
 
 ConVar as_spawnmenu("as_spawnmenu", "0", FCVAR_CHEAT | FCVAR_REPLICATED, "Enable the Spawn Menu");
+ConVar as_spawnmenu_width("as_spawnmenu_width", "934", FCVAR_CLIENTDLL | FCVAR_ARCHIVE, "Set width of Spawn Menu [WORKS AFTER MAP RELOAD]");
+ConVar as_spawnmenu_height("as_spawnmenu_height", "670", FCVAR_CLIENTDLL | FCVAR_ARCHIVE, "Set height of Spawn Menu [WORKS AFTER MAP RELOAD");
 ConVar spawn("spawnmenu", "0", FCVAR_CLIENTDLL, "Spawn Menu");
 
 class CSMLMenu : public vgui::PropertyDialog
@@ -191,7 +213,6 @@ public:
 		: BaseClass(NULL, "SMLenu")
 	{
 		SetTitle("Spawn Menu", true);
-		SetPos(325, 100);
 
 		KeyValues *kv = new KeyValues("SMLenu");
 		if (kv)
@@ -200,14 +221,14 @@ public:
 			{
 				for (KeyValues *dat = kv->GetFirstSubKey(); dat != NULL; dat = dat->GetNextKey())
 				{
-					if (!Q_strcasecmp(dat->GetName(), "width"))
+					if (!Q_strcasecmp(dat->GetName(), "width")) // KeyValues are good, but not for this xD
 					{
-						SetWide(dat->GetInt());
+						//SetWide(dat->GetInt());
 						continue;
 					}
 					else if (!Q_strcasecmp(dat->GetName(), "height"))
 					{
-						SetTall(dat->GetInt());
+						//SetTall(dat->GetInt());
 						continue;
 					}
 
@@ -236,7 +257,18 @@ public:
 		GetPropertySheet()->SetTabWidth(72);
 		SetVisible(true);
 		SetMouseInputEnabled(true);
+		SetKeyBoardInputEnabled(false); // Allow movement;
 		SetSizeable(true);
+
+		/*size*/
+		SetWide(as_spawnmenu_width.GetInt());
+		SetTall(as_spawnmenu_height.GetInt());
+
+		/*position*/
+		int ww, wt;
+		ww = ScreenWidth();
+		wt = ScreenHeight();
+		SetPos((ww - GetWide()) / 2, (wt - GetTall()) / 2);
 	}
 
 	void Init(KeyValues *kv);
@@ -246,6 +278,10 @@ public:
 		BaseClass::OnTick();
 		ConVar* pAsGameModeCVar = g_pCVar->FindVar("as_gamemode");
 		const char* gameModeValue = pAsGameModeCVar->GetString();
+
+		/*size also here*/
+		SetWide(as_spawnmenu_width.GetInt());
+		SetTall(as_spawnmenu_height.GetInt());
 
 		if (strcmp(gameModeValue, "Sandbox") == 0 || as_spawnmenu.GetBool()) {
 			SetVisible(spawn.GetBool());
