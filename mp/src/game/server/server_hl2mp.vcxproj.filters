@@ -19,6 +19,9 @@
     <Filter Include="Source Files\Episodic">
       <UniqueIdentifier>{B59041BD-AF88-79C0-DAE6-4F8A2376306A}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Half-Life: Source">
+      <UniqueIdentifier>{FB4A2046-B061-BB10-1092-B6664C6CB7CB}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\Hand-Models">
       <UniqueIdentifier>{3CBAC877-E59F-6F7B-4065-97F23BFC0206}</UniqueIdentifier>
     </Filter>
@@ -1565,6 +1568,63 @@
     <ClInclude Include="..\..\game\shared\episodic\npc_advisor_shared.h">
       <Filter>Source Files\Episodic</Filter>
     </ClInclude>
+    <ClInclude Include="actanimating.h">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClInclude>
+    <ClInclude Include="hl1\hl1_grenade_mp5.h">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClInclude>
+    <ClInclude Include="hl1\hl1_grenade_spit.h">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClInclude>
+    <ClInclude Include="hl1\hl1_items.h">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClInclude>
+    <ClInclude Include="hl1\hl1_monstermaker.h">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClInclude>
+    <ClInclude Include="hl1\hl1_npc_barnacle.h">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClInclude>
+    <ClInclude Include="hl1\hl1_npc_barney.h">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClInclude>
+    <ClInclude Include="hl1\hl1_npc_bullsquid.h">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClInclude>
+    <ClInclude Include="hl1\hl1_npc_gargantua.h">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClInclude>
+    <ClInclude Include="hl1\hl1_npc_headcrab.h">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClInclude>
+    <ClInclude Include="hl1\hl1_npc_hgrunt.h">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClInclude>
+    <ClInclude Include="hl1\hl1_npc_hornet.h">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClInclude>
+    <ClInclude Include="hl1\hl1_npc_houndeye.h">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClInclude>
+    <ClInclude Include="hl1\hl1_npc_ichthyosaur.h">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClInclude>
+    <ClInclude Include="hl1\hl1_npc_scientist.h">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClInclude>
+    <ClInclude Include="hl1\hl1_npc_snark.h">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClInclude>
+    <ClInclude Include="hl1\hl1_npc_talker.h">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClInclude>
+    <ClInclude Include="hl1\hl1_npc_vortigaunt.h">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClInclude>
+    <ClInclude Include="hl1\hl1_npc_zombie.h">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClInclude>
     <ClInclude Include="hl2\ai_behavior_actbusy.h">
       <Filter>Source Files\HL2 DLL</Filter>
     </ClInclude>
@@ -2994,6 +3054,180 @@
     </ClCompile>
     <ClCompile Include="episodic\prop_scalable.cpp">
       <Filter>Source Files\Episodic</Filter>
+    </ClCompile>
+    <ClCompile Include="actanimating.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_ai_basenpc.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_basecombatweapon.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl1\hl1_basecombatweapon_shared.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_basegrenade.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_ents.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_grenade_mp5.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_grenade_spit.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_item_ammo.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_item_battery.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_item_longjump.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_item_suit.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_items.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_monstermaker.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_aflock.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_agrunt.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_apache.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_barnacle.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_barney.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_bigmomma.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_bloater.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_bullsquid.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_controller.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_gargantua.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_gman.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_hassassin.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_headcrab.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_hgrunt.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_hornet.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_houndeye.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_ichthyosaur.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_leech.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_nihilanth.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_osprey.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_roach.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_scientist.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_snark.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_talker.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_tentacle.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_turret.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_vortigaunt.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_npc_zombie.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_weapon_crowbar.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_weapon_snark.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_weapon_tripmine.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="hl1\hl1_weaponbox.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl1\hl1mp_basecombatweapon_shared.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl1\hl1mp_weapon_357.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl1\hl1mp_weapon_crossbow.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl1\hl1mp_weapon_egon.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl1\hl1mp_weapon_gauss.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl1\hl1mp_weapon_glock.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl1\hl1mp_weapon_handgrenade.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl1\hl1mp_weapon_hornetgun.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl1\hl1mp_weapon_mp5.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl1\hl1mp_weapon_rpg.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl1\hl1mp_weapon_sachel.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl1\hl1mp_weapon_shotgun.cpp">
+      <Filter>Source Files\Half-Life: Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\game\shared\handviewmodel_shared.cpp">
       <Filter>Source Files\Hand-Models</Filter>

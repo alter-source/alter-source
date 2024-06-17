@@ -37,6 +37,7 @@ Scheme
 	BaseSettings
 	{
 		"FgColor"			"255 220 0 100"
+		"HgColor"			"200 200 200 80"
 		"BgColor"			"0 0 0 76"
 
 		"Panel.FgColor"			"255 220 0 100"
@@ -159,7 +160,9 @@ Scheme
 
 		PropertySheet.TextColor			"Orange"
 		PropertySheet.SelectedTextColor	"Orange"
-		PropertySheet.TransitionEffectTime	"0.25"	// time to change from one tab to another
+		PropertySheet.PageHoveredColor	"HgColor"
+		PropertySheet.PageUnHoveredColor	"Blank"
+		PropertySheet.TransitionEffectTime	"0.25"	// time to change from one tab to another0
 
 		RadioButton.TextColor			"Orange"
 		RadioButton.SelectedTextColor	"Orange"
