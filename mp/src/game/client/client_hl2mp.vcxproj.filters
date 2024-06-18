@@ -43,6 +43,9 @@
     <Filter Include="Source Files\Half-Life: Source">
       <UniqueIdentifier>{FB4A2046-B061-BB10-1092-B6664C6CB7CB}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\HL2 Beta">
+      <UniqueIdentifier>{F87E1317-E1D5-B88A-8192-62C60F65E520}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\HL2 DLL">
       <UniqueIdentifier>{3C43D38A-46AF-2183-A5E5-44383B1D2652}</UniqueIdentifier>
     </Filter>
@@ -1901,6 +1904,12 @@
     <ClInclude Include="OverrideUI_RootPanel.h">
       <Filter>Source Files\GameUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\game\shared\hl2_beta\weapon_grenadelauncher.h">
+      <Filter>Source Files\HL2 Beta</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\game\shared\hl2_beta\weapon_iceaxe.h">
+      <Filter>Source Files\HL2 Beta</Filter>
+    </ClInclude>
     <ClInclude Include="hl2\c_basehelicopter.h">
       <Filter>Source Files\HL2 DLL</Filter>
     </ClInclude>
@@ -3192,6 +3201,27 @@
     </ClCompile>
     <ClCompile Include="..\..\game\shared\hl1\hl1mp_weapon_shotgun.cpp">
       <Filter>Source Files\Half-Life: Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl2_beta\weapon_alyx_gun.cpp">
+      <Filter>Source Files\HL2 Beta</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl2_beta\weapon_flaregun.cpp">
+      <Filter>Source Files\HL2 Beta</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl2_beta\weapon_grenadelauncher.cpp">
+      <Filter>Source Files\HL2 Beta</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl2_beta\weapon_hmg1.cpp">
+      <Filter>Source Files\HL2 Beta</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl2_beta\weapon_iceaxe.cpp">
+      <Filter>Source Files\HL2 Beta</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl2_beta\weapon_oicw.cpp">
+      <Filter>Source Files\HL2 Beta</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl2_beta\weapon_sniper.cpp">
+      <Filter>Source Files\HL2 Beta</Filter>
     </ClCompile>
     <ClCompile Include="..\..\game\shared\hl2\basehlcombatweapon_shared.cpp">
       <Filter>Source Files\HL2 DLL</Filter>

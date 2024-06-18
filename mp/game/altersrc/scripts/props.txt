@@ -1442,6 +1442,10 @@ SpawnMenu
 		{
 			"#"	"npc_create npc_seagull"
 		}
+        "Hunter (EP2)"
+		{
+			"#"	"npc_create npc_hunter"
+		}
         "Fisherman (Lost Coast)"
 		{
 			"#"	"npc_create npc_fisherman"
@@ -1509,10 +1513,6 @@ SpawnMenu
 		{
 			"#"	"give weapon_toolgun"
 		}
-		"Camera"
-		{
-			"#"	"give weapon_camera"
-		}
         "Camera"
 		{
 			"#"	"give weapon_camera"
@@ -1528,6 +1528,26 @@ SpawnMenu
         "Citizen Suitcase"
 		{
 			"#"	"give weapon_citizensuitcase"
+		}
+        "Ice Axe"
+		{
+			"#"	"give weapon_iceaxe"
+		}
+        "OICW"
+		{
+			"#"	"give weapon_ociw"
+		}
+        "Sniper Rifle"
+		{
+			"#"	"give weapon_sniper"
+		}
+        "Alyx Gun (WIP)"
+		{
+			"#"	"give weapon_alyx_gun"
+		}
+        "HMG1"
+		{
+			"#"	"give weapon_hmg1"
 		}
         "MP5 (HLS)"
         {

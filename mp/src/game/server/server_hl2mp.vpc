@@ -15,7 +15,7 @@ $Configuration
 {
 	$Compiler
 	{
-		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\game\shared\hl2,.\hl2,.\hl2mp,$SRCDIR\game\shared\hl2mp;$SRCDIR\game\shared\episodic;.\episodic;$SRCDIR\game\shared\hl1;.\hl1"
+		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\game\shared\hl2,.\hl2,.\hl2mp,$SRCDIR\game\shared\hl2mp;$SRCDIR\game\shared\episodic;.\episodic;$SRCDIR\game\shared\hl1;.\hl1;$SRCDIR\game\shared\hl2_beta"
 		$PreprocessorDefinitions		"$BASE;HL2MP;HL2_DLL;GE_LUA"
 	}
 }
@@ -65,27 +65,31 @@ $Project "Server (Alter)"
         {
             $File	"episodic\prop_scalable.cpp"
             $File	"episodic\npc_magnusson.cpp"
-            //$File	"episodic\npc_hunter.cpp"
-			//$File	"episodic\npc_hunter.h"
+            $File	"episodic\npc_hunter.cpp"
+			$File	"episodic\npc_hunter.h"
             $File	"episodic\npc_combine_cannon.cpp"
             $File	"$SRCDIR\game\shared\episodic\npc_advisor_shared.h"
 			$File	"episodic\npc_advisor.cpp"
-            //$File	"episodic\ai_behavior_passenger_companion.cpp"
-			//$File	"episodic\ai_behavior_passenger_companion.h"
-			//$File	"episodic\ai_behavior_passenger_zombie.cpp"
-			//$File	"episodic\ai_behavior_passenger_zombie.h"
-            //$File	"episodic\ai_behavior_alyx_injured.cpp"
-			//$File	"episodic\ai_behavior_alyx_injured.h"
-            //$File	"$SRCDIR\game\shared\episodic\achievements_ep1.cpp"
-			//$File	"$SRCDIR\game\shared\episodic\achievements_ep2.cpp"
-			//$File	"$SRCDIR\game\shared\episodic\achievements_epx.cpp"
-            //$File	"episodic\weapon_striderbuster.cpp"
-			//$File	"episodic\weapon_striderbuster.h"
+            $File	"episodic\weapon_striderbuster.cpp"
+			$File	"episodic\weapon_striderbuster.h"
             $File	"episodic\npc_puppet.cpp"
             $File	"episodic\ep1_gamestats.h"
 			$File	"episodic\ep2_gamestats.h"
 			$File	"episodic\ep1_gamestats.cpp" \
 					"episodic\ep2_gamestats.cpp"
+        }
+
+        $Folder "HL2 Beta"
+        {
+            $File   "$SRCDIR\game\shared\hl2_beta\weapon_alyx_gun.cpp"
+            $File   "$SRCDIR\game\shared\hl2_beta\weapon_grenadelauncher.cpp"
+            $File   "$SRCDIR\game\shared\hl2_beta\weapon_grenadelauncher.h"
+            $File   "$SRCDIR\game\shared\hl2_beta\weapon_flaregun.cpp"
+            $File   "$SRCDIR\game\shared\hl2_beta\weapon_iceaxe.cpp"
+            $File   "$SRCDIR\game\shared\hl2_beta\weapon_iceaxe.h"
+            $File   "$SRCDIR\game\shared\hl2_beta\weapon_hmg1.cpp"
+            $File   "$SRCDIR\game\shared\hl2_beta\weapon_oicw.cpp"
+            $File   "$SRCDIR\game\shared\hl2_beta\weapon_sniper.cpp"
         }
 
 		$Folder "Half-Life: Source"

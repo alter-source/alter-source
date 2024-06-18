@@ -1,0 +1,22 @@
+"VertexLitGeneric"
+{
+	// Original shader: VertexLitTexture
+	"$basetexture" "models/Weapons/w_sniper/sniper3"
+	"$bumpmap" "models/Weapons/w_sniper/sniper3_n"
+//	"$normalmapalphaenvmapmask" 1
+//	"$envmap" "env_cubemap"
+//	"$envmaptint" "[.1 .1 .1]" 
+	//"$envmapcontrast" 0.2
+//	"$envmapsaturation" .5
+//	"$envmapcontrast" 1
+	"$model" 1
+	"$phong" "1"
+	"$phongexponent" "100"
+	"$phongboost" "1"	
+	"$phongfresnelranges"	"[.3 1 7]"
+	"$halflambert" "1"
+
+//	"$rimlight" "1"												// To enable rim lighting (requires phong)
+//	"$rimlightexponent" "10"										// Exponent for phong component of rim lighting	
+//	"$rimlightboost" ".025"
+}

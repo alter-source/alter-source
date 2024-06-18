@@ -1,0 +1,9 @@
+"VertexLitGeneric"
+{
+	// Original shader: VertexLitTexture
+	"$basetexture" "models/Weapons/V_sniper/reciever"
+//	"$envmap"  "Environment maps/specular"
+//	"$envmaptint" "[ 0.4 0.4 0.4 ]"
+//	"$envmap" "Environment Maps/rg"
+//	"$normalmapalphaenvmapmask" 1
+}

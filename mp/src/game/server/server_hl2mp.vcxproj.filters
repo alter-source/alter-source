@@ -25,6 +25,9 @@
     <Filter Include="Source Files\Hand-Models">
       <UniqueIdentifier>{3CBAC877-E59F-6F7B-4065-97F23BFC0206}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\HL2 Beta">
+      <UniqueIdentifier>{F87E1317-E1D5-B88A-8192-62C60F65E520}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\HL2 DLL">
       <UniqueIdentifier>{3C43D38A-46AF-2183-A5E5-44383B1D2652}</UniqueIdentifier>
     </Filter>
@@ -1568,6 +1571,12 @@
     <ClInclude Include="..\..\game\shared\episodic\npc_advisor_shared.h">
       <Filter>Source Files\Episodic</Filter>
     </ClInclude>
+    <ClInclude Include="episodic\npc_hunter.h">
+      <Filter>Source Files\Episodic</Filter>
+    </ClInclude>
+    <ClInclude Include="episodic\weapon_striderbuster.h">
+      <Filter>Source Files\Episodic</Filter>
+    </ClInclude>
     <ClInclude Include="actanimating.h">
       <Filter>Source Files\Half-Life: Source</Filter>
     </ClInclude>
@@ -1624,6 +1633,12 @@
     </ClInclude>
     <ClInclude Include="hl1\hl1_npc_zombie.h">
       <Filter>Source Files\Half-Life: Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\game\shared\hl2_beta\weapon_grenadelauncher.h">
+      <Filter>Source Files\HL2 Beta</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\game\shared\hl2_beta\weapon_iceaxe.h">
+      <Filter>Source Files\HL2 Beta</Filter>
     </ClInclude>
     <ClInclude Include="hl2\ai_behavior_actbusy.h">
       <Filter>Source Files\HL2 DLL</Filter>
@@ -3046,6 +3061,9 @@
     <ClCompile Include="episodic\npc_combine_cannon.cpp">
       <Filter>Source Files\Episodic</Filter>
     </ClCompile>
+    <ClCompile Include="episodic\npc_hunter.cpp">
+      <Filter>Source Files\Episodic</Filter>
+    </ClCompile>
     <ClCompile Include="episodic\npc_magnusson.cpp">
       <Filter>Source Files\Episodic</Filter>
     </ClCompile>
@@ -3053,6 +3071,9 @@
       <Filter>Source Files\Episodic</Filter>
     </ClCompile>
     <ClCompile Include="episodic\prop_scalable.cpp">
+      <Filter>Source Files\Episodic</Filter>
+    </ClCompile>
+    <ClCompile Include="episodic\weapon_striderbuster.cpp">
       <Filter>Source Files\Episodic</Filter>
     </ClCompile>
     <ClCompile Include="actanimating.cpp">
@@ -3231,6 +3252,27 @@
     </ClCompile>
     <ClCompile Include="..\..\game\shared\handviewmodel_shared.cpp">
       <Filter>Source Files\Hand-Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl2_beta\weapon_alyx_gun.cpp">
+      <Filter>Source Files\HL2 Beta</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl2_beta\weapon_flaregun.cpp">
+      <Filter>Source Files\HL2 Beta</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl2_beta\weapon_grenadelauncher.cpp">
+      <Filter>Source Files\HL2 Beta</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl2_beta\weapon_hmg1.cpp">
+      <Filter>Source Files\HL2 Beta</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl2_beta\weapon_iceaxe.cpp">
+      <Filter>Source Files\HL2 Beta</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl2_beta\weapon_oicw.cpp">
+      <Filter>Source Files\HL2 Beta</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl2_beta\weapon_sniper.cpp">
+      <Filter>Source Files\HL2 Beta</Filter>
     </ClCompile>
     <ClCompile Include="hl2\ai_allymanager.cpp">
       <Filter>Source Files\HL2 DLL</Filter>

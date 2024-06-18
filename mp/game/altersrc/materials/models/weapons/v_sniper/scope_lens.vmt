@@ -1,0 +1,8 @@
+VertexLitGeneric
+{
+	"$basetexture"	"models\weapons\V_sniper\scope_lens"
+	"$nocull" "1"
+	"$envmap" "env_cubemap"
+	"$envmapmask" "models\weapons\V_sniper\scope_lens_ref"
+
+}
