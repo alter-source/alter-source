@@ -1481,6 +1481,10 @@ SpawnMenu
 		{
 			"#"	"give weapon_smg1"
 		}
+        "SMG2"
+		{
+			"#"	"give weapon_smg2"
+		}
 		"Shotgun"
 		{
 			"#"	"give weapon_shotgun"
@@ -1549,6 +1553,22 @@ SpawnMenu
 		{
 			"#"	"give weapon_hmg1"
 		}
+        "Flare Gun"
+		{
+			"#"	"give weapon_flaregun"
+		}
+        "Combine Guard Gun"
+		{
+			"#"	"give weapon_cguard"
+		}
+        "AR1 (AK-47)"
+		{
+			"#"	"give weapon_ar1"
+		}
+        "[ERROR] Launcher"
+        {
+            "#" "give weapon_grenadelauncher"
+        }
         "MP5 (HLS)"
         {
 			"#"	"give weapon_mp5_hl1"

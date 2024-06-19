@@ -1826,9 +1826,6 @@
     <ClInclude Include="hl2\grenade_pathfollower.h">
       <Filter>Source Files\HL2 DLL\unused</Filter>
     </ClInclude>
-    <ClInclude Include="hl2\weapon_flaregun.h">
-      <Filter>Source Files\HL2 DLL\unused</Filter>
-    </ClInclude>
     <ClInclude Include="hl2mp\hl2mp_bot_temp.h">
       <Filter>Source Files\HL2MP</Filter>
     </ClInclude>
@@ -3256,6 +3253,12 @@
     <ClCompile Include="..\..\game\shared\hl2_beta\weapon_alyx_gun.cpp">
       <Filter>Source Files\HL2 Beta</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl2_beta\weapon_ar1.cpp">
+      <Filter>Source Files\HL2 Beta</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl2_beta\weapon_cguard.cpp">
+      <Filter>Source Files\HL2 Beta</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\game\shared\hl2_beta\weapon_flaregun.cpp">
       <Filter>Source Files\HL2 Beta</Filter>
     </ClCompile>
@@ -3269,6 +3272,9 @@
       <Filter>Source Files\HL2 Beta</Filter>
     </ClCompile>
     <ClCompile Include="..\..\game\shared\hl2_beta\weapon_oicw.cpp">
+      <Filter>Source Files\HL2 Beta</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\shared\hl2_beta\weapon_smg2.cpp">
       <Filter>Source Files\HL2 Beta</Filter>
     </ClCompile>
     <ClCompile Include="..\..\game\shared\hl2_beta\weapon_sniper.cpp">
@@ -3602,12 +3608,6 @@
       <Filter>Source Files\HL2 DLL\unused</Filter>
     </ClCompile>
     <ClCompile Include="hl2\vehicle_apc.cpp">
-      <Filter>Source Files\HL2 DLL\unused</Filter>
-    </ClCompile>
-    <ClCompile Include="hl2\weapon_cguard.cpp">
-      <Filter>Source Files\HL2 DLL\unused</Filter>
-    </ClCompile>
-    <ClCompile Include="hl2\weapon_flaregun.cpp">
       <Filter>Source Files\HL2 DLL\unused</Filter>
     </ClCompile>
     <ClCompile Include="hl2mp\hl2mp_bot_temp.cpp">

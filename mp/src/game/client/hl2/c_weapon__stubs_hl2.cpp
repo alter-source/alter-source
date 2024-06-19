@@ -27,10 +27,10 @@ STUB_WEAPON_CLASS(weapon_citizensuitcase, WeaponCitizenSuitcase, C_WeaponCitizen
 STUB_WEAPON_CLASS(weapon_toolgun, WeaponToolgun, C_BaseHLCombatWeapon);
 STUB_WEAPON_CLASS(weapon_camera, WeaponCamera, C_BaseHLCombatWeapon);
 STUB_WEAPON_CLASS(weapon_proplauncher, WeaponPropLauncher, C_BaseHLCombatWeapon);
-//STUB_WEAPON_CLASS(weapon_portalgun, WeaponPortalGun, C_BaseHLCombatWeapon);
 
 #ifndef HL2MP
 STUB_WEAPON_CLASS(weapon_ar2, WeaponAR2, C_HLMachineGun);
+//STUB_WEAPON_CLASS(weapon_ar1, WeaponAR1, C_HLMachineGun);
 STUB_WEAPON_CLASS(weapon_frag, WeaponFrag, C_BaseHLCombatWeapon);
 STUB_WEAPON_CLASS(weapon_rpg, WeaponRPG, C_BaseHLCombatWeapon);
 STUB_WEAPON_CLASS(weapon_pistol, WeaponPistol, C_BaseHLCombatWeapon);
@@ -40,6 +40,7 @@ STUB_WEAPON_CLASS(weapon_357, Weapon357, C_BaseHLCombatWeapon);
 STUB_WEAPON_CLASS(weapon_crossbow, WeaponCrossbow, C_BaseHLCombatWeapon);
 STUB_WEAPON_CLASS(weapon_slam, Weapon_SLAM, C_BaseHLCombatWeapon);
 STUB_WEAPON_CLASS(weapon_crowbar, WeaponCrowbar, C_BaseHLBludgeonWeapon);
+STUB_WEAPON_CLASS(weapon_grenadelauncher, WeaponGrenadeLauncher, C_BaseHLCombatWeapon);
 STUB_WEAPON_CLASS(weapon_alyx_gun, WeaponAlyxGun, C_BaseHLCombatWeapon);
 STUB_WEAPON_CLASS(weapon_sniper, WeaponSniper, C_BaseHLCombatWeapon);
 STUB_WEAPON_CLASS(weapon_hmg1, WeaponHMG1, C_BaseHLCombatWeapon);
@@ -47,9 +48,8 @@ STUB_WEAPON_CLASS(weapon_iceaxe, WeaponCrowbar, C_BaseHLBludgeonWeapon);
 STUB_WEAPON_CLASS(weapon_oicw, WeaponOCIW, C_BaseHLCombatWeapon);
 STUB_WEAPON_CLASS(weapon_iceaxe, WeaponIceaxe, C_BaseHLBludgeonWeapon);
 STUB_WEAPON_CLASS(weapon_sniper, WeaponSniper, C_BaseHLCombatWeapon);
-//STUB_WEAPON_CLASS( weapon_smg2, WeaponSMG2, C_BaseHLCombatWeapon );
-STUB_WEAPON_CLASS(weapon_hmg1, WeaponHMG1, C_BaseHLCombatWeapon);
-STUB_WEAPON_CLASS(weapon_grenadelauncher, WeaponGrenadeLauncher, C_BaseHLCombatWeapon);
+STUB_WEAPON_CLASS(weapon_flaregun, WeaponFlaregun, C_BaseHLCombatWeapon);
+//STUB_WEAPON_CLASS(weapon_smg2, WeaponSMG2, C_BaseHLCombatWeapon);
 #ifdef HL2_EPISODIC
 STUB_WEAPON_CLASS(weapon_hopwire, WeaponHopwire, C_BaseHLCombatWeapon);
 //STUB_WEAPON_CLASS( weapon_proto1, WeaponProto1, C_BaseHLCombatWeapon );

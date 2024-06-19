@@ -90,6 +90,9 @@ $Project "Server (Alter)"
             $File   "$SRCDIR\game\shared\hl2_beta\weapon_hmg1.cpp"
             $File   "$SRCDIR\game\shared\hl2_beta\weapon_oicw.cpp"
             $File   "$SRCDIR\game\shared\hl2_beta\weapon_sniper.cpp"
+            $File   "$SRCDIR\game\shared\hl2_beta\weapon_ar1.cpp"
+            $File   "$SRCDIR\game\shared\hl2_beta\weapon_cguard.cpp"
+            $File   "$SRCDIR\game\shared\hl2_beta\weapon_smg2.cpp"
         }
 
 		$Folder "Half-Life: Source"
@@ -355,9 +358,6 @@ $Project "Server (Alter)"
 				$File	"hl2\grenade_pathfollower.h"
 				$File	"hl2\npc_missiledefense.cpp"
 				$File	"hl2\vehicle_apc.cpp"
-				$File	"hl2\weapon_cguard.cpp"
-				$File	"hl2\weapon_flaregun.cpp"
-				$File	"hl2\weapon_flaregun.h"
 			}
 		}
         
