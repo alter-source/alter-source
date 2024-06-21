@@ -1,8 +1,8 @@
 "GameInfo"
 {
 	game	"Alter Source"
-	title	" "
-	title2	" "
+	//title	" "
+	//title2	" "
 	icon		"resource/icon"
 	type multiplayer_only
 	nomodels 0
@@ -21,20 +21,16 @@
 		
 		SearchPaths
 		{
-			game+mod			hl2mp/custom/*
-			game+mod			hl2/custom/*
+			// practicemedicine-addict: gameinfo.txt's searchpaths is a fucking mess back then so
 
-			game+mod			"custom/*"
+			// look for addons cold_face
+			game+mod			|gameinfo_path|addons/*
 			
-			game+mod+mod_write+default_write_path |gameinfo_path|.
-			gamebin				|gameinfo_path|bin
+			game+mod+mod_write+default_write_path 	|gameinfo_path|.
+			gamebin					|gameinfo_path|bin
 			
-			game+mod			|all_source_engine_paths|hl2mp
-			game+mod			hl2mp/hl2mp_pak.vpk
-			Game				|gameinfo_path|.
-
-			//game				"|all_source_engine_paths|../Half-Life 2/hl2"
-
+			// yes search for source sdk base 2013 mp-related vpks pls
+			game				|all_source_engine_paths|hl2mp/hl2mp_pak.vpk
 			game				|all_source_engine_paths|hl2/hl2_english.vpk
 			game				|all_source_engine_paths|hl2/hl2_pak.vpk
 			game				|all_source_engine_paths|hl2/hl2_textures.vpk
@@ -43,6 +39,7 @@
 			game				|all_source_engine_paths|hl2/hl2_misc.vpk
 			platform			|all_source_engine_paths|platform/platform_misc.vpk
 
+			// yes
 			game				|all_source_engine_paths|hl2mp
 			game				|all_source_engine_paths|hl2
 			platform			|all_source_engine_paths|platform
