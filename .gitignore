@@ -23,6 +23,13 @@ ipch
 *.vcxproj
 *.sln
 
+*.filters
+*.vpc_crc
+*.sentinel
+
+*.dat
+*.cache
+
 # OSX/Linux build products
 *.mak
 *.mak.vpc_crc
@@ -70,3 +77,4 @@ sound.cache
 # shader files
 *.tmp
 
+mp/game/altersrc/ep1_gamestats.dat

@@ -111,6 +111,7 @@ void CHudDeathNotice::ApplySchemeSettings( IScheme *scheme )
 void CHudDeathNotice::Init( void )
 {
 	ListenForGameEvent( "player_death" );	
+	ListenForGameEvent("npc_death");
 }
 
 //-----------------------------------------------------------------------------
@@ -266,14 +267,29 @@ void CHudDeathNotice::FireGameEvent(IGameEvent * event)
 
 	// Extract information from the event
 	int killer = engine->GetPlayerForUserID(event->GetInt("attacker"));
-	int victim = engine->GetPlayerForUserID(event->GetInt("userid"));
+	int victim;
+	try {
+		int victim = engine->GetPlayerForUserID(event->GetInt("userid"));
+	}
+	catch (...) {
+		int victim = 0;
+	}
+
 	const char *killedwith = event->GetString("weapon");
 
 	// Determine if the killer is an NPC
 	bool bNPCInflictor = false;
 	CBaseEntity *pInflictor = NULL;
 	CBaseEntity *pKiller = UTIL_PlayerByIndex(killer);
-	CBaseEntity *pVictim = UTIL_PlayerByIndex(victim);
+	CBaseEntity *pVictim;
+	try {
+		CBaseEntity *pVictim = UTIL_PlayerByIndex(victim);
+	}
+	catch (...) {
+		int id = event->GetInt("id");
+		IClientEntity* pClientEntity = ClientEntityList().GetClientEntity(id);
+		C_BaseEntity* pVictim = static_cast<C_BaseEntity*>(pClientEntity);
+	}
 
 	if (!pKiller)
 	{
@@ -317,11 +333,12 @@ void CHudDeathNotice::FireGameEvent(IGameEvent * event)
 
 	if (pVictim)
 	{
-		victim_name = g_PR->GetPlayerName(victim);
-	}
-	else if (pVictim)
-	{
-		victim_name = pVictim->GetClassname(); // Use classname as a fallback
+		try {
+			victim_name = g_PR->GetPlayerName(victim);
+		}
+		catch (...) {
+			victim_name = pVictim->GetClassname();
+		}
 	}
 
 	// Make a new death notice

@@ -23,6 +23,8 @@
 #include "game.h"
 #include "shot_manipulator.h"
 
+#include "hl2mp_gamerules.h"
+
 #ifdef HL2_DLL
 #include "ai_interactions.h"
 #include "hl2_gamerules.h"
@@ -590,6 +592,9 @@ void CAI_BaseNPC::Event_Killed( const CTakeDamageInfo &info )
 	m_lifeState = LIFE_DYING;
 
 	CleanupOnDeath( info.GetAttacker() );
+
+	//CHL2MPRules* gamerules = new CHL2MPRules();
+	//gamerules->NPCDeathNotice(this, info);
 
 	StopLoopingSounds();
 	DeathSound( info );
