@@ -761,6 +761,10 @@ void CWeaponGravityGun::EffectUpdate(void)
 	CBaseEntity *pObject = m_hObject;
 	if (pObject)
 	{
+		IPhysicsObject *pPhysiks = pObject->VPhysicsGetObject();
+		//const char* className = pObject->GetClassname();
+		pPhysiks->EnableMotion(true); // unfreeze
+
 		if (m_useDown) // if already been pressed
 		{
 			if (pOwner->m_afButtonPressed & IN_ATTACK2) // then if use pressed
@@ -769,12 +773,7 @@ void CWeaponGravityGun::EffectUpdate(void)
 				IPhysicsObject *pPhys = pObject->VPhysicsGetObject();
 				const char* className = pObject->GetClassname();
 				if (strcmp(className, "prop_vehicle_jeep") != 0 && strcmp(className, "prop_vehicle_airboat") != 0) {
-					if (pPhys->IsMotionEnabled()) {
-						pPhys->EnableMotion(false); // freeze
-					}
-					else {
-						pPhys->EnableMotion(true); // unfreeze
-					}
+					pPhys->EnableMotion(false); // freeze
 				}
 
 				//Reattach
@@ -790,12 +789,7 @@ void CWeaponGravityGun::EffectUpdate(void)
 				IPhysicsObject *pPhys = pObject->VPhysicsGetObject();
 				const char* className = pObject->GetClassname();
 				if (strcmp(className, "prop_vehicle_jeep") != 0 && strcmp(className, "prop_vehicle_airboat") != 0) {
-					if (pPhys->IsMotionEnabled()) {
-						pPhys->EnableMotion(false); // freeze
-					}
-					else {
-						pPhys->EnableMotion(true); // unfreeze
-					}
+					pPhys->EnableMotion(false); // freeze
 				}
 			}
 		}

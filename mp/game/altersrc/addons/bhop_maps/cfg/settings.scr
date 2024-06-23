@@ -32,7 +32,7 @@
 
 
 // Half-Life Server Configuration Layout Script (stores last settings chosen, too)
-// File generated:  Sun Jun 23 11:48:35 AM
+// File generated:  Sun Jun 23 05:32:52 PM
 //
 //
 // Cvar	-	Setting
@@ -115,7 +115,7 @@ DESCRIPTION SERVER_OPTIONS
 	{
 		"Crouch-Jumping"
 		{ BOOL }
-		{ "1" }
+		{ "0" }
 	}
 
 	"as_noclip"

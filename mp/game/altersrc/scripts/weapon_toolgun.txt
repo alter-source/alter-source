@@ -8,11 +8,9 @@ WeaponData
 	"playermodel"		"models/weapons/v_pistol.mdl"
 	"anim_prefix"		"Toolgun"
 	"bucket"			"5"
-	"bucket_position"	"1"
-	"bucket_360"			"3"
-	"bucket_position_360"	"2"
+	"bucket_position"		"1"
 
-	"clip_size"			"99999999999"
+	"clip_size"			"99999999999999999999999999999999999"
 	"primary_ammo"		"None"
 	"secondary_ammo"	"None"
 

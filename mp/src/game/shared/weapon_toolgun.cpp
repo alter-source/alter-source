@@ -1,4 +1,4 @@
-//========= Copyright Valve Corporation, All rights reserved. ============//
+//========= Copyright Wheatley Laboratories, All rights reserved. ============//
 //
 // Purpose:		Toolgun
 //
@@ -6,6 +6,8 @@
 //=============================================================================//
 
 #include "cbase.h"
+
+#include "vphysics/constraints.h"
 
 #ifdef CLIENT_DLL
 #include "npcevent.h"
@@ -20,6 +22,7 @@
 #include "vgui/ILocalize.h"
 #include "beam_shared.h"
 #include "props_shared.h"
+#include "ipredictionsystem.h"
 #else
 #include "npcevent.h"
 #include "basehlcombatweapon.h"
@@ -35,11 +38,13 @@
 #include "beam_shared.h"
 #include "props.h"
 #include "baseentity.h"
+#include "recipientfilter.h"
 #endif
 
 #ifndef CLIENT_DLL
 #include "EntityFlame.h"
 #include "EntityDissolve.h"
+#include "physics.h"
 #endif
 
 #include "particle_parse.h"
@@ -66,6 +71,11 @@ class CWeaponToolgun :
 	public CBaseHLCombatWeapon
 {
 	DECLARE_DATADESC();
+
+private:
+	bool m_bWeldFirstClick;
+	CBaseEntity* m_pFirstWeldEntity;
+	Vector m_vFirstWeldPos;
 
 public:
 	DECLARE_CLASS(CWeaponToolgun,
@@ -168,6 +178,7 @@ private:
 		MODE_DELETE = 0,
 		MODE_IGNITER,
 		MODE_LIGHT,
+		MODE_WELD,
 		MODE_MAX
 	};
 
@@ -175,6 +186,7 @@ private:
 
 	void SwitchMode();
 	void NotifyMode(CBasePlayer* pPlayer);
+	void WeldObjects(CBaseEntity* pEntity1, CBaseEntity* pEntity2);
 };
 
 #ifndef CLIENT_DLL
@@ -195,16 +207,16 @@ DEFINE_FIELD(m_nNumShotsFired, FIELD_INTEGER),
 
 END_DATADESC()
 
-acttable_t CWeaponToolgun::m_acttable[] = 
+acttable_t CWeaponToolgun::m_acttable[] =
 {
-	{ ACT_HL2MP_IDLE,					ACT_HL2MP_IDLE_PISTOL,					false },
-	{ ACT_HL2MP_RUN,					ACT_HL2MP_RUN_PISTOL,					false },
-	{ ACT_HL2MP_IDLE_CROUCH,			ACT_HL2MP_IDLE_CROUCH_PISTOL,			false },
-	{ ACT_HL2MP_WALK_CROUCH,			ACT_HL2MP_WALK_CROUCH_PISTOL,			false },
-	{ ACT_HL2MP_GESTURE_RANGE_ATTACK,	ACT_HL2MP_GESTURE_RANGE_ATTACK_PISTOL,	false },
-	{ ACT_HL2MP_GESTURE_RELOAD,			ACT_HL2MP_GESTURE_RELOAD_PISTOL,		false },
-	{ ACT_HL2MP_JUMP,					ACT_HL2MP_JUMP_PISTOL,					false },
-	{ ACT_RANGE_ATTACK1,				ACT_RANGE_ATTACK_PISTOL,				false },
+	{ ACT_HL2MP_IDLE, ACT_HL2MP_IDLE_PISTOL, false },
+	{ ACT_HL2MP_RUN, ACT_HL2MP_RUN_PISTOL, false },
+	{ ACT_HL2MP_IDLE_CROUCH, ACT_HL2MP_IDLE_CROUCH_PISTOL, false },
+	{ ACT_HL2MP_WALK_CROUCH, ACT_HL2MP_WALK_CROUCH_PISTOL, false },
+	{ ACT_HL2MP_GESTURE_RANGE_ATTACK, ACT_HL2MP_GESTURE_RANGE_ATTACK_PISTOL, false },
+	{ ACT_HL2MP_GESTURE_RELOAD, ACT_HL2MP_GESTURE_RELOAD_PISTOL, false },
+	{ ACT_HL2MP_JUMP, ACT_HL2MP_JUMP_PISTOL, false },
+	{ ACT_RANGE_ATTACK1, ACT_RANGE_ATTACK_PISTOL, false },
 
 	{ ACT_IDLE, ACT_IDLE_PISTOL, true },
 	{ ACT_IDLE_ANGRY, ACT_IDLE_ANGRY_PISTOL, true },
@@ -223,7 +235,7 @@ acttable_t CWeaponToolgun::m_acttable[] =
 };
 
 
-IMPLEMENT_ACTTABLE( CWeaponToolgun );
+IMPLEMENT_ACTTABLE(CWeaponToolgun);
 
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
@@ -240,6 +252,9 @@ CWeaponToolgun::CWeaponToolgun(void)
 
 	m_bFiresUnderwater = true;
 	m_flNextModeSwitch = gpGlobals->curtime;
+
+	m_bWeldFirstClick = false;
+	m_pFirstWeldEntity = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -251,7 +266,7 @@ void CWeaponToolgun::Precache(void)
 
 	g_beam1 = PrecacheModel(BEAM_SPRITE1);
 	PrecacheMaterial(BEAM_SPRITE1);
-	PrecacheParticleSystem("impact_fx");
+	PrecacheParticleSystem("muzzle_smg1");
 }
 
 
@@ -278,9 +293,8 @@ void CWeaponToolgun::Operator_HandleAnimEvent(animevent_t *pEvent, CBaseCombatCh
 		CSoundEnt::InsertSound(SOUND_COMBAT | SOUND_CONTEXT_GUNFIRE, pOperator->GetAbsOrigin(), SOUNDENT_VOLUME_PISTOL, 0.2, pOperator, SOUNDENT_CHANNEL_WEAPON, pOperator->GetEnemy());
 
 		WeaponSound(SINGLE_NPC);
-		pOperator->FireBullets(1, vecShootOrigin, vecShootDir, VECTOR_CONE_PRECALCULATED, MAX_TRACE_LENGTH, m_iPrimaryAmmoType, 2);
+		pOperator->FireBullets(1, vecShootOrigin, vecShootDir, GetBulletSpread(), MAX_TRACE_LENGTH, m_iPrimaryAmmoType, 2);
 		pOperator->DoMuzzleFlash();
-		m_iClip1 = m_iClip1 - 1;
 	}
 	break;
 	default:
@@ -299,7 +313,6 @@ void CWeaponToolgun::DryFire(void)
 	SendWeaponAnim(ACT_VM_DRYFIRE);
 
 	m_flSoonestPrimaryAttack = gpGlobals->curtime + TOOLGUN_FASTEST_DRY_REFIRE_TIME;
-	m_flNextPrimaryAttack = gpGlobals->curtime + SequenceDuration();
 }
 
 //-----------------------------------------------------------------------------
@@ -307,29 +320,49 @@ void CWeaponToolgun::DryFire(void)
 //-----------------------------------------------------------------------------
 void CWeaponToolgun::PrimaryAttack(void)
 {
-	CBasePlayer *pPlayer = ToBasePlayer(GetOwner());
-	if (!pPlayer)
+	if ((gpGlobals->curtime - m_flLastAttackTime) > 0.5f)
 	{
-		return;
+		m_nNumShotsFired = 0;
+	}
+	else
+	{
+		m_nNumShotsFired++;
 	}
 
-	Vector vecStart = pPlayer->EyePosition();
-	Vector vecForward;
-	pPlayer->EyeVectors(&vecForward);
+	m_flLastAttackTime = gpGlobals->curtime;
 
-	Vector vecEnd = vecStart + (vecForward * MAX_TRACE_LENGTH);
+	CBasePlayer *pOwner = ToBasePlayer(GetOwner());
+	if (!pOwner)
+		return;
+
+	Vector vecSrc = pOwner->Weapon_ShootPosition();
+	Vector vecAiming = pOwner->GetAutoaimVector(AUTOAIM_SCALE_DEFAULT);
+
+	Vector vecRight, vecUp;
+	VectorVectors(vecAiming, vecRight, vecUp);
+
+	float x, y, z;
+
+	do {
+		x = random->RandomFloat(-0.5f, 0.5f) + random->RandomFloat(-0.5f, 0.5f);
+		y = random->RandomFloat(-0.5f, 0.5f) + random->RandomFloat(-0.5f, 0.5f);
+		z = x * x + y * y;
+	} while (z > 1);
+
+	Vector vecDir = vecAiming +
+		x * GetBulletSpread().x * vecRight +
+		y * GetBulletSpread().y * vecUp;
+
+	VectorNormalize(vecDir);
+
 	trace_t tr;
-	UTIL_TraceLine(vecStart, vecEnd, MASK_SHOT, pPlayer, COLLISION_GROUP_NONE, &tr);
+	UTIL_TraceLine(vecSrc, vecSrc + vecDir * MAX_TRACE_LENGTH, MASK_SHOT, pOwner, COLLISION_GROUP_NONE, &tr);
 
-	/*CBasePlayer* pOwner = nullptr;
-	QAngle vecAngles;
-	Vector vForward, vRight, vUp, muzzlePoint, vecAiming, vecShootOrigin, vecShootDir;
-	IPhysicsObject *VPhysicsGetObject = nullptr;*/
+	DispatchParticleEffect("muzzle_smg1", tr.endpos, vec3_angle);
 
 	switch (m_Mode)
 	{
 	case MODE_DELETE:
-	{
 #pragma warning(push)
 #pragma warning(disable: 4706)
 		if (dynamic_cast<CBaseAnimating*>(tr.m_pEnt) && !tr.m_pEnt->IsPlayer())
@@ -338,9 +371,9 @@ void CWeaponToolgun::PrimaryAttack(void)
 			QAngle vecAngles(0, GetAbsAngles().y - 90, 0);
 
 			Vector vForward, vRight, vUp;
-			pPlayer->EyeVectors(&vForward, &vRight, &vUp);
-			Vector muzzlePoint = pPlayer->Weapon_ShootPosition() + vForward + vRight + vUp;
-			Vector vecAiming = pPlayer->GetAutoaimVector(AUTOAIM_5DEGREES);
+			pOwner->EyeVectors(&vForward, &vRight, &vUp);
+			Vector muzzlePoint = pOwner->Weapon_ShootPosition() + vForward + vRight + vUp;
+			Vector vecAiming = pOwner->GetAutoaimVector(AUTOAIM_5DEGREES);
 
 			trace_t tr;
 			UTIL_TraceLine(muzzlePoint, muzzlePoint + vForward * MAX_TRACE_LENGTH, MASK_SHOT, this, COLLISION_GROUP_NONE, &tr);
@@ -348,7 +381,7 @@ void CWeaponToolgun::PrimaryAttack(void)
 				return;
 			Vector vecShootOrigin, vecShootDir;
 			Vector VPhysicsGetObject;
-			vecShootOrigin = pPlayer->Weapon_ShootPosition();
+			vecShootOrigin = pOwner->Weapon_ShootPosition();
 
 			m_flNextPrimaryAttack = gpGlobals->curtime + 1.0f;
 
@@ -360,77 +393,111 @@ void CWeaponToolgun::PrimaryAttack(void)
 #endif // !CLIENT_DLL
 		}
 		break;
-	}
+		break;
+
 	case MODE_IGNITER:
 	{
-#pragma warning(push)
-#pragma warning(disable: 4706)
 #ifndef CLIENT_DLL
-		QAngle vecAngles(0, GetAbsAngles().y - 90, 0);
 
-		Vector vForward, vRight, vUp;
-		pPlayer->EyeVectors(&vForward, &vRight, &vUp);
-		Vector muzzlePoint = pPlayer->Weapon_ShootPosition() + vForward + vRight + vUp;
-		Vector vecAiming = pPlayer->GetAutoaimVector(AUTOAIM_5DEGREES);
-
-		UTIL_TraceLine(muzzlePoint, muzzlePoint + vForward * MAX_TRACE_LENGTH, MASK_SHOT, this, COLLISION_GROUP_NONE, &tr);
-		if (tr.fraction == 1.0)
-			return;
-
-		if (tr.m_pEnt->IsNPC() || (tr.m_pEnt->VPhysicsGetObject()))
+		CEntityFlame *pFlame = CEntityFlame::Create(tr.m_pEnt, true);
+		if (pFlame != NULL)
 		{
-			if (m_pIgniter)
-			{
-				UTIL_Remove(m_pIgniter);
-			}
-			m_pIgniter = CEntityFlame::Create(tr.m_pEnt, true);
-			if (tr.m_pEnt->IsPlayer())
-			{
-				ClientPrint(pPlayer, HUD_PRINTCONSOLE, "brotha it cant be set on fire");
-			}
+			pFlame->SetLifetime(10e10);
 		}
 #endif
 		break;
 	}
-#pragma warning(pop)
 	case MODE_LIGHT:
+		CreateFlashlight(tr.endpos);
+		break;
+
+	case MODE_WELD:
+		if (!m_bWeldFirstClick)
+		{
+			ShowModeSwitchMessage("great! now click on the second prop..\n");
+			m_bWeldFirstClick = true;
+			m_pFirstWeldEntity = tr.m_pEnt;
+			m_vFirstWeldPos = tr.endpos;
+		}
+		else
+		{
+			ShowModeSwitchMessage("welded!\n");
+			m_bWeldFirstClick = false;
+			CBaseEntity* pSecondEntity = tr.m_pEnt;
+
+			if (m_pFirstWeldEntity && pSecondEntity)
+			{
+				WeldObjects(m_pFirstWeldEntity, pSecondEntity);
+			}
+		}
+		break;
+
+	default:
 		break;
 	}
 
-	WeaponSound(SINGLE);
-	SendWeaponAnim(GetPrimaryAttackActivity());
-	pPlayer->SetAnimation(PLAYER_ATTACK1);
+	// Only the player fires this way so we can cast
+	CBasePlayer *pPlayer = ToBasePlayer(GetOwner());
+
+	if (pPlayer)
+	{
+		pPlayer->ViewPunch(QAngle(random->RandomFloat(-0.25f, -0.5f), random->RandomFloat(-0.6f, 0.6f), 0));
+	}
+
+	//Disorient the player
 	AddViewKick();
 
-	m_flNextPrimaryAttack = gpGlobals->curtime + GetFireRate();
-	m_flSoonestPrimaryAttack = gpGlobals->curtime + TOOLGUN_FASTEST_REFIRE_TIME;
-
-	m_iPrimaryAttacks++;
-#ifndef CLIENT_DLL
-	gamestats->Event_WeaponFired(pPlayer, true, GetClassname());
-#endif
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: 
-//-----------------------------------------------------------------------------
-void CWeaponToolgun::UpdatePenaltyTime(void)
-{
-	CBasePlayer *pOwner = ToBasePlayer(GetOwner());
-
-	if (pOwner == NULL)
+	if (!pPlayer)
 		return;
 
-	// Check our penalty time decay
-	if (((pOwner->m_nButtons & IN_ATTACK) == false) && (m_flSoonestPrimaryAttack < gpGlobals->curtime))
+	SendWeaponAnim(ACT_VM_PRIMARYATTACK);
+
+	// Don't fire again until fire animation has completed
+	m_flSoonestPrimaryAttack = gpGlobals->curtime + TOOLGUN_FASTEST_REFIRE_TIME;
+	m_flNextPrimaryAttack = gpGlobals->curtime + GetFireRate();
+
+	// Add an accuracy penalty which can move past our maximum penalty time if we're really spastic
+	m_flAccuracyPenalty += TOOLGUN_ACCURACY_SHOT_PENALTY_TIME;
+
+	// Allow a refire right away so players don't feel the drag
+	m_iClip1--;
+
+	if (m_iClip1 <= 0)
 	{
-		m_flAccuracyPenalty -= gpGlobals->frametime;
-		m_flAccuracyPenalty = clamp(m_flAccuracyPenalty, 0.0f, TOOLGUN_ACCURACY_MAXIMUM_PENALTY_TIME);
+		// Just shoot the thing dry
+		if (!pPlayer->GetAmmoCount(m_iPrimaryAmmoType))
+		{
+			// HEV suit - indicate out of ammo condition
+			pPlayer->SetSuitUpdate("!HEV_AMO0", FALSE, 0);
+
+		}
 	}
 }
 
+void CWeaponToolgun::AddViewKick(void)
+{
+#define	EASY_DAMPEN			0.5f
+#define	MAX_VERTICAL_KICK	1.0f	//Degrees
+#define	SLIDE_LIMIT			2.0f	//Seconds
+
+	CBasePlayer *pPlayer = ToBasePlayer(GetOwner());
+
+	if (!pPlayer)
+		return;
+
+	QAngle	viewPunch;
+
+	viewPunch.x = random->RandomFloat(0.25f, 0.5f);
+	viewPunch.y = random->RandomFloat(-.6f, .6f);
+	viewPunch.z = 0.0f;
+
+	//Add it to the view punch
+	pPlayer->ViewPunch(viewPunch);
+}
+
 //-----------------------------------------------------------------------------
 // Purpose: 
+// Input  : *pOwner - 
 //-----------------------------------------------------------------------------
 void CWeaponToolgun::ItemPreFrame(void)
 {
@@ -450,114 +517,147 @@ void CWeaponToolgun::ItemBusyFrame(void)
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: Allows firing as fast as button is pressed
+// Purpose: 
 //-----------------------------------------------------------------------------
 void CWeaponToolgun::ItemPostFrame(void)
 {
 	BaseClass::ItemPostFrame();
 
-	CBasePlayer* pOwner = ToBasePlayer(GetOwner());
-	if (!pOwner)
-		return;
-
-	// If the player released the reload button, reset in reload state
-	if (m_bInReload && !(pOwner->m_nButtons & IN_RELOAD))
-		m_bInReload = false;
+	if (m_flNextModeSwitch <= gpGlobals->curtime)
+	{
+		CBasePlayer *pOwner = ToBasePlayer(GetOwner());
+		if (pOwner && pOwner->m_afButtonPressed & IN_RELOAD)
+		{
+			SwitchMode();
+			m_flNextModeSwitch = gpGlobals->curtime + 0.5f;
+		}
+	}
 }
 
 //-----------------------------------------------------------------------------
 // Purpose: 
-// Output : int
+//-----------------------------------------------------------------------------
+void CWeaponToolgun::UpdatePenaltyTime(void)
+{
+	CBasePlayer *pOwner = ToBasePlayer(GetOwner());
+
+	if (pOwner == NULL)
+		return;
+
+	// Check our penalty time decay
+	if ((pOwner->m_nButtons & IN_ATTACK) == false)
+	{
+		m_flAccuracyPenalty -= gpGlobals->frametime;
+		m_flAccuracyPenalty = max(0.0f, m_flAccuracyPenalty);
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+// Output : Activity
 //-----------------------------------------------------------------------------
 Activity CWeaponToolgun::GetPrimaryAttackActivity(void)
 {
-	if (m_nNumShotsFired < 1)
-		return ACT_VM_PRIMARYATTACK;
-
-	if (m_nNumShotsFired < 2)
-		return ACT_VM_RECOIL1;
-
-	if (m_nNumShotsFired < 3)
-		return ACT_VM_RECOIL2;
-
-	return ACT_VM_RECOIL3;
+	return ACT_VM_PRIMARYATTACK;
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: Switch between delete and duplicate modes
-//-----------------------------------------------------------------------------
-void CWeaponToolgun::SwitchMode()
-{
-	m_Mode = static_cast<ToolgunMode>((m_Mode + 1) % MODE_MAX);
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: Reload the toolgun
+// Purpose: 
+// Output : Returns true on success, false on failure.
 //-----------------------------------------------------------------------------
 bool CWeaponToolgun::Reload(void)
 {
-	CBasePlayer* pOwner = ToBasePlayer(GetOwner());
-	if (!pOwner)
-		return false;
-
-	if (gpGlobals->curtime < m_flNextModeSwitch)
-		return false;
-
-	SwitchMode();
-	NotifyMode(pOwner);
-
-	m_flNextModeSwitch = gpGlobals->curtime + 0.314f;
-
-	return true;
+	return false;
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: Notify the player about the current mode
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CWeaponToolgun::SwitchMode()
+{
+	m_Mode = (ToolgunMode)((m_Mode + 1) % MODE_MAX);
+
+	CBasePlayer *pPlayer = ToBasePlayer(GetOwner());
+	if (pPlayer)
+	{
+		NotifyMode(pPlayer);
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
 //-----------------------------------------------------------------------------
 void CWeaponToolgun::NotifyMode(CBasePlayer* pPlayer)
 {
-	if (!pPlayer)
-		return;
-
-	const char* modeString = nullptr;
+	const char* modeName = "";
 
 	switch (m_Mode)
 	{
 	case MODE_DELETE:
-		modeString = "Remover";
+		modeName = "Remover";
 		break;
 	case MODE_IGNITER:
-		modeString = "Igniter";
+		modeName = "Igniter";
 		break;
 	case MODE_LIGHT:
-		modeString = "Light";
+		modeName = "Light";
+		break;
+	case MODE_WELD:
+		modeName = "Weld";
 		break;
 	default:
-		modeString = "Unknown Mode";
 		break;
 	}
 
-#ifdef CLIENT_DLL
-	
-#endif
+	ShowModeSwitchMessage(modeName);
 }
-
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CWeaponToolgun::AddViewKick(void)
+void CWeaponToolgun::ShowModeSwitchMessage(const char* modeName)
 {
-	CBasePlayer *pPlayer = ToBasePlayer(GetOwner());
+	if (CBasePlayer* pPlayer = ToBasePlayer(GetOwner()))
+	{
+#ifndef CLIENT_DLL
+		char buf[256];
+		Q_snprintf(buf, sizeof(buf), "%s\n", modeName);
+		CRecipientFilter filter;
+		filter.AddRecipient(pPlayer);
+		UTIL_ClientPrintFilter(filter, HUD_PRINTTALK, buf);
+#endif
+	}
+}
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CWeaponToolgun::CreateFlashlight(const Vector& position)
+{
+	if (CBasePlayer* pPlayer = ToBasePlayer(GetOwner()))
+	{
+#ifndef CLIENT_DLL
+		engine->ClientCommand(pPlayer->edict(), "create_flashlight");
+#endif
+	}
+}
 
-	if (pPlayer == NULL)
-		return;
+//-----------------------------------------------------------------------------
+// Purpose: Weld two objects together
+//-----------------------------------------------------------------------------
+void CWeaponToolgun::WeldObjects(CBaseEntity* pEntity1, CBaseEntity* pEntity2)
+{
+	if (pEntity1 && pEntity2)
+	{
+		IPhysicsObject* pPhys1 = pEntity1->VPhysicsGetObject();
+		IPhysicsObject* pPhys2 = pEntity2->VPhysicsGetObject();
 
-	QAngle	viewPunch;
+		if (pPhys1 && pPhys2)
+		{
+			constraint_fixedparams_t fixedConstraint;
+			fixedConstraint.Defaults();
+			fixedConstraint.InitWithCurrentObjectState(pPhys1, pPhys2);
 
-	viewPunch.x = random->RandomFloat(0.25f, 0.5f);
-	viewPunch.y = random->RandomFloat(-.6f, .6f);
-	viewPunch.z = 0.0f;
-
-	pPlayer->ViewPunch(viewPunch);
+			physenv->CreateFixedConstraint(pPhys1, pPhys2, nullptr, fixedConstraint);
+		}
+	}
 }
