@@ -372,11 +372,11 @@ void CWeaponToolgun::PrimaryAttack(void)
 
 			Vector vForward, vRight, vUp;
 			pOwner->EyeVectors(&vForward, &vRight, &vUp);
-			Vector muzzlePoint = pOwner->Weapon_ShootPosition() + vForward + vRight + vUp;
+			Vector m_p = pOwner->Weapon_ShootPosition() + vForward + vRight + vUp;
 			Vector vecAiming = pOwner->GetAutoaimVector(AUTOAIM_5DEGREES);
 
 			trace_t tr;
-			UTIL_TraceLine(muzzlePoint, muzzlePoint + vForward * MAX_TRACE_LENGTH, MASK_SHOT, this, COLLISION_GROUP_NONE, &tr);
+			UTIL_TraceLine(m_p, m_p + vForward * MAX_TRACE_LENGTH, MASK_SHOT, this, COLLISION_GROUP_NONE, &tr);
 			if (tr.fraction == 1.0)
 				return;
 			Vector vecShootOrigin, vecShootDir;
@@ -388,7 +388,7 @@ void CWeaponToolgun::PrimaryAttack(void)
 			if (tr.m_pEnt->IsNPC() || tr.m_pEnt->VPhysicsGetObject())
 			{
 				UTIL_Remove(m_pIgniter);
-				m_pDissolver = CEntityDissolve::Create(tr.m_pEnt, STRING(m_szModelName), gpGlobals->curtime, NULL);
+				CEntityDissolve::Create(tr.m_pEnt, STRING(m_szModelName), gpGlobals->curtime, NULL);
 			}
 #endif // !CLIENT_DLL
 		}
@@ -398,12 +398,8 @@ void CWeaponToolgun::PrimaryAttack(void)
 	case MODE_IGNITER:
 	{
 #ifndef CLIENT_DLL
-
-		CEntityFlame *pFlame = CEntityFlame::Create(tr.m_pEnt, true);
-		if (pFlame != NULL)
-		{
-			pFlame->SetLifetime(10e10);
-		}
+		CEntityFlame *pZhopa = CEntityFlame::Create(tr.m_pEnt, true);
+		pZhopa->SetLifetime(10e10);
 #endif
 		break;
 	}
