@@ -13,7 +13,6 @@
 #include "hl2_shareddefs.h"
 
 #include "props_shared.h"
-#include "lua/luahandle.h"
 
 #ifdef CLIENT_DLL
 	#include "c_hl2mp_player.h"
@@ -1767,11 +1766,6 @@ CHL2MPRules::CHL2MPRules()
 	m_bHeardAllPlayersReady = false;
 	m_bAwaitingReadyRestart = false;
 	m_bChangelevelDone = false;
-
-	Lua()->InitDll();
-	LuaHandle* lua = new LuaHandle(); 
-	lua->LoadLua("lua/game.lua");
-
 #endif
 }
 

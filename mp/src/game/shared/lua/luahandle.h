@@ -12,6 +12,7 @@ public:
 	void RegisterGlobals();
 
 	void LoadLua(const char *luaFile);
+	void LoadLuaFolder(const char *folder);
 };
 
 CBaseLuaHandle *GetLuaHandle();

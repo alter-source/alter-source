@@ -16,10 +16,6 @@ int VAwesomium::m_iNumberOfViews = 0;
 
 VAwesomium::VAwesomium(Panel *parent, const char *panelName) : Panel(parent, panelName)
 {
-	Lua()->InitDll();
-	LuaHandle* lua = new LuaHandle();
-	lua->LoadLua("lua/cl/awesomium/init.lua");
-
 	m_iNumberOfViews++;
 
 	m_iTextureId = surface()->CreateNewTextureID(true);
@@ -41,10 +37,6 @@ VAwesomium::VAwesomium(Panel *parent, const char *panelName) : Panel(parent, pan
 
 VAwesomium::~VAwesomium()
 {
-	Lua()->InitDll();
-	LuaHandle* lua = new LuaHandle();
-	lua->LoadLua("lua/cl/awesomium/destruct.lua");
-
 	m_iNumberOfViews--;
 
 	m_WebView->Destroy();

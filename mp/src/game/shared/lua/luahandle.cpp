@@ -9,6 +9,7 @@
 #else
 #include "vgui/ISurface.h"
 #include "vgui_controls/Controls.h"
+#include "cdll_int.h"
 
 using namespace vgui;
 #endif
@@ -26,11 +27,8 @@ LuaHandle::~LuaHandle() {
 }
 
 void LuaHandle::Init() {
-#ifndef CLIENT_DLL
 	const char *luaFile = "lua/init.lua";
-#else
-	const char *luaFile = "lua/cl/init.lua";
-#endif
+	// ^ this 'bout to have a rework
 
 	// Load into buffer
 	FileHandle_t f = filesystem->Open(luaFile, "rb", "MOD");
@@ -102,6 +100,30 @@ void LuaHandle::LoadLua(const char *luaFile) {
 	CallLua(GetLua(), 0, LUA_MULTRET, 0, luaFile);
 	m_bLuaLoaded = true;
 }
+
+void LuaHandle::LoadLuaFolder(const char *folder) {
+	//const char *extension = ".lua";
+
+	char searchPath[MAX_PATH];
+	Q_snprintf(searchPath, sizeof(searchPath), "%s/*.lua", folder);
+
+	FileFindHandle_t handle;
+	const char *filename = filesystem->FindFirstEx(searchPath, "MOD", &handle);
+
+	while (filename) {
+		char filePath[MAX_PATH];
+		Q_snprintf(filePath, sizeof(filePath), "%s/%s", folder, filename);
+
+		if (!filesystem->FindIsDirectory(handle)) {
+			LoadLua(filePath);
+		}
+
+		filename = filesystem->FindNext(handle);
+	}
+
+	filesystem->FindClose(handle);
+}
+
 
 void LuaHandle::Shutdown() {
 }
@@ -211,13 +233,48 @@ void LuaHandle::RegisterFunctions() {
 #endif
 
 	// Other Functions
-	REG_FUNCTION(IsLinux);
+	REG_FUNCTION(isLinux);
+	REG_FUNCTION(isClient);
+	REG_FUNCTION(isServer);
+	REG_FUNCTION(LoadFolder);
 }
 
 #pragma warning(disable: 4238)
 #pragma warning(disable: 4800)
 #pragma warning(disable: 4189)
 #pragma warning(disable: 4700)
+
+// stuff
+int luaisClient(lua_State *L)
+{
+#ifdef CLIENT_DLL
+	lua_pushboolean(L, true);
+#else
+	lua_pushboolean(L, false);
+#endif
+
+	return 1;
+}
+
+int luaisServer(lua_State *L)
+{
+#ifndef CLIENT_DLL
+	lua_pushboolean(L, true);
+#else
+	lua_pushboolean(L, false);
+#endif
+
+	return 1;
+}
+
+LUA_FUNC(luaLoadFolder, [](lua_State *L) {
+	const char* folder = lua_tostring(L, 1);
+	if (folder) {
+		LuaHandle* lua = (LuaHandle*)GetLuaHandle();
+		lua->LoadLuaFolder(folder);
+	}
+	return 0;
+})
 
 // console management
 LUA_FUNC(luaRegisterConVar, [](lua_State *L) {
@@ -650,10 +707,14 @@ LUA_FUNC(luaLoadLua, [](lua_State *L) {
 })
 
 // other
-LUA_FUNC(luaIsLinux, [](lua_State *L) {
-	lua_pushboolean(L, false); // checks if the game is ran on Linux or shit.
+int luaisLinux(lua_State *L) {
+#if !defined(_WIN32)
+	lua_pushboolean(L, false);
+#else
+	lua_pushboolean(L, true);
+#endif
 	return 1;
-})
+}
 
 CBaseLuaHandle *GetLuaHandle() {
 	Assert(g_LuaHandle);

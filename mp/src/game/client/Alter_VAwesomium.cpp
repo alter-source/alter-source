@@ -62,7 +62,7 @@ void Alter_VAwesomium::OnDocumentReady(WebView* caller, const WebURL& url)
 	myObject.SetCustomMethod(WSLit("FindServers"), false);
 	myObject.SetCustomMethod(WSLit("CreateServer"), false);
 	myObject.SetCustomMethod(WSLit("Quit"), false);
-
+	myObject.SetCustomMethod(WSLit("Addons"), false);
 	myObject.SetCustomMethod(WSLit("InGame"), false);
 
 	caller->ExecuteJavascript(WSLit("AwesomiumInitialized()"), WSLit(""));
@@ -119,6 +119,9 @@ void Alter_VAwesomium::OnMethodCall(Awesomium::WebView* caller, unsigned int rem
 #else
 		gameui->SendMainMenuCommand("resumegame");
 #endif
+	}
+	if (method_name == WSLit("Addons")) {
+		SendCommand("show_addons");
 	}
 	if (method_name == WSLit("InGame")) {
 		bool inGame = IsPlayerInGame();

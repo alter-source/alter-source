@@ -23,8 +23,6 @@
 #include <random>
 #include "hl2mp_cvars.h"
 
-#include "lua/luahandle.h"
-
 #include "engine/IEngineSound.h"
 #include "SoundEmitterSystem/isoundemittersystembase.h"
 
@@ -359,10 +357,6 @@ void CHL2MP_Player::GiveDeathmatchItems(void)
 
 void CHL2MP_Player::GiveDefaultItems( void )
 {
-	Lua()->InitDll();
-	LuaHandle* lua = new LuaHandle(); 
-	lua->LoadLua("lua/player.lua");
-
 	const char* gamemodeStr = as_gamemode.GetString();
 	GameMode gamemode = GetGameMode(gamemodeStr);
 

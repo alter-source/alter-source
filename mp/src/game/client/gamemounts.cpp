@@ -6,6 +6,17 @@
 #include "lua/luahandle.h"
 #include "filesystem.h"
 
+#include "vgui/IVGui.h"
+#include "vgui_controls/Panel.h"
+#include "vgui_controls/Label.h"
+#include "vgui_controls/Frame.h"
+#include <vgui/ISurface.h>
+#include "vgui_controls/ListPanel.h"
+#include "vgui_controls/ScrollBar.h"
+
+#include <vector>
+#include <string>
+
 #include <map>
 #include <string>
 #include <functional>
@@ -21,6 +32,13 @@ extern ConVar hl2_episodic; // indicates if episode one is mounted
 ConVar hl2_ep2("ep2_mounted", "0", FCVAR_REPLICATED, "Indicates if Half-Life 2: Episode Two is mounted");
 ConVar hl2_lc("lc_mounted", "0", FCVAR_REPLICATED, "Indicates if Half-Life 2: Lost Coast is mounted");
 ConVar hl1_src("hl_source_mounted", "0", FCVAR_REPLICATED, "Indicated if Half Life: Source is mounted");
+
+struct AddonInfo {
+	std::string name;
+	std::string description;
+};
+
+std::vector<AddonInfo> g_Addons;
 
 char* GetPath() {
 	auto* gameDirectory = engine->GetGameDirectory();
@@ -38,30 +56,42 @@ char* GetPath() {
 	}
 }
 
-void LoadAddons()
-{
-	//FreePath(GetPath());
+void ReadAddonInfo(const char* addonDir) {
+	char szAddonInfoPath[MAX_PATH];
+	Q_snprintf(szAddonInfoPath, sizeof(szAddonInfoPath), "%s\\addon-info.txt", addonDir);
 
+	if (filesystem->FileExists(szAddonInfoPath)) {
+		FileHandle_t hFile = filesystem->Open(szAddonInfoPath, "r", "GAME");
+		if (hFile) {
+			AddonInfo addonInfo;
+			char szLine[MAX_LINE_LENGTH];
+			filesystem->ReadLine(szLine, sizeof(szLine), hFile);
+			addonInfo.name = szLine;
+			filesystem->ReadLine(szLine, sizeof(szLine), hFile);
+			addonInfo.description = szLine;
+			g_Addons.push_back(addonInfo);
+			filesystem->Close(hFile);
+		}
+	}
+}
+
+void LoadAddons() {
 	char* addonsFolder = GetPath();
-	if (!addonsFolder)
-	{
+	if (!addonsFolder) {
 		Warning("addon folder not found\n");
 		return;
 	}
 
 	const char *pszAddonDir = "addons\\*";
-
 	FileFindHandle_t findHandle;
 	const char *pszAddonName = filesystem->FindFirst(pszAddonDir, &findHandle);
 
-	if (!pszAddonName)
-	{
+	if (!pszAddonName) {
 		ConMsg("no addons found in directory: %s\n", pszAddonDir);
 		return;
 	}
 
-	do
-	{
+	do {
 		if (V_stricmp(pszAddonName, ".") != 0 && V_stricmp(pszAddonName, "..") != 0 && V_stricmp(pszAddonName, "checkers") != 0 && V_stricmp(pszAddonName, "chess") != 0
 			&& V_stricmp(pszAddonName, "common") != 0 && V_stricmp(pszAddonName, "go") != 0 && V_stricmp(pszAddonName, "hearts") != 0 && V_stricmp(pszAddonName, "spades") != 0
 			&& V_stricmp(pszAddonName, "ð„Ómportal") != 0 && V_stricmp(pszAddonName, "addons") != 0 && V_stricmp(pszAddonName, "maps") != 0 && V_stricmp(pszAddonName, "materials") != 0
@@ -76,62 +106,51 @@ void LoadAddons()
 			char szInitLuaPath[MAX_PATH];
 			Q_snprintf(szInitLuaPath, sizeof(szInitLuaPath), "%s\\%s\\lua\\init.lua", addonsFolder, pszAddonName);
 
-			if (filesystem->FileExists(szInitLuaPath))
-			{
+			if (filesystem->FileExists(szInitLuaPath)) {
 				ConMsg("found init.lua for addon %s at %s\n", pszAddonName, szInitLuaPath);
 				Lua()->InitDll();
 				LuaHandle* lua = new LuaHandle();
 				lua->LoadLua(szInitLuaPath);
 			}
-			else
-			{
-				ConMsg("init.lua not found for addon %s\n", pszAddonName);
-				return;
+			else {
+				ConMsg("init.lua not found for addon %s, skipping\n", pszAddonName);
 			}
+
+			Msg("loading addon info for %s...\n\n", szFullPath);
+			ReadAddonInfo(szFullPath);
 		}
 		pszAddonName = filesystem->FindNext(findHandle);
 	} while (pszAddonName);
 
 	filesystem->FindClose(findHandle);
-
-	//FreePath(addonsFolder);
 }
 
-void MountAddon(const char *pszAddonName)
-{
+void MountAddon(const char *pszAddonName) {
 	char szFullPath[MAX_PATH];
 	Q_snprintf(szFullPath, sizeof(szFullPath), "%s", pszAddonName);
 
 	g_pFullFileSystem->AddSearchPath(CFmtStr("%s/models", szFullPath), "GAME");
 	g_pFullFileSystem->AddSearchPath(CFmtStr("addons/%s/models", szFullPath), "GAME");
-
 	g_pFullFileSystem->AddSearchPath(CFmtStr("%s/sound", szFullPath), "GAME");
 	g_pFullFileSystem->AddSearchPath(CFmtStr("addons/%s/sound", szFullPath), "GAME");
-
 	g_pFullFileSystem->AddSearchPath(CFmtStr("%s/materials", szFullPath), "GAME");
 	g_pFullFileSystem->AddSearchPath(CFmtStr("addons/%s/materials", szFullPath), "GAME");
-
 	g_pFullFileSystem->AddSearchPath(CFmtStr("%s/particles", szFullPath), "GAME");
 	g_pFullFileSystem->AddSearchPath(CFmtStr("addons/%s/particles", szFullPath), "GAME");
-
 	g_pFullFileSystem->AddSearchPath(CFmtStr("%s/maps", szFullPath), "GAME");
 	g_pFullFileSystem->AddSearchPath(CFmtStr("addons/%s/maps", szFullPath), "GAME");
-
 	g_pFullFileSystem->AddSearchPath(szFullPath, "GAME");
 }
 
-void MountGames()
-{
-	if (!steamapicontext || !steamapicontext->SteamApps())
-	{
+void MountGames() {
+	if (!steamapicontext || !steamapicontext->SteamApps()) {
 		Warning("Steam API context is not available\n");
 		return;
 	}
 
 	FileHandle_t hFile = filesystem->Open("cfg/mounts.cfg", "rt");
 
-	if (!hFile)
-	{
+	if (!hFile) {
 		Warning("failed to open cfg/mounts.cfg file\n");
 		return;
 	}
@@ -139,19 +158,15 @@ void MountGames()
 	int numGamesLoaded = 0;
 
 	char szLine[MAX_LINE_LENGTH];
-	while (filesystem->ReadLine(szLine, sizeof(szLine), hFile))
-	{
+	while (filesystem->ReadLine(szLine, sizeof(szLine), hFile)) {
 		if (szLine[0] == '\0' || szLine[0] == '/' || szLine[0] == '#' || szLine[0] == ' ' || szLine[0] == '{' || szLine[0] == '}' || Q_strnicmp(szLine, "\"mounts\"", 8) == 0)
 			continue;
 
 		int appID;
-
 		char szGameName[MAX_LINE_LENGTH];
 		char newGameName[MAX_LINE_LENGTH];
-
 		char szPath[MAX_PATH * 2];
-		if (sscanf(szLine, "%d : %s \"%[^\"]\"", &appID, szGameName, szPath) == 3)
-		{
+		if (sscanf(szLine, "%d : %s \"%[^\"]\"", &appID, szGameName, szPath) == 3) {
 			std::map<std::string, std::function<void(int)>> gameMapping = {
 				{ "portal", [](int val) { portal_mounted.SetValue(val); } },
 				{ "tf", [](int val) { tf2_mounted.SetValue(val); } },
@@ -166,7 +181,6 @@ void MountGames()
 				it->second(1);
 			}
 
-
 			if (strcmp(szGameName, "tf") == 0) {
 				strcpy(newGameName, "tf2");
 			}
@@ -176,22 +190,15 @@ void MountGames()
 
 			Msg("%s at %s\n", szGameName, newGameName);
 
-			// Adding main VPK files
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_textures.vpk", szPath, szGameName, newGameName), "GAME");
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_misc.vpk", szPath, szGameName, newGameName), "GAME");
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_sound_misc.vpk", szPath, szGameName, newGameName), "GAME");
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_pak_dir.vpk", szPath, szGameName, newGameName), "GAME");
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/fallbacks_pak_dir.vpk", szPath, newGameName), "GAME");
-
-			// Adding directories
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s", szPath, szGameName), "GAME");
-
-			// Add other common VPK files
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_textures_dir.vpk", szPath, szGameName, newGameName), "GAME");
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_misc_dir.vpk", szPath, szGameName, newGameName), "GAME");
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_sound_dir.vpk", szPath, szGameName, newGameName), "GAME");
-
-			// Adding potential localization files
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/scenes", szPath, szGameName), "GAME");
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_sound_vo_english_dir.vpk", szPath, szGameName, newGameName), "GAME");
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_sound_vo_french_dir.vpk", szPath, szGameName, newGameName), "GAME");
@@ -202,31 +209,71 @@ void MountGames()
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_sound_vo_japanese_dir.vpk", szPath, szGameName, newGameName), "GAME");
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_sound_vo_chinese_dir.vpk", szPath, szGameName, newGameName), "GAME");
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/%s_sound_vo_korean_dir.vpk", szPath, szGameName, newGameName), "GAME");
-
-			// Add more specific paths as necessary
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/maps", szPath, newGameName), "GAME");
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/models", szPath, newGameName), "GAME");
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/materials", szPath, newGameName), "GAME");
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/sounds", szPath, newGameName), "GAME");
-
-			// Add search paths for mod support if applicable
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/custom", szPath, szGameName), "GAME");
-			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/addons", szPath, szGameName), "GAME");
-
-			// Add any other known or commonly used directories
-			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/updates", szPath, szGameName), "GAME");
-			g_pFullFileSystem->AddSearchPath(CFmtStr("%s/%s/dlc", szPath, szGameName), "GAME");
-
-			// Ensure the root path is also included as a fallback
 			g_pFullFileSystem->AddSearchPath(CFmtStr("%s", szPath), "GAME");
 
 			ConMsg("successfuly mounted appID %d (%s)\n", appID, szGameName);
-
 			numGamesLoaded++;
 		}
 	}
 
 	ConMsg("successfuly loaded %d game(s)\n", numGamesLoaded);
-
 	filesystem->Close(hFile);
+}
+
+class CAddonListPanel : public vgui::Frame {
+	DECLARE_CLASS_SIMPLE(CAddonListPanel, vgui::Frame);
+public:
+	CAddonListPanel(vgui::VPANEL parent);
+	virtual void Activate();
+
+private:
+	void PopulateAddonList();
+	vgui::ListPanel *m_pAddonList;
+	vgui::ScrollBar *m_pScrollBar;
+};
+
+CAddonListPanel::CAddonListPanel(vgui::VPANEL parent) : BaseClass(nullptr, "AddonListPanel") {
+	SetParent(parent);
+	SetTitle("Installed Addons", true);
+	SetSize(400, 600);
+	SetSizeable(false);
+	SetDeleteSelfOnClose(true);
+	SetVisible(false);
+
+	m_pAddonList = new vgui::ListPanel(this, "AddonList");
+	m_pAddonList->SetBounds(10, 30, 380, 560);
+	m_pAddonList->AddColumnHeader(0, "addonName", "Addon Name", 200);
+	m_pAddonList->AddColumnHeader(1, "description", "Description", 300);
+	m_pAddonList->SetMultiselectEnabled(false);
+
+	//LoadControlSettings("resource/ui/AddonListPanel.res");
+}
+
+void CAddonListPanel::Activate() {
+	BaseClass::Activate();
+	PopulateAddonList();
+}
+
+void CAddonListPanel::PopulateAddonList() {
+	m_pAddonList->DeleteAllItems();
+
+	for (const auto& addon : g_Addons) {
+		KeyValues *kv = new KeyValues("AddonItem");
+		kv->SetString("addonName", addon.name.c_str());
+		kv->SetString("description", addon.description.c_str());
+		m_pAddonList->AddItem(kv, 0, false, false);
+		kv->deleteThis();
+	}
+
+	m_pAddonList->SortList();
+}
+
+CON_COMMAND(show_addons, "Show installed addons") {
+	CAddonListPanel *pPanel = new CAddonListPanel(vgui::surface()->GetEmbeddedPanel());
+	pPanel->Activate();
 }

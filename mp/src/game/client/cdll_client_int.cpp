@@ -866,10 +866,6 @@ bool IsEngineThreaded()
 //-----------------------------------------------------------------------------
 static void HandleDiscordReady(const DiscordUser* connectedUser)
 {
-	Lua()->InitDll();
-	LuaHandle* lua = new LuaHandle();
-	lua->LoadLua("lua/discord/init.lua");
-
 	DevMsg("Discord: Connected to user %s#%s - %s\n",
 		connectedUser->username,
 		connectedUser->discriminator,
@@ -878,28 +874,16 @@ static void HandleDiscordReady(const DiscordUser* connectedUser)
 
 static void HandleDiscordDisconnected(int errcode, const char* message)
 {
-	Lua()->InitDll();
-	LuaHandle* lua = new LuaHandle();
-	lua->LoadLua("lua/discord/disconnect.lua");
-
 	DevMsg("Discord: Disconnected (%d: %s)\n", errcode, message);
 }
 
 static void HandleDiscordError(int errcode, const char* message)
 {
-	Lua()->InitDll();
-	LuaHandle* lua = new LuaHandle();
-	lua->LoadLua("lua/discord/error.lua");
-
 	DevMsg("Discord: Error (%d: %s)\n", errcode, message);
 }
 
 static void HandleDiscordJoin(const char* secret)
 {
-	Lua()->InitDll();
-	LuaHandle* lua = new LuaHandle();
-	lua->LoadLua("lua/discord/on_join.lua");
-
 	char szCommand[128];
 	Q_snprintf(szCommand, sizeof(szCommand), "connect %s\n", secret);
 	engine->ExecuteClientCmd(szCommand);
@@ -907,19 +891,11 @@ static void HandleDiscordJoin(const char* secret)
 
 static void HandleDiscordSpectate(const char* secret)
 {
-	Lua()->InitDll();
-	LuaHandle* lua = new LuaHandle();
-	lua->LoadLua("lua/discord/spectate.lua");
-
 	// i let y'all guys do this
 }
 
 static void HandleDiscordJoinRequest(const DiscordUser* request)
 {
-	Lua()->InitDll();
-	LuaHandle* lua = new LuaHandle();
-	lua->LoadLua("lua/discord/join_request.lua");
-
 	Discord_Respond(request->userId, DISCORD_REPLY_YES);
 }
 
@@ -1117,10 +1093,6 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 		}
 	}
 
-	Lua()->InitDll();
-	LuaHandle* lua = new LuaHandle();
-	lua->LoadLua("lua/cl/engine/init.lua");
-
 	MountGames();
 	LoadAddons();
 
@@ -1267,9 +1239,9 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 	HookHapticMessages(); // Always hook the messages
 #endif
 
+#ifdef GE_LUA
 	Lua()->InitDll();
-	LuaHandle* mlua = new LuaHandle();
-	mlua->LoadLua("lua/cl/menu.lua");
+#endif
 
 	// Discord RPC
 	DiscordEventHandlers handlers;
@@ -1306,9 +1278,6 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 
 bool CHLClient::ReplayInit( CreateInterfaceFn fnReplayFactory )
 {
-	Lua()->InitDll();
-	LuaHandle* lua = new LuaHandle();
-	lua->LoadLua("lua/cl/engine/replay.lua");
 
 #if defined( REPLAY_ENABLED )
 	if ( !IsPC() )
@@ -1349,10 +1318,6 @@ bool CHLClient::ReplayPostInit()
 void CHLClient::PostInit()
 {
 	IGameSystem::PostInitAllSystems();
-
-	Lua()->InitDll();
-	LuaHandle* lua = new LuaHandle();
-	lua->LoadLua("lua/cl/engine/post_init.lua");
 
 #ifdef SIXENSE
 	// allow sixnese input to perform post-init operations
@@ -1984,10 +1949,6 @@ void CHLClient::LevelShutdown( void )
 	StopAllRumbleEffects();
 
 	gHUD.LevelShutdown();
-
-	Lua()->InitDll();
-	LuaHandle* lua = new LuaHandle();
-	lua->LoadLua("lua/cl/menu.lua");
 
 	// S:O - Stop all FMOD sounds when exiting to the main menu
 	FMODManager()->StopAmbientSound(false);

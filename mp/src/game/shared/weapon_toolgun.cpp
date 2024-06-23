@@ -37,8 +37,6 @@
 #include "baseentity.h"
 #endif
 
-#include "lua/luahandle.h"
-
 #ifndef CLIENT_DLL
 #include "EntityFlame.h"
 #include "EntityDissolve.h"
@@ -399,10 +397,6 @@ void CWeaponToolgun::PrimaryAttack(void)
 		break;
 	}
 
-	Lua()->InitDll();
-	LuaHandle* lua = new LuaHandle();
-	lua->LoadLua("lua/toolgun/fire.lua");
-
 	WeaponSound(SINGLE);
 	SendWeaponAnim(GetPrimaryAttackActivity());
 	pPlayer->SetAnimation(PLAYER_ATTACK1);
@@ -508,10 +502,6 @@ bool CWeaponToolgun::Reload(void)
 
 	if (gpGlobals->curtime < m_flNextModeSwitch)
 		return false;
-
-	Lua()->InitDll();
-	LuaHandle* lua = new LuaHandle();
-	lua->LoadLua("lua/toolgun/switch.lua");
 
 	SwitchMode();
 	NotifyMode(pOwner);

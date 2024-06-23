@@ -1,1 +1,1 @@
-Msg("serverside lua initialized")
+LoadFolder("lua/autorun")
