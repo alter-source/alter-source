@@ -390,6 +390,32 @@ void CWeaponToolgun::PrimaryAttack(void)
 				UTIL_Remove(m_pIgniter);
 				CEntityDissolve::Create(tr.m_pEnt, STRING(m_szModelName), gpGlobals->curtime, NULL);
 			}
+
+			const char *className = tr.m_pEnt->GetEntityName().ToCStr();
+			const char* name = tr.m_pEnt->GetClassname();
+
+			if (tr.m_pEnt->VPhysicsGetObject())
+			{
+				pOwner->m_iProps--;
+			}
+
+			if (FClassnameIs(tr.m_pEnt, "prop_static"))
+			{
+				pOwner->m_iStaticProps--;
+			}
+
+			if (Q_strncmp(name, "npc_", 4) == 0)
+			{
+				pOwner->m_iNPCs--;
+				pOwner->m_iProps++;
+				// ^ i have no idea why it happens
+			}
+
+			if (Q_strcmp(className, "apc") == 0 || Q_strcmp(className, "jeep") == 0
+				|| Q_strcmp(className, "airboat") == 0 || Q_strcmp(className, "prisoner_pod") == 0)
+			{
+				pOwner->m_iVehicles--;
+			}
 #endif // !CLIENT_DLL
 		}
 		break;

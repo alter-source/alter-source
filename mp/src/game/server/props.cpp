@@ -5785,6 +5785,19 @@ void CPhysicsPropRespawnable::Materialize( void )
 	Spawn();
 }
 
+extern ConVar sbox_max_staticprops;
+
+bool CanPlayerSpawnStaticProp(CBasePlayer* pPlayer)
+{
+	int maxProps = sbox_max_staticprops.GetInt();
+
+	return (pPlayer->m_iStaticProps < maxProps);
+}
+
+void IncrementPlayerStaticPropCount(CBasePlayer* pPlayer)
+{
+	pPlayer->m_iStaticProps++;
+}
 
 //------------------------------------------------------------------------------
 // Purpose: Create a prop of the given type
@@ -5840,6 +5853,14 @@ void CC_Prop_Dynamic_Create( const CCommand &args )
 	QAngle angles;
 	MatrixToAngles( entToWorld, angles );
 
+	if (!CanPlayerSpawnStaticProp(pPlayer))
+	{
+		ClientPrint(pPlayer, HUD_PRINTTALK, "You have reached the static prop limit!");
+		return;
+	}
+
+	IncrementPlayerStaticPropCount(pPlayer);
+
 	// Try to create entity
 	CDynamicProp *pProp = dynamic_cast< CDynamicProp * >( CreateEntityByName( "dynamic_prop" ) );
 	if ( pProp )
@@ -5866,30 +5887,51 @@ void CC_Prop_Dynamic_Create( const CCommand &args )
 
 static ConCommand prop_dynamic_create("prop_dynamic_create", CC_Prop_Dynamic_Create, "Creates a dynamic prop with a specific .mdl aimed away from where the player is looking.\n\tArguments: {.mdl name}", FCVAR_NONE);
 
+extern ConVar sbox_max_physprops;
 
+bool CanPlayerSpawnProp(CBasePlayer* pPlayer)
+{
+	int maxProps = sbox_max_physprops.GetInt();
+
+	return (pPlayer->m_iProps < maxProps);
+}
+
+void IncrementPlayerPropCount(CBasePlayer* pPlayer)
+{
+	pPlayer->m_iProps++;
+}
 
 //------------------------------------------------------------------------------
 // Purpose: Create a prop of the given type
 //------------------------------------------------------------------------------
-void CC_Prop_Physics_Create( const CCommand &args )
+void CC_Prop_Physics_Create(const CCommand &args)
 {
-	if ( args.ArgC() != 2 )
+	if (args.ArgC() != 2)
 		return;
 
 	char pModelName[512];
-	Q_snprintf( pModelName, sizeof(pModelName), "models/%s", args[1] );
-	Q_DefaultExtension( pModelName, ".mdl", sizeof(pModelName) );
+	Q_snprintf(pModelName, sizeof(pModelName), "models/%s", args[1]);
+	Q_DefaultExtension(pModelName, ".mdl", sizeof(pModelName));
 
-	// Figure out where to place it
 	CBasePlayer* pPlayer = UTIL_GetCommandClient();
-	Vector forward;
-	pPlayer->EyeVectors( &forward );
+	if (!pPlayer)
+		return;
 
-	CreatePhysicsProp( pModelName, pPlayer->EyePosition(), pPlayer->EyePosition() + forward * MAX_TRACE_LENGTH, pPlayer, true );
+	Vector forward;
+	pPlayer->EyeVectors(&forward);
+
+	if (!CanPlayerSpawnProp(pPlayer))
+	{
+		ClientPrint(pPlayer, HUD_PRINTTALK, "You have reached the physics prop limit!");
+		return;
+	}
+
+	CreatePhysicsProp(pModelName, pPlayer->EyePosition(), pPlayer->EyePosition() + forward * MAX_TRACE_LENGTH, pPlayer, true);
+
+	IncrementPlayerPropCount(pPlayer);
 }
 
 static ConCommand prop_physics_create("prop_physics_create", CC_Prop_Physics_Create, "Creates a physics prop with a specific .mdl aimed away from where the player is looking.\n\tArguments: {.mdl name}", FCVAR_NONE);
-
 
 CPhysicsProp* CreatePhysicsProp( const char *pModelName, const Vector &vTraceStart, const Vector &vTraceEnd, const IHandleEntity *pTraceIgnore, bool bRequireVCollide, const char *pClassName )
 {

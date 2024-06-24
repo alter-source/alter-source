@@ -100,34 +100,16 @@
 	"volume"		"1.0"
 	"soundlevel"	"SNDLVL_NORM"
 
-	"wave"			"weapons/oicw/ar2_empty.wav"
+	"wave"			"weapons/ar1/ar2_empty.wav"
 }
 
-"Weapon_AR1.Boltback"
+"Weapon_AR1.Reload"
 {
 	"channel"		"CHAN_ITEM"
 	"volume"		"1.0"
 	"soundlevel"	"SNDLVL_NORM"
 
-	"wave"			"weapons/ar1_boltback.wav"
-}
-
-"Weapon_AR1.Clipin"
-{
-	"channel"		"CHAN_ITEM"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_NORM"
-
-	"wave"			"weapons/ar1_clipin.wav"
-}
-
-"Weapon_AR1.Clipout"
-{
-	"channel"		"CHAN_ITEM"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_NORM"
-
-	"wave"			"weapons/ar1_clipout.wav"
+	"wave"			"weapons/ar1/ar2_reload.wav"
 }
 
 "Weapon_AR1.Single"
@@ -137,7 +119,13 @@
 	"soundlevel"	"SNDLVL_GUNFIRE"
 	"pitch"			"95,105"
 
-	"wave"			"weapons/ak47_shot.wav"
+//	"wave"			"weapons/ar1/ar2_fire1.wav"
+	"rndwave"
+	{
+		"wave"			"weapons/ar1_1.wav"
+		"wave"			"weapons/ar1_2.wav"
+		"wave"			"weapons/ar1_3.wav"
+	}
 }
 
 "Weapon_AR1.Double"
@@ -146,7 +134,7 @@
 	"volume"		"1.0"
 	"soundlevel"	"SNDLVL_GUNFIRE"
 
-	"wave"			"weapons/oicw/ar2_altfire.wav"
+	"wave"			"weapons/ar1/ar2_altfire.wav"
 }
 
 "Weapon_AR1.NPC_Single"
@@ -154,9 +142,9 @@
 	"channel"		"CHAN_WEAPON"
 	"volume"		"1.0"
 	"soundlevel"	"SNDLVL_GUNFIRE"
-	//"pitch"			"95,105"
+	"pitch"			"95,105"
 
-	"wave"			"weapons/oicw/npc_ar2_fire1.wav"
+	"wave"			"weapons/ar1/npc_ar2_fire1.wav"
 }
 
 "Weapon_AR1.NPC_Reload"
@@ -165,7 +153,7 @@
 	"volume"		"1.0"
 	"soundlevel"	"SNDLVL_NORM"
 
-	"wave"			"weapons/oicw/npc_ar2_reload.wav"
+	"wave"			"weapons/ar1/npc_ar2_reload.wav"
 }
 
 "Weapon_AR1.NPC_Double"
@@ -174,8 +162,9 @@
 	"volume"		"1.0"
 	"soundlevel"	"SNDLVL_GUNFIRE"
 
-	"wave"			"weapons/oicw/npc_ar2_altfire.wav"
+	"wave"			"weapons/ar1/npc_ar2_altfire.wav"
 }
+
 
 
 // weapon_ar2.txt
@@ -294,138 +283,6 @@
 	"wave"			"^weapons/ar1/ar1_dist1.wav"
 
 }
-////////////////////////////////////////////////////////////////////////////////////////////
-// weapon_oicw.txt
-"Weapon_OICW.Empty"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_NORM"
-
-	"wave"			"weapons/oicw/ar2_empty.wav"
-}
-
-"Weapon_OICW.Magout"
-{
-	"channel"		"CHAN_ITEM"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_NORM"
-
-	"wave"			"weapons/oicw/ar2_magout.wav"
-}
-
-"Weapon_OICW.Magin1"
-{
-	"channel"		"CHAN_ITEM"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_NORM"
-
-	"wave"			"weapons/oicw/ar2_magin1.wav"
-}
-
-"Weapon_OICW.Magin2"
-{
-	"channel"		"CHAN_ITEM"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_NORM"
-
-	"wave"			"weapons/oicw/ar2_magin2.wav"
-}
-
-"Weapon_OICW.Reload"
-{
-	"channel"		"CHAN_ITEM"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_NORM"
-
-	"wave"			"weapons/oicw/ar2_reload.wav"
-}
-
-"Weapon_OICW.Single"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_GUNFIRE"
-	"pitch"			"95,105"
-
-	"rndwave"
-	{
-		"wave"			"weapons/ar1_1.wav"
-		"wave"			"weapons/ar1_2.wav"
-		"wave"			"weapons/ar1_3.wav"
-	}
-}
-
-"Weapon_OICW.ZoomedShot"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_GUNFIRE"
-	"pitch"			"95,105"
-
-	"rndwave"
-	{
-		"wave"			"weapons/oicw/ar2_fire1.wav"
-		"wave"			"weapons/oicw/ar2_fire2.wav"
-		"wave"			"weapons/oicw/ar2_fire3.wav"
-	}
-}
-
-"Weapon_OICW.Special1"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_NORM"
-
-	"wave"				"weapons/sniper/sniper_zoomin.wav"
-}
-
-"Weapon_OICW.Special2"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_NORM"
-
-	"wave"			"weapons/sniper/sniper_zoomout.wav"
-}
-
-"Weapon_OICW.Double"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_GUNFIRE"
-
-	"wave"			"weapons/oicw/ar2_altfire.wav"
-}
-
-"Weapon_OICW.NPC_Reload"
-{
-	"channel"		"CHAN_ITEM"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_NORM"
-
-	"wave"			"weapons/oicw/npc_ar2_reload.wav"
-}
-
-"Weapon_OICW.NPC_Double"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_GUNFIRE"
-
-	"wave"			"weapons/oicw/npc_ar2_altfire.wav"
-}
-
-"Weapon_OICW.NPC_Single"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_GUNFIRE"
-	"pitch"			"95,105"
-
-	"wave"			"^weapons/oicw/npc_ar2_fire1.wav"
-}
-////////////////////////////////////////////////////////////////////////////////////////////
 
 // weapon_binoculars.txt
 "Weapon_Binoculars.Special1"
@@ -453,24 +310,6 @@
 	"soundlevel"	"SNDLVL_NORM"
 
 	"wave"			"weapons/binoculars/binoculars_zoommax.wav"
-}
-
-"Weapon_Binoculars.Buzz"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"0.5"
-	"soundlevel"	"SNDLVL_NORM"
-
-	"wave"			"weapons/binoculars/buzz.wav"
-}
-
-"Weapon_Binoculars.Signal"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"0.7"
-	"soundlevel"	"SNDLVL_NORM"
-	
-	"wave"			"weapons/binoculars/signal.wav"
 }
 
 // weapon_brickbat.txt
@@ -504,90 +343,6 @@
 	"soundlevel"	"SNDLVL_NORM"
 
 	"wave"			"weapons/cguard/charging.wav"
-}
-
-// weapon_hmg1.txt
-"Weapon_HMG1.Single"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_GUNFIRE"
-
-	"rndwave"
-	{
-		"wave"		"hmg1/hmg1_1.wav"
-		"wave"		"hmg1/hmg1_2.wav"
-		"wave"		"hmg1/hmg1_3.wav"	
-		"wave"		"hmg1/hmg1_7.wav"
-		"wave"		"hmg1/hmg1_8.wav"
-		"wave"		"hmg1/hmg1_9.wav"
-	}
-}
-
-"Weapon_HMG1.NPC_Single"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_GUNFIRE"
-
-	"rndwave"
-	{
-		"wave"		"hmg1/hmg1_1.wav"
-		"wave"		"hmg1/hmg1_2.wav"
-		"wave"		"hmg1/hmg1_3.wav"	
-		"wave"		"hmg1/hmg1_7.wav"
-		"wave"		"hmg1/hmg1_8.wav"
-		"wave"		"hmg1/hmg1_9.wav"
-	}
-}
-
-"Weapon_HMG1.Burst"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_GUNFIRE"
-
-	"wave"	"weapons/hmg1_3rounds_3.wav"
-}
-
-// weapon_iceaxe.txt
-"Weapon_IceAxe.Single"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_105dB"
-	"pitch"			"95,100"
-
-	"wave"			"weapons/iceaxe/iceaxe_swing1.wav"
-}
-
-"Weapon_IceAxe.Melee_Hit"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_105dB"
-	"pitch"			"98,102"
-
-	"rndwave"
-	{
-		"wave"		"physics/flesh/flesh_impact_bullet3.wav"
-		"wave"		"physics/flesh/flesh_impact_bullet4.wav"
-		"wave"		"physics/flesh/flesh_impact_bullet5.wav"
-	}
-}
-
-"Weapon_IceAxe.Melee_HitWorld"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_105dB"
-	"pitch"			"98,102"
-
-	"rndwave"
-	{
-		"wave"		"weapons/crowbar/crowbar_impact1.wav"
-		"wave"		"weapons/crowbar/crowbar_impact2.wav"
-	}
 }
 
 // weapon_crowbar.txt
@@ -629,47 +384,6 @@
 		"wave"		"weapons/crowbar/crowbar_impact2.wav"
 	}
 }
-
-// weapon_cguard.txt
-"Weapon_CombineGuard.Reload"
-{
-	"channel"		"CHAN_ITEM"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_NORM"
-
-	"wave"			"weapons/sniper/sniper_reload.wav"
-}
-
-"Weapon_CombineGuard.NPC_Reload"
-{
-	"channel"		"CHAN_ITEM"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_NORM"
-
-	"wave"			"weapons/sniper/sniper_reload.wav"
-}
-
-"Weapon_CombineGuard.Single"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_GUNFIRE"
-	"pitch"			"98,102"
-
-	"wave"			"weapons/cguard/cguard_fire.wav"
-}
-
-"Weapon_CombineGuard.NPC_Single"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_GUNFIRE"
-	"pitch"			"98,102"
-
-	"wave"			"weapons/cguard/cguard_fire.wav"
-}
-
-
 
 // weapon_extinguisher.txt
 
@@ -786,39 +500,6 @@
 
 }
 
-"Weapon_Gauss.Single"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_GUNFIRE"
-
-	"wave"				"weapons/gauss/fire1.wav"
-}
-
-"Weapon_Gauss.Special1"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_NORM"
-
-	"wave"			"weapons/gauss/chargeloop.wav"
-}
-
-"Weapon_Gauss.Special2"
-{
-	"channel"		"CHAN_VOICE"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_120dB"
-	"pitch"			"95,105"
-
-	"rndwave"
-	{
-		"wave"			"weapons/gauss/electro1.wav"
-		"wave"			"weapons/gauss/electro2.wav"
-		"wave"			"weapons/gauss/electro3.wav"
-	}
-}
-
 // weapon_irifle.txt
 "Weapon_IRifle.Empty"
 {
@@ -835,44 +516,38 @@
 	"volume"		"0.55"
 	"soundlevel"	"SNDLVL_GUNFIRE"
 
-	"wave"				"weapons/irifle/irifle_fire2.wav"
-}
-
-"Weapon_IRifle.NPC_Single"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_GUNFIRE"
-
-	"wave"				"weapons/irifle/irifle_fire1.wav"
-}
-
-"Weapon_IRifle.Double"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_GUNFIRE"
-
-	"wave"				"weapons/irifle/irifle_fire2.wav"
+	"wave"				")weapons/irifle/irifle_fire2.wav"
 }
 
 // weapon_physcannon.txt
 "Weapon_PhysCannon.Launch"
 {
 	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0" //0.57
+	"volume"		"0.57"
 	"soundlevel"	"SNDLVL_GUNFIRE"
 
 	"pitch"		"110,120"
 
-	"wave"		"weapons/physcannon/physcannon_launch.wav"
+	"rndwave"
+	{
+		"wave"		")weapons/physcannon/superphys_launch1.wav"
+		"wave"		")weapons/physcannon/superphys_launch2.wav"
+		"wave"		")weapons/physcannon/superphys_launch4.wav"
+	}
+}
 
-//	"rndwave"
-//	{
-//		"wave"		"weapons/physcannon/superphys_launch1.wav"
-//		"wave"		"weapons/physcannon/superphys_launch2.wav"
-//		"wave"		"weapons/physcannon/superphys_launch4.wav"
-//	}
+"Weapon_PhysCannon.Mad"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"0.57"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+
+	"pitch"		"110,120"
+
+	"rndwave"
+	{
+		"wave"		")weapons/physgun_launch.wav"
+	}
 }
 
 "Weapon_MegaPhysCannon.Launch"
@@ -896,7 +571,7 @@
 	"channel"		"CHAN_ITEM"
 	"volume"		"0.42"
 	"soundlevel"	"SNDLVL_NORM"
-	"wave"		"weapons/physcannon/physcannon_charge.wav"
+	"wave"		")weapons/physcannon/physcannon_charge.wav"
 }
 
 "Weapon_MegaPhysCannon.Charge"
@@ -915,7 +590,7 @@
 	"volume"		"0.42"
 	"soundlevel"	"SNDLVL_NORM"
 
-	"wave"			"weapons/physcannon/physcannon_dryfire.wav"
+	"wave"			")weapons/physcannon/physcannon_dryfire.wav"
 }
 
 "Weapon_MegaPhysCannon.DryFire"
@@ -934,7 +609,7 @@
 	"volume"		"0.42"
 	"soundlevel"	"SNDLVL_105dB"
 
-	"wave"			"weapons/physcannon/physcannon_pickup.wav"
+	"wave"			")weapons/physcannon/physcannon_pickup.wav"
 }
 
 "Weapon_MegaPhysCannon.Pickup"
@@ -953,7 +628,7 @@
 	"volume"		"0.42"
 	"soundlevel"	"SNDLVL_NORM"
 
-	"wave"			"weapons/physcannon/physcannon_claws_open.wav"
+	"wave"			")weapons/physcannon/physcannon_claws_open.wav"
 }
 
 "Weapon_PhysCannon.CloseClaws"
@@ -962,7 +637,7 @@
 	"volume"		"0.42"
 	"soundlevel"	"SNDLVL_NORM"
 
-	"wave"			"weapons/physcannon/physcannon_claws_close.wav"
+	"wave"			")weapons/physcannon/physcannon_claws_close.wav"
 }
 
 "Weapon_PhysCannon.Drop"
@@ -971,7 +646,7 @@
 	"volume"		"0.42"
 	"soundlevel"	"SNDLVL_105dB"
 
-	"wave"			"weapons/physcannon/physcannon_drop.wav"
+	"wave"			")weapons/physcannon/physcannon_drop.wav"
 }
 
 "Weapon_MegaPhysCannon.Drop"
@@ -1102,6 +777,7 @@
 	"volume"		"0.7"
 	"soundlevel"	"SNDLVL_NORM"
 
+
 	"wave"		"weapons/pistol/pistol_reload1.wav"
 }
 
@@ -1178,7 +854,7 @@
 	"volume"		"0.55"
 	"soundlevel"	"SNDLVL_GUNFIRE"
 
-	"wave"		"weapons/rpg/rocketfire1.wav"
+	"wave"		")weapons/rpg/rocketfire1.wav"
 }
 
 "Weapon_RPG.NPC_Single"
@@ -1250,7 +926,9 @@
 	"pitch"			"98,101"
 	"rndwave"
 	{
-		"wave"			"weapons/shotgun/shotgun_fire.wav"
+	//	"wave"			"weapons/shotgun/shotgun_fire2.wav"
+	//	"wave"			"weapons/shotgun/shotgun_fire6.wav"
+		"wave"			"weapons/shotgun/shotgun_fire7.wav"
 	}
 }
 
@@ -1261,7 +939,7 @@
 	"soundlevel"	"SNDLVL_GUNFIRE"
 	"pitch"			"90,95"
 
-	"wave"			"weapons/shotgun/shotgun_dbl_fire.wav"
+	"wave"			"weapons/shotgun/shotgun_dbl_fire7.wav"
 }
 
 "Weapon_Shotgun.NPC_Reload"
@@ -1285,83 +963,7 @@
 	"soundlevel"	"SNDLVL_GUNFIRE"
 	"pitch"			"98,101"
 
-	"wave"			"weapons/shotgun/npc_shotgun_fire.wav"
-}
-
-// weapon_stickylauncher.txt
-"Weapon_StickyLauncher.Reload"
-{
-	"channel"		"CHAN_ITEM"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_NORM"
-
-	"wave"		"weapons/smg1/smg1_reload.wav"
-}
-
-"Weapon_StickyLauncher.NPC_Reload"
-{
-	"channel"		"CHAN_ITEM"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_NORM"
-
-	"wave"		"weapons/smg1/smg1_reload.wav"
-}
-
-"Weapon_StickyLauncher.Empty"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_NORM"
-
-	"wave"		"weapons/pistol/pistol_empty.wav"
-}
-
-"Weapon_StickyLauncher.Single"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_GUNFIRE"
-	"pitch"			"95,105"
-
-	"wave"		"weapons/pistol/pistol_fire1.wav"
-}
-
-"Weapon_StickyLauncher.NPC_Single"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_GUNFIRE"
-	"pitch"			"90,150"
-
-	"wave"			"weapons/smg1/npc_smg1_fire1.wav"
-}
-
-"Weapon_StickyLauncher.Special1"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_NORM"
-
-	"wave"		"weapons/smg1/switch_single.wav"
-}
-
-"Weapon_StickyLauncher.Special2"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_NORM"
-
-	"wave"			"weapons/smg1/switch_burst.wav"
-}
-
-"Weapon_StickyLauncher.Burst"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_GUNFIRE"
-	"pitch"			"98,105"
-
-	"wave"			"weapons/smg1/smg1_fireburst1.wav"
+	"wave"			"weapons/shotgun/shotgun_fire6.wav"
 }
 
 // weapon_smg1.txt
@@ -1396,10 +998,11 @@
 {
 	"channel"		"CHAN_WEAPON"
 	"volume"		"0.55"
+	"soundlevel"		"SNDLVL_90db"
 	"soundlevel"	"SNDLVL_GUNFIRE"
 	"pitch"			"95,105"
 
-	"wave"		"weapons/smg1/smg1_fire1.wav"
+	"wave"			")weapons/smg1/smg1_fire1.wav"
 }
 
 "Weapon_SMG1.Double"
@@ -1408,7 +1011,7 @@
 	"volume"		"0.61"
 	"soundlevel"	"SNDLVL_GUNFIRE"
 
-	"wave"		"weapons/ar2/ar2_altfire.wav"
+	"wave"		")weapons/ar2/ar2_altfire.wav"
 }
 
 
@@ -1458,7 +1061,7 @@
 	"volume"		"1.0"
 	"soundlevel"	"SNDLVL_NORM"
 
-	"wave"		"weapons/smg1/smg1_reload.wav"
+	"wave"		"weapons/smg2/smg2_reload.wav"
 }
 
 "Weapon_SMG2.NPC_Reload"
@@ -1467,20 +1070,20 @@
 	"volume"		"1.0"
 	"soundlevel"	"SNDLVL_NORM"
 
-	"wave"		"weapons/smg1/smg1_reload.wav"
+	"wave"		"weapons/smg2/smg2_reload.wav"
 }
 
 "Weapon_SMG2.Single"
 {
 	"channel"		"CHAN_WEAPON"
-	"volume"		"0.55" //1.0
+	"volume"		"1.0"
 	"soundlevel"	"SNDLVL_GUNFIRE"
 
-//	"rndwave"
-//	{
-		"wave"	"weapons/smg2/smg2_fire1.wav"
+	"rndwave"
+	{
+		"wavve"	"weapons/smg2/smg2_fire1.wav"
 //		"wave"	"weapons/smg2/smg2_fire2.wav"
-//	}
+	}
 }
 
 "Weapon_SMG2.NPC_Single"
@@ -1490,7 +1093,7 @@
 	"soundlevel"	"SNDLVL_GUNFIRE"
 	"pitch"			"90,150"
 
-	"wave"		"^weapons/smg2/npc_smg2_fire1.wav"
+	"wave"		"^test/npc_smg1_fire1.wav"
 }
 
 "Weapon_SMG2.Special1"
@@ -1514,7 +1117,7 @@
 "Weapon_SMG2.Burst"
 {
 	"channel"		"CHAN_WEAPON"
-	"volume"		"0.7" //1.0
+	"volume"		"1.0"
 	"soundlevel"	"SNDLVL_GUNFIRE"
 	"pitch"			"98,101"
 
@@ -1524,7 +1127,7 @@
 // weapon_sniperrifle.txt
 "Weapon_SniperRifle.Special1"
 {
-	"channel"		"CHAN_VOICE"
+	"channel"		"CHAN_WEAPON"
 	"volume"		"0.7"
 	"soundlevel"	"SNDLVL_NORM"
 
@@ -1533,7 +1136,7 @@
 
 "Weapon_SniperRifle.Special2"
 {
-	"channel"		"CHAN_VOICE"
+	"channel"		"CHAN_WEAPON"
 	"volume"		"0.7"
 	"soundlevel"	"SNDLVL_NORM"
 
@@ -1544,7 +1147,6 @@
 {
 	"channel"		"CHAN_ITEM"
 	"volume"		"0.7"
-	"pitch"			"93,108"
 	"soundlevel"	"SNDLVL_NORM"
 
 	"wave"			"weapons/sniper/sniper_reload.wav"
@@ -1719,7 +1321,7 @@
 	"channel"		"CHAN_ITEM"
 	"volume"		"0.7"
 	"soundlevel"	"SNDLVL_NORM"
-	"wave"		"weapons/shotgun/shotgun_cock.wav"
+	"wave"		")weapons/shotgun/shotgun_cock.wav"
 }
 
 // weapon_357
@@ -1732,8 +1334,8 @@
 
 	"rndwave"
 	{
-		"wave"			"weapons/357/357_fire2.wav"
-		"wave"			"weapons/357/357_fire3.wav"
+		"wave"			")weapons/357/357_fire2.wav"
+		"wave"			")weapons/357/357_fire3.wav"
 	}
 }
 
@@ -1743,7 +1345,7 @@
 	"volume"		"0.7"
 	"soundlevel"		"SNDLVL_NORM"
 
-	"wave"			"weapons/357/reload1.wav"
+	"wave"			")weapons/357/reload1.wav"
 }
 
 "Weapon_357.OpenLoader"
@@ -1861,84 +1463,9 @@
 	"wave"		"weapons/crossbow/bolt_skewer1.wav"
 	
 }
-// weapon_alyx_gun.txt
-"Weapon_Alyx.Reload"
-{
-	"channel"		"CHAN_ITEM"
-	"volume"		"0.7"
-	"soundlevel"	"SNDLVL_NORM"
-
-	"wave"		"weapons/alyxgun/alyx_gun_reload1.wav"
-}
-
-"Weapon.Alyx.NPC_Reload"
-{
-	"channel"		"CHAN_ITEM"
-	"volume"		"0.7"
-	"soundlevel"	"SNDLVL_NORM"
-
-	"wave"		"weapons/alyxgun/alyx_gun_reload.wav"
-}
-
-"Weapon_Alyx.Empty"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"0.7"
-	"soundlevel"	"SNDLVL_NORM"
-
-	"wave"		"weapons/pistol/pistol_empty.wav"
-}
-
-"Weapon_Alyx.Single"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"0.55"
-	"soundlevel"	"SNDLVL_GUNFIRE"
-	"pitch"			"98,102"
-
-	"wave"		"weapons/alyxgun/alyx_gun_fire.wav"
-}
-
-"Weapon_Alyx.NPC_Single"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"0.7"
-	"soundlevel"	"SNDLVL_GUNFIRE"
-	"pitch"			"90,120"
-
-	"wave"		"^weapons/alyxgun/alyx_gun_fire.wav"
-}
-
-"Weapon_Alyx.Special1"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"0.7"
-	"soundlevel"	"SNDLVL_NORM"
-
-	"wave"		"weapons/alyxgun/alyx_gun_switch_single.wav"
-}
-
-"Weapon_Alyx.Special2"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"0.7"
-	"soundlevel"	"SNDLVL_NORM"
-
-	"wave"			"weapons/alyxgun/alyx_gun_switch_burst.wav"
-}
-
-"Weapon_Alyx.Burst"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"0.7"
-	"soundlevel"	"SNDLVL_GUNFIRE"
-	"pitch"			"98,105"
-
-	"wave"			"^weapons/alyxgun/alyx_gun_fire2.wav"
-}
 // *************
 // BASE GRENADES
-// *************
+
 "BaseExplosionEffect.Sound"
 {
 	"channel"	"CHAN_STATIC"
@@ -2083,16 +1610,6 @@
 	"wave"	"common/null.wav"
 }
 
-"TripwireGrenade.Hook"
-{
-	"channel"	"CHAN_VOICE"
-	"volume"	"1.0"
-	"soundlevel"  "SNDLVL_75dB"
-	"pitch"	"100"
-
-	"wave"	"weapons/tripwire/hook.wav"
-}
-
 "TripwireGrenade.ShootRope"
 {
 	"channel"	"CHAN_BODY"
@@ -2101,16 +1618,6 @@
 	"pitch"	"100"
 
 	"wave"	"weapons/tripwire/ropeshoot.wav"
-}
-
-// weapon_molotov.txt
-"Weapon_Molotov.Special1"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"	"SNDLVL_NORM"
-
-	"wave"		"debris/wood1.wav"
 }
 
 // Alyx's EMP effect
@@ -2216,44 +1723,4 @@
 	"volume"		"0.95"
 	"soundlevel"  	"SNDLVL_70dB"
 	"wave"	"weapons/tripwire/mine_activate.wav"
-}
-
-// weapon_gluon
-"Weapon_Gluon.Start"
-{
-	"channel"		"CHAN_WEAPON"
-	"pitch"			"98"
-	"volume"		"1.0"
-	"soundlevel"		"SNDLVL_GUNFIRE"
-
-	"wave"			"weapons/egon_windup2.wav"
-}
-
-"Weapon_Gluon.Run"
-{
-	"channel"		"CHAN_STATIC"
-	"pitch"			"98"
-	"volume"		"1.0"
-	"soundlevel"		"SNDLVL_GUNFIRE"
-
-	"wave"			"weapons/egon_run3.wav"
-}
-
-"Weapon_Gluon.Off"
-{
-	"channel"		"CHAN_WEAPON"
-	"pitch"			"98"
-	"volume"		"1.0"
-	"soundlevel"		"SNDLVL_140db"
-
-	"wave"			"weapons/egon_off1.wav"
-}
-
-// weapon_immolator
-"Weapon_Immolator.Single"
-{
-	"channel"		"CHAN_WEAPON"
-	"volume"		"1.0"
-	"soundlevel"		"SNDLVL_GUNFIRE"
-	"wave"			"weapons/immolator/plasma_shoot.wav"
 }

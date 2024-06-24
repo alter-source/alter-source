@@ -1,0 +1,23 @@
+"ServerBrowserGameTypes.txt"
+{
+	"gametype_1"
+	{
+		"prefix"	"dm_"
+		"name"		"deathmatch"
+	}
+    "gametype_2"
+	{
+		"prefix"	"as_"
+		"name"		"sandbox"
+	}
+    "gametype_3"
+	{
+		"prefix"	"rp_"
+		"name"		"roleplay"
+	}
+    "gametype_4"
+	{
+		"prefix"	"practice_"
+		"name"		"bunnyhop"
+	}
+}

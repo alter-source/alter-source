@@ -6173,6 +6173,19 @@ void CC_CH_CreateAirboat( void )
 
 static ConCommand ch_createairboat( "ch_createairboat", CC_CH_CreateAirboat, "Spawn airboat in front of the player.", FCVAR_CHEAT );
 
+extern ConVar sbox_max_vehicles;
+
+bool CanPlayerCreateVehicle(CBasePlayer* pPlayer)
+{
+	int maxProps = sbox_max_vehicles.GetInt();
+
+	return (pPlayer->m_iVehicles < maxProps);
+}
+
+void IncrementPlayerVehicleCount(CBasePlayer* pPlayer)
+{
+	pPlayer->m_iVehicles++;
+}
 
 //=========================================================
 //=========================================================
@@ -6214,16 +6227,40 @@ void CBasePlayer::CheatImpulseCommands( int iImpulse )
 		break;
 
 	case 82:
+		if (!CanPlayerCreateVehicle(this))
+		{
+			ClientPrint(this, HUD_PRINTTALK, "You have reached the vehicle limit!");
+			return;
+		}
+
+		IncrementPlayerVehicleCount(this);
+
 		// Cheat to create a jeep in front of the player
 		CreateJeep( this );
 		break;
 
 	case 83:
+		if (!CanPlayerCreateVehicle(this))
+		{
+			ClientPrint(this, HUD_PRINTTALK, "You have reached the vehicle limit!");
+			return;
+		}
+
+		IncrementPlayerVehicleCount(this);
+
 		// Cheat to create a airboat in front of the player
 		CreateAirboat( this );
 		break;
 
 	case 84:
+		if (!CanPlayerCreateVehicle(this))
+		{
+			ClientPrint(this, HUD_PRINTTALK, "You have reached the vehicle limit!");
+			return;
+		}
+
+		IncrementPlayerVehicleCount(this);
+
 		// Cheat to create a pod in front of the player
 		CreatePod( this );
 		break;

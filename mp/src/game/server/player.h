@@ -245,7 +245,12 @@ protected:
 public:
 	DECLARE_DATADESC();
 	DECLARE_SERVERCLASS();
-	
+
+	int m_iProps = 0;
+	int m_iStaticProps = 0;
+	int m_iNPCs = 0;
+	int m_iVehicles = 0;
+
 	CBasePlayer();
 	~CBasePlayer();
 

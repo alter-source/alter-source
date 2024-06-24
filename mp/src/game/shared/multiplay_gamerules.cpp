@@ -144,6 +144,18 @@ int CMultiplayRules::m_nMapCycleindex = 0;
 CUtlVector<char*> CMultiplayRules::m_MapList;
 #endif
 
+ConVar sbox_max_physprops("sbox_max_physprops", "64", FCVAR_REPLICATED | FCVAR_NOTIFY,
+	"Maximum number of physics props a player can spawn.");
+
+ConVar sbox_max_staticprops("sbox_max_staticprops", "32", FCVAR_REPLICATED | FCVAR_NOTIFY,
+	"Maximum number of static props a player can spawn.");
+
+ConVar sbox_max_vehicles("sbox_max_vehicles", "3", FCVAR_REPLICATED | FCVAR_NOTIFY,
+	"Maximum number of vehicles a player can spawn.");
+
+ConVar sbox_max_npcs("sbox_max_npcs", "7", FCVAR_REPLICATED | FCVAR_NOTIFY,
+	"Maximum number of NPC's a player can spawn.");
+
 //=========================================================
 //=========================================================
 bool CMultiplayRules::IsMultiplayer( void )
