@@ -396,6 +396,12 @@ void CWeaponToolgun::PrimaryAttack(void)
 
 			if (tr.m_pEnt->VPhysicsGetObject())
 			{
+				if (Q_strncmp(name, "npc_", 4) == 0)
+				{
+					pOwner->m_iNPCs--;
+					return;
+				}
+
 				pOwner->m_iProps--;
 			}
 
@@ -404,17 +410,11 @@ void CWeaponToolgun::PrimaryAttack(void)
 				pOwner->m_iStaticProps--;
 			}
 
-			if (Q_strncmp(name, "npc_", 4) == 0)
-			{
-				pOwner->m_iNPCs--;
-				pOwner->m_iProps++;
-				// ^ i have no idea why it happens
-			}
-
 			if (Q_strcmp(className, "apc") == 0 || Q_strcmp(className, "jeep") == 0
 				|| Q_strcmp(className, "airboat") == 0 || Q_strcmp(className, "prisoner_pod") == 0)
 			{
 				pOwner->m_iVehicles--;
+				return;
 			}
 #endif // !CLIENT_DLL
 		}

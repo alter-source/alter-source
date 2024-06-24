@@ -32,7 +32,7 @@
 
 
 // Half-Life Server Configuration Layout Script (stores last settings chosen, too)
-// File generated:  Mon Jun 24 12:52:36 AM
+// File generated:  Mon Jun 24 06:03:45 PM
 //
 //
 // Cvar	-	Setting
@@ -41,6 +41,12 @@ VERSION 1.0
 
 DESCRIPTION SERVER_OPTIONS
 {
+	"category1"
+	{
+		"Main"
+		{ CATEGORY }
+	}
+
 	"hostname"
 	{
 		"#Valve_Hostname"
@@ -62,25 +68,16 @@ DESCRIPTION SERVER_OPTIONS
 		{ "" }
 	}
 
-	"mp_timelimit"
+	"category4"
 	{
-		"#TF_Timelimit"
-		{ NUMBER 0 -1 }
-		{ "0" }
+		" "
+		{ CATEGORY }
 	}
 
-	"mp_winlimit"
+	"category3"
 	{
-		"#TF_WinLimit"
-		{ NUMBER 0 -1 }
-		{ "0" }
-	}
-
-	"mp_maxrounds"
-	{
-		"#TF_MaxRounds"
-		{ NUMBER 0 -1 }
-		{ "0" }
+		"Alter Source"
+		{ CATEGORY }
 	}
 
 	"as_gamemode"
@@ -97,11 +94,32 @@ DESCRIPTION SERVER_OPTIONS
 		{ "0" }
 	}
 
-	"mp_fraglimit"
+	"sbox_max_physprops"
 	{
-		"Flag Limit"
-		{ NUMBER 0 -1 }
-		{ "0" }
+		"Maximum Phys-Props"
+		{ NUMBER 0 1024 }
+		{ "64" }
+	}
+
+	"sbox_max_staticprops"
+	{
+		"Maximum Static Props"
+		{ NUMBER 0 256 }
+		{ "32" }
+	}
+
+	"sbox_max_vehicles"
+	{
+		"Maximum Vehicles"
+		{ NUMBER 0 64 }
+		{ "3" }
+	}
+
+	"sbox_max_npcs"
+	{
+		"Maximum NPC's"
+		{ NUMBER 0 64 }
+		{ "7" }
 	}
 
 	"sv_autojump"
@@ -113,7 +131,7 @@ DESCRIPTION SERVER_OPTIONS
 
 	"sv_duckjump"
 	{
-		"Crouch-Jumping"
+		"Duck-Jumping"
 		{ BOOL }
 		{ "0" }
 	}
@@ -130,6 +148,25 @@ DESCRIPTION SERVER_OPTIONS
 		"Spawn Menu"
 		{ BOOL }
 		{ "1" }
+	}
+
+	"category6"
+	{
+		" "
+		{ CATEGORY }
+	}
+
+	"category5"
+	{
+		"Valve"
+		{ CATEGORY }
+	}
+
+	"mp_fraglimit"
+	{
+		"Flag Limit"
+		{ NUMBER 0 -1 }
+		{ "0" }
 	}
 
 	"mp_footsteps"
@@ -178,6 +215,27 @@ DESCRIPTION SERVER_OPTIONS
 	{
 		"#Valve_Teamplay"
 		{ BOOL }
+		{ "0" }
+	}
+
+	"mp_timelimit"
+	{
+		"#TF_Timelimit"
+		{ NUMBER 0 -1 }
+		{ "0" }
+	}
+
+	"mp_winlimit"
+	{
+		"#TF_WinLimit"
+		{ NUMBER 0 -1 }
+		{ "0" }
+	}
+
+	"mp_maxrounds"
+	{
+		"#TF_MaxRounds"
+		{ NUMBER 0 -1 }
 		{ "0" }
 	}
 
