@@ -1,0 +1,6 @@
+"VertexLitGeneric"
+{
+	// Original shader: VertexLitTexture
+	"$basetexture" "models/Weapons/V_ar1/TEXTURE1"
+	"$bumpmap" "models/weapons/v_ar1/TEXTURE1_NORMAL"
+}

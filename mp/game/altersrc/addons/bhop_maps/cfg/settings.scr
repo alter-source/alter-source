@@ -32,7 +32,7 @@
 
 
 // Half-Life Server Configuration Layout Script (stores last settings chosen, too)
-// File generated:  Tue Jun 25 11:08:37 AM
+// File generated:  Tue Jun 25 07:53:46 PM
 //
 //
 // Cvar	-	Setting
@@ -98,28 +98,28 @@ DESCRIPTION SERVER_OPTIONS
 	{
 		"Maximum Phys-Props"
 		{ NUMBER 0 32768 }
-		{ "64" }
+		{ "30000" }
 	}
 
 	"sbox_max_staticprops"
 	{
 		"Maximum Static Props"
 		{ NUMBER 0 32768 }
-		{ "32" }
+		{ "30000" }
 	}
 
 	"sbox_max_vehicles"
 	{
 		"Maximum Vehicles"
 		{ NUMBER 0 64 }
-		{ "3" }
+		{ "30000" }
 	}
 
 	"sbox_max_npcs"
 	{
 		"Maximum NPC's"
 		{ NUMBER 0 64 }
-		{ "7" }
+		{ "30000" }
 	}
 
 	"sv_autojump"

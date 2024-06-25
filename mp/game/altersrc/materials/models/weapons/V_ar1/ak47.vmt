@@ -1,0 +1,46 @@
+// VertexLitGeneric
+// {
+// $baseTexture "models\weapons\v_ar1/ak47"
+// $bumpmap "models/weapons/v_ar1/ak47_nrm"
+// $phongexponenttexture "models\weapons\v_ar1/ak47_exp"
+
+// $phong 1
+// $phongboost 1
+
+// $phongfresnelranges "[.1 .4 1]"
+
+// $basemapalphaphongmask 1
+// $envmap env_cubemap
+// $envmapfresnel 1
+// $envmaptint "[.9 .9 .9]"
+// "$envmapcontrast" .8
+// $phongalbedotint 1
+// "$normalmapalphaenvmapmask"	"1"
+
+// "$halflambert"			"1"
+// "$rimlight"			"1"
+// "$rimlightexponent"			"100"
+// "$rimlightboost"			".5"
+// "$rimmask"			"1"
+// }
+
+
+"VertexLitGeneric"
+{
+	"$basetexture" "models/weapons/v_ar1/ak47"
+	"$bumpmap" "models/weapons/v_ar1/ak47_nrm"
+	"$envmap" "env_cubemap"
+	"$normalmapalphaenvmapmask" 1
+	"$envmaptint" "[.1 .1 .1]"
+	"$envmapcontrast" .7
+	"$phong" 1
+	"$phongboost" 6
+	"$phongexponenttexture" "models/weapons/v_ar1/ak47_exp"
+	"$phongfresnelranges" "[.2 1 0]"
+	
+	"$halflambert"			"1"
+	"$rimlight"			"1"
+	"$rimlightexponent"			"100"
+	"$rimlightboost"			".5"
+	"$rimmask"			"1"
+}

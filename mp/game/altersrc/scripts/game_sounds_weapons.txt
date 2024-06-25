@@ -490,14 +490,131 @@
 }
 
 // weapon_gauss.txt
-"Weapon_Gauss.ChargeLoop"
+"Weapon_Gauss.Single"
 {
-	"channel"		"CHAN_STATIC"
-	"volume"		"VOL_NORM"
+	"channel"		"CHAN_WEAPON"
+	"volume"		"1.0"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+
+	"wave"				"weapons/gauss/fire1.wav"
+}
+
+"Weapon_Gauss.Special1"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"1.0"
 	"soundlevel"	"SNDLVL_NORM"
 
 	"wave"			"weapons/gauss/chargeloop.wav"
+}
 
+"Weapon_Gauss.Special2"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"1.0"
+	"soundlevel"	"SNDLVL_120dB"
+	"pitch"			"95,105"
+
+	"rndwave"
+	{
+		"wave"			"weapons/gauss/electro1.wav"
+		"wave"			"weapons/gauss/electro2.wav"
+		"wave"			"weapons/gauss/electro3.wav"
+	}
+}
+
+// weapon_hmg1.txt
+"Weapon_HMG1.Single"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"1.0"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+
+	"rndwave"
+	{
+		"wave"		"weapons/hmg1_7.wav"
+		"wave"		"weapons/hmg1_8.wav"
+		"wave"		"weapons/hmg1_9.wav"
+	}
+}
+
+"Weapon_HMG1.NPC_Single"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"1.0"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+
+	"rndwave"
+	{
+		"wave"		"weapons/hmg1_7.wav"
+		"wave"		"weapons/hmg1_8.wav"
+		"wave"		"weapons/hmg1_9.wav"
+	}
+}
+
+"Weapon_HMG1.Burst"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"1.0"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+
+	"wave"	"weapons/hmg1_3rounds_3.wav"
+}
+
+"Weapon_HMG1.Reload"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"1.0"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+
+	"wave"	"weapons/smg2/smg2_reload.wav"
+}
+
+// weapon_iceaxe.txt
+"Weapon_IceAxe.Single"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"1.0"
+	"soundlevel"	"SNDLVL_105dB"
+	"pitch"			"95,100"
+
+//	"wave"			"weapons/iceaxe/iceaxe_swing1.wav"
+	"rndwave"
+	{
+		"wave"		"weapons/iceaxe/iceaxe_swing1.wav"
+		"wave"		"weapons/iceaxe/iceaxe_swing2.wav"
+	}
+}
+
+"Weapon_IceAxe.Melee_Hit"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"1.0"
+	"soundlevel"	"SNDLVL_105dB"
+	"pitch"			"98,102"
+
+	"rndwave"
+	{
+		"wave"		"impact/bullets/flesh/flesh1.wav"
+		"wave"		"impact/bullets/flesh/flesh2.wav"
+		"wave"		"impact/bullets/flesh/flesh3.wav"
+	}
+}
+
+"Weapon_IceAxe.Melee_HitWorld"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"1.0"
+	"soundlevel"	"SNDLVL_105dB"
+	"pitch"			"98,102"
+
+	"rndwave"
+	{
+	//	"wave"		"weapons/crowbar/crowbar_impact1.wav"
+	//	"wave"		"weapons/crowbar/crowbar_impact2.wav"
+		"wave"		"weapons/iceaxe/iceaxe_impact1.wav"
+		"wave"		"weapons/iceaxe/iceaxe_impact2.wav"
+	}
 }
 
 // weapon_irifle.txt
@@ -1003,6 +1120,17 @@
 	"pitch"			"95,105"
 
 	"wave"			")weapons/smg1/smg1_fire1.wav"
+}
+
+"Weapon_SMG1_Beta.Single"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"0.55"
+	"soundlevel"		"SNDLVL_90db"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+	"pitch"			"95,105"
+
+	"wave"			")weapons/smg1/smg1_beta_fire1.wav"
 }
 
 "Weapon_SMG1.Double"
