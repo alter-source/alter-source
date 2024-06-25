@@ -24,6 +24,7 @@ $Group "game"
 	"tier1"
     "game_shader_dx9"
 	"vgui_controls"
+    "ameth"
 }
 
 $Group "shaders"
@@ -57,6 +58,7 @@ $Group "everything"
 	"vtfdiff"
 	"vvis_dll"
 	"vvis_launcher"
+    "ameth"
 }
 
 $Group "dedicated"

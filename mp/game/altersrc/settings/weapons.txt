@@ -1,0 +1,159 @@
+"Weapons"
+{
+    "Physics Gun"
+    {
+    "#"	"give weapon_physgun"
+    }
+    "Gravity Gun"
+    {
+    "#"	"give weapon_physcannon"
+    }
+    "Crowbar"
+    {
+    "#"	"give weapon_crowbar"
+    }
+    "Stunstick"
+    {
+    "#"	"give weapon_stunstick"
+    }
+    "Pistol"
+    {
+    "#"	"give weapon_pistol"
+    }
+    "357 Magnum"
+    {
+    "#"	"give weapon_357"
+    }		
+    "SMG1"
+    {
+    "#"	"give weapon_smg1"
+    }
+    "SMG2"
+    {
+    "#"	"give weapon_smg2"
+    }
+    "Shotgun"
+    {
+    "#"	"give weapon_shotgun"
+    }
+    "Pulse Rifle"
+    {
+    "#"	"give weapon_ar2"
+    }
+    "Crossbow"
+    {
+    "#"	"give weapon_crossbow"
+    }
+    "S.L.A.M"
+    {
+    "#"	"give weapon_slam"
+    }
+    "Rocket Launcher"
+    {
+    "#"	"give weapon_rpg"
+    }
+    "Prop Launcher"
+    {
+    "#"	"give weapon_proplauncher"
+    }
+    "Bugbait"
+    {
+    "#"	"give weapon_bugbait"
+    }
+    "Toolgun"
+    {
+    "#"	"give weapon_toolgun"
+    }
+    "Camera"
+    {
+    "#"	"give weapon_camera"
+    }
+    "Cubemap"
+    {
+    "#"	"give weapon_cubemap"
+    }
+    "Citizen Package"
+    {
+    "#"	"give weapon_citizenpackage"
+    }
+    "Citizen Suitcase"
+    {
+    "#"	"give weapon_citizensuitcase"
+    }
+    "Ice Axe"
+    {
+    "#"	"give weapon_iceaxe"
+    }
+    "OICW"
+    {
+    "#"	"give weapon_ociw"
+    }
+    "Sniper Rifle"
+    {
+    "#"	"give weapon_sniper"
+    }
+    "Alyx Gun (WIP)"
+    {
+    "#"	"give weapon_alyx_gun"
+    }
+    "HMG1"
+    {
+    "#"	"give weapon_hmg1"
+    }
+    "Flare Gun"
+    {
+    "#"	"give weapon_flaregun"
+    }
+    "Combine Guard Gun"
+    {
+    "#"	"give weapon_cguard"
+    }
+    "AR1 (AK-47)"
+    {
+    "#"	"give weapon_ar1"
+    }
+    "[ERROR] Launcher"
+    {
+    "#" "give weapon_grenadelauncher"
+    }
+    "MP5 (HLS)"
+    {
+    "#"	"give weapon_mp5_hl1"
+    }
+    "9mm Handgun (HLS)"
+    {
+    "#"	"give weapon_glock_hl1"
+    }
+    "Hand Grenade (HLS)"
+    {
+    "#"	"give weapon_handgrenade"
+    }
+    "Gauss Gun (HLS)"
+    {
+    "#"	"give weapon_gauss"
+    }
+    "Gluon gun (HLS)"
+    {
+    "#" "give weapon_egon"
+    }
+    "Snark (HLS)"
+    {
+    "#" "give weapon_snark"
+    }
+    "Tripmine (HLS)"
+    {
+    "#" "give weapon_tripmine"
+    }
+    "Satchel Charge (HLS)"
+    {
+    "#" "give weapon_satchel"
+    }
+    ".357 Magnum (HLS)"
+    {
+    "#" "give weapon_357_hl1"
+    }
+    "Hornet Gun (HLS)"
+    {
+    "#"	"give weapon_hornetgun"
+    }
+}

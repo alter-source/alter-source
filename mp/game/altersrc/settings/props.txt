@@ -1,0 +1,627 @@
+"Props"
+{
+    "Wood Crate"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl"
+    }
+    "Wood Crate 2"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate002a.mdl"
+    }
+    "Barrel"
+    {
+    "#"	"prop_physics_create props_c17/barrel01a.mdl;ent_setname"
+    }
+    "Explosive Barrel"
+    {
+    "#"	"prop_physics_create props_c17/oildrum001_explosive.mdl"
+    }
+    "Blue Barrel"
+    {
+    "#"	"prop_physics_create props_borealis/bluebarrel001.mdl"
+    }
+    "Bench"
+    {
+    "#"	"prop_physics_create props_c17/bench01a.mdl" 
+    }
+    "Bench 2"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_trainstation/BenchOutdoor01a.mdl"
+    }
+    "Bench 3"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_trainstation/bench_indoor001a.mdl targetname bch3"
+    }
+    "Bench 4"
+    {
+    "#"	"prop_physics_create props_wasteland/cafeteria_bench001a.mdl"
+    }
+    "Chair"
+    {
+    "#"	"prop_physics_create props_interiors/Furniture_chair01a.mdl"
+    }
+    "Chair 2"
+    {
+    "#"	"prop_physics_create props_c17/FurnitureChair001a.mdl"
+    }
+    "Chair 3"
+    {
+    "#"	"prop_physics_create props_interiors/Furniture_chair03a.mdl"
+    }
+    "Chair 4"
+    {
+    "#"	"prop_physics_create props_c17/chair02a.mdl"
+    }
+    "Chair 5"
+    {
+    "#"	"prop_physics_create props_c17/chair_office01a.mdl"
+    }
+    "Breen Chair"
+    {
+    "#"	"prop_physics_create props_combine/breenchair.mdl"
+    }
+    "Armchair"
+    {
+    "#"	"prop_physics_create props_c17/FurnitureArmchair001a.mdl"
+    }
+    "Prison Chair"
+    {
+    "#"	"ent_create prop_physics_override model models/props_c17/chair_kleiner03a.mdl"
+    }
+    "Train Seats"
+    {
+    "#"	"ent_create prop_physics_override model models/props_trainstation/traincar_seats001.mdl"
+    }
+    "Stool"
+    {
+    "#"	"prop_physics_create props_c17/chair_stool01a.mdl"
+    }
+    "Toilet"
+    {
+    "#"	"prop_physics_create props_wasteland/prison_toilet01.mdl"
+    }
+    "Sink"
+    {
+    "#"	"prop_physics_create props_wasteland/prison_sink001b.mdl"
+    }
+    "Sink 2"
+    {
+    "#"	"ent_create prop_physics_override model models/props_interiors/SinkKitchen01a.mdl"
+    }
+    "Radiator"
+    {
+    "#"	"prop_physics_create props_c17/FurnitureRadiator001a.mdl"
+    }
+    "Radiator 2"
+    {
+    "#"	"prop_physics_create props_interiors/Radiator01a.mdl"
+    }
+    "Bathtub"
+    {
+    "#"	"ent_create prop_physics_override model models/props_interiors/BathTub01a.mdl"
+    }
+    "Bathtub 2"
+    {
+    "#"	"prop_physics_create props_c17/FurnitureBathtub001a.mdl"
+    }
+    "Fridge"
+    {
+    "#"	"ent_create prop_physics_override model models/props_wasteland/kitchen_fridge001a.mdl"
+    }
+    "Fridge 2"
+    {
+    "#"	"prop_physics_create props_c17/FurnitureFridge001a.mdl"
+    }
+    "Fridge 3"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_interiors/refrigerator01a.mdl"
+    }
+    "Fridge Door"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_interiors/refrigeratorDoor01a.mdl"
+    }
+    "Fridge Door 2"
+    {
+    "#"	"ent_create prop_physics_override model models/props_interiors/refrigeratorDoor02a.mdl"
+    }
+    "Shelf 1"
+    {
+    "#"	"prop_physics_create props_wasteland/kitchen_shelf001a.mdl"
+    }
+    "Shelf 2"
+    {
+    "#"	"prop_physics_create props_wasteland/kitchen_shelf002a.mdl"
+    }
+    "Cabinet Drawer"
+    {
+    "#"	"prop_physics_create props_interiors/Furniture_CabinetDrawer01a.mdl"
+    }
+    "Cabinet Drawer 2"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_interiors/Furniture_CabinetDrawer02a.mdl"
+    }
+    "Locker Door"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_lab/lockerdoorleft.mdl"
+    }
+    "Counter"
+    {
+    "#"	"prop_physics_create props_wasteland/kitchen_counter001a.mdl"
+    }
+    "Counter 2"
+    {
+    "#"	"prop_physics_create props_wasteland/kitchen_counter001b.mdl"
+    }
+    "Counter 3"
+    {
+    "#"	"prop_physics_create props_wasteland/kitchen_counter001c.mdl"
+    }
+    "Counter 4"
+    {
+    "#"	"prop_physics_create props_wasteland/kitchen_counter001d.mdl"
+    }
+    "Stove"
+    {
+    "#"	"ent_create prop_physics_override model models/props_wasteland/kitchen_stove001a.mdl"
+    }
+    "Stove 2"
+    {
+    "#"	"ent_create prop_physics_override model models/props_wasteland/kitchen_stove002a.mdl"
+    }
+    "Table"
+    {
+    "#"	"prop_physics_create props_wasteland/cafeteria_table001a.mdl"
+    }
+    "Table 2"
+    {
+    "#"	"prop_physics_create props_c17/FurnitureTable001a.mdl"
+    }
+    "Table 3"
+    {
+    "#"	"prop_physics_create props_c17/FurnitureTable002a.mdl"
+    }
+    "Table 4"
+    {
+    "#"	"prop_physics_create props_c17/FurnitureTable003a.mdl"
+    }
+    "Drawer"
+    {
+    "#"	"prop_physics_create props_c17/FurnitureDrawer001a.mdl"
+    }
+    "Drawer 2"
+    {
+    "#"	"prop_physics_create props_c17/FurnitureDrawer002a.mdl"
+    }
+    "Drawer 3"
+    {
+    "#"	"prop_physics_create props_c17/FurnitureDrawer003a.mdl"
+    }
+    "Bed"
+    {
+    "#"	"prop_physics_create props_c17/FurnitureBed001a.mdl"
+    }
+    "Mattres"
+    {
+    "#"	"ent_create prop_ragdoll model models/props_c17/FurnitureMattress001a.mdl"
+    }
+    "Desk"
+    {
+    "#"	"prop_physics_create props_interiors/Furniture_Desk01a.mdl"
+    }
+    "File Cabinet"
+    {
+    "#"	"prop_physics_create props_lab/filecabinet02.mdl"
+    }
+    "Small Lamp"
+    {
+    "#"	"prop_physics_create props_interiors/Furniture_Lamp01a.mdl"
+    }
+    "Shelf 3"
+    {
+    "#"	"prop_physics_create props_interiors/Furniture_shelf01a.mdl"
+    }
+    "Vanity"
+    {
+    "#"	"prop_physics_create props_interiors/Furniture_Vanity01a.mdl"
+    }
+    "Cupboard"
+    {
+    "#"	"prop_physics_create props_c17/FurnitureCupboard001a.mdl"
+    }
+    "Dresser"
+    {
+    "#"	"prop_physics_create props_c17/FurnitureDresser001a.mdl"
+    }
+    "Fireplace"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_c17/FurnitureFireplace001a.mdl"
+    }
+    "Trashcan"
+    {
+    "#"	"prop_physics_create props_trainstation/trashcan_indoor001a.mdl"
+    }
+    "Trashcan 2"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_trainstation/trashcan_indoor001b.mdl"
+    }
+    "Couch"
+    {
+    "#"	"prop_physics_create props_interiors/Furniture_Couch01a.mdl"
+    }
+    "Couch 2"
+    {
+    "#"	"prop_physics_create props_interiors/Furniture_Couch02a.mdl"
+    }
+    "Couch 3"
+    {
+    "#"	"prop_physics_create props_c17/FurnitureCouch001a.mdl"
+    }
+    "Couch 4"
+    {
+    "#"	"prop_physics_create props_c17/FurnitureCouch002a.mdl"
+    }
+    "Wooden Pallet"
+    {
+    "#"	"prop_physics_create props_junk/wood_pallet001a.mdl"
+    }
+    "Metal Desk"
+    {
+    "#"	"prop_physics_create props_wasteland/controlroom_desk001a.mdl"
+    }
+    "Breen Desk"
+    {
+    "#"	"ent_create prop_physics_override model models/props_combine/breendesk.mdl"
+    }
+    "Dumpster"
+    {
+    "#"	"ent_create prop_physics model models/props_junk/TrashDumpster02.mdl"
+    }
+    "Dumpster Lid"
+    {
+    "#"	"prop_physics_create props_junk/TrashDumpster02b.mdl"
+    }
+    "Plank"
+    {
+    "#"	"prop_physics_create props_wasteland/dockplank01b.mdl"
+    }
+    "Ravenholm Sign"
+    {
+    "#"	"prop_physics_create props_junk/ravenholmsign.mdl"
+    }
+    "Vending Machine"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_interiors/vendingmachinesoda01b.mdl"
+    }
+    "Vending Door"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_interiors/vendingmachinesoda01b_door.mdl"
+    }
+    "Ladder"
+    {
+    "#"	"ent_create prop_physics_override model models/props_c17/metalladder001.mdl"
+    }
+    "Ladder 2"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_c17/metalladder002.mdl"
+    }
+    "Ladder 3"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_c17/metalladder002b.mdl"
+    }
+    "Ladder 4"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_c17/metalladder003.mdl"
+    }
+    "Slide"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_c17/playgroundslide01.mdl"
+    }
+    "TickTac"
+    {
+    "#"	"prop_physics_create props_c17/playgroundTick-tack-toe_block01a.mdl"
+    }
+    "TickTac Post"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_c17/playgroundTick-tack-toe_post01.mdl"
+    }
+    "Carousel"
+    {
+    "#"	"prop_physics_create props_c17/playground_carousel01.mdl"
+    }
+    "Jungle Gym"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_c17/playground_jungle_gym01a.mdl"
+    }
+    "Jungle Gym 2"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_c17/playground_jungle_gym01b.mdl"
+    }
+    "Trash Bin"
+    {
+    "#"	"prop_physics_create props_junk/TrashBin01a.mdl"
+    }
+    "Push Cart"
+    {
+    "#"	"prop_physics_create props_junk/PushCart01a.mdl"
+    }
+    "Wood Board 1"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_debris/wood_board01a.mdl"
+    }
+    "Wood Board 2"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_debris/wood_board06a.mdl"
+    }
+    "Barrier"
+    {
+    "#"	"ent_create prop_physics_override model models/props_c17/concrete_barrier001a.mdl"
+    }
+    "Barricade"
+    {
+    "#"	"prop_physics_create props_wasteland/barricade001a.mdl"
+    }
+    "Barricade 2"
+    {
+    "#"	"prop_physics_create props_wasteland/barricade002a.mdl"
+    }
+    "Dock Pole"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_docks/dock01_pole01a_128.mdl"
+    }
+    "Dock Pole Long"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_docks/dock01_pole01a_256.mdl"
+    }
+    "Door"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics model models/props_c17/door01_left.mdl"
+    }
+    "Glass Door"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics model models/props_c17/door02_double.mdl"
+    }
+    "Ship Door"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_borealis/borealis_door001a.mdl"
+    }
+    "Blast Door"
+    {
+    "#"	"ent_create prop_physics_override model models/props_lab/blastdoor001a.mdl"
+    }
+    "Blast Door 2"
+    {
+    "#"	"ent_create prop_physics_override model models/props_lab/blastdoor001b.mdl"
+    }
+    "Blast Door 3"
+    {
+    "#"	"ent_create prop_physics_override model models/props_lab/blastdoor001c.mdl"
+    }
+    "Wood Fence"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics model models/props_wasteland/wood_fence01a.mdl"
+    }
+    "Wood Fence 2"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics model models/props_wasteland/wood_fence02a.mdl"
+    }
+    "Metal Panel"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics model models/props_debris/metal_panel01a.mdl"
+    }
+    "Metal Panel 2"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics model models/props_debris/metal_panel02a.mdl"
+    }
+    "Cargo Container"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics model models/props_wasteland/cargo_container01.mdl"
+    }
+    "Cargo Container 2"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics model models/props_wasteland/cargo_container01b.mdl"
+    }
+    "Kennel"
+    {
+    "#"	"ent_create prop_physics_override model models/props_lab/kennel.mdl"
+    }
+    "Orange Tube"
+    {
+    "#"	"ent_create prop_physics_override model models/props_lab/generatortube.mdl"
+    }
+    "Sign Pole"
+    {
+    "#"	"prop_physics_create props_c17/signpole001.mdl"
+    }
+    "Iron Beam"
+    {
+    "#"	"prop_physics_create props_junk/iBeam01a.mdl"
+    }
+    "Iron Beam 2"
+    {
+    "#"	"prop_physics_create props_junk/iBeam01a_cluster01.mdl"
+    }
+    "Doll"
+    {
+    "#"	"prop_physics_create props_c17/doll01.mdl"
+    }
+    "Clock"
+    {
+    "#"	"prop_physics_create props_c17/clock01.mdl"
+    }
+    "Cash Reg"
+    {
+    "#"	"ent_create prop_physics_override model models/props_c17/cashregister01a.mdl"
+    }
+    "Chopper Bomb"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/Combine_Helicopter/helicopter_bomb01.mdl"
+    }
+    "Tram Lever"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_wasteland/tram_lever01.mdl"
+    }
+    "Tram Lever Base"
+    {
+    "#"	"ent_create prop_physics_override model models/props_wasteland/tram_leverbase01.mdl"
+    }
+    "Wrench"
+    {
+    "#"	"prop_physics_create props_c17/tools_wrench01a.mdl"
+    }
+    "Pliers"
+    {
+    "#"	"prop_physics_create props_c17/tools_pliers01a.mdl"
+    }
+    "Meat Grinder"
+    {
+    "#"	"ent_create prop_physics_override model models/props_c17/grinderclamp01a.mdl"
+    }
+    "Door Slotted"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_doors/door03_slotted_left.mdl"
+    }
+    "Weapon Stripper"
+    {
+    "#"	"ent_create prop_physics_override model models/props_combine/weaponstripper.mdl"
+    }
+    "Streetsign"
+    {
+    "#"	"prop_physics_create props_c17/streetsign001c.mdl"
+    }
+    "Streetsign 2"
+    {
+    "#"	"prop_physics_create props_c17/streetsign002b.mdl"
+    }
+    "Streetsign 3"
+    {
+    "#"	"prop_physics_create props_c17/streetsign003b.mdl"
+    }
+    "Streetsign 4"
+    {
+    "#"	"prop_physics_create props_c17/streetsign004e.mdl"
+    }
+    "Streetsign 5"
+    {
+    "#"	"prop_physics_create props_c17/streetsign004f.mdl"
+    }
+    "Streetsign 6"
+    {
+    "#"	"prop_physics_create props_c17/streetsign005b.mdl"
+    }
+    "Streetsign 7"
+    {
+    "#"	"prop_physics_create props_c17/streetsign005c.mdl"
+    }
+    "Streetsign 8"
+    {
+    "#"	"prop_physics_create props_c17/streetsign005d.mdl"
+    }
+    "Pot"
+    {
+    "#"	"prop_physics_create props_interiors/pot01a.mdl"
+    }
+    "Pot 2"
+    {
+    "#"	"prop_physics_create props_interiors/pot02a.mdl"
+    }
+    "Concrete Block"
+    {
+    "#"	"prop_physics_create props_debris/concrete_cynderblock001.mdl"
+    }
+    "Cinder Block"
+    {
+    "#"	"prop_physics_create props_junk/CinderBlock01a.mdl"
+    }
+    "Breen Bust"
+    {
+    "#"	"prop_physics_create props_combine/breenbust.mdl"
+    }
+    "Breen Statue"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/consul_statue.mdl"
+    }
+    "Combine Light"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_combine/breenlight.mdl"
+    }
+    "Meat Hook"
+    {
+    "#"	"prop_physics_create props_junk/meathook001a.mdl"
+    }
+    "Bucket"
+    {
+    "#"	"prop_physics_create props_junk/MetalBucket01a.mdl"
+    }
+    "Bucket 2"
+    {
+    "#"	"prop_physics_create props_junk/MetalBucket02a.mdl"
+    }
+    "Saw blade"
+    {
+    "#"	"prop_physics_create props_junk/sawblade001a.mdl"
+    }
+    "Magnifying Lamp"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_c17/light_magnifyinglamp02.mdl"
+    }
+    "Plant Pot"
+    {
+    "#"	"prop_physics_create props_junk/terracotta01.mdl"
+    }
+    "Rock"
+    {
+    "#"	"prop_physics_create props_junk/Rock001a.mdl"
+    }
+    "Watermelon"
+    {
+    "#"	"prop_physics_create props_junk/watermelon01.mdl"
+    }
+    "Dog Sign"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_lab/bewaredog.mdl"
+    }
+    "Traffic Cone"
+    {
+    "#"	"prop_physics_create props_junk/TrafficCone001a.mdl"
+    }
+    "Cremator Head"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_physics_override model models/props_lab/crematorcase.mdl"
+    }
+    "Radio"
+    {
+    "#"	"prop_physics_create props_lab/citizenradio.mdl"
+    }
+    "TV"
+    {
+    "#"	"prop_physics_create props_c17/tv_monitor01.mdl"
+    }
+    "Monitor"
+    {
+    "#"	"prop_physics_create props_lab/monitor01a.mdl"
+    }
+    "Monitor 2"
+    {
+    "#"	"prop_physics_create props_lab/monitor01b.mdl"
+    }
+    "Monitor 3"
+    {
+    "#"	"prop_physics_create props_c17/computer01_monitor.mdl"
+    }
+    "Keyboard"
+    {
+    "#"	"prop_physics_create props_c17/computer01_keyboard.mdl"
+    }
+    "Hard Drive"
+    {
+    "#"	"prop_physics_create props_lab/harddrive01.mdl"
+    }
+    "Hard Drive 2"
+    {
+    "#"	"prop_physics_create props_lab/harddrive02.mdl"
+    }
+    "Desk Lamp"
+    {
+    "#"	"prop_physics_create props_lab/desklamp01.mdl"
+    }
+}

@@ -32,7 +32,7 @@
 
 
 // Half-Life Server Configuration Layout Script (stores last settings chosen, too)
-// File generated:  Mon Jun 24 06:03:45 PM
+// File generated:  Tue Jun 25 11:08:37 AM
 //
 //
 // Cvar	-	Setting
@@ -97,14 +97,14 @@ DESCRIPTION SERVER_OPTIONS
 	"sbox_max_physprops"
 	{
 		"Maximum Phys-Props"
-		{ NUMBER 0 1024 }
+		{ NUMBER 0 32768 }
 		{ "64" }
 	}
 
 	"sbox_max_staticprops"
 	{
 		"Maximum Static Props"
-		{ NUMBER 0 256 }
+		{ NUMBER 0 32768 }
 		{ "32" }
 	}
 

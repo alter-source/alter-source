@@ -1,0 +1,19 @@
+"Vehicles"
+{
+        "Jeep"
+        {
+        "#"	"impulse 82"
+        }
+        "Airboat"
+        {
+        "#"	"impulse 83; ent_fire airboat enablegun 1"
+        }
+        "Prisoner Pod"
+        {
+        "#"	"impulse 84"
+        {
+        "Jalopy (EP2)"
+        {
+        "#"	"ch_createjalopy"
+        }
+}

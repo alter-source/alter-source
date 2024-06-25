@@ -1,0 +1,219 @@
+"Ragdolls"
+{
+    "Dr. Kleiner"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/kleiner.mdl"
+    }
+    "G-Man"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/gman.mdl"
+    }
+    "Wallace Breen"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/breen.mdl"
+    }
+    "Barney Collhoun"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/barney.mdl"
+    }
+    "Eli Vance"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/eli.mdl"
+    }
+    "Father Grigori"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/monk.mdl"
+    }
+    "Odessa Cubbage"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/odessa.mdl"
+    }
+    "Alyx Vance"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/alyx.mdl"
+    }
+    "Mossman"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/mossman.mdl"
+    }
+    "DOG"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/dog.mdl"
+    }
+    "Vortigaunt"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/vortigaunt.mdl"
+    }
+    "Vortigaunt Slave"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/vortigaunt_slave.mdl"
+    }
+    "Combine Soldier"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/combine_soldier.mdl"
+    }
+    "Combine Bum"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/combine_soldier.mdl skin 1"
+    }
+    "Metropolice"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/police.mdl"
+    }
+    "Prison Guard"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Combine_Soldier_PrisonGuard.mdl"
+    }
+    "Elite Combine"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/combine_Super_Soldier.mdl"
+    }
+    "Zombie"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Zombie/Classic.mdl"
+    }
+    "Zombie Torso"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Zombie/Classic_torso.mdl"
+    }
+    "Zombie Legs"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Zombie/Classic_legs.mdl"
+    }
+    "Fast Zombie"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Zombie/Fast.mdl"
+    }
+    "Poison Zombie"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Zombie/Poison.mdl"
+    }
+    "Fast Zombie Torso"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Gibs/Fast_Zombie_Torso.mdl"
+    }
+    "Fast Zombie Legs"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Gibs/Fast_Zombie_legs.mdl"
+    }
+    "Headcrab"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/headcrabclassic.mdl"
+    }
+    "Poison Headcrab"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/headcrabblack.mdl"
+    }
+    "Fast Headcrab"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/headcrab.mdl"
+    }
+    "Antlion"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/antlion.mdl"
+    }
+    "Antlion Guard"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/antlion_guard.mdl"
+    }
+    "Crow"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Crow.mdl"
+    }
+    "Combine Scanner"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Combine_Scanner.mdl"
+    }
+    "Manhack"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/manhack.mdl"
+    }
+    "Male 01"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Humans/Group01/Male_01.mdl"
+    }
+    "Male 02"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Humans/Group01/Male_02.mdl"
+    }
+    "Male 03"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Humans/Group01/Male_03.mdl"
+    }
+    "Male 04"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Humans/Group01/Male_04.mdl"
+    }
+    "Male 05"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Humans/Group01/Male_05.mdl"
+    }
+    "Male 06"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Humans/Group01/Male_06.mdl"
+    }
+    "Male 07"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Humans/Group01/Male_07.mdl"
+    }
+    "Male 08"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Humans/Group01/Male_08.mdl"
+    }
+    "Male 09"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Humans/Group01/Male_09.mdl"
+    }
+    "Female 01"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Humans/Group01/Female_01.mdl"
+    }
+    "Female 02"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Humans/Group01/Female_02.mdl"
+    }
+    "Female 03"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Humans/Group01/Female_03.mdl"
+    }
+    "Female 04"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Humans/Group01/Female_04.mdl"
+    }
+    "Female 06"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Humans/Group01/Female_06.mdl"
+    }
+    "Female 07"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Humans/Group01/Female_07.mdl"
+    }
+    "Corpse"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Humans/corpse1.mdl"
+    }
+    "Corpse 2"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Humans/Charple01.mdl"
+    }
+    "Corpse 3"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Humans/Charple02.mdl"
+    }
+    "Corpse 4"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Humans/Charple03.mdl"
+    }
+    "Corpse 5"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/Humans/Charple04.mdl"
+    }	
+    "Chell (Portal)"
+    {
+    "#"    "prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/player/chell.mdl"
+    }
+    "Fisherman (Lost Coast)"
+    {
+    "#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/lostcoast/fisherman/fisherman.mdl"
+    }
+}

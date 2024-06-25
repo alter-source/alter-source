@@ -38,7 +38,7 @@
 
 // a player name may have 31 chars + 0 on the PC.
 // the 360 only allows 15 char + 0, but stick with the larger PC size for cross-platform communication
-#define MAX_PLAYER_NAME_LENGTH		32
+#define MAX_PLAYER_NAME_LENGTH		64
 
 #ifdef _X360
 #define MAX_PLAYERS_PER_CLIENT		XUSER_MAX_COUNT	// Xbox 360 supports 4 players per console
@@ -53,7 +53,7 @@
 #define MAX_MAP_NAME_SAVE			32
 
 // Max non-decorated map name for e.g. server browser (just cp_foo)
-#define MAX_DISPLAY_MAP_NAME		32
+#define MAX_DISPLAY_MAP_NAME		MAX_MAP_NAME*2
 
 #define	MAX_NETWORKID_LENGTH		64  // num chars for a network (i.e steam) ID
 
@@ -62,7 +62,7 @@
 #define SP_MODEL_INDEX_BITS			13
 
 // How many bits to use to encode an edict.
-#define	MAX_EDICT_BITS				15			// # of bits needed to represent max edicts
+#define	MAX_EDICT_BITS				14			// # of bits needed to represent max edicts
 // Max # of edicts in a level
 #define	MAX_EDICTS					(1<<MAX_EDICT_BITS)
 
@@ -89,14 +89,14 @@
 
 // This is the maximum amount of data a PackedEntity can have. Having a limit allows us
 // to use static arrays sometimes instead of allocating memory all over the place.
-#define MAX_PACKEDENTITY_DATA	(16384)
+#define MAX_PACKEDENTITY_DATA	(32768)
 
 // This is the maximum number of properties that can be delta'd. Must be evenly divisible by 8.
-#define MAX_PACKEDENTITY_PROPS	(4096)
+#define MAX_PACKEDENTITY_PROPS	(8192)
 
 // a client can have up to 4 customization files (logo, sounds, models, txt).
-#define MAX_CUSTOM_FILES		4		// max 4 files
-#define MAX_CUSTOM_FILE_SIZE	524288	// Half a megabyte
+#define MAX_CUSTOM_FILES		16			// max 16 files
+#define MAX_CUSTOM_FILE_SIZE	1048576*2	// 2 mb
 
 //
 // Constants shared by the engine and dlls

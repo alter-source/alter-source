@@ -1,9 +1,3 @@
-//========= Copyright Valve Corporation, All rights reserved. ============//
-//
-// Purpose: пока debug options....
-//
-// $NoKeywords: $
-//===========================================================================//
 #include "cbase.h"
 #include "spawnmenu.h"
 #include <vgui/ISurface.h>
@@ -22,14 +16,14 @@
 #include <vgui_controls/PropertyDialog.h>
 #include "vgui_imagebutton.h"
 #include "filesystem.h"
-
 #include <iostream>
 #include <cstring>
 #include <string>
-
 #include "tier0/memdbgon.h"
 
 using namespace vgui;
+
+CUtlVector<KeyValues*> kvList;
 
 bool endsWith(const char* str, const char* suffix) {
 	size_t str_len = std::strlen(str);
@@ -42,26 +36,47 @@ bool endsWith(const char* str, const char* suffix) {
 	return std::strncmp(str + str_len - suffix_len, suffix, suffix_len) == 0;
 }
 
+void LoadFilesFromDirectory(const char* directory)
+{
+	FileFindHandle_t findHandle;
+	const char* fileName = g_pFullFileSystem->FindFirstEx(VarArgs("%s/*.txt", directory), "GAME", &findHandle);
+
+	while (fileName != NULL)
+	{
+		KeyValues* kv = new KeyValues("SMLenu");
+		if (kv->LoadFromFile(g_pFullFileSystem, VarArgs("%s/%s", directory, fileName)))
+		{
+			kvList.AddToTail(kv);
+		}
+		else
+		{
+			kv->deleteThis();
+		}
+
+		fileName = g_pFullFileSystem->FindNext(findHandle);
+	}
+
+	g_pFullFileSystem->FindClose(findHandle);
+}
+
 class CSMLCommandButton : public vgui::Button
 {
 	typedef vgui::Button BaseClass;
 
 public:
-	CSMLCommandButton(vgui::Panel *parent, const char *panelName, const char *labelText, const char *command)
+	CSMLCommandButton(vgui::Panel* parent, const char* panelName, const char* labelText, const char* command)
 		: BaseClass(parent, panelName, labelText)
 	{
 		AddActionSignalTarget(this);
 		SetCommand(command);
 	}
 
-	virtual void OnCommand(const char *command)
+	virtual void OnCommand(const char* command)
 	{
-		engine->ClientCmd((char *)command);
+		engine->ClientCmd((char*)command);
 	}
 
-	virtual void OnTick(void)
-	{
-	}
+	virtual void OnTick(void) {}
 
 	virtual void Paint()
 	{
@@ -72,8 +87,9 @@ public:
 class CSMLPage : public vgui::PropertyPage
 {
 	typedef vgui::PropertyPage BaseClass;
+
 public:
-	CSMLPage(vgui::Panel *parent, const char *panelName)
+	CSMLPage(vgui::Panel* parent, const char* panelName)
 		: BaseClass(parent, panelName)
 	{
 		vgui::ivgui()->AddTickSignal(GetVPanel(), 250);
@@ -89,7 +105,7 @@ public:
 		int c = m_LayoutItems.Count();
 		for (int i = 0; i < c; i++)
 		{
-			vgui::Panel *p = m_LayoutItems[i];
+			vgui::Panel* p = m_LayoutItems[i];
 			p->OnTick();
 		}
 	}
@@ -108,7 +124,7 @@ public:
 
 		for (int i = 0; i < c; i++)
 		{
-			vgui::Panel *p = m_LayoutItems[i];
+			vgui::Panel* p = m_LayoutItems[i];
 			p->SetBounds(x, y, w, h);
 
 			y += (h + gap);
@@ -120,15 +136,15 @@ public:
 		}
 	}
 
-	void Init(KeyValues *kv)
+	void Init(KeyValues* kv)
 	{
-		for (KeyValues *control = kv->GetFirstSubKey(); control != NULL; control = control->GetNextKey())
+		for (KeyValues* control = kv->GetFirstSubKey(); control != NULL; control = control->GetNextKey())
 		{
 			int iType = control->GetInt("imagebutton", 0);
 
 			if (iType == 1)
 			{
-				const char *a, *b, *c, *t;
+				const char* a, *b, *c, *t;
 				//command
 				t = control->GetString("#", "");
 				a = control->GetString("normal", "");
@@ -142,106 +158,128 @@ public:
 			}
 			else
 			{
-				const char *m;
+				const char* m;
 
 				//command
 				m = control->GetString("#", "");
 				if (m && m[0])
 				{
-					if (endsWith(control->GetName(), "(Episodic)")) {
-						if (!cvar->FindVar("hl2_episodic")->GetBool()) {
+					if (endsWith(control->GetName(), "(Episodic)"))
+					{
+						if (!cvar->FindVar("hl2_episodic")->GetBool())
+						{
 							break;
 						}
 					}
-					else if (endsWith(control->GetName(), "(EP2)")) {
-						if (!cvar->FindVar("ep2_mounted")->GetBool()) {
+					else if (endsWith(control->GetName(), "(EP2)"))
+					{
+						if (!cvar->FindVar("ep2_mounted")->GetBool())
+						{
 							break;
 						}
 					}
-					else if (endsWith(control->GetName(), "(Lost Coast)")) {
-						if (!cvar->FindVar("lc_mounted")->GetBool()) {
+					else if (endsWith(control->GetName(), "(Lost Coast)"))
+					{
+						if (!cvar->FindVar("lc_mounted")->GetBool())
+						{
 							break;
 						}
 					}
-					else if (endsWith(control->GetName(), "(Portal)")) {
-						if (!cvar->FindVar("portal_mounted")->GetBool()) {
+					else if (endsWith(control->GetName(), "(Portal)"))
+					{
+						if (!cvar->FindVar("portal_mounted")->GetBool())
+						{
 							break;
 						}
 					}
-					else if (endsWith(control->GetName(), "(TF2)")) {
-						if (!cvar->FindVar("tf2_mounted")->GetBool()) {
+					else if (endsWith(control->GetName(), "(TF2)"))
+					{
+						if (!cvar->FindVar("tf2_mounted")->GetBool())
+						{
 							break;
 						}
 					}
-					else if (endsWith(control->GetName(), "(HLS)")) {
-						if (!cvar->FindVar("hl_source_mounted")->GetBool()) {
+					else if (endsWith(control->GetName(), "(HLS)"))
+					{
+						if (!cvar->FindVar("hl_source_mounted")->GetBool())
+						{
 							break;
 						}
 					}
 
-					CSMLCommandButton *btn = new CSMLCommandButton(this, "CommandButton", control->GetName(), m);
+					CSMLCommandButton* btn = new CSMLCommandButton(this, "CommandButton", control->GetName(), m);
 					m_LayoutItems.AddToTail(btn);
 					continue;
 				}
 			}
 		}
 	}
+
 private:
-	CUtlVector< vgui::Panel * >		m_LayoutItems;
+	CUtlVector<vgui::Panel*> m_LayoutItems;
 };
 
 ConVar as_spawnmenu("as_spawnmenu", "0", FCVAR_CHEAT | FCVAR_REPLICATED, "Enable the Spawn Menu");
+
 ConVar as_spawnmenu_width("as_spawnmenu_width", "934", FCVAR_CLIENTDLL | FCVAR_ARCHIVE, "Set width of Spawn Menu [WORKS AFTER MAP RELOAD]");
-ConVar as_spawnmenu_height("as_spawnmenu_height", "670", FCVAR_CLIENTDLL | FCVAR_ARCHIVE, "Set height of Spawn Menu [WORKS AFTER MAP RELOAD");
+ConVar as_spawnmenu_height("as_spawnmenu_height", "670", FCVAR_CLIENTDLL | FCVAR_ARCHIVE, "Set height of Spawn Menu [WORKS AFTER MAP RELOAD]");
+
 ConVar spawn("spawnmenu", "0", FCVAR_CLIENTDLL, "Spawn Menu");
 
 class CSMLMenu : public vgui::PropertyDialog
 {
 	typedef vgui::PropertyDialog BaseClass;
-public:
 
-	CSMLMenu(vgui::VPANEL *parent, const char *panelName)
+public:
+	CSMLMenu(vgui::VPANEL* parent, const char* panelName)
 		: BaseClass(NULL, "SMLenu")
 	{
 		SetTitle("Spawn Menu", true);
 
-		KeyValues *kv = new KeyValues("SMLenu");
-		if (kv)
+		const char* directory = "settings";
+
+		LoadFilesFromDirectory(directory);
+
+		// Collect tab names
+		CUtlVector<const char*> tabNames;
+		FOR_EACH_VEC(kvList, i)
 		{
-			if (kv->LoadFromFile(g_pFullFileSystem, "scripts/props.txt"))
+			KeyValues* kv = kvList[i];
+			const char* tabName = kv->GetName();
+
+			if (Q_strcasecmp(tabName, "Portal") == 0 && !cvar->FindVar("portal_mounted")->GetBool())
 			{
-				for (KeyValues *dat = kv->GetFirstSubKey(); dat != NULL; dat = dat->GetNextKey())
+				continue;
+			}
+
+			if (Q_strcasecmp(tabName, "TF2") == 0 && !cvar->FindVar("tf2_mounted")->GetBool())
+			{
+				continue;
+			}
+
+			tabNames.AddToTail(tabName);
+		}
+
+		// Sort tab names alphabetically in reverse (Z-A)
+		tabNames.Sort(&TabNameSortFunc);
+
+		// Create pages for each tab
+		FOR_EACH_VEC(tabNames, i)
+		{
+			const char* tabName = tabNames[i];
+			CSMLPage* page = new CSMLPage(this, tabName);
+
+			FOR_EACH_VEC(kvList, j)
+			{
+				KeyValues* kv = kvList[j];
+				if (Q_strcasecmp(kv->GetName(), tabName) == 0)
 				{
-					if (!Q_strcasecmp(dat->GetName(), "width")) // KeyValues are good, but not for this xD
-					{
-						//SetWide(dat->GetInt());
-						continue;
-					}
-					else if (!Q_strcasecmp(dat->GetName(), "height"))
-					{
-						//SetTall(dat->GetInt());
-						continue;
-					}
-
-					const char* tabName = dat->GetName();
-
-					if (Q_strcasecmp(tabName, "Portal") == 0 && !cvar->FindVar("portal_mounted")->GetBool())
-					{
-						continue;
-					}
-
-					if (Q_strcasecmp(tabName, "TF2") == 0 && !cvar->FindVar("tf2_mounted")->GetBool())
-					{
-						continue;
-					}
-
-					CSMLPage *page = new CSMLPage(this, tabName);
-					page->Init(dat);
-
-					AddPage(page, tabName);
+					page->Init(kv);
+					break;
 				}
 			}
-			kv->deleteThis();
+
+			AddPage(page, tabName);
 		}
 
 		vgui::ivgui()->AddTickSignal(GetVPanel(), 100);
@@ -262,8 +300,6 @@ public:
 		SetPos((ww - GetWide()) / 2, (wt - GetTall()) / 2);
 	}
 
-	void Init(KeyValues *kv);
-
 	void OnTick()
 	{
 		BaseClass::OnTick();
@@ -274,51 +310,58 @@ public:
 		SetWide(as_spawnmenu_width.GetInt());
 		SetTall(as_spawnmenu_height.GetInt());
 
-		if (strcmp(gameModeValue, "Sandbox") == 0 || as_spawnmenu.GetBool()) {
+		if (strcmp(gameModeValue, "Sandbox") == 0 || as_spawnmenu.GetBool())
+		{
 			SetVisible(spawn.GetBool());
 		}
-		else {
+		else
+		{
 			return;
 		}
 	}
 
-	void OnCommand(const char *command)
+	void OnCommand(const char* command)
 	{
 		BaseClass::OnCommand(command);
 
 		//if (!Q_stricmp(command, "Close"))
 		//{
-		//	spawn.SetValue(0);
+		//        spawn.SetValue(0);
 		//}
 	}
 
+private:
+	static int TabNameSortFunc(const char* const* s1, const char* const* s2)
+	{
+		return Q_stricmp(*s2, *s1); // Reverse alphabetical sort
+	}
 };
-
-void CSMLMenu::Init(KeyValues *kv)
-{
-}
 
 class CSMLPanelInterface : public SMLPanel
 {
 private:
-	CSMLMenu *SMLPanel;
+	CSMLMenu* SMLPanel;
+
 public:
 	CSMLPanelInterface()
 	{
 		SMLPanel = NULL;
 	}
+
 	void Create(vgui::VPANEL parent)
 	{
 		SMLPanel = new CSMLMenu(&parent, "SMenu");
 	}
+
 	void Destroy()
 	{
 		if (SMLPanel)
 		{
-			SMLPanel->SetParent((vgui::Panel *)NULL);
+			SMLPanel->SetParent((vgui::Panel*)NULL);
 			delete SMLPanel;
 		}
 	}
+
 	void Activate(void)
 	{
 		if (SMLPanel)
@@ -327,5 +370,7 @@ public:
 		}
 	}
 };
+
 static CSMLPanelInterface g_SMLPanel;
 SMLPanel* smlmenu = (SMLPanel*)&g_SMLPanel;
+

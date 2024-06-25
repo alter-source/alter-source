@@ -1,0 +1,7 @@
+"Addons"
+{
+	"Maxwell the Cat"
+	{
+	"#" "prop_dynamic_create dingus/dingus.mdl"
+	}
+}

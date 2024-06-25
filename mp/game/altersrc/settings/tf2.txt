@@ -1,0 +1,7 @@
+"TF2"
+{
+    "RED Scout"
+	{
+	"#"	"prop_physics_create props_junk/wood_crate001a.mdl;ent_setname fixpos;wait;ent_remove fixpos;ent_create prop_ragdoll model models/player/scout.mdl"
+	}
+}

@@ -1,0 +1,11 @@
+"Extras"
+{
+	"Disable/Enable AI"
+	{
+		"#"	"ai_disable"
+	}
+    "Flashlight Effect"
+	{
+		"#"	"create_flashlight"
+	}
+}

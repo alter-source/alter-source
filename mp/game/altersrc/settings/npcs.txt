@@ -1,0 +1,143 @@
+"NPCs"
+{
+    "Dr. Kleiner"
+    {
+    "#"	"npc_create npc_kleiner"
+    }
+    "G-Man"
+    {
+    "#"	"npc_create npc_gman"
+    }
+    "Wallace Breen"
+    {
+    "#"	"npc_create npc_breen"
+    }
+    "Barney Callhoun"
+    {
+    "#"	"npc_create npc_barney"
+    }
+    "Eli Vance"
+    {
+    "#"	"npc_create npc_eli"
+    }
+    "Father Grigori"
+    {
+    "#"	"npc_create npc_monk"
+    }
+    "Alyx Vance"
+    {
+    "#"	"npc_create npc_alyx"
+    }
+    "Judith Mossman"
+    {
+    "#"	"npc_create npc_mossman"
+    }
+    "Odessa Cubbage"
+    {
+    "#"	"ent_create npc_citizen citizentype 4 model models/odessa.mdl"
+    }
+    "DOG"
+    {
+    "#"	"npc_create npc_dog"
+    }
+    "Citizen"
+    {
+    "#"	"npc_create npc_citizen"
+    }
+    "Metropolice"
+    {
+    "#"	"ent_create npc_metropolice additionalequipment weapon_pistol"
+    }
+    "Combine Soldier"
+    {
+    "#"	"ent_create npc_combine_s model models/Combine_Soldier.mdl additionalequipment weapon_smg1 NumGrenades 5"
+    }
+    "Elite Combine"
+    {
+    "#"	"ent_create npc_combine_s model models/Combine_Super_Soldier.mdl additionalequipment weapon_ar2 tacticalvariant 2 NumGrenades 5"
+    }
+    "Combine Mine"
+    {
+    "#"	"ent_create combine_mine"
+    }
+    "Roller Mine"
+    {
+    "#"	"ent_create npc_rollermine"
+    }
+    "Manhack"
+    {
+    "#"	"npc_create npc_manhack"
+    }
+    "City Scanner"
+    {
+    "#"	"npc_create npc_cscanner"
+    }
+    "Turret"
+    {
+    "#"	"npc_create npc_turret_floor"
+    }
+    "Strider"
+    {
+    "#"	"give npc_strider"
+    }
+    "Gunship"
+    {
+    "#"	"give npc_combinegunship"
+    }
+    "Zombie"
+    {
+    "#"	"npc_create npc_zombie"
+    }
+    "Fast Zombie"
+    {
+    "#"	"npc_create npc_fastzombie"
+    }
+    "Poison Zombie"
+    {
+    "#"	"npc_create npc_poisonzombie"
+    }
+    "Headcrab"
+    {
+    "#"	"npc_create npc_headcrab"
+    }
+    "Fast Headcrab"
+    {
+    "#"	"npc_create npc_headcrab_fast"
+    }
+    "Poison Headcrab"
+    {
+    "#"	"npc_create npc_headcrab_poison"
+    }
+    "Vortigaunt"
+    {
+    "#"	"npc_create npc_vortigaunt"
+    }
+    "Antlion"
+    {
+    "#"	"npc_create npc_antlion"
+    }
+    "Antlion Guard"
+    {
+    "#"	"npc_create npc_antlionguard"
+    }
+    "Crow"
+    {
+    "#"	"npc_create npc_crow"
+    }
+    "Pigeon"
+    {
+    "#"	"npc_create npc_pigeon"
+    }
+    "Seagull"
+    {
+    "#"	"npc_create npc_seagull"
+    }
+    "Hunter (EP2)"
+    {
+    "#"	"npc_create npc_hunter"
+    }
+    "Fisherman (Lost Coast)"
+    {
+    "#"	"npc_create npc_fisherman"
+    }
+}

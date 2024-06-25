@@ -1,0 +1,23 @@
+"Entities"
+{
+    "Health Kit"
+	{
+	"#"	"give item_healthkit"
+	}
+	"Health Vial"
+	{
+	"#"	"give item_healthvial"
+	}
+	"Suit Battery"
+	{
+	"#"	"give item_battery"
+	}
+	"Suit"
+	{
+	"#"	"give item_suit"
+	}
+    "Suit Charger"
+	{
+	"#"	"ent_create item_suitcharger"
+	}
+}
