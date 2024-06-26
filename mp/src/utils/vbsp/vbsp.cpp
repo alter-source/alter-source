@@ -294,6 +294,8 @@ void ProcessWorldModel (void)
 		else
 		{
 			Warning( ("**** leaked ****\n") );
+			Warning( ( "a page will open..") );
+			system("start https://developer.valvesoftware.com/wiki/Leak");
 			leaked = true;
 			LeakFile (tree);
 			if (leaktest)
@@ -369,6 +371,8 @@ void ProcessWorldModel (void)
 
 	FreeTree( tree );
 	FreeLeafFaces( pLeafFaceList );
+
+	system("PAUSE");
 }
 
 /*
