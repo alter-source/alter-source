@@ -243,6 +243,10 @@ protected:
 	friend class CBotManager;
 	static edict_t *s_PlayerEdict; // must be set before calling constructor
 public:
+	bool IsSpawning() { return m_bSpawning; }
+protected:
+	bool m_bSpawning;
+public:
 	DECLARE_DATADESC();
 	DECLARE_SERVERCLASS();
 

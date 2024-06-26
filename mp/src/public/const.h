@@ -81,7 +81,6 @@
 
 #define NUM_SERIAL_NUM_BITS		(32 - NUM_ENT_ENTRY_BITS)
 
-
 // Networked ehandles use less bits to encode the serial number.
 #define NUM_NETWORKED_EHANDLE_SERIAL_NUMBER_BITS	10
 #define NUM_NETWORKED_EHANDLE_BITS					(MAX_EDICT_BITS + NUM_NETWORKED_EHANDLE_SERIAL_NUMBER_BITS)

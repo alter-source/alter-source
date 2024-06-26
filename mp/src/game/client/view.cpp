@@ -92,6 +92,7 @@ IViewRender *view = NULL;	// set in cldll_client_init.cpp if no mod creates thei
 bool g_bRenderingCameraView = false;
 #endif
 
+ConVar cl_camera_anim_intensity("cl_camera_anim_intensity", "1.0", FCVAR_ARCHIVE, "Intensity of cambone animations");
 
 // These are the vectors for the "main" view - the one the player is looking down.
 // For stereo views, they are the vectors for the middle eye.
@@ -1218,6 +1219,38 @@ void CViewRender::Render( vrect_t *rect )
 		    }
 	    }
 
+		//--------------------------------
+		// Handle camera anims
+		//--------------------------------
+
+		if (!UseVR() && pPlayer && cl_camera_anim_intensity.GetFloat() > 0)
+		{
+			if (pPlayer->GetViewModel(0))
+			{
+				int attachment = pPlayer->GetViewModel(0)->LookupAttachment("camera");
+				if (attachment != -1)
+				{
+					int rootBone = pPlayer->GetViewModel(0)->LookupAttachment("camera_root");
+					Vector cameraOrigin = Vector(0, 0, 0);
+					QAngle cameraAngles = QAngle(0, 0, 0);
+					Vector rootOrigin = Vector(0, 0, 0);
+					QAngle rootAngles = QAngle(0, 0, 0);
+
+					pPlayer->GetViewModel(0)->GetAttachmentLocal(attachment, cameraOrigin, cameraAngles);
+					if (rootBone != -1)
+					{
+						pPlayer->GetViewModel(0)->GetAttachmentLocal(rootBone, rootOrigin, rootAngles);
+						cameraOrigin -= rootOrigin;
+						cameraAngles -= rootAngles;
+
+						//DevMsg("camera attachment found\n");
+					}
+					view.angles += cameraAngles * cl_camera_anim_intensity.GetFloat();
+					view.origin += cameraOrigin * cl_camera_anim_intensity.GetFloat();
+				}
+			}
+		}
+
 	    // Determine if we should draw view model ( client mode override )
 	    bool drawViewModel = g_pClientMode->ShouldDrawViewModel();
 
@@ -1289,6 +1322,9 @@ void CViewRender::Render( vrect_t *rect )
 	matStub.End();
 #endif
 
+	//--------------------------------
+	// Handle camera anims
+	//--------------------------------
 
 	// Draw all of the UI stuff "fullscreen"
     // (this is not health, ammo, etc. Nor is it pre-game briefing interface stuff - this is the stuff that appears when you hit Esc in-game)
@@ -1305,8 +1341,6 @@ void CViewRender::Render( vrect_t *rect )
 		render->VGui_Paint( PAINT_UIPANELS | PAINT_CURSOR );
 		render->PopView( GetFrustum() );
 	}
-
-
 }
 
 

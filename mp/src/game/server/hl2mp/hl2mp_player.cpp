@@ -357,6 +357,8 @@ void CHL2MP_Player::GiveDeathmatchItems(void)
 
 void CHL2MP_Player::GiveDefaultItems( void )
 {
+	m_bSpawning = true;
+
 	const char* gamemodeStr = as_gamemode.GetString();
 	GameMode gamemode = GetGameMode(gamemodeStr);
 
@@ -400,6 +402,8 @@ void CHL2MP_Player::GiveDefaultItems( void )
 	Q_snprintf(message, sizeof(message), "Player %s has loaded into the game", playerName);
 	UTIL_ClientPrintAll(HUD_PRINTTALK, message);
 #endif
+
+	m_bSpawning = false;
 }
 
 void CHL2MP_Player::PickDefaultSpawnTeam( void )

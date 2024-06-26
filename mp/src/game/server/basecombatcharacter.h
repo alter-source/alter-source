@@ -127,6 +127,8 @@ public:
 
 	virtual int			Restore( IRestore &restore );
 
+	friend class CShowWeapon; // This allows CShowWeapon to access whatever it needs to update for the character
+
 	virtual const impactdamagetable_t	&GetPhysicsImpactDamageTable( void );
 
 	int					TakeHealth( float flHealth, int bitsDamageType );

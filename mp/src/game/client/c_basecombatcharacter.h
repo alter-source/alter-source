@@ -39,6 +39,8 @@ public:
 	virtual bool	IsBaseCombatCharacter( void ) { return true; };
 	virtual C_BaseCombatCharacter *MyCombatCharacterPointer( void ) { return this; }
 
+	friend class C_ShowWeapon; // This allows CShowWeapon to access whatever it needs to update for the character
+
 	// -----------------------
 	// Vision
 	// -----------------------
