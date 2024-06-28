@@ -1292,7 +1292,8 @@ bool CClientShadowMgr::Init()
 	SetShadowBlobbyCutoffArea(0.005);
 
 	bool bTools = CommandLine()->CheckParm("-tools") != NULL;
-	m_nMaxDepthTextureShadows = bTools ? 4 : 1;	// Just one shadow depth texture in games, more in tools
+	bool bNumShadowTextures= CommandLine()->CheckParm("-numshadowtextures") != "6";
+	m_nMaxDepthTextureShadows = bTools ? 4 : bNumShadowTextures;
 
 	bool bLowEnd = (g_pMaterialSystemHardwareConfig->GetDXSupportLevel() < 80);
 
@@ -2599,6 +2600,13 @@ void CClientShadowMgr::BuildFlashlight(ClientShadowHandle_t handle)
 
 	VPROF_BUDGET("CClientShadowMgr::BuildFlashlight", VPROF_BUDGETGROUP_SHADOW_DEPTH_TEXTURING);
 
+	// Don't project the flashlight if the frustum AABB is not in our view
+	Vector mins, maxs;
+	CalculateAABBFromProjectionMatrix(shadow.m_WorldToShadow, &mins, &maxs);
+
+	if (engine->CullBox(mins, maxs))
+		return;
+
 	bool bLightModels = r_flashlightmodels.GetBool();
 	bool bLightSpecificEntity = shadow.m_hTargetEntity.Get() != NULL;
 	bool bLightWorld = (shadow.m_Flags & SHADOW_FLAGS_LIGHT_WORLD) != 0;
@@ -3800,19 +3808,19 @@ int CClientShadowMgr::BuildActiveShadowDepthList(const CViewSetup &viewSetup, in
 			continue;
 
 		// Calculate an AABB around the shadow frustum
-		Vector vecAbsMins, vecAbsMaxs;
-		CalculateAABBFromProjectionMatrix(shadow.m_WorldToShadow, &vecAbsMins, &vecAbsMaxs);
+		/*Vector vecAbsMins, vecAbsMaxs;
+		CalculateAABBFromProjectionMatrix( shadow.m_WorldToShadow, &vecAbsMins, &vecAbsMaxs );
 
 		Frustum_t viewFrustum;
-		GeneratePerspectiveFrustum(viewSetup.origin, viewSetup.angles, viewSetup.zNear, viewSetup.zFar, viewSetup.fov, viewSetup.m_flAspectRatio, viewFrustum);
+		GeneratePerspectiveFrustum( viewSetup.origin, viewSetup.angles, viewSetup.zNear, viewSetup.zFar, viewSetup.fov, viewSetup.m_flAspectRatio, viewFrustum );
 
 		// FIXME: Could do other sorts of culling here, such as frustum-frustum test, distance etc.
 		// If it's not in the view frustum, move on
-		if (R_CullBox(vecAbsMins, vecAbsMaxs, viewFrustum))
+		if ( R_CullBox( vecAbsMins, vecAbsMaxs, viewFrustum ) )
 		{
-			shadowmgr->SetFlashlightDepthTexture(shadow.m_ShadowHandle, NULL, 0);
+			shadowmgr->SetFlashlightDepthTexture( shadow.m_ShadowHandle, NULL, 0 );
 			continue;
-		}
+		}*/
 
 		if (nActiveDepthShadowCount >= nMaxDepthShadows)
 		{
