@@ -1,10 +1,35 @@
 #include <iostream>
 #include <cstdlib>
-#include <ctime>
 #include <sstream>
 #include <cstdio>
+#include <Windows.h>
+#include <direct.h>
+
+std::string getCurrentPath() {
+	char buffer[MAX_PATH];
+	GetCurrentDirectoryA(MAX_PATH, buffer);
+	return std::string(buffer);
+}
+
+std::string getModifiedPath(const std::string& currentPath) {
+	size_t pos = currentPath.find_last_of("\\/");
+	if (pos != std::string::npos) {
+		std::string parentPath = currentPath.substr(0, pos);
+		pos = parentPath.find_last_of("\\/");
+		if (pos != std::string::npos) {
+			parentPath = parentPath.substr(0, pos);
+		}
+		return parentPath + "\\altersrc\\bin";
+	}
+	return "";
+}
 
 void packAddon(const std::string& addonDir) {
+	std::string currentPath = getCurrentPath();
+
+	std::string newPath = getModifiedPath(currentPath);
+	_chdir(newPath.c_str());
+
 	std::ostringstream oss;
 	oss << "7z.exe a -r -t7z \"" << addonDir << ".7z\" \"" << addonDir << "\"";
 	std::string command = oss.str();
@@ -21,6 +46,12 @@ void packAddon(const std::string& addonDir) {
 }
 
 void unpackAddon(const std::string& addonDir) {
+	std::string currentPath = getCurrentPath();
+
+	std::string newPath = getModifiedPath(currentPath);
+
+	_chdir(newPath.c_str());
+
 	std::rename((addonDir + ".as").c_str(), (addonDir + ".7z").c_str());
 
 	std::ostringstream oss;

@@ -16,6 +16,7 @@ $Configuration
 	{
 		$AdditionalIncludeDirectories		"$BASE;hl2mp\ui,.\hl2mp,$SRCDIR\game\shared\hl2mp,.\hl2,.\hl2\elements,$SRCDIR\game\shared\hl2,$SRCDIR\fmod\api\inc;$SRCDIR\awesomium\inc;$SRCDIR\game\shared\episodic;.\episodic;.\hl1;$SRCDIR\game\shared\hl1;$SRCDIR\game\shared\hl2_beta"
 		$PreprocessorDefinitions			"$BASE;HL2MP;HL2_CLIENT_DLL;GE_LUA"
+        $TreatWarningsAsErrors			    "No (/WX-)"
 	}
     $Linker
 	{

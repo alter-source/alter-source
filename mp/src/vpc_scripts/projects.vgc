@@ -18,6 +18,11 @@ $Project "ameth"
 	"utils\ameth\ameth.vpc" [$WIN32]
 }
 
+$Project "hlmv"
+{
+	"utils\hlmv\hlmv.vpc" [$WIN32]
+}
+
 $Project "client"
 {
 	"game\client\client_hl2mp.vpc"		[($WIN32||$POSIX) && $HL2MP]
