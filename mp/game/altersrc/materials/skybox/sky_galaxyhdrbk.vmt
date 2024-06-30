@@ -1,0 +1,11 @@
+sky
+{
+	$basetexture skybox/sky_galaxyft
+	$hdrcompressedtexture skybox/sky_galaxyhdrft // If HDR image is compressed
+	$hdrbasetexture skybox/sky_galaxyhdrft // If HDR image is uncompressed, or if skybox is SDR-only
+	$nofog 1
+	$nomip 1
+	$ignorez 1
+
+
+}
